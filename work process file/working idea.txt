@@ -1,15 +1,26 @@
-Reset logo : un panneau "route barré", ou genre recyclage ?
+-ajout d'un outil texte
+-permetttre le fait de gerer le style lors de pseudoclass (hoover, active, ect)
+-un truc pour gerer les animation.
+
+-agrandir l'outil de selection des coins pour radius
+-changer l'outil de selection des coté de border
+
+- quand l'ajout et la suppression d'element dans element tool existera
+faire que l'element actuellement selectionné soi en surbrillance dans la liste
+
+ajout d'une police supplementaire pour le texte DANS les modules element
+
+abaisser les boutons de fin de menu (reset, +, trash)
+sans doute les grossir un peu aussi
+
+A VERIFIER : visiblement il y a un range de base en trop dans shader.
+si c'est bien le cas, peut etre changer la fonction qui gere les spécificité 
+des range de border et box
+
+faire que le menu de selection des bordure affiche directement les bordures.
 
 
-ajout d'un outil shadowbox
-ajput d'un outil texte
 
-ajout d'une police supplementaire pour le texte
+utilisation de nodeJS pour compartimenté le code JS et le rendre plus maintenable
 
-comment rajouté la gestion de l'opacité aux différents selecteur de couleurs ?
-
-peut etre rajouté une option qui permet d'ajouté plusieurs box shadows
-
-mettre la bonne distance entre les modules
-faire que les modules ne bouge pas en fonction de la taille de la fenentre
-
+1er objectif moyen terme = rendre ELEMENT Tool visuellement fonctionnel

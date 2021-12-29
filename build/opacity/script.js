@@ -40,10 +40,11 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
     //fonction qui gere l'opacité elle même et sa représentation dans le bouton d'ouverture de l'opacité
     opacityButtonList[opacityNumber].opacityRange.addEventListener("click", function(){
         let opacityValue = opacityButtonList[opacityNumber].opacityRange.value/100;
-        let opacityRepre = Math.trunc(opacityValue*255);
+        let opacityRepre = Math.abs(Math.trunc(opacityValue*255)-255);
         opacityButtonList[opacityNumber].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
         console.log(opacityButtonList[opacityNumber].opacityInsideButton.style.backgroundColor);
         console.log(opacityValue);
+        console.log(opacityButtonList[opacityNumber].opacityRange.value);
     })
 }
 
