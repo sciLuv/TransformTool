@@ -1,0 +1,62 @@
+.corner-select {
+  margin-top: 3px;
+  width: 27px;
+  height: 30px;
+}
+.corner-select div {
+  display: flex;
+}
+.corner-select div .top-left {
+  width: 15px;
+  height: 10px;
+  margin-right: 2px;
+  margin-bottom: 2px;
+  border-top: solid 0.8px #8d8d8d;
+  border-left: solid 0.8px #8d8d8d;
+  border-radius: 10px 0px 0px 0px;
+}
+.corner-select div .top-right {
+  width: 15px;
+  height: 10px;
+  margin-left: 2px;
+  margin-bottom: 2px;
+  border-top: solid 0.8px #8d8d8d;
+  border-right: solid 0.8px #8d8d8d;
+  border-radius: 0px 10px 0px 0px;
+}
+.corner-select div .bottom-left {
+  width: 15px;
+  height: 10px;
+  margin-top: 2px;
+  margin-right: 2px;
+  border-bottom: solid 0.8px #8d8d8d;
+  border-left: solid 0.8px #8d8d8d;
+  border-radius: 0px 0px 0px 10px;
+}
+.corner-select div .bottom-right {
+  width: 15px;
+  height: 10px;
+  margin-top: 2px;
+  margin-left: 2px;
+  border-bottom: solid 0.8px #8d8d8d;
+  border-right: solid 0.8px #8d8d8d;
+  border-radius: 0px 0px 10px 0px;
+}
+.corner-select .all {
+  width: 6px;
+  height: 6px;
+  border: solid 0.8px #8d8d8d;
+  border-radius: 10px;
+  position: relative;
+  top: -16.5px;
+  left: 9.5px;
+}
+.corner-select .all:hover {
+  border: solid #0050ff 1px;
+  box-shadow: 0px 0px 4px 3px rgba(0, 110, 255, 0.18);
+  background-color: rgba(0, 110, 255, 0.18);
+  top: -16.7px;
+  left: 9.3px;
+}
+
+/*# sourceMappingURL=style.css.map */

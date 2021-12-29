@@ -1,0 +1,11 @@
+faire la détection automatique des différent id qui affiche ensuite une liste des id
+résoudre le probleme du placement des element quand ont les reprend apres en avoir géré un autre (ou au moins le comprendre)
+rendre le code le plus compact possible, le commenté, l'optimisé (notamment au niveau des set interval), retravaillé les noms
+
+faire une section css no code avec selection couleur, bordure? placement z index
+une partie resulte qui donne le code exact du resultat final (html css)
+pouvoir bouger a la souris un element directement (a la place de translation y ou x)
+
+enlevé Scale Z et mettre a la place un scale général
+refaire les bouton avec des icones et mettre les plus et les moins sur les bouton eux même
+changer le nom des bouton ? (voir les nom et les icones pour des effets semblable sur photoshop)

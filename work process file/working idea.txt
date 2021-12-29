@@ -1,0 +1,15 @@
+Reset logo : un panneau "route barré", ou genre recyclage ?
+
+
+ajout d'un outil shadowbox
+ajput d'un outil texte
+
+ajout d'une police supplementaire pour le texte
+
+comment rajouté la gestion de l'opacité aux différents selecteur de couleurs ?
+
+peut etre rajouté une option qui permet d'ajouté plusieurs box shadows
+
+mettre la bonne distance entre les modules
+faire que les modules ne bouge pas en fonction de la taille de la fenentre
+

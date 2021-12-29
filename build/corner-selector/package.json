@@ -1,0 +1,14 @@
+{
+  "name": "corner-selector",
+  "version": "1.0.0",
+  "description": "test for a html corner selector of tag button",
+  "main": "script.js",
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:style.css"
+  },
+  "author": "sciluvinc",
+  "license": "ISC",
+  "dependencies": {
+    "sass": "^1.45.1"
+  }
+}

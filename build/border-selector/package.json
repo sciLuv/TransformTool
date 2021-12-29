@@ -1,0 +1,11 @@
+{
+  "name": "border-selector",
+  "version": "1.0.0",
+  "description": "construction of HTML tag border selection button ",
+  "main": "script.js",
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:style.css"
+  },
+  "author": "SciLuv",
+  "license": "ISC"
+}
