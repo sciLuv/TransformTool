@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" async></script>
+    <script src="./script/opacity.js" async></script>
+    <script src="./script/border.js" async></script>
+    <script src="./script/corner.js" async></script>
+    <script src="./script/shader.js" async></script>
+    <script src="./script/box-selector.js" async></script>
 
     <title>HTML GEN</title>
 </head>
@@ -48,19 +52,16 @@
                         <article class="shader">   
                             <div class="shader-add-less-container">
                                 <div>Shader</div>
-                                <select name="border-style" id="border-type">
-                                    <option value="none">8</option>
+                                <select name="shader-list" class="shader-list">
+                                    <option value="1">1</option>
                                 </select>
-                                <div class="element-btn element-more">+</div>
-                                <div class="element-btn element-trash">                    
+                                <div class="element-btn element-more element-more-shader">+</div>
+                                <div class="element-btn element-trash element-trash-shader">                    
                                     <img src="img/trash.svg" alt="">
                                 </div>
                             </div>
                             <div class="shader-range-color-container">
-                                <div class="shader-range-container">
-                                    <input class="range" type="range">
-                                    <input class="range" type="range">
-                                </div>
+                                    <input class="range range-shader-placement" type="range">
                                 <section class="color-opacity-section">
                                     <input class="color"  type="color" value="#009DFF">
                                     <div class="opacity-btn">
@@ -79,7 +80,7 @@
                         <article class="radius">
                             <div class="radius-content">
                                 <div class="title">Radius</div>
-                                <div class="corner-select">
+                                <section class="corner-select">
                                     <div>
                                         <div class="top-left"></div>
                                         <div class="top-right"></div>
@@ -89,7 +90,7 @@
                                         <div class="bottom-right"></div>
                                     </div>
                                     <div class="all"></div>
-                                </div>
+                                </section>
                             </div>
                             <input class="range" type="range">
                         </article>
@@ -126,23 +127,46 @@
                                         <option value="outset">outset</option>
                                     </select>
                                 </div>
-                                <div class="corner-select">
-                                    <div>
-                                        <div class="top-left"></div>
-                                        <div class="top-right"></div>
+                                <section class="border-select">
+                                    <div class="border-top"></div>
+                                    <div class="middle">
+                                        <div class="border-left"></div>
+                                        <div class="all-borders"></div>
+                                        <div class="border-right"></div>
                                     </div>
-                                    <div>
-                                        <div class="bottom-left"></div>
-                                        <div class="bottom-right"></div>
-                                    </div>
-                                    <div class="all"></div>
-                                </div>
+                                    <div class="border-bottom"></div>
+                                </section>
                             </div>
                         </article>
                         <hr class="hr-box">
                         <article class="box">
-                            <div class="box-title-color-container">
-                                <div class="title">Box</div>
+                            <div class="box-title-trash-more-range-container">
+                                <div class="box-title-more-trash-container">
+                                    <div class="title">Box</div>
+                                    <select name="box-list" class="box-list">
+                                        <option value="1">1</option>
+                                    </select>
+                                    <div class="element-btn element-more element-more-box">+</div>
+                                    <div class="element-btn element-trash element-trash-box">                    
+                                        <img src="img/trash.svg" alt="">
+                                    </div>
+                                </div>
+                                <div class="box-range-container">
+                                    <div class="box-range-under-container range-x-y-container">
+                                        <div class="box-select-range box-select-range-x-y-btn">
+                                            <div class="box-select-range-interuptor"></div>
+                                        </div>
+                                        <input class="range box-range box-range-x-y" type="range">
+                                    </div>
+                                    <div class="box-range-under-container range-blur-spread-container">
+                                        <div class="box-select-range box-select-range-blur-spread-btn">
+                                            <div class="box-select-range-interuptor"></div>
+                                        </div>  
+                                        <input class="range box-range box-range-blur-spread" type="range">                                  
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-color-inset-container">
                                 <section class="color-opacity-section">
                                     <input class="color"  type="color" value="#009DFF">
                                     <div class="opacity-btn">
@@ -157,19 +181,10 @@
                                 </section>
                                 <input type="checkbox" class="box-inset-checkbox">
                             </div>
-                            <div class="all-box-range-container">
-                                <div class="box-range-container">
-                                    <input class="range" type="range">
-                                    <input class="range" type="range">
-                                </div>
-                                <div class="box-range-container">
-                                    <input class="range" type="range">
-                                    <input class="range" type="range">
-                                </div>
-                            </div>
                         </article>
                         <hr class="hr-trash-reset">
                         <div class="add-trash-reset">
+                            <div class="element-btn element-more">+</div>
                             <div class="btn-trash-reset">
                                 <div class="element-btn element-reset">                    
                                     <img src="img/recycle.svg" alt="">
@@ -178,12 +193,14 @@
                                     <img src="img/trash.svg" alt="">
                                 </div>
                             </div>
-                            <div class="element-btn element-more">+</div>
                         </div>
                     </div>
+                    
+                    
                 </div>
             </div>
             <div class="code-gen"></div>
         </article>
+        
     </body>
 </html>

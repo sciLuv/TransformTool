@@ -6,7 +6,6 @@
     padding: 8px 0px;
     border-bottom: 1px solid black;
     display: flex;
-    font-weight: bold;
     .id{
         margin : 0px 10px;
         display: flex;
@@ -16,7 +15,7 @@
         input{
             margin: 1.5px 0px 0px 5px ;
             padding-left: 4px;
-            width: 98px;
+            width: 70px;
             height: 17px;
             border-radius: 20px;
             border: 1px solid rgb(153, 153, 153);
@@ -25,7 +24,7 @@
     .color-element{
         display: flex;
         margin : 5px 10px 0px 10px;
-        input{
+        .color{
             margin-left: 5px;
         }
     }
@@ -50,20 +49,19 @@
         }
         .shader-range-color-container{
             display: flex;
-            .shader-range-container{
-                display: flex;
-                flex-direction: column;
-                input[type='range'] {
-                    margin: 0px 0px 8px 0px;
+                .range-shader-placement {
+                    margin: 8px 0px 8px 0px;
                 }
-            }
+                .color{
+                    width: 25px;
+                }
         }
         input[type='color']{
             margin-left: 5px;
         }
     }
     .radius{
-        margin : 0px 10px 0px 10px;
+        margin : 0px 4px 0px 4px;
         .radius-content{
             display: flex;
             margin-top: -4px;
@@ -76,7 +74,7 @@
             }
         }
         input[type='range']{
-            margin: 12px 10px 10px 5px;
+            margin: 12px 5px 10px 5px;
         }
     }
     .border{
@@ -104,32 +102,130 @@
     }
     .box{
         margin : 3px 10px 0px 10px;
-        .box-title-color-container{
+        display: flex;
+        .box-title-more-trash-container{
+            display: flex;
             .title{
                 margin-right: 4px;
             }
-            display: flex;
-            margin-bottom: 4px;
+            select{
+                height: 20px;
+                width: 32px;
+                margin-left: 5px;
+            }
+            .element-more{
+                margin: 0px 5px 0px 5px;
+            }
+            .element-trash{
+                margin: 0px 0px ;
+            }
         }
         .box-range-container{
             display: flex;
-            margin-bottom: 3px;
-            input{
-                margin-left: 0px;
+            flex-direction: column;
+            margin-top: 6px;
+            .box-range-under-container{ 
+                display: flex;
+                height: 14px;
+                .box-range{
+                    width: 89px;
+                    margin-right: 0px;
+                    margin-left: 2px;
+                }
+                .box-range-blur-spread{
+                    margin-bottom: 0px;
+                    background-color: rgb(128, 128, 128);
+                    &::-webkit-slider-thumb {
+                        background: #000000;
+                        box-shadow: -80px 0 0 80px #00000000;
+                      }
+                }
+                .box-select-range{
+                    margin-right: 3px;
+                    margin-top: 0px;
+                    height: 8px;
+                    width: 18px;
+                    border-radius: 5px;
+                    position: relative;
+                    z-index: 1;
+                    display: flex;
+                    align-items: center;
+                    border: solid 0.5px rgb(85, 85, 85);
+                    cursor: pointer;
+                    &:hover{
+                        box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.192) inset;
+                    }
+                    .box-select-range-interuptor{
+                        background-color :silver;
+                        margin-left: -1px;
+                        height: 10px;
+                        width: 10px;
+                        position: absolute;
+                        z-index: 2;
+                        border-radius: 5px;
+                    }
+                }
+                .box-select-range-blur-spread-btn{
+                    .box-select-range-interuptor {
+                        background-color: gray;
+                    }
+                }
             }
+        }
+        .box-color-inset-container{
+            .color-opacity-section{
+                flex-direction: column;
+                margin-left: 4px;
+                margin-top: -1px;
+                margin-bottom: -1.5px;
+                .color{
+                    margin-top: 0px;
+                    margin-bottom: -0.6px;
+                    width: 17px;
+                    height: 20px;
+                }
+                .opacity-btn{
+                    margin-left: 0.3px;
+                }
+                .opacity-range-container{
+                    left: -5px;
+                    top: -44px;
+                }
+            }
+            .box-inset-checkbox{
+                position: relative;
+                margin-left: 6.8px;
+                margin-top: 0px;
+                width: 11px;
+                height: 11px;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+
         }
     }
     .add-trash-reset{
-        margin-left: 15px;
+        display: flex;
+        align-items: center;
+        margin-left: 5px;
+        margin-top: -5px;
         .btn-trash-reset{
-            display: flex;
-            margin-bottom: 5px;
+            margin-top: 5px;
             .element-reset{
-                margin: 0px 5px 0px 0px;
+                margin: 0px 0px 5px 0px;
             }
         }
         .element-more{
-            margin-left: 27px;
+            max-height: 24px;
+            max-width: 24px;
+            min-height: 24px;
+            min-width: 24px;
+            height: 24px;
+            width: 24px;
+            font-size: 22px;
+            margin-right: 5px;
+            margin-left: 10px;
         }
     }
 }

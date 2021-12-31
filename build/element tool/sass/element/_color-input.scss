@@ -6,6 +6,13 @@
     border-radius: 10px;
     width: 33px;
     height: 17px;
+    &:hover{
+        cursor: pointer;
+        background-color: rgba(116, 116, 116, 0.18);
+    }
+    &:active{
+        background-color: rgba(0, 110, 255, 0.18);
+    }
     &::-webkit-color-swatch {
         border: none;
         border-radius: 10px;

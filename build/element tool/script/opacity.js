@@ -69,18 +69,18 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
             opacityButtonList[opacityNumber].opacityContainer.style.display = "block";
             opacityButtonList[opacityNumber].opacityGate = true;
             if(afterArticleClass == "hr-shader"){
-                afterArticle.style.marginLeft = "-60px"; 
+                afterArticle.style.marginLeft = "-85.2px"; 
             }
             else if(afterArticleClass == "hr-radius"){
-                afterArticle.style.marginLeft = "-86px"; 
+                afterArticle.style.marginLeft = "-85px"; 
             }
             else if(afterArticleClass == "hr-box"){
-                afterArticle.style.marginLeft = "-76px";
+                afterArticle.style.marginLeft = "-75.9px";
                 opacityButtonList[opacityNumber].content.style.marginTop = "-3px";
             }
             else if(afterArticleClass == "hr-trash-reset"){
-                opacityButtonList[opacityNumber].container.style.marginTop = "-3px";
-                opacityButtonList[opacityNumber].inset.style.marginLeft = "-80px";
+                afterArticle.style.marginLeft = "-69px";
+                opacityButtonList[opacityNumber].inset.style.top = "-23px";
             }
 
         }
@@ -93,8 +93,9 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
                 opacityButtonList[opacityNumber].content.style.marginTop = "0px";
             }
             if(afterArticleClass == "hr-trash-reset"){
-                opacityButtonList[opacityNumber].container.style.marginTop = "0px";
-                opacityButtonList[opacityNumber].inset.style.marginLeft = "4px";
+                afterArticle.style.marginLeft = "0px";
+                opacityButtonList[opacityNumber].inset.style.marginLeft = "6.8px";
+                opacityButtonList[opacityNumber].inset.style.top = "0px";
             }
         }
     });
@@ -131,8 +132,9 @@ body.addEventListener("click", function(e){
                 opacityButtonList[i].content.style.marginTop = "0px";
             }
             if(afterArticleClass == "hr-trash-reset"){
-                opacityButtonList[i].container.style.marginTop = "0px";
-                opacityButtonList[i].inset.style.marginLeft = "4px";
+                afterArticle.style.marginLeft = "0px";
+                opacityButtonList[i].inset.style.marginLeft = "6.8px";
+                opacityButtonList[i].inset.style.top = "0px";
             }
             break;
         }

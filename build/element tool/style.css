@@ -26,7 +26,7 @@ span {
 }
 
 .corner-select {
-  margin-top: 3px;
+  margin-top: 10px;
   width: 27px;
   height: 30px;
 }
@@ -36,7 +36,8 @@ span {
 .corner-select div .top-left {
   width: 15px;
   height: 10px;
-  margin: 0px 4px 4px 0px;
+  margin-right: 2px;
+  margin-bottom: 2px;
   border-top: solid 0.8px #8d8d8d;
   border-left: solid 0.8px #8d8d8d;
   border-radius: 10px 0px 0px 0px;
@@ -44,6 +45,8 @@ span {
 .corner-select div .top-right {
   width: 15px;
   height: 10px;
+  margin-left: 2px;
+  margin-bottom: 2px;
   border-top: solid 0.8px #8d8d8d;
   border-right: solid 0.8px #8d8d8d;
   border-radius: 0px 10px 0px 0px;
@@ -51,7 +54,8 @@ span {
 .corner-select div .bottom-left {
   width: 15px;
   height: 10px;
-  margin: 0px 4px 0px 0px;
+  margin-top: 2px;
+  margin-right: 2px;
   border-bottom: solid 0.8px #8d8d8d;
   border-left: solid 0.8px #8d8d8d;
   border-radius: 0px 0px 0px 10px;
@@ -59,6 +63,8 @@ span {
 .corner-select div .bottom-right {
   width: 15px;
   height: 10px;
+  margin-top: 2px;
+  margin-left: 2px;
   border-bottom: solid 0.8px #8d8d8d;
   border-right: solid 0.8px #8d8d8d;
   border-radius: 0px 0px 10px 0px;
@@ -72,22 +78,86 @@ span {
   top: -16.5px;
   left: 9.5px;
 }
+.corner-select .all:hover {
+  cursor: pointer;
+  border: solid #0050ff 1px;
+  box-shadow: 0px 0px 4px 3px rgba(0, 110, 255, 0.18);
+  background-color: rgba(0, 110, 255, 0.18);
+  top: -16.7px;
+  left: 9.3px;
+}
+
+.border-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 27px;
+  height: 27px;
+  margin-top: 4.5px;
+}
+.border-select .border-top {
+  border-top: solid #8d8d8d 0.8px;
+  width: 22px;
+  height: -0.8px;
+}
+.border-select .middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+}
+.border-select .middle .border-left {
+  border-left: solid #8d8d8d 0.8px;
+  margin-right: 4px;
+  height: 22px;
+}
+.border-select .middle .all-borders {
+  border: solid #8d8d8d 0.8px;
+  width: 8px;
+  height: 8px;
+  margin: 0px 4px;
+  position: relative;
+}
+.border-select .middle .all-borders:hover {
+  cursor: pointer;
+  border: solid #0050ff 1px;
+  box-shadow: 0px 0px 4px 3px rgba(0, 110, 255, 0.18);
+  background-color: rgba(0, 110, 255, 0.18);
+  margin: 0px 3.8px;
+}
+.border-select .middle .border-right {
+  border-right: solid #8d8d8d 0.8px;
+  margin-left: 4px;
+  height: 22px;
+}
+.border-select .border-bottom {
+  border-bottom: solid #8d8d8d 0.8px;
+  width: 22px;
+}
 
 .element-btn {
   border: solid gray 1px;
   border-radius: 5px;
-  max-height: 20px;
-  max-width: 20px;
-  min-height: 20px;
-  min-width: 20px;
-  height: 20px;
-  width: 20px;
+  max-height: 18px;
+  max-width: 18px;
+  min-height: 18px;
+  min-width: 18px;
+  height: 18px;
+  width: 18px;
   text-align: center;
 }
 .element-btn img {
   margin-top: 2px;
-  height: 15px;
-  width: 15px;
+  height: 13px;
+  width: 13px;
+}
+.element-btn:hover {
+  cursor: pointer;
+  background-color: rgba(116, 116, 116, 0.18);
+}
+.element-btn:active {
+  background-color: rgba(0, 110, 255, 0.18);
 }
 
 .color {
@@ -98,6 +168,13 @@ span {
   border-radius: 10px;
   width: 33px;
   height: 17px;
+}
+.color:hover {
+  cursor: pointer;
+  background-color: rgba(116, 116, 116, 0.18);
+}
+.color:active {
+  background-color: rgba(0, 110, 255, 0.18);
 }
 .color::-webkit-color-swatch {
   border: none;
@@ -175,7 +252,6 @@ span {
   padding: 8px 0px;
   border-bottom: 1px solid black;
   display: flex;
-  font-weight: bold;
 }
 .html-element .id {
   margin: 0px 10px;
@@ -187,7 +263,7 @@ span {
 .html-element .id input {
   margin: 1.5px 0px 0px 5px;
   padding-left: 4px;
-  width: 98px;
+  width: 70px;
   height: 17px;
   border-radius: 20px;
   border: 1px solid #999999;
@@ -196,7 +272,7 @@ span {
   display: flex;
   margin: 5px 10px 0px 10px;
 }
-.html-element .color-element input {
+.html-element .color-element .color {
   margin-left: 5px;
 }
 .html-element .shader {
@@ -222,18 +298,17 @@ span {
 .html-element .shader .shader-range-color-container {
   display: flex;
 }
-.html-element .shader .shader-range-color-container .shader-range-container {
-  display: flex;
-  flex-direction: column;
+.html-element .shader .shader-range-color-container .range-shader-placement {
+  margin: 8px 0px 8px 0px;
 }
-.html-element .shader .shader-range-color-container .shader-range-container input[type=range] {
-  margin: 0px 0px 8px 0px;
+.html-element .shader .shader-range-color-container .color {
+  width: 25px;
 }
 .html-element .shader input[type=color] {
   margin-left: 5px;
 }
 .html-element .radius {
-  margin: 0px 10px 0px 10px;
+  margin: 0px 4px 0px 4px;
 }
 .html-element .radius .radius-content {
   display: flex;
@@ -247,7 +322,7 @@ span {
   margin: 8px 0px 0px 5px;
 }
 .html-element .radius input[type=range] {
-  margin: 12px 10px 10px 5px;
+  margin: 12px 5px 10px 5px;
 }
 .html-element .border {
   margin: 3px 12px 0px 10px;
@@ -274,33 +349,126 @@ span {
 }
 .html-element .box {
   margin: 3px 10px 0px 10px;
-}
-.html-element .box .box-title-color-container {
   display: flex;
-  margin-bottom: 4px;
 }
-.html-element .box .box-title-color-container .title {
+.html-element .box .box-title-more-trash-container {
+  display: flex;
+}
+.html-element .box .box-title-more-trash-container .title {
   margin-right: 4px;
+}
+.html-element .box .box-title-more-trash-container select {
+  height: 20px;
+  width: 32px;
+  margin-left: 5px;
+}
+.html-element .box .box-title-more-trash-container .element-more {
+  margin: 0px 5px 0px 5px;
+}
+.html-element .box .box-title-more-trash-container .element-trash {
+  margin: 0px 0px;
 }
 .html-element .box .box-range-container {
   display: flex;
-  margin-bottom: 3px;
+  flex-direction: column;
+  margin-top: 6px;
 }
-.html-element .box .box-range-container input {
-  margin-left: 0px;
+.html-element .box .box-range-container .box-range-under-container {
+  display: flex;
+  height: 14px;
+}
+.html-element .box .box-range-container .box-range-under-container .box-range {
+  width: 89px;
+  margin-right: 0px;
+  margin-left: 2px;
+}
+.html-element .box .box-range-container .box-range-under-container .box-range-blur-spread {
+  margin-bottom: 0px;
+  background-color: gray;
+}
+.html-element .box .box-range-container .box-range-under-container .box-range-blur-spread::-webkit-slider-thumb {
+  background: #000000;
+  box-shadow: -80px 0 0 80px #00000000;
+}
+.html-element .box .box-range-container .box-range-under-container .box-select-range {
+  margin-right: 3px;
+  margin-top: 0px;
+  height: 8px;
+  width: 18px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  border: solid 0.5px #555555;
+  cursor: pointer;
+}
+.html-element .box .box-range-container .box-range-under-container .box-select-range:hover {
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.192) inset;
+}
+.html-element .box .box-range-container .box-range-under-container .box-select-range .box-select-range-interuptor {
+  background-color: silver;
+  margin-left: -1px;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  z-index: 2;
+  border-radius: 5px;
+}
+.html-element .box .box-range-container .box-range-under-container .box-select-range-blur-spread-btn .box-select-range-interuptor {
+  background-color: gray;
+}
+.html-element .box .box-color-inset-container .color-opacity-section {
+  flex-direction: column;
+  margin-left: 4px;
+  margin-top: -1px;
+  margin-bottom: -1.5px;
+}
+.html-element .box .box-color-inset-container .color-opacity-section .color {
+  margin-top: 0px;
+  margin-bottom: -0.6px;
+  width: 17px;
+  height: 20px;
+}
+.html-element .box .box-color-inset-container .color-opacity-section .opacity-btn {
+  margin-left: 0.3px;
+}
+.html-element .box .box-color-inset-container .color-opacity-section .opacity-range-container {
+  left: -5px;
+  top: -44px;
+}
+.html-element .box .box-color-inset-container .box-inset-checkbox {
+  position: relative;
+  margin-left: 6.8px;
+  margin-top: 0px;
+  width: 11px;
+  height: 11px;
+}
+.html-element .box .box-color-inset-container .box-inset-checkbox:hover {
+  cursor: pointer;
 }
 .html-element .add-trash-reset {
-  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+  margin-top: -5px;
 }
 .html-element .add-trash-reset .btn-trash-reset {
-  display: flex;
-  margin-bottom: 5px;
+  margin-top: 5px;
 }
 .html-element .add-trash-reset .btn-trash-reset .element-reset {
-  margin: 0px 5px 0px 0px;
+  margin: 0px 0px 5px 0px;
 }
 .html-element .add-trash-reset .element-more {
-  margin-left: 27px;
+  max-height: 24px;
+  max-width: 24px;
+  min-height: 24px;
+  min-width: 24px;
+  height: 24px;
+  width: 24px;
+  font-size: 22px;
+  margin-right: 5px;
+  margin-left: 10px;
 }
 
 input[type=range] {
@@ -334,6 +502,14 @@ input[type=range]::-webkit-slider-thumb {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+}
+.opacity-btn:hover {
+  cursor: pointer;
+  background-color: rgba(116, 116, 116, 0.18);
+}
+.opacity-btn:active {
+  background-color: rgba(0, 110, 255, 0.18);
 }
 
 .inside-opacity-btn {

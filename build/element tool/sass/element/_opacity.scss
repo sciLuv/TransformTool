@@ -11,6 +11,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    &:hover{
+      cursor: pointer;
+      background-color: rgba(116, 116, 116, 0.18);
+    }
+    &:active{
+        background-color: rgba(0, 110, 255, 0.18);
+    }
   }
   .inside-opacity-btn{
     border-radius: 15px;
