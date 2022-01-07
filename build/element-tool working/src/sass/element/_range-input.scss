@@ -1,0 +1,17 @@
+input[type='range'] {
+
+    width: 80px;
+    height: 5px;
+    border-radius: 10px;
+    -webkit-appearance: none;
+    background-color: rgb(192, 192, 192);
+    &::-webkit-slider-thumb {
+        width: 10px;
+        -webkit-appearance: none;
+        border-radius: 10px;
+        height: 10px;
+        cursor: ew-resize;
+        background: #000000;
+        box-shadow: -80px 0 0 80px #00000000;
+      }
+}

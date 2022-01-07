@@ -1,0 +1,61 @@
+.corner-select{
+    margin-top: 10px;
+    width: 27px;
+    height: 30px;
+    div{
+        display: flex;
+        .top-left{
+            width: 15px;
+            height: 10px;
+            margin-right: 2px;
+            margin-bottom: 2px;
+            border-top: solid 0.8px rgb(141, 141, 141);
+            border-left: solid 0.8px rgb(141, 141, 141);
+            border-radius: 10px 0px 0px 0px;
+        }
+        .top-right{
+            width: 15px;
+            height: 10px;
+            margin-left: 2px;
+            margin-bottom: 2px;
+            border-top: solid 0.8px rgb(141, 141, 141);
+            border-right: solid 0.8px rgb(141, 141, 141);
+            border-radius: 0px 10px 0px 0px;
+        }
+        .bottom-left{
+            width: 15px;
+            height: 10px;
+            margin-top: 2px;
+            margin-right: 2px;
+            border-bottom: solid 0.8px rgb(141, 141, 141);
+            border-left: solid 0.8px rgb(141, 141, 141);
+            border-radius: 0px 0px 0px 10px;
+        }
+        .bottom-right{
+            width: 15px;
+            height: 10px;
+            margin-top: 2px;
+            margin-left: 2px;
+            border-bottom: solid 0.8px rgb(141, 141, 141);
+            border-right: solid 0.8px rgb(141, 141, 141);
+            border-radius: 0px 0px 10px 0px;
+        }
+    }
+    .all{
+        width: 6px;
+        height: 6px;
+        border: solid 0.8px rgb(141, 141, 141);
+        border-radius: 10px;
+        position: relative;
+        top : -16.5px;
+        left : 9.5px;
+        &:hover{
+            cursor: pointer;
+            border: solid rgb(0, 80, 255) 1px; 
+            box-shadow: 0px 0px 4px 3px rgba(0, 110, 255, 0.18);
+            background-color: rgba(0, 110, 255, 0.18);
+            top : -16.7px;
+            left : 9.3px;
+        }
+    } 
+}

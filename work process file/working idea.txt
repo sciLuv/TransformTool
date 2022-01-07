@@ -22,6 +22,6 @@ faire que les select/option puisse affiché les bordure directement plutot que l
 1er objectif = rendre ELEMENT Tool visuellement fonctionnel
 
 probleme actuel : faire que les variable des fichiers js puisse intéragir a coup sur dans d'autre
-fichier js (node, async await, ou typescript)
+fichier js (node, async await, ou typescript, babel? webpack)
 
 utilisation de nodeJS pour compartimenté le code JS et le rendre plus maintenable
