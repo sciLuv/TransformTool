@@ -406,31 +406,45 @@ for(i=0; i<= shaderLists.length-1; i++){
                     opacity : 100
                 }
     }
-    //représente le précedent shader selectionné dans la liste de shader du module, lors de la 
-    let lastShader = shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value;
-    //représe
-    let actualShader;
+    //fonction de changement visuel des element de selection du shader en fonction du shader du module selectionné dans la liste
+    function visualChangeBeforeListSelection(val, opacity){
+        //changement visuel du range de placement et du bouton de selection de couleur
+        shaderRanges[shaderModuleNumber].value = shaderModuleList[shaderModuleNumber][val].placement;
+        shaderColors[shaderModuleNumber].value = shaderModuleList[shaderModuleNumber][val].color.hue;
+        //changement visuel du range d'opacité et du range de selection d'opacité
+        let opacityRepre = Math.abs(Math.trunc((shaderModuleList[shaderModuleNumber][val].color.opacity/100)*255)-255);
+        opacityButtonList[opacity].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
+        opacityButtonList[opacity].opacityRange.value = shaderModuleList[shaderModuleNumber][val].color.opacity;
+    }
+    
     //event de selection du shader dans la liste des shader dans chaque module
     shaderLists[shaderModuleNumber].addEventListener("click", changeListShadersNumber);
     function changeListShadersNumber(){
-        actualShader = shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value;
-        if (lastShader != actualShader){
-            shaderSelectNumber = shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value;
-            
-            shaderRanges[shaderModuleNumber].value = shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].placement;
-            shaderColors[shaderModuleNumber].value = shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].color.hue;
+        //active la fonction si l'option selectionné est différente de celle qui l'est déjà
+        if (shaderSelectNumber != shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value){
 
-            let opacityValue = shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].color.opacity/100;
-            let opacityRepre = Math.abs(Math.trunc(opacityValue*255)-255);
-            opacityButtonList[opacityNumber].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
-            opacityButtonList[opacityNumber].opacityRange.value = shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].color.opacity;
+            //supression et attribution a un nouvel element HTML option de l'attribut "select" de la liste de selection HTML
+            shaderLists[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
+            shaderSelectNumber = shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value;
+            shaderLists[shaderModuleNumber].children[shaderSelectNumber-1].setAttribute("selected", "");      
+            
+            //fonction de changement visuel du module shader (permet de correspondre au shader selectionné)
+            let val= shaderSelectNumber-1, opacity = opacityNumber;
+            visualChangeBeforeListSelection(val, opacity);
+            
         }
-        lastShader = shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value;
+
     }
-    //ajout d'un shader dans la liste des shader
+    //ajout d'un shader dans la liste des shader d'un module
     shaderMoreButtons[shaderModuleNumber].addEventListener("click", function(e){
+        //ajout d'un shader dans le "compteur de shader" pour ensuite construire l'element html qui le representera
         shaderNumber ++;
         shaderLists[shaderModuleNumber].innerHTML += '<option value="' + shaderNumber + '">' + shaderNumber + '</option>';
+        //suppression et ajout de l'attribut selected de l'option HTML de selection du shader
+        shaderLists[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
+        shaderLists[shaderModuleNumber].children[shaderNumber-1].setAttribute("selected", "");
+        //creation de l'objet représentant le nouveau shader
+        shaderSelectNumber = shaderNumber;
         shaderModuleList[shaderModuleNumber][shaderNumber-1] = {
             placement : 100,
             color : {
@@ -438,28 +452,54 @@ for(i=0; i<= shaderLists.length-1; i++){
                         opacity : 100
                     }
         }
-    })
 
+        //fonction de changement visuel du module shader (permet de correspondre au shader selectionné)
+        let val= shaderNumber-1, opacity = opacityNumber;
+        visualChangeBeforeListSelection(val, opacity);
+    })
+    
+    //suppression d'un shader dans la liste des shader d'un module
     shaderTrashButtons[shaderModuleNumber].addEventListener("click", function(e){
         if(shaderNumber > 1){
-            shaderLists[shaderModuleNumber].removeChild(shaderLists[shaderModuleNumber].lastChild);
-            shaderModuleList[shaderModuleNumber].pop();
-            shaderNumber --;
+            shaderLists[shaderModuleNumber].removeChild(shaderLists[shaderModuleNumber][shaderSelectNumber-1]);
+            shaderModuleList[shaderModuleNumber].splice(shaderSelectNumber-1, 1)
+
+            //boucle pour remplacer les elements HTML qui représente les shaders précédent celui supprimé, pour leurs assigné leur nouveau numéro
+            for(i=shaderSelectNumber-1; i<=shaderLists[shaderModuleNumber].length-1; i++){
+                shaderLists[shaderModuleNumber][i].innerHTML = i+1;
+                shaderLists[shaderModuleNumber][i].setAttribute("value", i+1);
+            }
+            //selection du shader inférieur a celui supprimé apres sa suppression 
+            if(shaderSelectNumber-2 >= 0){
+                shaderNumber --;
+                shaderLists[shaderModuleNumber][shaderSelectNumber-2].setAttribute("selected", "");
+                shaderSelectNumber = shaderSelectNumber-1; 
+            }
+            //quand le shader supprimé est le premier de la liste, quelques regle différente pour que cela fonctionne
+            else if(shaderSelectNumber-2 < 0){
+                shaderNumber --;
+                shaderLists[shaderModuleNumber][shaderSelectNumber-1].setAttribute("selected", "");
+            }
+            //force la selection de l'option correspondant au shaderSelectNumber
+            shaderLists[shaderModuleNumber].selectedIndex = shaderSelectNumber-1;
+            //partie de la fonction qui change la partie visuel 
+            let val= shaderSelectNumber-1, opacity = opacityNumber;
+            visualChangeBeforeListSelection(val, opacity);
         }
     })
-
+    //event qui gere l'utilisation du range de placement des shaders
     shaderRanges[shaderModuleNumber].addEventListener("input", function(){
         shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].placement = shaderRanges[shaderModuleNumber].value;
     })
+    //event qui gere l'utilisation de l'input color des shaders
     shaderColors[shaderModuleNumber].addEventListener("input", function(){
         shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].color.hue = shaderColors[shaderModuleNumber].value;
     })
+    //event qui gere le range d'opacité des shaders
     opacityButtonList[opacityNumber].opacityRange.addEventListener("input", function(){
         shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
     })
 }
-
-
 //BOXSELECTOR///////////////////////////////////////////
 let boxButtonRangeSelects = document.getElementsByClassName("box-select-range");
 let boxInteruptorRangeSelects = document.getElementsByClassName("box-select-range-interuptor");

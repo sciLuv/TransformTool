@@ -1,6 +1,7 @@
 ////////////////////////////long terme////////////////////////////
 -ajout d'un outil texte dans element tools
 -ajout d'un outil image dans element tools
+-ajout d'un bouton permettant de selectionné l'angle du dégradé (shaders) dans le module shaders
  et quand ce sera fait , mieux intégré les bouton trash, more et reset
 
 -permetttre le fait de gerer le style lors de pseudoclass (hoover, active, ect)
