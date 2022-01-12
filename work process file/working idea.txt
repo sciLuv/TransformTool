@@ -2,10 +2,19 @@
 -ajout d'un outil texte dans element tools
 -ajout d'un outil image dans element tools
 -ajout d'un bouton permettant de selectionné l'angle du dégradé (shaders) dans le module shaders
- et quand ce sera fait , mieux intégré les bouton trash, more et reset
+faire que quand il n'y a un seul shader, ce dernier prenne de maniere pleine le background
+ et quand ce sera fait , mieux intégré les bouton trash, more et reset (mettre le + de l'autre coté des bouton trash et reset)
 
 -permetttre le fait de gerer le style lors de pseudoclass (hoover, active, ect)
 -un truc pour gerer les animation.
+
+rajouté le fait de selectionné les coins et les coté deux par deux
+
+-ajouté un onglet d'aide (un peu a la maniere des autre onglet (element, transform, et les autres prévus) qui 
+ira chercher des informations explicative de l'utilisation des différents onglet pour rendre le fonctionnement globale plus compréhensible.
+(des explications, des gif qui montre l'utilisation et la transformation en lien, voir des liens vers mozilla ect)
+
+-ajouté des tooltip (infobulle) a coté des element d'interaction qui n'ont pas d'explication visuel
 
 - quand l'ajout et la suppression d'element dans element tool existera
 faire que l'element actuellement selectionné soi en surbrillance dans la liste
@@ -19,10 +28,15 @@ ces ligne)
 
 faire que les select/option puisse affiché les bordure directement plutot que les nom 
 
+il y a beaucoup de boucle, lié aux différents element d'interaction. il y a peut etre moyen de les rassemblé pour gagner des lignes de codes.
+
 ////////////////////////moyen terme///////////////////////////
 1er objectif = rendre ELEMENT Tool visuellement fonctionnel
 
-probleme actuel : faire que les variable des fichiers js puisse intéragir a coup sur dans d'autre
-fichier js (node, async await, ou typescript, babel? webpack)
 
-utilisation de nodeJS pour compartimenté le code JS et le rendre plus maintenable
+/////////////////////////court terme//////////////////////////
+changer les boutons + et poubelle
+changer les bouton curseur pour les rendre plus spécifique en fonctin de leurs utilisation
+ajouté un selectionneur de degré pour shader
+ajouté un selectionneur de gradient (linear-radial)
+ajouté des icone pour les futurs fonction image et texte.

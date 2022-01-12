@@ -1,0 +1,270 @@
+.trash-more-element-section, .reset-trash-more-element-section {
+  display: flex;
+}
+
+.element-trash, .element-more, .element-reset {
+  height: 18px;
+  width: 18px;
+  text-align: center;
+  cursor: pointer;
+}
+.element-trash img, .element-more img, .element-reset img {
+  margin-top: 2px;
+  height: 13px;
+  width: 13px;
+  filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+  transition: all 0.3s;
+}
+.element-trash:hover, .element-more:hover, .element-reset:hover {
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.247) 0%, rgba(255, 255, 255, 0) 75%);
+}
+.element-trash:hover img, .element-more:hover img, .element-reset:hover img {
+  filter: invert(28%) sepia(1%) saturate(295%) hue-rotate(78deg) brightness(93%) contrast(87%);
+  transition: all 0.3s;
+}
+.element-trash:active, .element-more:active, .element-reset:active {
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.61) 0%, rgba(255, 255, 255, 0) 75%);
+}
+.element-trash:active img, .element-more:active img, .element-reset:active img {
+  filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(21deg) brightness(97%) contrast(103%);
+  transition: all 0s;
+}
+
+.reset-trash-btn {
+  height: 30px;
+  margin-top: 1px;
+}
+.reset-trash-btn .element-trash, .reset-trash-btn .element-reset {
+  height: 15px;
+  width: 15px;
+  margin-right: 3px;
+}
+.reset-trash-btn .element-trash img, .reset-trash-btn .element-reset img {
+  margin: 0px;
+  height: 11.5px;
+  width: 11.5px;
+}
+.reset-trash-btn .element-trash:hover, .reset-trash-btn .element-reset:hover {
+  background: none;
+}
+.reset-trash-btn .element-trash:active, .reset-trash-btn .element-reset:active {
+  background: none;
+}
+.reset-trash-btn .element-trash:active img, .reset-trash-btn .element-reset:active img {
+  filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
+  transition: all 0s;
+}
+
+.element-btn-more-under-module {
+  border: solid #919191 1px;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.element-btn-more-under-module img {
+  height: 30px;
+  width: 30px;
+  transition: all 0.5s;
+}
+
+.image-text {
+  display: flex;
+}
+.image-text .btn-image-text {
+  height: 50px;
+  width: 45px;
+  border: solid #979797 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.image-text .btn-image-text img {
+  height: 40px;
+  width: 40px;
+  color: #4b4b4b;
+  filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+}
+.image-text .image-btn {
+  margin-right: 15px;
+}
+
+.square-btn:hover {
+  border: solid #707070 1px;
+  transition: all 0.5s;
+  box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.219), 1px 1px 5px 0px rgba(0, 0, 0, 0.219) inset;
+}
+.square-btn:hover img {
+  filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+  transition: all 0.5s;
+}
+.square-btn:active {
+  border: solid #dadada 1px;
+  box-shadow: none;
+  transition: all 0s;
+}
+.square-btn:active img {
+  filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
+  transition: all 0s;
+}
+
+.button-selector {
+  margin-right: 3px;
+  margin-top: 0px;
+  height: 8px;
+  width: 18px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  border: solid 0.5px #555555;
+  cursor: pointer;
+}
+
+.box-select-range-interuptor {
+  background-color: silver;
+  margin-left: -8px;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  z-index: 2;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box-select-range-interuptor .x-y-bar {
+  background-color: white;
+  height: 8px;
+  width: 2px;
+  border-radius: 2px;
+}
+
+.select-blur-spread-btn .spread-blur-interuptor {
+  background-color: gray;
+}
+
+.gradient-degree-selection-section {
+  display: flex;
+  align-items: center;
+}
+.gradient-degree-selection-section .shader-select-gradient .shader-select-gradient-interuptor {
+  background-color: gray;
+  margin-left: -8px;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gradient-degree-selection-section .degree-radiant-btn {
+  width: 10px;
+  height: 10px;
+  border: solid #9b9b9b 1px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.gradient-degree-selection-section .degree-radiant-btn .degree-bar {
+  height: 2px;
+  width: 6px;
+  border-radius: 0px 10px 10px 0px;
+  background-color: #9b9b9b;
+}
+
+.button-selector {
+  transition: box-shadow 0.2s;
+}
+.button-selector:hover {
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.192) inset;
+  transition: box-shadow 0.2s;
+}
+.button-selector .box-select-range-interuptor {
+  transition: transform 0.5s, margin-left 0.5s;
+}
+.button-selector .box-select-range-interuptor[active] {
+  margin-left: 3px;
+  transform: rotate(90deg);
+  transition: transform 0.5s, margin-left 0.5s;
+}
+.button-selector .spread-blur-interuptor {
+  transition: height 0.5s, width 0.5s, margin-left 0.5s, box-shadow 0.5s;
+}
+.button-selector .spread-blur-interuptor[active] {
+  height: 5px;
+  width: 5px;
+  margin-left: 4.7px;
+  box-shadow: 0px 0px 3px 3px gray;
+  transition: height 0.5s, width 0.5s, margin-left 0.5s, box-shadow 0.5s;
+}
+.button-selector .shader-select-gradient-interuptor {
+  border-radius: 1.5px;
+  transition: height 0.5s, width 0.5s, margin-left 0.5s, margin-top 0.5s, border-radius 0.5s;
+}
+.button-selector .shader-select-gradient-interuptor[active] {
+  border-radius: 5px;
+  margin-left: 3px;
+  transition: height 0.5s, width 0.5s, margin-left 0.5s, margin-top 0.5s, border-radius 0.5s;
+}
+
+.degree-radiant-btn {
+  transition: border 0.5s, box-shadow 0.5s;
+}
+.degree-radiant-btn .degree-bar {
+  transition: background-color 0.5s;
+}
+.degree-radiant-btn:hover {
+  border: solid #5f5f5f 1px;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.192) inset;
+  transition: border 0.5s, box-shadow 0.5s;
+}
+.degree-radiant-btn:hover .degree-bar {
+  background-color: #5f5f5f;
+  transition: background-color 0.5s;
+}
+.degree-radiant-btn:active {
+  border: solid #5f5f5f 1px;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.192) inset;
+}
+.degree-radiant-btn:active .degree-bar {
+  background-color: #5f5f5f;
+}
+
+body {
+  height: 1000px;
+}
+
+.interupteur {
+  display: flex;
+}
+.interupteur h5 {
+  margin: 0px 5px 0px 0px;
+}
+.interupteur button {
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+body, hr, button, h5 {
+  outline: none;
+  user-select: none;
+}
+
+#testing {
+  display: flex;
+}
+
+#test {
+  margin-left: 5px;
+}
+
+/*# sourceMappingURL=style.css.map */

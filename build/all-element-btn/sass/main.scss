@@ -1,0 +1,30 @@
+@import "./element/btn-more-trash-reset-element";
+@import "./element/btn-interuptor-degree";
+@import "./element/btn-anim";
+
+body{
+    height: 1000px;
+}
+.interupteur{
+    h5{
+        margin : 0px 5px 0px 0px;
+    }
+    button{
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+    display: flex;
+    
+}
+
+body, hr, button, h5{
+    outline:none;
+    user-select: none;
+}
+
+#testing{
+    display: flex;
+}
+#test{
+    margin-left: 5px ;
+}
