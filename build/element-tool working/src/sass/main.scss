@@ -4,18 +4,24 @@
 @import "./base/header";
 
 //Element
-@import "./element/btn-interuptor-degree";
-@import "./element/btn-more-trash-reset-element";
-@import "./element/btn-anim";
-@import "./element/corner-selector";
-@import "./element/border-selector";
-@import "./element/color-input";
 @import "./element/element";
 @import "./element/element-tool";
-@import "./element/shader-module";
-@import "./element/element-module";
-@import "./element/range-input";
-@import "./element/opacity";
+    //module element
+    @import "./element/module/shader-module";
+    @import "./element/module/element-module";
+    //bouton range input
+    @import "./element/bouton-range-input/btn-interuptor-degree";
+    @import "./element/bouton-range-input/btn-more-trash-reset-element";
+    @import "./element/bouton-range-input/btn-anim";
+    @import "./element/bouton-range-input/color-input";
+    @import "./element/bouton-range-input/opacity";
+    @import "./element/bouton-range-input/range-input";
+    //Corner et border Selection
+    @import "./element/corner-border-select/corner-border-selector-variable";
+    @import "./element/corner-border-select/corner-selector";
+    @import "./element/corner-border-select/border-selector";
+
+
 
 
 

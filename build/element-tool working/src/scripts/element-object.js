@@ -20,6 +20,8 @@ for (i=0; i<=elements.length-1; i++){
             hue : colors[elementNumber].value,
             opacity : opacityButtonList[opacityNumber].opacityRange.value
         },
-        shader : shaderModuleList[elementNumber]
+        shader : shaderModuleList[elementNumber],
+        corner : cornerModuleList[elementNumber],
+        border : borderModuleList[elementNumber]
     }
 }

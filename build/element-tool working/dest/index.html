@@ -90,24 +90,24 @@
                                 <div class="title">Radius</div>
                                 <section class="corner-select">
                                     <div>
-                                        <div class="top-left"></div>
-                                        <div class="top-right"></div>
+                                        <div class="top-left corner"></div>
+                                        <div class="top-right corner"></div>
                                     </div>
                                     <div>
-                                        <div class="bottom-left"></div>
-                                        <div class="bottom-right"></div>
+                                        <div class="bottom-left corner"></div>
+                                        <div class="bottom-right corner"></div>
                                     </div>
                                     <div class="all"></div>
                                 </section>
                             </div>
-                            <input class="range" type="range">
+                            <input class="range range-radius" type="range" value="0" min="0" max="100">
                         </article>
                         <hr class="hr-border">
                         <article class="border">
                             <div class="border-content-color">
                                 <div>Border</div>
                                 <section class="color-opacity-section">
-                                    <input class="color"  type="color" value="#009DFF">
+                                    <input class="color border-color"  type="color" value="#000000">
                                     <div class="opacity-btn">
                                         <div class="inside-opacity-btn"></div>
                                     </div>
@@ -121,9 +121,9 @@
                             </div>
                             <div class="border-content">
                                 <div class="border-content-under">
-                                    <input class="range" type="range" value="0" min="0" max="100">
-                                    <select name="border-style" id="border-type">
-                                        <option value="none"> none </option>
+                                    <input class="range border-range" type="range" value="0" min="0" max="100">
+                                    <select class="border-style" name="border-style" id="border-type">
+                                        <option value="none" selected> none </option>
                                         <option value="hidden">hidden</option>
                                         <option value="dotted">dotted</option>
                                         <option value="dashed">dashed</option>
@@ -136,13 +136,13 @@
                                     </select>
                                 </div>
                                 <section class="border-select">
-                                    <div class="border-top"></div>
+                                    <div class="border-top border-btn"></div>
                                     <div class="middle">
-                                        <div class="border-left"></div>
-                                        <div class="all-borders"></div>
-                                        <div class="border-right"></div>
+                                        <div class="border-left border-btn"></div>
+                                        <div class="all-borders "></div>
+                                        <div class="border-right border-btn"></div>
                                     </div>
-                                    <div class="border-bottom"></div>
+                                    <div class="border-bottom border-btn"></div>
                                 </section>
                             </div>
                         </article>

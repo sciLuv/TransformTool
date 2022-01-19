@@ -1,14 +1,7 @@
 ////////////////////////////long terme////////////////////////////
--ajout d'un outil texte dans element tools
--ajout d'un outil image dans element tools
--ajout d'un bouton permettant de selectionné l'angle du dégradé (shaders) dans le module shaders
-faire que quand il n'y a un seul shader, ce dernier prenne de maniere pleine le background
- et quand ce sera fait , mieux intégré les bouton trash, more et reset (mettre le + de l'autre coté des bouton trash et reset)
 
--permetttre le fait de gerer le style lors de pseudoclass (hoover, active, ect)
+-permettre le fait de gerer le style lors de pseudoclass (hoover, active, ect)
 -un truc pour gerer les animation.
-
-rajouté le fait de selectionné les coins et les coté deux par deux
 
 -ajouté un onglet d'aide (un peu a la maniere des autre onglet (element, transform, et les autres prévus) qui 
 ira chercher des informations explicative de l'utilisation des différents onglet pour rendre le fonctionnement globale plus compréhensible.
@@ -17,7 +10,8 @@ ira chercher des informations explicative de l'utilisation des différents ongle
 -ajouté des tooltip (infobulle) a coté des element d'interaction qui n'ont pas d'explication visuel
 
 - quand l'ajout et la suppression d'element dans element tool existera
-faire que l'element actuellement selectionné soi en surbrillance dans la liste
+faire que l'element actuellement selectionné soi en surbrillance dans la liste.
+egalement faire que déplacé l'element de haut en bas dans liste puisse permettre visuellement également de faire passer un element l'un sur l'autre (Z-index)
 
 ajout d'une police supplementaire pour le texte DANS les modules element
 
@@ -35,8 +29,13 @@ il y a beaucoup de boucle, lié aux différents element d'interaction. il y a pe
 
 
 /////////////////////////court terme//////////////////////////
-changer les boutons + et poubelle
-changer les bouton curseur pour les rendre plus spécifique en fonctin de leurs utilisation
-ajouté un selectionneur de degré pour shader
-ajouté un selectionneur de gradient (linear-radial)
-ajouté des icone pour les futurs fonction image et texte.
+
+faire que bouger un des element de selection de border quand aucune bordure selectionné permet de selectionné l'ensemble des bordures;
+ 
+commenté js corner et border, eventuellement penser a des choses pour diminuer leurs taille (car code simple mais verbeu de ouf, 
+voir si diminution posible en modifiant objet en tableau, factorisant des functions, ou encore faire des fonction ou l'on peu remplacer les mots par d'autre
+
+devellopé la documentation de ce qui a déja ete fait (shader, radius, border), ce fesant voir si de meilleurs denomination existe pour les variable déjà faites.
+
+faire un etat visuel des range pour montrer qu'il sont dans leurs état par défault ou apres une selection
+ajouté un hover également

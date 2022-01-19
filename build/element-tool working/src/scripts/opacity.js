@@ -49,29 +49,14 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
             opacityRange : opacityHTMLRanges[i],
             opacityGate : false
         } 
+        
     //différentes variables représentant les balises contenante ou adjacentes aux range d'opacité
     let actualArticle = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement;   
-    console.log("actualArticle"); console.log(actualArticle);
 
     let actualArticleClass = actualArticle.className;
-    console.log("actualArticleClass"); console.log(actualArticleClass);
 
-    let afterArticle1 = opacityButtonList[opacityNumber].opacityButton.parentElement;
-    let afterArticle2 = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement;
     let afterArticle = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement.nextElementSibling;
-    let afterArticle3 = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement;
-    let afterArticle4 = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement.parentElement;
-    let afterArticle5 = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement.parentElement.parentElement;
-    console.log("afterArticle1"); console.log(afterArticle1);
-    console.log("afterArticle2"); console.log(afterArticle2);
-    console.log("opacityNumber");console.log(opacityNumber);
-    console.log("afterArticle"); console.log(afterArticle);
-    console.log("afterArticle3"); console.log(afterArticle3);
-    console.log("afterArticle4"); console.log(afterArticle4);
-    console.log("afterArticle5"); console.log(afterArticle5);
-
     let afterArticleClass = afterArticle.className;
-    console.log("afterArticleClass"); console.log(afterArticleClass);console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     //certaines condition permettant d'ajouté des infos aux range d'opacité de "border" et "box"
     //nécessaire pour changer dynamiquement le css en fonction de l'overture/fermeture des range
     if(actualArticleClass == "border"){

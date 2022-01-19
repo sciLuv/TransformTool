@@ -36,7 +36,7 @@ for(i=0; i<= shaderLists.length-1; i++){
         gradient : "linear",
         degree : 0,
         color : {
-                    hue : "#009DFF",
+                    hue : "#FFA200",
                     opacity : 100
                 }
     }
@@ -82,7 +82,7 @@ for(i=0; i<= shaderLists.length-1; i++){
         shaderModuleList[shaderModuleNumber][shaderNumber-1] = {
             placement : 100,
             color : {
-                        hue : "#009DFF",
+                        hue : "#FFA200",
                         opacity : 100
                     }
         }
