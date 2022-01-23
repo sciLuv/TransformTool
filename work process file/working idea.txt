@@ -3,6 +3,10 @@
 -permettre le fait de gerer le style lors de pseudoclass (hoover, active, ect)
 -un truc pour gerer les animation.
 
+-gerer les before/after
+
+-gerer les bordure avec un effet de dégradé (je sais plus comment ont fait) 
+
 -ajouté un onglet d'aide (un peu a la maniere des autre onglet (element, transform, et les autres prévus) qui 
 ira chercher des informations explicative de l'utilisation des différents onglet pour rendre le fonctionnement globale plus compréhensible.
 (des explications, des gif qui montre l'utilisation et la transformation en lien, voir des liens vers mozilla ect)
@@ -24,18 +28,17 @@ faire que les select/option puisse affiché les bordure directement plutot que l
 
 il y a beaucoup de boucle, lié aux différents element d'interaction. il y a peut etre moyen de les rassemblé pour gagner des lignes de codes.
 
+possibilité de changer radicalemement la maniere de selectionné le radius des corner en utilisant un systeme similaire a celui de la selection des degrès des shader
+
+
+changer le html css des class bouton XY blurSpread linearradial select = choice, interuptor = select
+définir un standard de dénomination des boutons (btn/button)
+
 ////////////////////////moyen terme///////////////////////////
 1er objectif = rendre ELEMENT Tool visuellement fonctionnel
 
 
-/////////////////////////court terme//////////////////////////
-
-faire que bouger un des element de selection de border quand aucune bordure selectionné permet de selectionné l'ensemble des bordures;
- 
-commenté js corner et border, eventuellement penser a des choses pour diminuer leurs taille (car code simple mais verbeu de ouf, 
-voir si diminution posible en modifiant objet en tableau, factorisant des functions, ou encore faire des fonction ou l'on peu remplacer les mots par d'autre
-
-devellopé la documentation de ce qui a déja ete fait (shader, radius, border), ce fesant voir si de meilleurs denomination existe pour les variable déjà faites.
+/////////////////////////court terme//////////////////////////.
 
 faire un etat visuel des range pour montrer qu'il sont dans leurs état par défault ou apres une selection
 ajouté un hover également

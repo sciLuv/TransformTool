@@ -1,12 +1,12 @@
-//CORNER////////////////////////////////////////////////////////////
-//Représentation de l'outil HTML de selection des coins
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CORNER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//Tableaux des balises HTML de selection des coins
 let cornerSelectors = document.getElementsByClassName("corner-select");
 //Représentation des différentes parties HTML de l'outil de selection des coins
 let topLefts = document.getElementsByClassName("top-left");
 let topRights = document.getElementsByClassName("top-right");
 let bottomRights = document.getElementsByClassName("bottom-right");
 let bottomLefts = document.getElementsByClassName("bottom-left");
-//représentation du bouton de selection des coins
+//Tableau des balises HTML centrale du selecteur de coin (rond au millieu du selecteur) 
 let cornerSelects = document.getElementsByClassName("all");
 //représentation de l'input range qui gere la courbure des coins
 let radiusRanges = document.getElementsByClassName("range-radius");
@@ -21,10 +21,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
     let cornerSelectorSelectionCounter = 1;
 
     //4 variables représentant l'état d'activation (O/I) des boutons de coin du selecteur de coin
-    let topLeftInteruptor = false;
-    let topRightInteruptor = false;
-    let bottomRightInteruptor = false;
-    let bottomLeftInteruptor = false;
+    let topLeftCornerInteruptor = false;
+    let topRightCornerInteruptor = false;
+    let bottomRightCornerInteruptor = false;
+    let bottomLeftCornerInteruptor = false;
 
     //objet qui contient les valeurs de courbure pour les 4 coins de l'element ciblé
     cornerModuleList[cornerModuleNumber] = {
@@ -42,16 +42,16 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //les 4 conditions suivante permettent d'ajouté ou non les valeurs des différentes coins. 
         //(topLeft/topRight/bottomRight/bottomLeft, dans l'ordre)
         let cornerSelectedValueTest;
-        if(topLeftInteruptor == true){
+        if(topLeftCornerInteruptor == true){
             selectedCorner.push(cornerModuleList[cornerModuleNumber].topLeft);
         }
-        if(topRightInteruptor == true){
+        if(topRightCornerInteruptor == true){
             selectedCorner.push(cornerModuleList[cornerModuleNumber].topRight);
         }
-        if(bottomRightInteruptor == true){
+        if(bottomRightCornerInteruptor == true){
             selectedCorner.push(cornerModuleList[cornerModuleNumber].bottomRight);
         }
-        if(bottomLeftInteruptor == true){
+        if(bottomLeftCornerInteruptor == true){
             selectedCorner.push(cornerModuleList[cornerModuleNumber].bottomLeft);
         }
         //boucle et condition permettant la mise a jour de l'input range d'attribution de valeur de courbure
@@ -107,12 +107,11 @@ for(i=0; i<= cornerSelectors.length-1; i++){
     cornerSelects[cornerModuleNumber].addEventListener("click", function(e){
         //selection de tout les coins
         if(cornerSelectorSelectionCounter == 1){
-            console.log(cornerSelectorSelectionCounter);
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = true;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerActivate();
             topRightCornerActivate();
             bottomRightCornerActivate();
@@ -121,12 +120,11 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         }
         //selection du coin supérieur gauche
         else if(cornerSelectorSelectionCounter == 2){
-            console.log(cornerSelectorSelectionCounter);
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = false;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerActivate();
             topRightCornerNeutral();
             bottomRightCornerNeutral();
@@ -136,10 +134,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection du coin supérieur droit
         else if(cornerSelectorSelectionCounter == 3){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = true;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerNeutral();
             topRightCornerActivate();
             bottomRightCornerNeutral();
@@ -149,10 +147,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection du coin inférieur droit
         else if(cornerSelectorSelectionCounter == 4){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = false;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerNeutral();
             topRightCornerNeutral();
             bottomRightCornerActivate();
@@ -162,10 +160,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection du coin inférieur gauche
         else if(cornerSelectorSelectionCounter == 5){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = false;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerNeutral();
             topRightCornerNeutral();
             bottomRightCornerNeutral();
@@ -175,10 +173,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins supérieurs
         else if(cornerSelectorSelectionCounter == 6){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = true;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerActivate();
             topRightCornerActivate();
             bottomRightCornerNeutral();
@@ -188,10 +186,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins droits
         else if(cornerSelectorSelectionCounter == 7){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = true;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerNeutral();
             topRightCornerActivate();
             bottomRightCornerActivate();
@@ -201,10 +199,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins inférieurs
         else if(cornerSelectorSelectionCounter == 8){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = false;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerNeutral();
             topRightCornerNeutral();
             bottomRightCornerActivate();
@@ -214,10 +212,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins gauches
         else if(cornerSelectorSelectionCounter == 9){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = false;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerActivate();
             topRightCornerNeutral();
             bottomRightCornerNeutral();
@@ -227,10 +225,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins haut gauche et bas droit
         else if(cornerSelectorSelectionCounter == 10){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = false;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerActivate();
             topRightCornerNeutral();
             bottomRightCornerActivate();
@@ -240,10 +238,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins haut droit et bas gauche
         else if(cornerSelectorSelectionCounter == 11){
             cornerSelectorSelectionCounter = 1;
-            topLeftInteruptor = false;
-            topRightInteruptor = true;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerNeutral();
             topRightCornerActivate();
             bottomRightCornerNeutral();
@@ -257,46 +255,46 @@ for(i=0; i<= cornerSelectors.length-1; i++){
     //cela permet de l'inclure ou l'exclure de la selection de coin que l'on peut modifier (interuptor booleen O/I)
     //et de changer son visuel pour que l'utilisateur ai un feed-back (neutral/activate, +/-) 
     topLefts[cornerModuleNumber].addEventListener("click", function(){
-        if(topLeftInteruptor == false){
+        if(topLeftCornerInteruptor == false){
             topLeftCornerActivate();
-            topLeftInteruptor = true;
+            topLeftCornerInteruptor = true;
         }
         else{
             topLeftCornerNeutral();
-            topLeftInteruptor = false;           
+            topLeftCornerInteruptor = false;           
         }
         RangeVisualChangeBeforeCornerSelection();
     })
     topRights[cornerModuleNumber].addEventListener("click", function(){
-        if(topRightInteruptor == false){
+        if(topRightCornerInteruptor == false){
             topRightCornerActivate();
-            topRightInteruptor = true;
+            topRightCornerInteruptor = true;
         }
         else{
             topRightCornerNeutral();
-            topRightInteruptor = false;
+            topRightCornerInteruptor = false;
         }
         RangeVisualChangeBeforeCornerSelection();
     })
     bottomRights[cornerModuleNumber].addEventListener("click", function(){
-        if(bottomRightInteruptor == false){
+        if(bottomRightCornerInteruptor == false){
             bottomRightCornerActivate();
-            bottomRightInteruptor = true;
+            bottomRightCornerInteruptor = true;
         }
         else{
             bottomRightCornerNeutral();
-            bottomRightInteruptor = false;
+            bottomRightCornerInteruptor = false;
         }
         RangeVisualChangeBeforeCornerSelection();
     })
     bottomLefts[cornerModuleNumber].addEventListener("click", function(){
-        if(bottomLeftInteruptor == false){
+        if(bottomLeftCornerInteruptor == false){
             bottomLeftCornerActivate();
-            bottomLeftInteruptor = true;
+            bottomLeftCornerInteruptor = true;
         }
         else{
             bottomLeftCornerNeutral();
-            bottomLeftInteruptor = false;
+            bottomLeftCornerInteruptor = false;
         }
         RangeVisualChangeBeforeCornerSelection();
     })
@@ -309,25 +307,25 @@ for(i=0; i<= cornerSelectors.length-1; i++){
     //3. si aucun coins n'est sélectionné mais que le range est utilisé, alors il y aura une selection auto de tout les bord (visuel et valeur)
     radiusRanges[cornerModuleNumber].addEventListener("input", function(){
 
-        if(topLeftInteruptor == true){
+        if(topLeftCornerInteruptor == true){
             cornerModuleList[cornerModuleNumber].topLeft = radiusRanges[cornerModuleNumber].value;
         }
-        if(topRightInteruptor == true){
+        if(topRightCornerInteruptor == true){
             cornerModuleList[cornerModuleNumber].topRight = radiusRanges[cornerModuleNumber].value;
         }
-        if(bottomRightInteruptor == true){
+        if(bottomRightCornerInteruptor == true){
             cornerModuleList[cornerModuleNumber].bottomRight = radiusRanges[cornerModuleNumber].value;
         }
-        if(bottomLeftInteruptor == true){
+        if(bottomLeftCornerInteruptor == true){
             cornerModuleList[cornerModuleNumber].bottomLeft = radiusRanges[cornerModuleNumber].value;
         }
-        if((topLeftInteruptor == false)&&(topRightInteruptor == false)&&
-        (bottomRightInteruptor == false)&&(bottomLeftInteruptor == false)){
-            cornerSelectorSelectionCounter = 1;
-            topLeftInteruptor = true;
-            topRightInteruptor = true;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = true;
+        if((topLeftCornerInteruptor == false)&&(topRightCornerInteruptor == false)&&
+        (bottomRightCornerInteruptor == false)&&(bottomLeftCornerInteruptor == false)){
+            cornerSelectorSelectionCounter = 2;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerActivate();
             topRightCornerActivate();
             bottomRightCornerActivate();

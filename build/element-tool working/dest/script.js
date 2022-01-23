@@ -1,45 +1,46 @@
-//GESTION DES OPACITE
-//4 tableaux qui contiennent l'ensemble des balises html lié a la gestion de l'opacité
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OPACITY-BTN-RANGES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//4 tableaux qui contiennent l'ensemble des balises construisant la structure HTML de l'outil d'opacité
+//btn qui ouvre le conteneur du range
 let opacityHTMLButtons = document.getElementsByClassName("opacity-btn");
+//pastille de niveau de gris a l'interieur de l'opacityHTMLButton qui représente visuellement l'état d'opacité 
 let opacityHTMLInsideButtons = document.getElementsByClassName("inside-opacity-btn");
+//conteneur du range gérant l'opacité, caché tant qu'opacityHTMLButton n'est pas cliqué
 let opacityHTMLRangeContainers = document.getElementsByClassName("opacity-range-container");
+//element exclusivement graphique pour plus de clarté pour l'utilisateur lors de l'ouverture du range
 let opacityHTMLArrows = document.getElementsByClassName("opacity-range-container-arrow");
+//le range qui gere l'opacité lui même
 let opacityHTMLRanges = document.getElementsByClassName("opacity-range");
 
-//représentation des parties spécifiques de la barre d'element, pour gerer leurs transformation
-//en fonction des barres d'opacité et de leurs ouverture/fermeture.
+//représentation de parties spécifiques de la barre d'element, pour gerer leurs transformation
+//en fonction de l'ouverture/fermeture de l'outil d'opacité
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//borderContent est un tableau représentant les parties basses du module "border"
-let borderContent = document.getElementsByClassName("border-content");
-//boxRangeContainer est un tableau représentant les parties basses du module "Box"
-let boxRangeContainer = document.getElementsByClassName("all-box-range-container");
-//shaderGradientContainer est un tableau représentant la partie basse gauche du module "shader"
-let shaderGradientContainer = document.getElementsByClassName("gradient-degree-selection-section")
+//tableau représentant la partie HTML basses du module "border", pour chaque barre d'element
+let borderContents = document.getElementsByClassName("border-content");
+//tableau représentant la partie HTML basses du module "Box", pour chaque barre d'element
+let boxRangeContainers = document.getElementsByClassName("all-box-range-container");
+//Tableau représentant la partie HTML basse gauche du module "shader" , pour chaque barre d'element
+let shaderGradientContainers = document.getElementsByClassName("gradient-degree-selection-section")
 
 //variable qui représente le BODY du HTML
 let bodyDetection = document.getElementsByTagName("body");
 let body = bodyDetection[0];
 
-//tableau contenant les objets représentant les boutons/ranges de gestion d'opacité
+//tableau contenant les objets représentant les outils d'opacité de toutes les barres d'éléments
 let opacityButtonList = [];
 
-//création des objets représentant les boutons/ranges de gestion d'opacité
-//également les fonction d'ouverture/fermeture lié au range d'opacité et leurs conteneurs
+//Boucle qui itere pour chaque barre d'element des objets représentant les outils d'opacité et leurs EVENTS
+//4 objets représentant les outils d'opacité (color,shader,border,box) par barre d'element
+//2 EVENTS par outils d'opacité = Event du bouton d'ouverture du range, Event du range lui même
 //et les fonction de traitement de l'opacité elle même
 for(i=0; i<=opacityHTMLButtons.length-1; i++){
-    console.log("~~~~~~~~OPACITY-LENGHT~~~~~~~~~~~~~~");
-    console.log(opacityHTMLButtons.length);
-    //elementNum et la boucle qui suit permettent de définir le nombre de barre d'element
-    //qui contient l'ensemble des module de modification des éléments
+    //elementNum et le while associé permettent de définir le nombre de barre d'element
     let elementNum=1;
     while(i+1>4*elementNum){
         elementNum++
     }
-    console.log("elementNum");
-    console.log(elementNum);
     //opacityNumber défini un numéro pour chaque range d'opacité
     let opacityNumber = i;
-    //ajout des différentes infos nécessaire a chaque range d'opacité dans des objet, dans opacityButtonList
+    //ajout des différentes infos (un booleen et les variables représentant le HTML) pour chaque outil d'opacité dans des objet, dans opacityButtonList
     opacityButtonList[i] =
         {
             opacityButton : opacityHTMLButtons[i],
@@ -47,37 +48,40 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
             opacityContainer : opacityHTMLRangeContainers[i],
             opacityArrow : opacityHTMLArrows[i],
             opacityRange : opacityHTMLRanges[i],
-            opacityGate : false
+            opacityInteruptor : false
         } 
         
-    //différentes variables représentant les balises contenante ou adjacentes aux range d'opacité
+    //actualArticle actualArticleClass afterArticle afterArticleClass:
+    //représente des balises HTML contenante ou adjacentes aux outils d'opacité
+    //cela permettra l'ajout d'information dans les outils d'opacité des modules border et box
+    //ces information permettrons de modifié le css de ces module lors de l'ouverture/fermeture de l'outil d'opacité, et d'évité des bug graphique
     let actualArticle = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement;   
-
     let actualArticleClass = actualArticle.className;
 
     let afterArticle = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement.nextElementSibling;
     let afterArticleClass = afterArticle.className;
-    //certaines condition permettant d'ajouté des infos aux range d'opacité de "border" et "box"
-    //nécessaire pour changer dynamiquement le css en fonction de l'overture/fermeture des range
+
+    //ajout des infos de conteneur HTML des modules des outil d'opacité de "border" et "box" grace aux variable du dessus
     if(actualArticleClass == "border"){
-        opacityButtonList[i].content = borderContent[elementNum-1];
+        opacityButtonList[i].content = borderContents[elementNum-1];
     }
     if(actualArticleClass == "box"){
-        opacityButtonList[i].container = boxRangeContainer[elementNum-1];
+        opacityButtonList[i].container = boxRangeContainers[elementNum-1];
     }
+
     //fonction qui gere l'ouverture et la fermeture du range d'opacité  
     opacityButtonList[opacityNumber].opacityButton.addEventListener("click", function (){
         //ouverture du range
-        if (opacityButtonList[opacityNumber].opacityGate == false){
+        //suivant le module de l'outil d'opacité les transformation graphique ne sont pas exactement les même
+        if (opacityButtonList[opacityNumber].opacityInteruptor == false){
             opacityButtonList[opacityNumber].opacityContainer.style.display = "block";
-            opacityButtonList[opacityNumber].opacityGate = true;
+            opacityButtonList[opacityNumber].opacityInteruptor = true;
             if(afterArticleClass == "hr-shader"){
                 afterArticle.style.marginLeft = "-85.2px"; 
             }
             else if(afterArticleClass == "hr-radius"){
                 afterArticle.style.marginLeft = "-85px"; 
-
-                shaderGradientContainer[elementNum-1].style.marginTop = "-3.5px";
+                shaderGradientContainers[elementNum-1].style.marginTop = "-3.5px";
             }
             else if(afterArticleClass == "hr-box"){
                 afterArticle.style.marginLeft = "-75.9px";
@@ -91,7 +95,7 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
         //fermeture du range
         else{
             opacityButtonList[opacityNumber].opacityContainer.style.display = "none";
-            opacityButtonList[opacityNumber].opacityGate = false;
+            opacityButtonList[opacityNumber].opacityInteruptor = false;
             afterArticle.style.marginLeft = "0px"; 
             if(afterArticleClass == "hr-box"){
                 opacityButtonList[opacityNumber].content.style.marginTop = "0px";
@@ -100,21 +104,15 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
                 afterArticle.style.marginLeft = "0px";
             }
             if(afterArticleClass == "hr-radius"){
-                shaderGradientContainer[elementNum-1].style.marginTop = "1px";
+                shaderGradientContainers[elementNum-1].style.marginTop = "1px";
             }
         }
     });
-    //fonction qui gere l'opacité elle même et sa représentation dans le bouton d'ouverture de l'opacité
+    //fonction qui gere la valeur de l'opacité elle même et sa représentation dans le bouton d'ouverture de l'opacité
     opacityButtonList[opacityNumber].opacityRange.addEventListener("click", function(){
         let opacityValue = opacityButtonList[opacityNumber].opacityRange.value/100;
         let opacityRepre = Math.abs(Math.trunc(opacityValue*255)-255);
         opacityButtonList[opacityNumber].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        console.log("opacity information");
-        console.log(opacityButtonList[opacityNumber].opacityInsideButton.style.backgroundColor);
-        console.log(opacityValue);
-        console.log(opacityButtonList[opacityNumber].opacityRange.value);
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     })
 }
 
@@ -133,12 +131,12 @@ body.addEventListener("click", function(e){
         (e.target != opacityButtonList[i].opacityArrow)&&
         (e.target != opacityButtonList[i].opacityInsideButton)&&
         (e.target != opacityButtonList[i].opacityButton))&&
-        (opacityButtonList[i].opacityGate == true)){
+        (opacityButtonList[i].opacityInteruptor == true)){
             opacityButtonList[i].opacityContainer.style.display = "none";
-            opacityButtonList[i].opacityGate = false;
+            opacityButtonList[i].opacityInteruptor = false;
             afterArticle.style.marginLeft = "0px"; 
             if(afterArticleClass == "hr-radius"){
-                shaderGradientContainer[elementNum-1].style.marginTop = "1px";
+                shaderGradientContainers[elementNum-1].style.marginTop = "1px";
             }
             if(afterArticleClass == "hr-box"){
                 opacityButtonList[i].content.style.marginTop = "0px";
@@ -150,17 +148,17 @@ body.addEventListener("click", function(e){
         }
     }
 })
-//BORDER/////////////////////////////////////////////////////////////
-//Représentation de l'outil HTML de selection des bordures
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BORDER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//Tableau des balises HTML de selection des bordures
 let borderSelectors = document.getElementsByClassName("border-select");
-//Représentation des différentes parties HTML de l'outil de selection des bordures
+//Tableau des différentes parties HTML de l'outil de selection des bordures
 let topBorderSelectors = document.getElementsByClassName("border-top");
 let leftBorderSelectors = document.getElementsByClassName("border-left");
 let rightBorderSelectors = document.getElementsByClassName("border-right");
 let bottomBorderSelectors = document.getElementsByClassName("border-bottom");
-//représentation du bouton de selection des bordures de chaque modules
+//Tableau des balises HTML centrale du selecteur de bords (carré au millieu du selecteur) 
 let borderSelects = document.getElementsByClassName("all-borders");
-//représentation (dans l'ordre) des inputs range de selection de la taille des bordures, de leurs couleurs et de leurs styles. 
+//Tableau des (dans l'ordre) des inputs range HTML de selection de la taille des bordures, de leurs couleurs et de leurs styles. 
 let borderRanges = document.getElementsByClassName("border-range");
 let borderColors = document.getElementsByClassName("border-color");
 let borderStyles = document.getElementsByClassName("border-style");
@@ -180,10 +178,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
     let borderSelectorSelectionCounter = 1;
 
     //4 variables représentant l'état d'activation des boutons de bordure du selecteur de bordure 
-    let borderTopInteruptor = false;
-    let borderRightInteruptor = false;
-    let borderBottomInteruptor = false;
-    let borderLeftInteruptor = false;
+    let topBorderInteruptor = false;
+    let rightBorderInteruptor = false;
+    let bottomBorderInteruptor = false;
+    let leftBorderInteruptor = false;
 
     //représente l'option selectionné du select de style de bordure
     let selectedStyle = borderStyles[borderModuleNumber].options[borderStyles[borderModuleNumber].selectedIndex];
@@ -231,16 +229,16 @@ for(i=0; i<= borderSelectors.length-1; i++){
         //tableau qui contiendra a chaque itération de la fonction les objets des bordures sélectionné pour la mise a jour visuel  
         let modifiedBorder = [];
         //les 4 conditions suivante permettent d'ajouté ou non les objets des différentes bordures. (top/right/bottom/left, dans l'ordre)
-        if(borderTopInteruptor == true){
+        if(topBorderInteruptor == true){
             modifiedBorder.push(borderModuleList[borderModuleNumber].top);
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             modifiedBorder.push(borderModuleList[borderModuleNumber].right);
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             modifiedBorder.push(borderModuleList[borderModuleNumber].bottom);
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             modifiedBorder.push(borderModuleList[borderModuleNumber].left);
         }
         //boucle permettant mise a jour de l'input d'attribution de couleur
@@ -348,10 +346,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderActivate();
             bottomBorderActivate();
             leftBorderActivate();
-            borderTopInteruptor = true;
-            borderRightInteruptor = true; 
-            borderBottomInteruptor = true;
-            borderLeftInteruptor = true;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = true; 
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         //selection de la bordure haute
@@ -361,10 +359,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderNeutral();
             leftBorderNeutral();
-            borderTopInteruptor = true;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "-0.1px";
             visualChangeBeforeBorderModification()
         }
@@ -375,10 +373,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderActivate();
             bottomBorderNeutral();
             leftBorderNeutral();
-            borderTopInteruptor = false;
-            borderRightInteruptor = true; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = true; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -389,10 +387,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderActivate();
             leftBorderNeutral();
-            borderTopInteruptor = false;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = true;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "0.1px";
             visualChangeBeforeBorderModification()
         }
@@ -403,10 +401,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderNeutral();
             leftBorderActivate();
-            borderTopInteruptor = false;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = true;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = true;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -417,10 +415,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderActivate();
             bottomBorderNeutral();
             leftBorderNeutral();
-            borderTopInteruptor = true;
-            borderRightInteruptor = true; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = true; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -431,10 +429,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderActivate();
             leftBorderActivate();
-            borderTopInteruptor = false;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = true;
-            borderLeftInteruptor = true;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = true;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -445,10 +443,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderActivate();
             leftBorderNeutral();
-            borderTopInteruptor = true;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = true;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -459,10 +457,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderActivate();
             bottomBorderNeutral();
             leftBorderActivate();
-            borderTopInteruptor = false;
-            borderRightInteruptor = true; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = true;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = true; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = true;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -472,149 +470,159 @@ for(i=0; i<= borderSelectors.length-1; i++){
     //cela permet de l'inclure ou l'exclure de la selection de bord que l'on peut modifier (interuptor booleen O/I)
     //et de changer son visuel pour que l'utilisateur ai un feed-back (neutral/activate, +/-) 
     topBorderSelectors[borderModuleNumber].addEventListener("click", function(){
-        if(borderTopInteruptor == false){
+        if(topBorderInteruptor == false){
             topBorderActivate();
-            borderTopInteruptor = true;
+            topBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         else{
             topBorderNeutral();
-            borderTopInteruptor = false;
+            topBorderInteruptor = false;
             visualChangeBeforeBorderModification()
         }
     })
     leftBorderSelectors[borderModuleNumber].addEventListener("click", function(){
-        if(borderLeftInteruptor == false){
+        if(leftBorderInteruptor == false){
             leftBorderActivate();
-            borderLeftInteruptor = true;
+            leftBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         else{
             leftBorderNeutral();
-            borderLeftInteruptor = false;
+            leftBorderInteruptor = false;
             visualChangeBeforeBorderModification()
         }
     })
     rightBorderSelectors[borderModuleNumber].addEventListener("click", function(){
-        if(borderRightInteruptor == false){
+        if(rightBorderInteruptor == false){
             rightBorderActivate();
-            borderRightInteruptor = true;
+            rightBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         else{
             rightBorderNeutral();
-            borderRightInteruptor = false;
+            rightBorderInteruptor = false;
             visualChangeBeforeBorderModification()
         }
     })
     bottomBorderSelectors[borderModuleNumber].addEventListener("click", function(){
-        if(borderBottomInteruptor == false){
+        if(bottomBorderInteruptor == false){
             bottomBorderActivate();
-            borderBottomInteruptor = true;
+            bottomBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         else{
             bottomBorderNeutral();
-            borderBottomInteruptor = false;
+            bottomBorderInteruptor = false;
             visualChangeBeforeBorderModification()
         }
     })
-
-    //Les 4 evenements qui suivents fonctionne en 3 étapes : 
+    
+    //selectionIfNoBorderIsSelected:
+    //permet lors des Event de selection de valeur,btn/input, qui suivent juste en dessous de selectionné tout les bords si aucun ne l'est
+    //inclus visualChangeBeforeBorderModification pour activé visuellement le changement.
+    function selectionIfNoBorderIsSelected(){
+        if((topBorderInteruptor == false)&&(rightBorderInteruptor == false)&&
+        (bottomBorderInteruptor == false)&&(leftBorderInteruptor == false)){
+            borderSelectorSelectionCounter = 2;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = true;
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = true;
+            topBorderActivate();
+            rightBorderActivate();
+            bottomBorderActivate();
+            leftBorderActivate();
+            visualChangeBeforeBorderModification()
+        }
+    }
+    //Les 4 Event qui suivents fonctionne en 3 étapes : 
     //1. intrinsequement, l'evenement recupere une valeur lié a l'element HTML d'interaction (input/btn)
-    //2. effectue une condition pour chaque bord (4) avec les interuptor O/I associé au bord pour savoir 
-    //   si il est inclus a la selection a modifié. si le booleen est true, on change la valeur désiré dans lobjet représentant le bord 
+    //2. effectue une condition pour chaque bord (4) avec les interuptor O/I associés aux bords pour savoir 
+    //   si il est inclus à la selection a modifié. si le booleen est true, on change la valeur désiré dans lobjet représentant le bord 
+    //3. Enfin, si aucun bords n'est selectionné la fonction "selectionIfNoBorderIsSelected" incluse selectionnera tout les bords (visuel/valeur)
 
-    //Event du range de selection de la taille 
-    borderRanges[borderModuleNumber].addEventListener("click", function(){
-        if(borderTopInteruptor == true){
+    //Event du range de selection de la taille des bords 
+    borderRanges[borderModuleNumber].addEventListener("input", function(){
+        if(topBorderInteruptor == true){
             borderModuleList[borderModuleNumber].top.size = borderRanges[borderModuleNumber].value;
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             borderModuleList[borderModuleNumber].right.size = borderRanges[borderModuleNumber].value;
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             borderModuleList[borderModuleNumber].bottom.size = borderRanges[borderModuleNumber].value;
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             borderModuleList[borderModuleNumber].left.size = borderRanges[borderModuleNumber].value;
         }
+        selectionIfNoBorderIsSelected();
     })
-    //Event du bouton de couleur 
+    //Event du bouton de couleur des bords
     borderColors[borderModuleNumber].addEventListener("input", function(){
-        if(borderTopInteruptor == true){
+        if(topBorderInteruptor == true){
             borderModuleList[borderModuleNumber].top.color.hue = borderColors[borderModuleNumber].value;
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             borderModuleList[borderModuleNumber].right.color.hue = borderColors[borderModuleNumber].value;
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             borderModuleList[borderModuleNumber].bottom.color.hue = borderColors[borderModuleNumber].value;
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             borderModuleList[borderModuleNumber].left.color.hue = borderColors[borderModuleNumber].value;
         }
+        selectionIfNoBorderIsSelected();
     })
-    //Event du select de la liste de style de bordure 
+    //Event du select de la liste de style des bords 
     borderStyles[borderModuleNumber].addEventListener("click", function(){
         if(borderStyles[borderModuleNumber].options[borderStyles[borderModuleNumber].selectedIndex] != selectedStyle){
             selectedStyle.removeAttribute("selected");
             selectedStyle = borderStyles[borderModuleNumber].options[borderStyles[borderModuleNumber].selectedIndex];
             selectedStyle.setAttribute("selected", "");
         }
-        if(borderTopInteruptor == true){
+        if(topBorderInteruptor == true){
             borderModuleList[borderModuleNumber].top.style = selectedStyle.value;
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             borderModuleList[borderModuleNumber].right.style = selectedStyle.value;
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             borderModuleList[borderModuleNumber].bottom.style = selectedStyle.value;
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             borderModuleList[borderModuleNumber].left.style = selectedStyle.value;
         }
+        selectionIfNoBorderIsSelected();
     })
     //Event du bouton d'opacité
     opacityButtonList[opacityNumber].opacityRange.addEventListener("input", function(){
-        if(borderTopInteruptor == true){
+        if(topBorderInteruptor == true){
             borderModuleList[borderModuleNumber].top.color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             borderModuleList[borderModuleNumber].right.color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             borderModuleList[borderModuleNumber].bottom.color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             borderModuleList[borderModuleNumber].left.color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
         }
+        selectionIfNoBorderIsSelected();
     })
 }
 
-/*
-if((BordertopInteruptor == false)&&(topRightInteruptor == false)&&
-(bottomRightInteruptor == false)&&(bottomLeftInteruptor == false)){
-    cornerSelectorSelectionCounter = 1;
-    topLeftInteruptor = true;
-    topRightInteruptor = true;
-    bottomRightInteruptor = true;
-    bottomLeftInteruptor = true;
-    topLeftActivation();
-    topRightActivation();
-    bottomRightActivation();
-    bottomLeftActivation();
-    RangeVisualChangeBeforeCornerSelection();
-}*/
-//CORNER////////////////////////////////////////////////////////////
-//Représentation de l'outil HTML de selection des coins
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CORNER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//Tableaux des balises HTML de selection des coins
 let cornerSelectors = document.getElementsByClassName("corner-select");
 //Représentation des différentes parties HTML de l'outil de selection des coins
 let topLefts = document.getElementsByClassName("top-left");
 let topRights = document.getElementsByClassName("top-right");
 let bottomRights = document.getElementsByClassName("bottom-right");
 let bottomLefts = document.getElementsByClassName("bottom-left");
-//représentation du bouton de selection des coins
+//Tableau des balises HTML centrale du selecteur de coin (rond au millieu du selecteur) 
 let cornerSelects = document.getElementsByClassName("all");
 //représentation de l'input range qui gere la courbure des coins
 let radiusRanges = document.getElementsByClassName("range-radius");
@@ -629,10 +637,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
     let cornerSelectorSelectionCounter = 1;
 
     //4 variables représentant l'état d'activation (O/I) des boutons de coin du selecteur de coin
-    let topLeftInteruptor = false;
-    let topRightInteruptor = false;
-    let bottomRightInteruptor = false;
-    let bottomLeftInteruptor = false;
+    let topLeftCornerInteruptor = false;
+    let topRightCornerInteruptor = false;
+    let bottomRightCornerInteruptor = false;
+    let bottomLeftCornerInteruptor = false;
 
     //objet qui contient les valeurs de courbure pour les 4 coins de l'element ciblé
     cornerModuleList[cornerModuleNumber] = {
@@ -650,16 +658,16 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //les 4 conditions suivante permettent d'ajouté ou non les valeurs des différentes coins. 
         //(topLeft/topRight/bottomRight/bottomLeft, dans l'ordre)
         let cornerSelectedValueTest;
-        if(topLeftInteruptor == true){
+        if(topLeftCornerInteruptor == true){
             selectedCorner.push(cornerModuleList[cornerModuleNumber].topLeft);
         }
-        if(topRightInteruptor == true){
+        if(topRightCornerInteruptor == true){
             selectedCorner.push(cornerModuleList[cornerModuleNumber].topRight);
         }
-        if(bottomRightInteruptor == true){
+        if(bottomRightCornerInteruptor == true){
             selectedCorner.push(cornerModuleList[cornerModuleNumber].bottomRight);
         }
-        if(bottomLeftInteruptor == true){
+        if(bottomLeftCornerInteruptor == true){
             selectedCorner.push(cornerModuleList[cornerModuleNumber].bottomLeft);
         }
         //boucle et condition permettant la mise a jour de l'input range d'attribution de valeur de courbure
@@ -715,12 +723,11 @@ for(i=0; i<= cornerSelectors.length-1; i++){
     cornerSelects[cornerModuleNumber].addEventListener("click", function(e){
         //selection de tout les coins
         if(cornerSelectorSelectionCounter == 1){
-            console.log(cornerSelectorSelectionCounter);
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = true;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerActivate();
             topRightCornerActivate();
             bottomRightCornerActivate();
@@ -729,12 +736,11 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         }
         //selection du coin supérieur gauche
         else if(cornerSelectorSelectionCounter == 2){
-            console.log(cornerSelectorSelectionCounter);
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = false;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerActivate();
             topRightCornerNeutral();
             bottomRightCornerNeutral();
@@ -744,10 +750,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection du coin supérieur droit
         else if(cornerSelectorSelectionCounter == 3){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = true;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerNeutral();
             topRightCornerActivate();
             bottomRightCornerNeutral();
@@ -757,10 +763,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection du coin inférieur droit
         else if(cornerSelectorSelectionCounter == 4){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = false;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerNeutral();
             topRightCornerNeutral();
             bottomRightCornerActivate();
@@ -770,10 +776,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection du coin inférieur gauche
         else if(cornerSelectorSelectionCounter == 5){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = false;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerNeutral();
             topRightCornerNeutral();
             bottomRightCornerNeutral();
@@ -783,10 +789,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins supérieurs
         else if(cornerSelectorSelectionCounter == 6){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = true;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerActivate();
             topRightCornerActivate();
             bottomRightCornerNeutral();
@@ -796,10 +802,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins droits
         else if(cornerSelectorSelectionCounter == 7){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = true;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerNeutral();
             topRightCornerActivate();
             bottomRightCornerActivate();
@@ -809,10 +815,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins inférieurs
         else if(cornerSelectorSelectionCounter == 8){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = false;
-            topRightInteruptor = false;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerNeutral();
             topRightCornerNeutral();
             bottomRightCornerActivate();
@@ -822,10 +828,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins gauches
         else if(cornerSelectorSelectionCounter == 9){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = false;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerActivate();
             topRightCornerNeutral();
             bottomRightCornerNeutral();
@@ -835,10 +841,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins haut gauche et bas droit
         else if(cornerSelectorSelectionCounter == 10){
             cornerSelectorSelectionCounter++;
-            topLeftInteruptor = true;
-            topRightInteruptor = false;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = false;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = false;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = false;
             topLeftCornerActivate();
             topRightCornerNeutral();
             bottomRightCornerActivate();
@@ -848,10 +854,10 @@ for(i=0; i<= cornerSelectors.length-1; i++){
         //selection des coins haut droit et bas gauche
         else if(cornerSelectorSelectionCounter == 11){
             cornerSelectorSelectionCounter = 1;
-            topLeftInteruptor = false;
-            topRightInteruptor = true;
-            bottomRightInteruptor = false;
-            bottomLeftInteruptor = true;
+            topLeftCornerInteruptor = false;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = false;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerNeutral();
             topRightCornerActivate();
             bottomRightCornerNeutral();
@@ -865,46 +871,46 @@ for(i=0; i<= cornerSelectors.length-1; i++){
     //cela permet de l'inclure ou l'exclure de la selection de coin que l'on peut modifier (interuptor booleen O/I)
     //et de changer son visuel pour que l'utilisateur ai un feed-back (neutral/activate, +/-) 
     topLefts[cornerModuleNumber].addEventListener("click", function(){
-        if(topLeftInteruptor == false){
+        if(topLeftCornerInteruptor == false){
             topLeftCornerActivate();
-            topLeftInteruptor = true;
+            topLeftCornerInteruptor = true;
         }
         else{
             topLeftCornerNeutral();
-            topLeftInteruptor = false;           
+            topLeftCornerInteruptor = false;           
         }
         RangeVisualChangeBeforeCornerSelection();
     })
     topRights[cornerModuleNumber].addEventListener("click", function(){
-        if(topRightInteruptor == false){
+        if(topRightCornerInteruptor == false){
             topRightCornerActivate();
-            topRightInteruptor = true;
+            topRightCornerInteruptor = true;
         }
         else{
             topRightCornerNeutral();
-            topRightInteruptor = false;
+            topRightCornerInteruptor = false;
         }
         RangeVisualChangeBeforeCornerSelection();
     })
     bottomRights[cornerModuleNumber].addEventListener("click", function(){
-        if(bottomRightInteruptor == false){
+        if(bottomRightCornerInteruptor == false){
             bottomRightCornerActivate();
-            bottomRightInteruptor = true;
+            bottomRightCornerInteruptor = true;
         }
         else{
             bottomRightCornerNeutral();
-            bottomRightInteruptor = false;
+            bottomRightCornerInteruptor = false;
         }
         RangeVisualChangeBeforeCornerSelection();
     })
     bottomLefts[cornerModuleNumber].addEventListener("click", function(){
-        if(bottomLeftInteruptor == false){
+        if(bottomLeftCornerInteruptor == false){
             bottomLeftCornerActivate();
-            bottomLeftInteruptor = true;
+            bottomLeftCornerInteruptor = true;
         }
         else{
             bottomLeftCornerNeutral();
-            bottomLeftInteruptor = false;
+            bottomLeftCornerInteruptor = false;
         }
         RangeVisualChangeBeforeCornerSelection();
     })
@@ -917,25 +923,25 @@ for(i=0; i<= cornerSelectors.length-1; i++){
     //3. si aucun coins n'est sélectionné mais que le range est utilisé, alors il y aura une selection auto de tout les bord (visuel et valeur)
     radiusRanges[cornerModuleNumber].addEventListener("input", function(){
 
-        if(topLeftInteruptor == true){
+        if(topLeftCornerInteruptor == true){
             cornerModuleList[cornerModuleNumber].topLeft = radiusRanges[cornerModuleNumber].value;
         }
-        if(topRightInteruptor == true){
+        if(topRightCornerInteruptor == true){
             cornerModuleList[cornerModuleNumber].topRight = radiusRanges[cornerModuleNumber].value;
         }
-        if(bottomRightInteruptor == true){
+        if(bottomRightCornerInteruptor == true){
             cornerModuleList[cornerModuleNumber].bottomRight = radiusRanges[cornerModuleNumber].value;
         }
-        if(bottomLeftInteruptor == true){
+        if(bottomLeftCornerInteruptor == true){
             cornerModuleList[cornerModuleNumber].bottomLeft = radiusRanges[cornerModuleNumber].value;
         }
-        if((topLeftInteruptor == false)&&(topRightInteruptor == false)&&
-        (bottomRightInteruptor == false)&&(bottomLeftInteruptor == false)){
-            cornerSelectorSelectionCounter = 1;
-            topLeftInteruptor = true;
-            topRightInteruptor = true;
-            bottomRightInteruptor = true;
-            bottomLeftInteruptor = true;
+        if((topLeftCornerInteruptor == false)&&(topRightCornerInteruptor == false)&&
+        (bottomRightCornerInteruptor == false)&&(bottomLeftCornerInteruptor == false)){
+            cornerSelectorSelectionCounter = 2;
+            topLeftCornerInteruptor = true;
+            topRightCornerInteruptor = true;
+            bottomRightCornerInteruptor = true;
+            bottomLeftCornerInteruptor = true;
             topLeftCornerActivate();
             topRightCornerActivate();
             bottomRightCornerActivate();
@@ -947,28 +953,27 @@ for(i=0; i<= cornerSelectors.length-1; i++){
 
 
 
-//différentes variables qui représente le DOM des modules du shader sous forme de tableau
-let shaderLists = document.getElementsByClassName("shader-list");
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SHADER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//Tableaux des balises HTML a l'interieur des modules shader (outil d'interation (btn, input), de selection(select))
+let shaderSelectors = document.getElementsByClassName("shader-select");
 let shaderMoreBtns = document.getElementsByClassName("element-more-shader");
 let shaderTrashBtns = document.getElementsByClassName("element-trash-shader");
 let shaderColors = document.getElementsByClassName("shader-color");
 let shaderRanges = document.getElementsByClassName("range-shader-placement");
 
-//tableaux des représentation JS des elements HTML lié au bouton de selection du type de gradient (lineaire, radial)
-//tableau des boutons eux même
+//tableaux des balises HTML contenant les outils d'intéraction du type de gradient (lineaire, radial)
 let selectGradients = document.getElementsByClassName("shader-select-gradient");
-//tableau des interupteurs a l'interieur du bouton
-let interuptorSelectGradients = document.getElementsByClassName("shader-select-gradient-interuptor");
-
-//tableau des bouton permettant selection des degrés des gradient lineaire
+//tableau des boutons de selection de gradient
+let btnSelectGradients = document.getElementsByClassName("shader-select-gradient-interuptor");
+//tableau des boutons de selection des degrés des gradient, si ceux la sont lineaire
 let degreeButtons = document.getElementsByClassName("degree-radiant-btn");
 
 //Tableau qui contiendra par la suite tout les shaders des différents modules element
 let shaderModuleList = [];
 
 //boucle qui permet de remplir le shaderModuleList d'objet representant chacun des module de shaders et leurs différentes valeurs
-//déclaration d'evenement avec les element HTML d'interactions
-for(i=0; i<= shaderLists.length-1; i++){
+//déclaration d'evenement avec les outils HTML d'interactions et de selection
+for(i=0; i<= shaderSelectors.length-1; i++){
     //représente le nombre de module de shader
     let shaderModuleNumber = i;
     //représente le nombre de shaders différent dans un même module
@@ -1001,15 +1006,15 @@ for(i=0; i<= shaderLists.length-1; i++){
     }
     
     //event de selection du shader dans la liste des shader dans chaque module
-    shaderLists[shaderModuleNumber].addEventListener("click", changeListShadersNumber);
+    shaderSelectors[shaderModuleNumber].addEventListener("click", changeListShadersNumber);
     function changeListShadersNumber(){
         //active la fonction si l'option selectionné est différente de celle qui l'est déjà
-        if (shaderSelectNumber != shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value){
+        if (shaderSelectNumber != shaderSelectors[shaderModuleNumber].options[shaderSelectors[shaderModuleNumber].selectedIndex].value){
 
             //supression et attribution a un nouvel element HTML option de l'attribut "select" de la liste de selection HTML
-            shaderLists[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
-            shaderSelectNumber = shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value;
-            shaderLists[shaderModuleNumber].children[shaderSelectNumber-1].setAttribute("selected", "");      
+            shaderSelectors[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
+            shaderSelectNumber = shaderSelectors[shaderModuleNumber].options[shaderSelectors[shaderModuleNumber].selectedIndex].value;
+            shaderSelectors[shaderModuleNumber].children[shaderSelectNumber-1].setAttribute("selected", "");      
             
             //fonction de changement visuel du module shader (permet de correspondre au shader selectionné)
             let val= shaderSelectNumber-1, opacity = opacityNumber;
@@ -1022,10 +1027,10 @@ for(i=0; i<= shaderLists.length-1; i++){
     shaderMoreBtns[shaderModuleNumber].addEventListener("click", function(e){
         //ajout d'un shader dans le "compteur de shader" pour ensuite construire l'element html qui le representera
         shaderNumber ++;
-        shaderLists[shaderModuleNumber].innerHTML += '<option value="' + shaderNumber + '">' + shaderNumber + '</option>';
+        shaderSelectors[shaderModuleNumber].innerHTML += '<option value="' + shaderNumber + '">' + shaderNumber + '</option>';
         //suppression et ajout de l'attribut selected de l'option HTML de selection du shader
-        shaderLists[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
-        shaderLists[shaderModuleNumber].children[shaderNumber-1].setAttribute("selected", "");
+        shaderSelectors[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
+        shaderSelectors[shaderModuleNumber].children[shaderNumber-1].setAttribute("selected", "");
         //creation de l'objet représentant le nouveau shader
         shaderSelectNumber = shaderNumber;
         shaderModuleList[shaderModuleNumber][shaderNumber-1] = {
@@ -1044,53 +1049,53 @@ for(i=0; i<= shaderLists.length-1; i++){
     //suppression d'un shader dans la liste des shader d'un module
     shaderTrashBtns[shaderModuleNumber].addEventListener("click", function(e){
         if(shaderNumber > 1){
-            shaderLists[shaderModuleNumber].removeChild(shaderLists[shaderModuleNumber][shaderSelectNumber-1]);
+            shaderSelectors[shaderModuleNumber].removeChild(shaderSelectors[shaderModuleNumber][shaderSelectNumber-1]);
             shaderModuleList[shaderModuleNumber].splice(shaderSelectNumber-1, 1)
 
             //boucle pour remplacer les elements HTML qui représente les shaders précédent celui supprimé, pour leurs assigné leur nouveau numéro
-            for(i=shaderSelectNumber-1; i<=shaderLists[shaderModuleNumber].length-1; i++){
-                shaderLists[shaderModuleNumber][i].innerHTML = i+1;
-                shaderLists[shaderModuleNumber][i].setAttribute("value", i+1);
+            for(i=shaderSelectNumber-1; i<=shaderSelectors[shaderModuleNumber].length-1; i++){
+                shaderSelectors[shaderModuleNumber][i].innerHTML = i+1;
+                shaderSelectors[shaderModuleNumber][i].setAttribute("value", i+1);
             }
             //selection du shader inférieur a celui supprimé apres sa suppression 
             if(shaderSelectNumber-2 >= 0){
                 shaderNumber --;
-                shaderLists[shaderModuleNumber][shaderSelectNumber-2].setAttribute("selected", "");
+                shaderSelectors[shaderModuleNumber][shaderSelectNumber-2].setAttribute("selected", "");
                 shaderSelectNumber = shaderSelectNumber-1; 
             }
             //quand le shader supprimé est le premier de la liste, quelques regle différente pour que cela fonctionne
             else if(shaderSelectNumber-2 < 0){
                 shaderNumber --;
-                shaderLists[shaderModuleNumber][shaderSelectNumber-1].setAttribute("selected", "");
+                shaderSelectors[shaderModuleNumber][shaderSelectNumber-1].setAttribute("selected", "");
             }
             //force la selection de l'option correspondant au shaderSelectNumber
-            shaderLists[shaderModuleNumber].selectedIndex = shaderSelectNumber-1;
+            shaderSelectors[shaderModuleNumber].selectedIndex = shaderSelectNumber-1;
             //partie de la fonction qui change la partie visuel 
             let val= shaderSelectNumber-1, opacity = opacityNumber;
             visualChangeBeforeListSelection(val, opacity);
         }
     })
-    //event qui gere l'utilisation du range de placement des shaders
+    //event qui attribut la position des shaders grace au range du module shader
     shaderRanges[shaderModuleNumber].addEventListener("input", function(){
         shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].placement = shaderRanges[shaderModuleNumber].value;
     })
-    //event qui gere l'utilisation de l'input color des shaders
+    //event qui attribut la couleur des shaders grace a l'input couleur du module shader
     shaderColors[shaderModuleNumber].addEventListener("input", function(){
         shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].color.hue = shaderColors[shaderModuleNumber].value;
     })
-    //event qui gere le range d'opacité des shaders
+    //event qui attribut l'opacité des shaders grace a l'outil d'opacité du module shader
     opacityButtonList[opacityNumber].opacityRange.addEventListener("input", function(){
         shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
     })
 
 
-    //défini l'état du bouton de selection de gradient
+    //défini l'état du bouton de selection de gradient (lineaire ou gradient)
     let interuptor = false;
-    //Evenement qui gere le changement détat du bouton, permettant selection soi d'un gradient lineaire ou radial
+    //EVENT qui gere le changement détat du bouton, permettant selection soi d'un gradient lineaire ou radial
     selectGradients[shaderModuleNumber].addEventListener('click', function(){
         //etat bouton definissant selection du gradient lineaire en JS et qui active le css pour changer le visuel du bouton en fonction
         if(interuptor == false){
-            interuptorSelectGradients[shaderModuleNumber].setAttribute("active","");
+            btnSelectGradients[shaderModuleNumber].setAttribute("active","");
             degreeButtons[shaderModuleNumber].removeAttribute("active");
             shaderModuleList[shaderModuleNumber][0].gradient = "radial";
             shaderModuleList[shaderModuleNumber][0].degree = undefined;
@@ -1098,7 +1103,7 @@ for(i=0; i<= shaderLists.length-1; i++){
         }
         //idem pour le gradient radial
         else{; 
-            interuptorSelectGradients[shaderModuleNumber].removeAttribute("active");
+            btnSelectGradients[shaderModuleNumber].removeAttribute("active");
             degreeButtons[shaderModuleNumber].setAttribute("active","");
             shaderModuleList[shaderModuleNumber][0].gradient = "linear";
             shaderModuleList[shaderModuleNumber][0].degree = degree;
@@ -1106,17 +1111,17 @@ for(i=0; i<= shaderLists.length-1; i++){
         }
     })
 
-        //représente le numéro du bouton
+        //représente le numéro du bouton qui permet l'attribution d'un degré pour les gradient lineaire
         let buttonNumber = i;
-        //représente les degrés, ici a leurs valeurs initial
+        //représente les degrés a 360°, ici a leurs valeurs initial
         let degree = 0;
-        //défini l'état du bouton 
+        //défini l'état du bouton d'attribution de degré (si gradient lineaire ON, si radial OFF)
         let degreeInteruptor = false;
-        //mis au plus haut scope de la boucle car utilisé dans plusieurs fonction/evenement
         //permet de pouvoir comparé l'ancienne place de la souris avec la nouvelle et de crée le nouveau degrés
         let initialValue;
     
         //fonction permettant de calculer le nouveau degré
+        //fonctionne en comparant le placement de la souris une fois que l'on a appuyer sur le bouton de selection de degré
         //initialPlacementValue = relatif a initialValue, placementValue = placement suivant a InitialValue, degreeValue = valeur initial des degrè avant fonction.
         function calculDegree(initialPlacementValue, placementValue, degreeValue){
             let initialPlacement = initialPlacementValue, actualplacement = placementValue, degreeChange = degreeValue;

@@ -1,25 +1,24 @@
-//différentes variables qui représente le DOM des modules du shader sous forme de tableau
-let shaderLists = document.getElementsByClassName("shader-list");
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SHADER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//Tableaux des balises HTML a l'interieur des modules shader (outil d'interation (btn, input), de selection(select))
+let shaderSelectors = document.getElementsByClassName("shader-select");
 let shaderMoreBtns = document.getElementsByClassName("element-more-shader");
 let shaderTrashBtns = document.getElementsByClassName("element-trash-shader");
 let shaderColors = document.getElementsByClassName("shader-color");
 let shaderRanges = document.getElementsByClassName("range-shader-placement");
 
-//tableaux des représentation JS des elements HTML lié au bouton de selection du type de gradient (lineaire, radial)
-//tableau des boutons eux même
+//tableaux des balises HTML contenant les outils d'intéraction du type de gradient (lineaire, radial)
 let selectGradients = document.getElementsByClassName("shader-select-gradient");
-//tableau des interupteurs a l'interieur du bouton
-let interuptorSelectGradients = document.getElementsByClassName("shader-select-gradient-interuptor");
-
-//tableau des bouton permettant selection des degrés des gradient lineaire
+//tableau des boutons de selection de gradient
+let btnSelectGradients = document.getElementsByClassName("shader-select-gradient-interuptor");
+//tableau des boutons de selection des degrés des gradient, si ceux la sont lineaire
 let degreeButtons = document.getElementsByClassName("degree-radiant-btn");
 
 //Tableau qui contiendra par la suite tout les shaders des différents modules element
 let shaderModuleList = [];
 
 //boucle qui permet de remplir le shaderModuleList d'objet representant chacun des module de shaders et leurs différentes valeurs
-//déclaration d'evenement avec les element HTML d'interactions
-for(i=0; i<= shaderLists.length-1; i++){
+//déclaration d'evenement avec les outils HTML d'interactions et de selection
+for(i=0; i<= shaderSelectors.length-1; i++){
     //représente le nombre de module de shader
     let shaderModuleNumber = i;
     //représente le nombre de shaders différent dans un même module
@@ -52,15 +51,15 @@ for(i=0; i<= shaderLists.length-1; i++){
     }
     
     //event de selection du shader dans la liste des shader dans chaque module
-    shaderLists[shaderModuleNumber].addEventListener("click", changeListShadersNumber);
+    shaderSelectors[shaderModuleNumber].addEventListener("click", changeListShadersNumber);
     function changeListShadersNumber(){
         //active la fonction si l'option selectionné est différente de celle qui l'est déjà
-        if (shaderSelectNumber != shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value){
+        if (shaderSelectNumber != shaderSelectors[shaderModuleNumber].options[shaderSelectors[shaderModuleNumber].selectedIndex].value){
 
             //supression et attribution a un nouvel element HTML option de l'attribut "select" de la liste de selection HTML
-            shaderLists[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
-            shaderSelectNumber = shaderLists[shaderModuleNumber].options[shaderLists[shaderModuleNumber].selectedIndex].value;
-            shaderLists[shaderModuleNumber].children[shaderSelectNumber-1].setAttribute("selected", "");      
+            shaderSelectors[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
+            shaderSelectNumber = shaderSelectors[shaderModuleNumber].options[shaderSelectors[shaderModuleNumber].selectedIndex].value;
+            shaderSelectors[shaderModuleNumber].children[shaderSelectNumber-1].setAttribute("selected", "");      
             
             //fonction de changement visuel du module shader (permet de correspondre au shader selectionné)
             let val= shaderSelectNumber-1, opacity = opacityNumber;
@@ -73,10 +72,10 @@ for(i=0; i<= shaderLists.length-1; i++){
     shaderMoreBtns[shaderModuleNumber].addEventListener("click", function(e){
         //ajout d'un shader dans le "compteur de shader" pour ensuite construire l'element html qui le representera
         shaderNumber ++;
-        shaderLists[shaderModuleNumber].innerHTML += '<option value="' + shaderNumber + '">' + shaderNumber + '</option>';
+        shaderSelectors[shaderModuleNumber].innerHTML += '<option value="' + shaderNumber + '">' + shaderNumber + '</option>';
         //suppression et ajout de l'attribut selected de l'option HTML de selection du shader
-        shaderLists[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
-        shaderLists[shaderModuleNumber].children[shaderNumber-1].setAttribute("selected", "");
+        shaderSelectors[shaderModuleNumber].children[shaderSelectNumber-1].removeAttribute("selected");
+        shaderSelectors[shaderModuleNumber].children[shaderNumber-1].setAttribute("selected", "");
         //creation de l'objet représentant le nouveau shader
         shaderSelectNumber = shaderNumber;
         shaderModuleList[shaderModuleNumber][shaderNumber-1] = {
@@ -95,53 +94,53 @@ for(i=0; i<= shaderLists.length-1; i++){
     //suppression d'un shader dans la liste des shader d'un module
     shaderTrashBtns[shaderModuleNumber].addEventListener("click", function(e){
         if(shaderNumber > 1){
-            shaderLists[shaderModuleNumber].removeChild(shaderLists[shaderModuleNumber][shaderSelectNumber-1]);
+            shaderSelectors[shaderModuleNumber].removeChild(shaderSelectors[shaderModuleNumber][shaderSelectNumber-1]);
             shaderModuleList[shaderModuleNumber].splice(shaderSelectNumber-1, 1)
 
             //boucle pour remplacer les elements HTML qui représente les shaders précédent celui supprimé, pour leurs assigné leur nouveau numéro
-            for(i=shaderSelectNumber-1; i<=shaderLists[shaderModuleNumber].length-1; i++){
-                shaderLists[shaderModuleNumber][i].innerHTML = i+1;
-                shaderLists[shaderModuleNumber][i].setAttribute("value", i+1);
+            for(i=shaderSelectNumber-1; i<=shaderSelectors[shaderModuleNumber].length-1; i++){
+                shaderSelectors[shaderModuleNumber][i].innerHTML = i+1;
+                shaderSelectors[shaderModuleNumber][i].setAttribute("value", i+1);
             }
             //selection du shader inférieur a celui supprimé apres sa suppression 
             if(shaderSelectNumber-2 >= 0){
                 shaderNumber --;
-                shaderLists[shaderModuleNumber][shaderSelectNumber-2].setAttribute("selected", "");
+                shaderSelectors[shaderModuleNumber][shaderSelectNumber-2].setAttribute("selected", "");
                 shaderSelectNumber = shaderSelectNumber-1; 
             }
             //quand le shader supprimé est le premier de la liste, quelques regle différente pour que cela fonctionne
             else if(shaderSelectNumber-2 < 0){
                 shaderNumber --;
-                shaderLists[shaderModuleNumber][shaderSelectNumber-1].setAttribute("selected", "");
+                shaderSelectors[shaderModuleNumber][shaderSelectNumber-1].setAttribute("selected", "");
             }
             //force la selection de l'option correspondant au shaderSelectNumber
-            shaderLists[shaderModuleNumber].selectedIndex = shaderSelectNumber-1;
+            shaderSelectors[shaderModuleNumber].selectedIndex = shaderSelectNumber-1;
             //partie de la fonction qui change la partie visuel 
             let val= shaderSelectNumber-1, opacity = opacityNumber;
             visualChangeBeforeListSelection(val, opacity);
         }
     })
-    //event qui gere l'utilisation du range de placement des shaders
+    //event qui attribut la position des shaders grace au range du module shader
     shaderRanges[shaderModuleNumber].addEventListener("input", function(){
         shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].placement = shaderRanges[shaderModuleNumber].value;
     })
-    //event qui gere l'utilisation de l'input color des shaders
+    //event qui attribut la couleur des shaders grace a l'input couleur du module shader
     shaderColors[shaderModuleNumber].addEventListener("input", function(){
         shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].color.hue = shaderColors[shaderModuleNumber].value;
     })
-    //event qui gere le range d'opacité des shaders
+    //event qui attribut l'opacité des shaders grace a l'outil d'opacité du module shader
     opacityButtonList[opacityNumber].opacityRange.addEventListener("input", function(){
         shaderModuleList[shaderModuleNumber][shaderSelectNumber-1].color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
     })
 
 
-    //défini l'état du bouton de selection de gradient
+    //défini l'état du bouton de selection de gradient (lineaire ou gradient)
     let interuptor = false;
-    //Evenement qui gere le changement détat du bouton, permettant selection soi d'un gradient lineaire ou radial
+    //EVENT qui gere le changement détat du bouton, permettant selection soi d'un gradient lineaire ou radial
     selectGradients[shaderModuleNumber].addEventListener('click', function(){
         //etat bouton definissant selection du gradient lineaire en JS et qui active le css pour changer le visuel du bouton en fonction
         if(interuptor == false){
-            interuptorSelectGradients[shaderModuleNumber].setAttribute("active","");
+            btnSelectGradients[shaderModuleNumber].setAttribute("active","");
             degreeButtons[shaderModuleNumber].removeAttribute("active");
             shaderModuleList[shaderModuleNumber][0].gradient = "radial";
             shaderModuleList[shaderModuleNumber][0].degree = undefined;
@@ -149,7 +148,7 @@ for(i=0; i<= shaderLists.length-1; i++){
         }
         //idem pour le gradient radial
         else{; 
-            interuptorSelectGradients[shaderModuleNumber].removeAttribute("active");
+            btnSelectGradients[shaderModuleNumber].removeAttribute("active");
             degreeButtons[shaderModuleNumber].setAttribute("active","");
             shaderModuleList[shaderModuleNumber][0].gradient = "linear";
             shaderModuleList[shaderModuleNumber][0].degree = degree;
@@ -157,17 +156,17 @@ for(i=0; i<= shaderLists.length-1; i++){
         }
     })
 
-        //représente le numéro du bouton
+        //représente le numéro du bouton qui permet l'attribution d'un degré pour les gradient lineaire
         let buttonNumber = i;
-        //représente les degrés, ici a leurs valeurs initial
+        //représente les degrés a 360°, ici a leurs valeurs initial
         let degree = 0;
-        //défini l'état du bouton 
+        //défini l'état du bouton d'attribution de degré (si gradient lineaire ON, si radial OFF)
         let degreeInteruptor = false;
-        //mis au plus haut scope de la boucle car utilisé dans plusieurs fonction/evenement
         //permet de pouvoir comparé l'ancienne place de la souris avec la nouvelle et de crée le nouveau degrés
         let initialValue;
     
         //fonction permettant de calculer le nouveau degré
+        //fonctionne en comparant le placement de la souris une fois que l'on a appuyer sur le bouton de selection de degré
         //initialPlacementValue = relatif a initialValue, placementValue = placement suivant a InitialValue, degreeValue = valeur initial des degrè avant fonction.
         function calculDegree(initialPlacementValue, placementValue, degreeValue){
             let initialPlacement = initialPlacementValue, actualplacement = placementValue, degreeChange = degreeValue;

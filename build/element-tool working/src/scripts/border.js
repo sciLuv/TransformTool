@@ -1,14 +1,14 @@
-//BORDER/////////////////////////////////////////////////////////////
-//Représentation de l'outil HTML de selection des bordures
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BORDER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//Tableau des balises HTML de selection des bordures
 let borderSelectors = document.getElementsByClassName("border-select");
-//Représentation des différentes parties HTML de l'outil de selection des bordures
+//Tableau des différentes parties HTML de l'outil de selection des bordures
 let topBorderSelectors = document.getElementsByClassName("border-top");
 let leftBorderSelectors = document.getElementsByClassName("border-left");
 let rightBorderSelectors = document.getElementsByClassName("border-right");
 let bottomBorderSelectors = document.getElementsByClassName("border-bottom");
-//représentation du bouton de selection des bordures de chaque modules
+//Tableau des balises HTML centrale du selecteur de bords (carré au millieu du selecteur) 
 let borderSelects = document.getElementsByClassName("all-borders");
-//représentation (dans l'ordre) des inputs range de selection de la taille des bordures, de leurs couleurs et de leurs styles. 
+//Tableau des (dans l'ordre) des inputs range HTML de selection de la taille des bordures, de leurs couleurs et de leurs styles. 
 let borderRanges = document.getElementsByClassName("border-range");
 let borderColors = document.getElementsByClassName("border-color");
 let borderStyles = document.getElementsByClassName("border-style");
@@ -28,10 +28,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
     let borderSelectorSelectionCounter = 1;
 
     //4 variables représentant l'état d'activation des boutons de bordure du selecteur de bordure 
-    let borderTopInteruptor = false;
-    let borderRightInteruptor = false;
-    let borderBottomInteruptor = false;
-    let borderLeftInteruptor = false;
+    let topBorderInteruptor = false;
+    let rightBorderInteruptor = false;
+    let bottomBorderInteruptor = false;
+    let leftBorderInteruptor = false;
 
     //représente l'option selectionné du select de style de bordure
     let selectedStyle = borderStyles[borderModuleNumber].options[borderStyles[borderModuleNumber].selectedIndex];
@@ -79,16 +79,16 @@ for(i=0; i<= borderSelectors.length-1; i++){
         //tableau qui contiendra a chaque itération de la fonction les objets des bordures sélectionné pour la mise a jour visuel  
         let modifiedBorder = [];
         //les 4 conditions suivante permettent d'ajouté ou non les objets des différentes bordures. (top/right/bottom/left, dans l'ordre)
-        if(borderTopInteruptor == true){
+        if(topBorderInteruptor == true){
             modifiedBorder.push(borderModuleList[borderModuleNumber].top);
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             modifiedBorder.push(borderModuleList[borderModuleNumber].right);
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             modifiedBorder.push(borderModuleList[borderModuleNumber].bottom);
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             modifiedBorder.push(borderModuleList[borderModuleNumber].left);
         }
         //boucle permettant mise a jour de l'input d'attribution de couleur
@@ -196,10 +196,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderActivate();
             bottomBorderActivate();
             leftBorderActivate();
-            borderTopInteruptor = true;
-            borderRightInteruptor = true; 
-            borderBottomInteruptor = true;
-            borderLeftInteruptor = true;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = true; 
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         //selection de la bordure haute
@@ -209,10 +209,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderNeutral();
             leftBorderNeutral();
-            borderTopInteruptor = true;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "-0.1px";
             visualChangeBeforeBorderModification()
         }
@@ -223,10 +223,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderActivate();
             bottomBorderNeutral();
             leftBorderNeutral();
-            borderTopInteruptor = false;
-            borderRightInteruptor = true; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = true; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -237,10 +237,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderActivate();
             leftBorderNeutral();
-            borderTopInteruptor = false;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = true;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "0.1px";
             visualChangeBeforeBorderModification()
         }
@@ -251,10 +251,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderNeutral();
             leftBorderActivate();
-            borderTopInteruptor = false;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = true;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = true;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -265,10 +265,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderActivate();
             bottomBorderNeutral();
             leftBorderNeutral();
-            borderTopInteruptor = true;
-            borderRightInteruptor = true; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = true; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -279,10 +279,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderActivate();
             leftBorderActivate();
-            borderTopInteruptor = false;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = true;
-            borderLeftInteruptor = true;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = true;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -293,10 +293,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderNeutral();
             bottomBorderActivate();
             leftBorderNeutral();
-            borderTopInteruptor = true;
-            borderRightInteruptor = false; 
-            borderBottomInteruptor = true;
-            borderLeftInteruptor = false;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = false; 
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = false;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -307,10 +307,10 @@ for(i=0; i<= borderSelectors.length-1; i++){
             rightBorderActivate();
             bottomBorderNeutral();
             leftBorderActivate();
-            borderTopInteruptor = false;
-            borderRightInteruptor = true; 
-            borderBottomInteruptor = false;
-            borderLeftInteruptor = true;
+            topBorderInteruptor = false;
+            rightBorderInteruptor = true; 
+            bottomBorderInteruptor = false;
+            leftBorderInteruptor = true;
             borderSelects[borderModuleNumber].style.top = "0px";
             visualChangeBeforeBorderModification()
         }
@@ -320,137 +320,146 @@ for(i=0; i<= borderSelectors.length-1; i++){
     //cela permet de l'inclure ou l'exclure de la selection de bord que l'on peut modifier (interuptor booleen O/I)
     //et de changer son visuel pour que l'utilisateur ai un feed-back (neutral/activate, +/-) 
     topBorderSelectors[borderModuleNumber].addEventListener("click", function(){
-        if(borderTopInteruptor == false){
+        if(topBorderInteruptor == false){
             topBorderActivate();
-            borderTopInteruptor = true;
+            topBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         else{
             topBorderNeutral();
-            borderTopInteruptor = false;
+            topBorderInteruptor = false;
             visualChangeBeforeBorderModification()
         }
     })
     leftBorderSelectors[borderModuleNumber].addEventListener("click", function(){
-        if(borderLeftInteruptor == false){
+        if(leftBorderInteruptor == false){
             leftBorderActivate();
-            borderLeftInteruptor = true;
+            leftBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         else{
             leftBorderNeutral();
-            borderLeftInteruptor = false;
+            leftBorderInteruptor = false;
             visualChangeBeforeBorderModification()
         }
     })
     rightBorderSelectors[borderModuleNumber].addEventListener("click", function(){
-        if(borderRightInteruptor == false){
+        if(rightBorderInteruptor == false){
             rightBorderActivate();
-            borderRightInteruptor = true;
+            rightBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         else{
             rightBorderNeutral();
-            borderRightInteruptor = false;
+            rightBorderInteruptor = false;
             visualChangeBeforeBorderModification()
         }
     })
     bottomBorderSelectors[borderModuleNumber].addEventListener("click", function(){
-        if(borderBottomInteruptor == false){
+        if(bottomBorderInteruptor == false){
             bottomBorderActivate();
-            borderBottomInteruptor = true;
+            bottomBorderInteruptor = true;
             visualChangeBeforeBorderModification()
         }
         else{
             bottomBorderNeutral();
-            borderBottomInteruptor = false;
+            bottomBorderInteruptor = false;
             visualChangeBeforeBorderModification()
         }
     })
-
-    //Les 4 evenements qui suivents fonctionne en 3 étapes : 
+    
+    //selectionIfNoBorderIsSelected:
+    //permet lors des Event de selection de valeur,btn/input, qui suivent juste en dessous de selectionné tout les bords si aucun ne l'est
+    //inclus visualChangeBeforeBorderModification pour activé visuellement le changement.
+    function selectionIfNoBorderIsSelected(){
+        if((topBorderInteruptor == false)&&(rightBorderInteruptor == false)&&
+        (bottomBorderInteruptor == false)&&(leftBorderInteruptor == false)){
+            borderSelectorSelectionCounter = 2;
+            topBorderInteruptor = true;
+            rightBorderInteruptor = true;
+            bottomBorderInteruptor = true;
+            leftBorderInteruptor = true;
+            topBorderActivate();
+            rightBorderActivate();
+            bottomBorderActivate();
+            leftBorderActivate();
+            visualChangeBeforeBorderModification()
+        }
+    }
+    //Les 4 Event qui suivents fonctionne en 3 étapes : 
     //1. intrinsequement, l'evenement recupere une valeur lié a l'element HTML d'interaction (input/btn)
-    //2. effectue une condition pour chaque bord (4) avec les interuptor O/I associé au bord pour savoir 
-    //   si il est inclus a la selection a modifié. si le booleen est true, on change la valeur désiré dans lobjet représentant le bord 
+    //2. effectue une condition pour chaque bord (4) avec les interuptor O/I associés aux bords pour savoir 
+    //   si il est inclus à la selection a modifié. si le booleen est true, on change la valeur désiré dans lobjet représentant le bord 
+    //3. Enfin, si aucun bords n'est selectionné la fonction "selectionIfNoBorderIsSelected" incluse selectionnera tout les bords (visuel/valeur)
 
-    //Event du range de selection de la taille 
-    borderRanges[borderModuleNumber].addEventListener("click", function(){
-        if(borderTopInteruptor == true){
+    //Event du range de selection de la taille des bords 
+    borderRanges[borderModuleNumber].addEventListener("input", function(){
+        if(topBorderInteruptor == true){
             borderModuleList[borderModuleNumber].top.size = borderRanges[borderModuleNumber].value;
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             borderModuleList[borderModuleNumber].right.size = borderRanges[borderModuleNumber].value;
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             borderModuleList[borderModuleNumber].bottom.size = borderRanges[borderModuleNumber].value;
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             borderModuleList[borderModuleNumber].left.size = borderRanges[borderModuleNumber].value;
         }
+        selectionIfNoBorderIsSelected();
     })
-    //Event du bouton de couleur 
+    //Event du bouton de couleur des bords
     borderColors[borderModuleNumber].addEventListener("input", function(){
-        if(borderTopInteruptor == true){
+        if(topBorderInteruptor == true){
             borderModuleList[borderModuleNumber].top.color.hue = borderColors[borderModuleNumber].value;
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             borderModuleList[borderModuleNumber].right.color.hue = borderColors[borderModuleNumber].value;
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             borderModuleList[borderModuleNumber].bottom.color.hue = borderColors[borderModuleNumber].value;
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             borderModuleList[borderModuleNumber].left.color.hue = borderColors[borderModuleNumber].value;
         }
+        selectionIfNoBorderIsSelected();
     })
-    //Event du select de la liste de style de bordure 
+    //Event du select de la liste de style des bords 
     borderStyles[borderModuleNumber].addEventListener("click", function(){
         if(borderStyles[borderModuleNumber].options[borderStyles[borderModuleNumber].selectedIndex] != selectedStyle){
             selectedStyle.removeAttribute("selected");
             selectedStyle = borderStyles[borderModuleNumber].options[borderStyles[borderModuleNumber].selectedIndex];
             selectedStyle.setAttribute("selected", "");
         }
-        if(borderTopInteruptor == true){
+        if(topBorderInteruptor == true){
             borderModuleList[borderModuleNumber].top.style = selectedStyle.value;
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             borderModuleList[borderModuleNumber].right.style = selectedStyle.value;
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             borderModuleList[borderModuleNumber].bottom.style = selectedStyle.value;
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             borderModuleList[borderModuleNumber].left.style = selectedStyle.value;
         }
+        selectionIfNoBorderIsSelected();
     })
     //Event du bouton d'opacité
     opacityButtonList[opacityNumber].opacityRange.addEventListener("input", function(){
-        if(borderTopInteruptor == true){
+        if(topBorderInteruptor == true){
             borderModuleList[borderModuleNumber].top.color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
         }
-        if(borderRightInteruptor == true){
+        if(rightBorderInteruptor == true){
             borderModuleList[borderModuleNumber].right.color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
         }
-        if(borderBottomInteruptor == true){
+        if(bottomBorderInteruptor == true){
             borderModuleList[borderModuleNumber].bottom.color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
         }
-        if(borderLeftInteruptor == true){
+        if(leftBorderInteruptor == true){
             borderModuleList[borderModuleNumber].left.color.opacity = opacityButtonList[opacityNumber].opacityRange.value;
         }
+        selectionIfNoBorderIsSelected();
     })
 }
 
-/*
-if((BordertopInteruptor == false)&&(topRightInteruptor == false)&&
-(bottomRightInteruptor == false)&&(bottomLeftInteruptor == false)){
-    cornerSelectorSelectionCounter = 1;
-    topLeftInteruptor = true;
-    topRightInteruptor = true;
-    bottomRightInteruptor = true;
-    bottomLeftInteruptor = true;
-    topLeftActivation();
-    topRightActivation();
-    bottomRightActivation();
-    bottomLeftActivation();
-    RangeVisualChangeBeforeCornerSelection();
-}*/

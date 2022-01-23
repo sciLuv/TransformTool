@@ -1,45 +1,46 @@
-//GESTION DES OPACITE
-//4 tableaux qui contiennent l'ensemble des balises html lié a la gestion de l'opacité
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OPACITY-BTN-RANGES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//4 tableaux qui contiennent l'ensemble des balises construisant la structure HTML de l'outil d'opacité
+//btn qui ouvre le conteneur du range
 let opacityHTMLButtons = document.getElementsByClassName("opacity-btn");
+//pastille de niveau de gris a l'interieur de l'opacityHTMLButton qui représente visuellement l'état d'opacité 
 let opacityHTMLInsideButtons = document.getElementsByClassName("inside-opacity-btn");
+//conteneur du range gérant l'opacité, caché tant qu'opacityHTMLButton n'est pas cliqué
 let opacityHTMLRangeContainers = document.getElementsByClassName("opacity-range-container");
+//element exclusivement graphique pour plus de clarté pour l'utilisateur lors de l'ouverture du range
 let opacityHTMLArrows = document.getElementsByClassName("opacity-range-container-arrow");
+//le range qui gere l'opacité lui même
 let opacityHTMLRanges = document.getElementsByClassName("opacity-range");
 
-//représentation des parties spécifiques de la barre d'element, pour gerer leurs transformation
-//en fonction des barres d'opacité et de leurs ouverture/fermeture.
+//représentation de parties spécifiques de la barre d'element, pour gerer leurs transformation
+//en fonction de l'ouverture/fermeture de l'outil d'opacité
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//borderContent est un tableau représentant les parties basses du module "border"
-let borderContent = document.getElementsByClassName("border-content");
-//boxRangeContainer est un tableau représentant les parties basses du module "Box"
-let boxRangeContainer = document.getElementsByClassName("all-box-range-container");
-//shaderGradientContainer est un tableau représentant la partie basse gauche du module "shader"
-let shaderGradientContainer = document.getElementsByClassName("gradient-degree-selection-section")
+//tableau représentant la partie HTML basses du module "border", pour chaque barre d'element
+let borderContents = document.getElementsByClassName("border-content");
+//tableau représentant la partie HTML basses du module "Box", pour chaque barre d'element
+let boxRangeContainers = document.getElementsByClassName("all-box-range-container");
+//Tableau représentant la partie HTML basse gauche du module "shader" , pour chaque barre d'element
+let shaderGradientContainers = document.getElementsByClassName("gradient-degree-selection-section")
 
 //variable qui représente le BODY du HTML
 let bodyDetection = document.getElementsByTagName("body");
 let body = bodyDetection[0];
 
-//tableau contenant les objets représentant les boutons/ranges de gestion d'opacité
+//tableau contenant les objets représentant les outils d'opacité de toutes les barres d'éléments
 let opacityButtonList = [];
 
-//création des objets représentant les boutons/ranges de gestion d'opacité
-//également les fonction d'ouverture/fermeture lié au range d'opacité et leurs conteneurs
+//Boucle qui itere pour chaque barre d'element des objets représentant les outils d'opacité et leurs EVENTS
+//4 objets représentant les outils d'opacité (color,shader,border,box) par barre d'element
+//2 EVENTS par outils d'opacité = Event du bouton d'ouverture du range, Event du range lui même
 //et les fonction de traitement de l'opacité elle même
 for(i=0; i<=opacityHTMLButtons.length-1; i++){
-    console.log("~~~~~~~~OPACITY-LENGHT~~~~~~~~~~~~~~");
-    console.log(opacityHTMLButtons.length);
-    //elementNum et la boucle qui suit permettent de définir le nombre de barre d'element
-    //qui contient l'ensemble des module de modification des éléments
+    //elementNum et le while associé permettent de définir le nombre de barre d'element
     let elementNum=1;
     while(i+1>4*elementNum){
         elementNum++
     }
-    console.log("elementNum");
-    console.log(elementNum);
     //opacityNumber défini un numéro pour chaque range d'opacité
     let opacityNumber = i;
-    //ajout des différentes infos nécessaire a chaque range d'opacité dans des objet, dans opacityButtonList
+    //ajout des différentes infos (un booleen et les variables représentant le HTML) pour chaque outil d'opacité dans des objet, dans opacityButtonList
     opacityButtonList[i] =
         {
             opacityButton : opacityHTMLButtons[i],
@@ -47,37 +48,40 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
             opacityContainer : opacityHTMLRangeContainers[i],
             opacityArrow : opacityHTMLArrows[i],
             opacityRange : opacityHTMLRanges[i],
-            opacityGate : false
+            opacityInteruptor : false
         } 
         
-    //différentes variables représentant les balises contenante ou adjacentes aux range d'opacité
+    //actualArticle actualArticleClass afterArticle afterArticleClass:
+    //représente des balises HTML contenante ou adjacentes aux outils d'opacité
+    //cela permettra l'ajout d'information dans les outils d'opacité des modules border et box
+    //ces information permettrons de modifié le css de ces module lors de l'ouverture/fermeture de l'outil d'opacité, et d'évité des bug graphique
     let actualArticle = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement;   
-
     let actualArticleClass = actualArticle.className;
 
     let afterArticle = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement.nextElementSibling;
     let afterArticleClass = afterArticle.className;
-    //certaines condition permettant d'ajouté des infos aux range d'opacité de "border" et "box"
-    //nécessaire pour changer dynamiquement le css en fonction de l'overture/fermeture des range
+
+    //ajout des infos de conteneur HTML des modules des outil d'opacité de "border" et "box" grace aux variable du dessus
     if(actualArticleClass == "border"){
-        opacityButtonList[i].content = borderContent[elementNum-1];
+        opacityButtonList[i].content = borderContents[elementNum-1];
     }
     if(actualArticleClass == "box"){
-        opacityButtonList[i].container = boxRangeContainer[elementNum-1];
+        opacityButtonList[i].container = boxRangeContainers[elementNum-1];
     }
+
     //fonction qui gere l'ouverture et la fermeture du range d'opacité  
     opacityButtonList[opacityNumber].opacityButton.addEventListener("click", function (){
         //ouverture du range
-        if (opacityButtonList[opacityNumber].opacityGate == false){
+        //suivant le module de l'outil d'opacité les transformation graphique ne sont pas exactement les même
+        if (opacityButtonList[opacityNumber].opacityInteruptor == false){
             opacityButtonList[opacityNumber].opacityContainer.style.display = "block";
-            opacityButtonList[opacityNumber].opacityGate = true;
+            opacityButtonList[opacityNumber].opacityInteruptor = true;
             if(afterArticleClass == "hr-shader"){
                 afterArticle.style.marginLeft = "-85.2px"; 
             }
             else if(afterArticleClass == "hr-radius"){
                 afterArticle.style.marginLeft = "-85px"; 
-
-                shaderGradientContainer[elementNum-1].style.marginTop = "-3.5px";
+                shaderGradientContainers[elementNum-1].style.marginTop = "-3.5px";
             }
             else if(afterArticleClass == "hr-box"){
                 afterArticle.style.marginLeft = "-75.9px";
@@ -91,7 +95,7 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
         //fermeture du range
         else{
             opacityButtonList[opacityNumber].opacityContainer.style.display = "none";
-            opacityButtonList[opacityNumber].opacityGate = false;
+            opacityButtonList[opacityNumber].opacityInteruptor = false;
             afterArticle.style.marginLeft = "0px"; 
             if(afterArticleClass == "hr-box"){
                 opacityButtonList[opacityNumber].content.style.marginTop = "0px";
@@ -100,21 +104,15 @@ for(i=0; i<=opacityHTMLButtons.length-1; i++){
                 afterArticle.style.marginLeft = "0px";
             }
             if(afterArticleClass == "hr-radius"){
-                shaderGradientContainer[elementNum-1].style.marginTop = "1px";
+                shaderGradientContainers[elementNum-1].style.marginTop = "1px";
             }
         }
     });
-    //fonction qui gere l'opacité elle même et sa représentation dans le bouton d'ouverture de l'opacité
+    //fonction qui gere la valeur de l'opacité elle même et sa représentation dans le bouton d'ouverture de l'opacité
     opacityButtonList[opacityNumber].opacityRange.addEventListener("click", function(){
         let opacityValue = opacityButtonList[opacityNumber].opacityRange.value/100;
         let opacityRepre = Math.abs(Math.trunc(opacityValue*255)-255);
         opacityButtonList[opacityNumber].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        console.log("opacity information");
-        console.log(opacityButtonList[opacityNumber].opacityInsideButton.style.backgroundColor);
-        console.log(opacityValue);
-        console.log(opacityButtonList[opacityNumber].opacityRange.value);
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     })
 }
 
@@ -133,12 +131,12 @@ body.addEventListener("click", function(e){
         (e.target != opacityButtonList[i].opacityArrow)&&
         (e.target != opacityButtonList[i].opacityInsideButton)&&
         (e.target != opacityButtonList[i].opacityButton))&&
-        (opacityButtonList[i].opacityGate == true)){
+        (opacityButtonList[i].opacityInteruptor == true)){
             opacityButtonList[i].opacityContainer.style.display = "none";
-            opacityButtonList[i].opacityGate = false;
+            opacityButtonList[i].opacityInteruptor = false;
             afterArticle.style.marginLeft = "0px"; 
             if(afterArticleClass == "hr-radius"){
-                shaderGradientContainer[elementNum-1].style.marginTop = "1px";
+                shaderGradientContainers[elementNum-1].style.marginTop = "1px";
             }
             if(afterArticleClass == "hr-box"){
                 opacityButtonList[i].content.style.marginTop = "0px";
