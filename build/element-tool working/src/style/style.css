@@ -15,6 +15,10 @@ hr {
   border-left: #b3b3b3 solid 0.5px;
 }
 
+.no-transition {
+  transition: none !important;
+}
+
 h1 {
   font-family: "pacifico";
   margin: 0px 0px -30px 50px;

@@ -22,6 +22,7 @@ for (i=0; i<=elements.length-1; i++){
         },
         shader : shaderModuleList[elementNumber],
         corner : cornerModuleList[elementNumber],
-        border : borderModuleList[elementNumber]
+        border : borderModuleList[elementNumber],
+        box : boxModuleList[elementNumber]
     }
 }
