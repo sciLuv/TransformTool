@@ -1,0 +1,101 @@
+.corner-select{
+    margin-top: 10px;
+    width: 27px;
+    height: 30px;
+    transform: scale(1.1);
+    div{
+        display: flex;
+        .corner{
+            width: 15px;
+            height: 10px;
+            cursor: pointer;
+        }
+        .top-left{
+            border-radius: 10px 0px 0px 0px;
+            margin-right: $neutralMarginCorner;
+            margin-bottom: $neutralMarginCorner;
+            border-top: $neutralBorderStyleCornerBorder;
+            border-left: $neutralBorderStyleCornerBorder;
+            @include colorNeutralCornerBorder();
+            transition: all 0.3s;
+            &[active]{
+                margin-right: $activeMarginCorner;
+                margin-bottom: $activeMarginCorner;
+                border-top: $activeBorderStyleCornerBorner;
+                border-left: $activeBorderStyleCornerBorner;
+                @include colorActiveCorner();
+                transition: all 0.3s;
+            }
+        }
+        .top-right{
+            border-radius: 0px 10px 0px 0px;
+            margin-left: $neutralMarginCorner;
+            margin-bottom: $neutralMarginCorner;
+            border-top: $neutralBorderStyleCornerBorder;
+            border-right: $neutralBorderStyleCornerBorder;
+            @include colorNeutralCornerBorder();
+            transition: all 0.3s;
+            &[active]{
+                margin-left: $activeMarginCorner;
+                margin-bottom: $activeMarginCorner;
+                border-top: $activeBorderStyleCornerBorner;
+                border-right: $activeBorderStyleCornerBorner;
+                @include colorActiveCorner();
+                transition: all 0.3s;
+            }
+        }
+        .bottom-left{
+            border-radius: 0px 0px 0px 10px;
+            margin-top: $neutralMarginCorner;
+            margin-right: $neutralMarginCorner;
+            border-bottom: $neutralBorderStyleCornerBorder;
+            border-left: $neutralBorderStyleCornerBorder;
+            @include colorNeutralCornerBorder();
+            transition: all 0.3s;
+            &[active]{
+                margin-top: $activeMarginCorner;
+                margin-right: $activeMarginCorner;
+                border-bottom: $activeBorderStyleCornerBorner;
+                border-left: $activeBorderStyleCornerBorner;
+                @include colorActiveCorner();
+                transition: all 0.3s;
+            }
+        }
+        .bottom-right{
+            border-radius: 0px 0px 10px 0px;
+            margin-top: $neutralMarginCorner;
+            margin-left: $neutralMarginCorner;
+            border-bottom: $neutralBorderStyleCornerBorder;
+            border-right: $neutralBorderStyleCornerBorder;
+            @include colorNeutralCornerBorder();
+            transition: all 0.3s;
+            &[active]{
+                margin-top: $activeMarginCorner;
+                margin-left: $activeMarginCorner;
+                border-bottom: $activeBorderStyleCornerBorner;
+                border-right: $activeBorderStyleCornerBorner;
+                @include colorActiveCorner();
+                transition: all 0.3s;
+            }
+        }
+    }
+    .all{
+        width: 6px;
+        height: 6px;
+        border: $neutralBorderStyleCornerBorder;
+        border-radius: 10px;
+        position: relative;
+        top : -16.5px;
+        left : 9.5px;
+        transition: all 0.3s;
+        &:hover{
+            cursor: pointer;
+            border: $activeBorderStyleCornerBorner; 
+            box-shadow: 0px 0px 4px 3px rgba(0, 110, 255, 0.18);
+            background-color: rgba(0, 110, 255, 0.18);
+            top : -16.3px;
+            left : 9.3px;
+            transition: all 0.3s;
+        }
+    } 
+}

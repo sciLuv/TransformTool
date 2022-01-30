@@ -42,7 +42,7 @@
             }
         }
         input[type='range']{
-            margin: 12px 5px 10px 5px;
+            margin: 13px 5px 10px 5px;
         }
     }
     .border{
@@ -60,7 +60,7 @@
                 flex-direction: column;
                 margin: 3px 5px 0px 0px;
                 input[type='range']{
-                    margin: 0px 0px 5px 0px;
+                    margin: 1px 0px 6px 0px;
                 }
             }
             .corner-select{
@@ -101,6 +101,7 @@
                 height: 14px;
                 .box-range{
                     width: 91px;
+                    margin-top: 2.5px;
                     margin-right: 0px;
                     margin-left: 2px;
                 }
@@ -108,9 +109,15 @@
                     margin-bottom: 0px;
                     background-color: rgb(128, 128, 128);
                     &::-webkit-slider-thumb {
-                        background: #000000;
+                        background: rgb(128, 128, 128);
                         box-shadow: -80px 0 0 80px #00000000;
-                      }
+                    }
+                    &:hover{
+                        &::-webkit-slider-thumb {
+                            background: rgb(0, 0, 0);
+                            box-shadow: -80px 0 0 80px #00000000;
+                        }
+                    }
                 }
                 .box-select-range{
                     margin-right: 3px;

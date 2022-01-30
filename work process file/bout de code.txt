@@ -1,0 +1,26 @@
+    for(i=0; i<= boxSelectors.length-1; i++){
+        //représente le nombre de module de box
+        let boxModuleNumber = i;
+        //représente le nombre de boxs différent dans un même module
+        let boxNumber;
+        if(boxModuleNumber < elementList.length){
+            boxNumber = elementList[boxModuleNumber].box.length;
+        }
+        else{
+            boxNumber = 1;
+        }
+        //représente la box selectionné (le boxNumber selectionné)
+        let boxSelectNumber;
+        if(boxNumber == 1){
+            boxSelectNumber = 1;
+            console.log("test1");
+        }
+        else{
+            let boxSelected = boxSelectors[boxModuleNumber].children;
+            for(j=0; j<=boxNumber-1; j++){
+                console.log("test2");
+                if(boxSelected[j].hasAttribute("selected")){
+                    boxSelectNumber = boxSelected[j].value;
+                }
+            }
+        }

@@ -1,0 +1,51 @@
+// Partie qui représente l'ensemble de la partie ELEMENT Tool de la page HTML
+.element-tool{
+    overflow: hidden;
+    width: 875px;
+    height: 325px;
+    margin-left: 30px;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    .title-container{
+        display: flex;
+        .title{
+            color: rgb(47, 47, 47);
+            font-family: "staaliches";
+            font-size: 35px;
+            width: 100%;
+            margin: 0px 0px 0px 15px;
+            span{
+                font-family: "pacifico";
+                font-size: 30px;
+            }
+        }
+        .title-separation{
+            width: 20px;
+            height: 49px;
+            margin-top: 2px;
+            border-right: 1px solid rgb(200, 200, 200);
+            box-shadow: -10px 0px 10px -12px rgba(0, 0, 0, 0.137) inset;
+        }
+        #btn-more-tool{
+            cursor: pointer;
+            height: 53px;
+            width: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: rgb(177, 177, 177);
+        }
+    }
+    .element-title-separation{
+        width: 100%;
+        height: 1px;
+        background-color: rgb(200, 200, 200);
+    }
+    #all-elements{
+        width: 100%;
+        height: 272px;
+    }
+}
+

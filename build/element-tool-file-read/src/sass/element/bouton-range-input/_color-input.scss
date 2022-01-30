@@ -1,0 +1,29 @@
+.color{
+    margin-top: 1.5px;
+    -webkit-appearance: none;
+    border: 1px solid rgb(153, 153, 153);
+    background-color: white;
+    border-radius: 10px;
+    width: 33px;
+    height: 17px;
+    transition: all 0.2s;
+    &:hover{
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.080);
+        border: 1.2px solid rgb(148, 148, 148);
+        transition: all 0.2s;
+    }
+    &:active{
+        background-color: rgba(0, 0, 0, 0.080);
+    }
+    &::-webkit-color-swatch {
+        border: none;
+        border-radius: 10px;
+        padding: 0;
+    }
+    &::-webkit-color-swatch-wrapper {
+        border: none;
+        border-radius: 10px;
+        padding: 2px;
+      }
+}
