@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "pacifico";
+    src: url("./font/Pacifico.ttf") format("truetype");
+   }
+@font-face {
+    font-family: "staaliches";
+    src: url("./font/Staatliches.ttf") format("truetype");
+}
+
+body{
+    margin: 0px;
+}
+hr{
+    margin: 0px;
+    border-left: rgb(179, 179, 179) solid 0.5px;
+}
+
+.no-transition{
+    transition: none !important;
+}
+
+img, div, h1{
+    user-select: none;
+}

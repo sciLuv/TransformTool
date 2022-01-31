@@ -35,7 +35,7 @@ function createShader(){
         let shaderSelectNumber;
         //si le shaderNumber n'est pas égale a 1 on regarde l'option séléctionné, on prend sa valeur et l'attribur a shaderSelelctNumber
         if(shaderNumber == 1){
-            shaderSelectNumber = 1;;
+            shaderSelectNumber = 1;
         }
         else{
             let shaderSelected = shaderSelectors[shaderModuleNumber].children;

@@ -33,12 +33,21 @@ possibilité de changer radicalemement la maniere de selectionné le radius des 
 
 changer le html css des class bouton XY blurSpread linearradial select = choice, interuptor = select
 définir un standard de dénomination des boutons (btn/button)
+trouvé une maniere de dénominé différement les variable qui représente un element html select et les variables nommé select, ou alors précisé la nuance entre les deux
 
 ////////////////////////moyen terme///////////////////////////
 1er objectif = rendre ELEMENT Tool visuellement fonctionnel
 
 
-/////////////////////////court terme//////////////////////////.
+/////////////////////////court terme//////////////////////////
 
-faire un etat visuel des range pour montrer qu'il sont dans leurs état par défault ou apres une selection
-ajouté un hover également
+réglé bug : des intérupteur de shader et de box , et des selecteur de corner et border qui resetleurs counter lors du premier clique
+suppression d'element 
+reset d'element
+
+ajout d'un element de réduction du element tool 
+faire qu'on puisse le faire bouger et ajouster sa taille
+ajouter une barre de scroll 
+revoir design de l'ajout d'image de teste et le +
+ajusté la taille de border en fonction de l'affichage du texte dans son input select
+faire une animation d'apparition des module d'element
