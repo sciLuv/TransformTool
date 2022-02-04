@@ -1,20 +1,22 @@
 let colors = document.getElementsByClassName("color-element-input");
 
-colorModuleList = [];
+colorModList = [];
 
-for(i=0; i<= elements.length-1; i++){
-    //represente le nombre de modules de corner (1 pour chaque module d'element)
-    let idColorModuleNumber = i;
-    let opacityNumber = (idColorModuleNumber*4);
-
-    colorModuleList[idColorModuleNumber] = {
-        hue : "#009DFF",
-        opacity : 100
+function createColor(){
+    for(i=0; i<= elements.length-1; i++){
+        //represente le nombre de modules de corner (1 pour chaque module d'element)
+        let ColorModNum = i;
+        let opaNum = (ColorModNum*4);
+    
+        colorModList[ColorModNum] = {
+            hue : "#009DFF",
+            opacity : 100
+        }
+        colors[ColorModNum].addEventListener("input", function(){
+            colorModList[ColorModNum].hue = colors[ColorModNum].value;
+        })
+        opacityButtonList[opaNum].opacityRange.addEventListener("input", function(){
+        colorModList[ColorModNum].opacity = opacityButtonList[opaNum].opacityRange.value;
+        })
     }
-    colors[idColorModuleNumber].addEventListener("input", function(){
-        colorModuleList[idColorModuleNumber].hue = colors[idColorModuleNumber].value;
-    })
-    opacityButtonList[opacityNumber].opacityRange.addEventListener("input", function(){
-    colorModuleList[idColorModuleNumber].opacity = opacityButtonList[opacityNumber].opacityRange.value;
-    })
 }

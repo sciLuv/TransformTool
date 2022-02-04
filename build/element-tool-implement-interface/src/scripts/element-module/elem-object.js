@@ -1,21 +1,37 @@
-let elementList  = [];
-let elementInterfaceList = [];
+let elemList  = [];
+let elemIFList = [];
 
-for (i=0; i<=elements.length-1; i++){
-    let elementNumber = i;
-    let opacityNumber = elementNumber*4;
+function createElement(){
+    for (i=0; i<=elements.length-1; i++){
+        let elemNum = i;
+        let opaNum = elemNum*4;
+    
+        elemList[elemNum] = 
+        {
+            id :  nameModList[elemNum],
+            color : colorModList[elemNum],
+            shader : shaderModList[elemNum],
+            corner : cornerModList[elemNum],
+            border : borderModList[elemNum],
+            box : boxModList[elemNum]
+        }
+        elemIFList[elemNum] = 
+        {
+            shader : shaderIFList[elemNum],
+            corner : cornerIFList[elemNum],
+            border : borderIFList[elemNum],
+            box : boxIFList[elemNum]
+        }
+    }
+}
 
-    elementList[elementNumber] = 
-    {
-        id :  nameModuleList[elementNumber],
-        color : colorModuleList[elementNumber],
-        shader : shaderModList[elementNumber],
-        corner : cornerModuleList[elementNumber],
-        border : borderModuleList[elementNumber],
-        box : boxModuleList[elementNumber]
-    }
-    elementInterfaceList[elementNumber] = 
-    {
-        shader : shaderIFList[elementNumber]
-    }
+function createModule(){
+    createOpacity();
+    createName();
+    createColor();
+    createBorder();
+    createCorner();
+    createShader();
+    createBox();
+    createElement();
 }
