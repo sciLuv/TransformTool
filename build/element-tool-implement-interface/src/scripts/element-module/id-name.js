@@ -1,3 +1,5 @@
+//représente chaque le conteneur de toutes les barres d'elements
+let elementModulesContainer = document.getElementById("all-elements");
 //représente chaque itération d'une barre d'element dans un tableau
 let elements = document.getElementsByClassName("html-element");
 
@@ -22,7 +24,6 @@ function createName(){
 }
 
 //ici les fonction de mise a jour visuel de : l'opacité, la couleur, les ranges.
-
 //opacité
 //opacity = opacitybtn number
 //val = en fonction du module, ou se trouve la valeur de l'opacité (dans un objet)

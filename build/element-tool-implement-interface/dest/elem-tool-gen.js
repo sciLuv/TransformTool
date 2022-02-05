@@ -1310,32 +1310,27 @@ function createShader(){
             }
             //evenement permettant d'initialisé une valeurs de placement de la souris lorsqu'on clique sur le bouton
             degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].addEventListener('mousedown', function(event){
-                console.log(shaderIFList[shaderModNum].degreeBtn);
                 if (degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].hasAttribute("active")){
                     shaderIFList[shaderModNum].degreeBtn.degreeInteruptor = true;
                     shaderIFList[shaderModNum].degreeBtn.initVal = event.clientY;
                 }
             })
             //evement qui s'active lorsqu'on bouge la souris de haut en bas apres un clique qui n'est pas remonté
-            body.addEventListener('mousemove', function(event){       
-                if(shaderIFList[shaderModNum] != undefined){
-                    if (degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].hasAttribute("active")){
-                        let placement = event.clientY;
-                        if (shaderIFList[shaderModNum].degreeBtn.degreeInteruptor == true){
-                            beginCalculDegree = setInterval(calculDegree(shaderIFList[shaderModNum].degreeBtn.initVal, placement, shaderIFList[shaderModNum].degreeBtn.degree), 200);
-                        }
+            body.addEventListener('mousemove', function(event){            
+                if (degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].hasAttribute("active")){
+                    let placement = event.clientY;
+                    if (shaderIFList[shaderModNum].degreeBtn.degreeInteruptor == true){
+                        beginCalculDegree = setInterval(calculDegree(shaderIFList[shaderModNum].degreeBtn.initVal, placement, shaderIFList[shaderModNum].degreeBtn.degree), 200);
                     }
                 }
             })
             //evenement qui s'active lorsqu'on remonte la souris, qui termine le processus de selection du degré
             //réinitialise une partie des valeurs pour pouvoir recommencer la selection une prochaine fois.
             body.addEventListener('mouseup', function(){
-                if(shaderIFList[shaderModNum] != undefined){
-                    if (degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].hasAttribute("active")){
-                        if(shaderIFList[shaderModNum].degreeBtn.degreeInteruptor == true){
-                            shaderIFList[shaderModNum].degreeBtn.degreeInteruptor = false;
-                            clearInterval(beginCalculDegree);
-                        }
+                if (degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].hasAttribute("active")){
+                    if(shaderIFList[shaderModNum].degreeBtn.degreeInteruptor == true){
+                        shaderIFList[shaderModNum].degreeBtn.degreeInteruptor = false;
+                        clearInterval(beginCalculDegree);
                     }
                 }
             })
@@ -1624,7 +1619,6 @@ function createModule(){
     createCorner();
     createShader();
     createBox();
-    createBtnTrashReset();
     createElement();
 }
 

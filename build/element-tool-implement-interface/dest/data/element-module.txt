@@ -29,7 +29,7 @@
                                 </select>
                                 <section class="trash-more-element-section">
                                     <div class="element-btn element-more element-reset element-more-shader">
-                                        <img src="img/plus.svg" alt="">
+                                        <img src="img/plus-m.svg" alt="">
                                     </div>
                                     <div class="element-btn element-trash element-trash element-trash-shader">                    
                                         <img src="img/trash.svg" alt="">
@@ -134,7 +134,7 @@
                                     </select>
                                     <section class="trash-more-element-section">
                                         <div class="element-btn element-more element-more-box">
-                                            <img src="img/plus.svg" alt="">
+                                            <img src="img/plus-m.svg" alt="">
                                         </div>
                                         <div class="element-btn element-trash element-trash-box">                    
                                             <img src="img/trash.svg" alt="">
@@ -184,12 +184,13 @@
                                     <img src="img/text.svg" alt="">
                                 </div>
                             </section>
+                            <hr>
                             <section class="reset-trash-more-element-section">
                                 <div class="reset-trash-btn">
-                                    <div class="element-btn element-reset element-reset">
+                                    <div class="element-btn element-reset element-bar-reset">
                                         <img src="img/reset.svg" alt="">
                                     </div>
-                                    <div class="element-btn element-trash element-trash">                    
+                                    <div class="element-btn element-trash element-bar-trash">                    
                                         <img src="img/trash.svg" alt="">
                                     </div>   
                                 </div>

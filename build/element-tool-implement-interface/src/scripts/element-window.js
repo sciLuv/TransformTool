@@ -2,7 +2,6 @@
 //Element module creation, in element windows
 
 let moreElementBtn = document.getElementById("btn-more-tool");
-let elementModulesContainer = document.getElementById("all-elements");
 
 moreElementBtn.addEventListener("click", function(){
     fetch('data/element-module.txt')
@@ -10,12 +9,12 @@ moreElementBtn.addEventListener("click", function(){
     .then(data => {
 
         let saveElemList = [];
-        //let saveOpacityButtonList = [];
         let saveColorModList = [];
         let saveShaderModList = [];
         let saveCornerModList = [];
         let saveBorderModList = [];
         let saveBoxModList = []
+        
 
         let saveElemIFList = [];
         let saveShaderIFList = [];
@@ -26,11 +25,6 @@ moreElementBtn.addEventListener("click", function(){
 
         for (i=0; i<=elemList.length-1; i++){
             saveElemList.push(elemList[i]);
-            /*for(j=0; j<=4; j++){
-                console.log("test");
-                console.log(opacityButtonList[i*j]);
-                saveOpacityButtonList.push(opacityButtonList[i*j])
-            }*/
             saveColorModList.push(colorModList[i]);
             saveShaderModList.push(shaderModList[i]);
             saveCornerModList.push(cornerModList[i]);
@@ -49,9 +43,6 @@ moreElementBtn.addEventListener("click", function(){
 
         for (i=0; i<=saveElemList.length-1; i++){
             elemList.splice(i, 1, saveElemList[i]);
-            /*for(j=0; j<=3; j++){
-                opacityButtonList.splice(i*j, 1, saveOpacityButtonList[i*j]);
-            }*/
             colorModList.splice(i, 1, saveColorModList[i]);
             shaderModList.splice(i, 1, saveShaderModList[i]);
             cornerModList.splice(i, 1, saveCornerModList[i]);
@@ -67,7 +58,6 @@ moreElementBtn.addEventListener("click", function(){
 
         for (i=0; i<=elemList.length-1; i++){
             let num = i;
-            console.log(num);
             //name
             //color
             colors[num].value = colorModList[num].hue;

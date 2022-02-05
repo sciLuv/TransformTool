@@ -69,9 +69,11 @@
     cursor: pointer;
     transition: all 0.5s;
     img{
-        height: 30px;
-        width: 30px;
+        height: 24px;
+        width: 24px;
         transition: all 0.5s;
+        filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+
     }
 }
 
@@ -80,7 +82,6 @@
     .btn-image-text{
         height: 50px;
         width: 45px;
-        border : solid rgb(151, 151, 151) 1px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -89,29 +90,27 @@
         img{
             height: 40px;
             width: 40px;
-            color : #4b4b4b;
-            filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+            filter: invert(78%) sepia(3%) saturate(0%) hue-rotate(196deg) brightness(92%) contrast(90%); //#b3b2b2
         }
     }
     .image-btn{
-        margin-right: 15px;
+        margin-right: 3px;
+    }
+    .text-btn{
+        margin-right: 4px;
     }
 }
 
 .square-btn{
     &:hover{
-        border : solid rgb(112, 112, 112) 1px;
         transition: all 0.5s;
-        box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.219), 1px 1px 5px 0px rgba(0, 0, 0, 0.219) inset;
 
         img{
-            filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+            filter: invert(19%) sepia(0%) saturate(0%) hue-rotate(156deg) brightness(94%) contrast(83%);
             transition: all 0.5s;
         }
     }
     &:active{
-        border : solid rgb(218, 218, 218) 1px;
-        box-shadow: none;
         transition: all 0s;
         img{
             filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);

@@ -43,10 +43,13 @@ faire que le futur emplacement des element affiché puisse etre bouger dans l'ap
 
 /////////////////////////tres court terme//////////////////////////
 
-enlevé des boucle de création des objets d'element les fonction de mise a jour visuel (range, opacité, couleur et 2 fct spé pour les selecteur coin bord)
-ajouté des objet représentant l'état des element de selection
-création de tableaux regroupant les objet représentant l'état des element de selection
-ajouté l'ajout d'element bar
+refaire les boutons texte et image, et le +, et ajusté en fonction la taille de l'element tool 
+gerer l'évolution visuel de l'interieur de l'element tool : 
+ouverture/fermeture
+grossissement progressif (1, 2, 3 emplacemnt)
+apparition scrollbar
+
+gerer l'attibution de nom automatique, l'obligation de mettre un nom, changer le css si manque un nom, prévenir qu'il faut en écrit un empéché ajout d'element bar si pas de nom
 ajouté la suppression d'element d'element bar 
 ajouté le reset d'element bar
 
@@ -58,3 +61,7 @@ revoir design de l'ajout d'image de teste et le + (raproché img et text et avoi
 ajout d'un element de réduction du element tool (genre un bouton pour replié l'element bar sur lui meme) 
 faire qu'on puisse le faire bouger et ajouster sa taille
 faire une animation d'apparition des module d'element
+
+
+273
+

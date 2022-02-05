@@ -8,6 +8,7 @@
 }
 body {
   margin: 0px;
+  height: 1000px;
 }
 
 hr {
@@ -34,9 +35,6 @@ span {
 }
 
 .element-tool {
-  overflow: hidden;
-  width: 875px;
-  height: 325px;
   margin-left: 30px;
   border: 1px solid #c8c8c8;
   border-radius: 5px;
@@ -44,10 +42,12 @@ span {
 }
 .element-tool .title-container {
   display: flex;
+  height: 53px;
 }
 .element-tool .title-container .title {
   color: #2f2f2f;
   font-family: "staaliches";
+  white-space: nowrap;
   font-size: 35px;
   width: 100%;
   margin: 0px 0px 0px 15px;
@@ -63,6 +63,11 @@ span {
   border-right: 1px solid #c8c8c8;
   box-shadow: -10px 0px 10px -12px rgba(0, 0, 0, 0.137) inset;
 }
+.element-tool .title-container #angle {
+  margin-top: 14px;
+  height: 25px;
+  cursor: pointer;
+}
 .element-tool .title-container #btn-more-tool {
   cursor: pointer;
   height: 53px;
@@ -71,16 +76,82 @@ span {
   align-items: center;
   justify-content: center;
   font-size: 50px;
-  color: #b1b1b1;
+}
+.element-tool .title-container #btn-more-tool img {
+  height: 25px;
 }
 .element-tool .element-title-separation {
   width: 100%;
   height: 1px;
   background-color: #c8c8c8;
 }
-.element-tool #all-elements {
+.element-tool #all-elements::-webkit-scrollbar {
+  width: 7px;
+  background: white;
+  border-left: 1px solid #c8c8c8;
+}
+.element-tool #all-elements::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.048);
+  border-radius: 3px 1.5px 1.5px 3px;
+  border: 1px solid #c8c8c8;
+  border-right: none;
+}
+
+.element-tool {
+  width: 833px;
+  transition: all 0.2s;
+}
+.element-tool[close] {
+  width: 300px;
+  height: 53px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+#all-elements {
   width: 100%;
-  height: 272px;
+  height: 0px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+#all-elements[one] {
+  height: 72px;
+}
+#all-elements[two] {
+  height: 144px;
+}
+#all-elements[three] {
+  height: 215px;
+}
+
+#angle {
+  transform: rotate(180deg);
+  filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
+}
+#angle:hover {
+  filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+  transition: all 0.2s;
+}
+#angle:active {
+  filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
+  transition: all 0s;
+}
+#angle[close] {
+  transform: rotate(0deg);
+  transition: all 0.2s;
+}
+
+#btn-more-tool img {
+  filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
+  transition: all 0.2s;
+}
+#btn-more-tool img:hover {
+  filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+  transition: all 0.2s;
+}
+#btn-more-tool img:active {
+  filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
+  transition: all 0s;
 }
 
 .html-element .shader {
@@ -125,6 +196,9 @@ span {
   border-bottom: 1px solid #d8d8d8;
   box-shadow: 0px 15px 10px -12px rgba(0, 0, 0, 0.082) inset;
   display: flex;
+}
+.html-element .id-color-content {
+  margin-left: 5px;
 }
 .html-element .id {
   margin: 0px 10px;
@@ -291,10 +365,14 @@ span {
 .html-element .image-text-trash-reset {
   display: flex;
   align-items: center;
-  margin-left: 20px;
+  margin-left: 3px;
+}
+.html-element .image-text-trash-reset hr {
+  height: 53px;
+  border-left: #b3b3b3 solid 0.5px;
 }
 .html-element .image-text-trash-reset .reset-trash-more-element-section {
-  margin-left: 25px;
+  margin-left: 10px;
 }
 
 .button-selector {
@@ -436,9 +514,10 @@ span {
   transition: all 0.5s;
 }
 .element-btn-more-under-module img {
-  height: 30px;
-  width: 30px;
+  height: 24px;
+  width: 24px;
   transition: all 0.5s;
+  filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
 }
 
 .image-text {
@@ -447,7 +526,6 @@ span {
 .image-text .btn-image-text {
   height: 50px;
   width: 45px;
-  border: solid #979797 1px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -457,25 +535,23 @@ span {
 .image-text .btn-image-text img {
   height: 40px;
   width: 40px;
-  color: #4b4b4b;
-  filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+  filter: invert(78%) sepia(3%) saturate(0%) hue-rotate(196deg) brightness(92%) contrast(90%);
 }
 .image-text .image-btn {
-  margin-right: 15px;
+  margin-right: 3px;
+}
+.image-text .text-btn {
+  margin-right: 4px;
 }
 
 .square-btn:hover {
-  border: solid #707070 1px;
   transition: all 0.5s;
-  box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.219), 1px 1px 5px 0px rgba(0, 0, 0, 0.219) inset;
 }
 .square-btn:hover img {
-  filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
+  filter: invert(19%) sepia(0%) saturate(0%) hue-rotate(156deg) brightness(94%) contrast(83%);
   transition: all 0.5s;
 }
 .square-btn:active {
-  border: solid #dadada 1px;
-  box-shadow: none;
   transition: all 0s;
 }
 .square-btn:active img {
