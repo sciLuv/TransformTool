@@ -9,6 +9,10 @@
 body {
   margin: 0px;
   height: 1000px;
+  background-color: #4A6DE5;
+  background-image: url("../img/grid2.png");
+  background-size: 40%;
+  background-repeat: repeat;
 }
 
 hr {
@@ -35,10 +39,13 @@ span {
 }
 
 .element-tool {
-  margin-left: 30px;
+  position: absolute;
+  top: 30px;
+  left: 30px;
   border: 1px solid #c8c8c8;
   border-radius: 5px;
   background-color: white;
+  box-shadow: 4px 7px 15px 2px rgba(0, 0, 0, 0.3);
 }
 .element-tool .title-container {
   display: flex;
@@ -72,6 +79,7 @@ span {
   cursor: pointer;
   height: 53px;
   width: 65px;
+  min-width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,7 +99,7 @@ span {
   border-left: 1px solid #c8c8c8;
 }
 .element-tool #all-elements::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.048);
+  background-color: rgba(0, 0, 0, 0.158);
   border-radius: 3px 1.5px 1.5px 3px;
   border: 1px solid #c8c8c8;
   border-right: none;
@@ -99,13 +107,25 @@ span {
 
 .element-tool {
   width: 833px;
-  transition: all 0.2s;
+  transition: all 0.5s;
 }
-.element-tool[close] {
-  width: 300px;
+.element-tool[begin] {
+  width: 250px;
   height: 53px;
   overflow: hidden;
-  transition: all 0.2s;
+  transition: all 0.5s;
+}
+.element-tool[close] {
+  width: 285px;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+.element-tool .element-title-separation {
+  transition: all 0.5s;
+}
+.element-tool .element-title-separation[close] {
+  display: none;
+  transition: all 0.5s;
 }
 
 #all-elements {
@@ -113,45 +133,79 @@ span {
   height: 0px;
   overflow-y: hidden;
   overflow-x: hidden;
+  transition: all 0.5s;
+}
+#all-elements[close] {
+  height: -2px;
+  overflow-x: hidden;
+  transition: all 0.5s;
 }
 #all-elements[one] {
   height: 72px;
+  overflow-y: hidden;
+  transition: all 0.5s;
 }
 #all-elements[two] {
   height: 144px;
+  overflow-y: hidden;
+  transition: all 0.5s;
 }
 #all-elements[three] {
   height: 215px;
+  overflow-y: hidden;
+  transition: all 0.5s;
+}
+#all-elements[four] {
+  height: 215px;
+  overflow-y: scroll;
+  transition: all 0.5s;
 }
 
 #angle {
   transform: rotate(180deg);
   filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
+  transition: all 0.5s;
 }
 #angle:hover {
   filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
-  transition: all 0.2s;
+  transition: all 0.5s;
 }
 #angle:active {
   filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
   transition: all 0s;
 }
+#angle[begin] {
+  display: hidden;
+  transform: scale(0);
+  transition: all 0.5s;
+}
 #angle[close] {
   transform: rotate(0deg);
-  transition: all 0.2s;
+  transition: all 0.5s;
 }
 
 #btn-more-tool img {
   filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
-  transition: all 0.2s;
+  transition: all 0.5s;
 }
 #btn-more-tool img:hover {
   filter: invert(57%) sepia(1%) saturate(14%) hue-rotate(340deg) brightness(88%) contrast(81%);
-  transition: all 0.2s;
+  transition: all 0.5s;
 }
 #btn-more-tool img:active {
   filter: invert(83%) sepia(18%) saturate(0%) hue-rotate(239deg) brightness(89%) contrast(99%);
   transition: all 0s;
+}
+
+body[active] {
+  cursor: grabbing;
+}
+
+#element-placement {
+  cursor: grab;
+}
+#element-placement[active] {
+  cursor: grabbing;
 }
 
 .html-element .shader {
@@ -190,6 +244,7 @@ span {
 
 .html-element {
   font-family: "staaliches";
+  color: #272727;
   width: 100%;
   height: 55px;
   padding: 8px 0px;
@@ -692,6 +747,7 @@ span {
 .opacity-range-container {
   transform: rotateZ(-90deg);
   position: relative;
+  z-index: 100;
   left: -22px;
   top: -24px;
   display: none;

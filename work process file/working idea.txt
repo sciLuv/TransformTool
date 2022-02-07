@@ -38,7 +38,7 @@ faire un fond type blueprint qui se répéte pour le fond du body, avec un canva
 faire que le futur emplacement des element affiché puisse etre bouger dans l'application sans avoir d'impact sur le rendu final du contenue téléchargé
 
 ////////////////////////moyen terme///////////////////////////
-1er objectif = rendre ELEMENT Tool visuellement fonctionnel
+1er objectif = rendre ELEMENT Tool fonctionnel
 
 
 /////////////////////////tres court terme//////////////////////////
@@ -55,7 +55,8 @@ ajouté le reset d'element bar
 
 /////////////////////////court terme//////////////////////////
 
-ajout d'une police supplementaire pour le texte DANS les modules element
+faire un fichier JS avant les autres qui contient l'ensemble des variable globale
+ajout d'une police supplementaire pour le texte DANS les modules element, ou changer les couleurs de ces derniere
 ajouter une barre de scroll dans l'element tool pour faire déroulé la liste d'element tool
 revoir design de l'ajout d'image de teste et le + (raproché img et text et avoir un + d'avantage sobre)
 ajout d'un element de réduction du element tool (genre un bouton pour replié l'element bar sur lui meme) 
