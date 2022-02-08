@@ -11,7 +11,7 @@ body {
   height: 1000px;
   background-color: #4A6DE5;
   background-image: url("../img/grid2.png");
-  background-size: 40%;
+  background-size: 37%;
   background-repeat: repeat;
 }
 
@@ -40,8 +40,8 @@ span {
 
 .element-tool {
   position: absolute;
-  top: 30px;
-  left: 30px;
+  top: 50px;
+  left: 50px;
   border: 1px solid #c8c8c8;
   border-radius: 5px;
   background-color: white;

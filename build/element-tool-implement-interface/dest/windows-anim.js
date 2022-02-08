@@ -68,6 +68,10 @@ function selectAllEllAttr(){
 
 let elemPlace = document.getElementById("element-placement");
 
+//variable qui représente le BODY du HTML
+let bodyDetection2 = document.getElementsByTagName("body");
+let body2 = bodyDetection2[0];
+
 let elemPlaceActive = false;
 let initPlaceX, initPlaceY;
 
@@ -75,7 +79,7 @@ elemPlace.addEventListener("mousedown", function(event){
     elemMousePlace = event.target.getBoundingClientRect();
     initPlaceX = event.clientX - elemMousePlace.left;
     initPlaceY = event.clientY - elemMousePlace.top;
-    body.setAttribute("active","");
+    body2.setAttribute("active","");
     elemPlace.setAttribute("active","");
     elemPlaceActive = true;
 
@@ -86,16 +90,15 @@ elemPlace.addEventListener("mouseup", function(event){
     elemPlace.removeAttribute("active");
     elemPlaceActive = false;
 })
-body.addEventListener('mouseup', function(event){
+body2.addEventListener('mouseup', function(event){
     if(elemPlaceActive == true){
-        body.removeAttribute("active");
+        body2.removeAttribute("active");
         elemPlace.removeAttribute("active");
-        console.log(event.clientY);
         elemPlaceActive = false;
     }
 })
 
-body.addEventListener('mousemove', function(event){
+body2.addEventListener('mousemove', function(event){
     if(elemPlaceActive == true){
         elemTool.style.left = Math.round((event.clientX - initPlaceX)/50)*50 + "px";
         elemTool.style.top = Math.round((event.clientY - initPlaceY)/50)*50 + "px";

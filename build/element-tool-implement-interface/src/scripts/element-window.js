@@ -9,6 +9,7 @@ moreElementBtn.addEventListener("click", function(){
     .then(data => {
 
         let saveElemList = [];
+        let saveNameModList = [];
         let saveColorModList = [];
         let saveShaderModList = [];
         let saveCornerModList = [];
@@ -25,6 +26,7 @@ moreElementBtn.addEventListener("click", function(){
 
         for (i=0; i<=elemList.length-1; i++){
             saveElemList.push(elemList[i]);
+            saveNameModList.push(nameModList[i]);
             saveColorModList.push(colorModList[i]);
             saveShaderModList.push(shaderModList[i]);
             saveCornerModList.push(cornerModList[i]);
@@ -43,6 +45,7 @@ moreElementBtn.addEventListener("click", function(){
 
         for (i=0; i<=saveElemList.length-1; i++){
             elemList.splice(i, 1, saveElemList[i]);
+            nameModList.splice(i, 1, saveNameModList[i]);
             colorModList.splice(i, 1, saveColorModList[i]);
             shaderModList.splice(i, 1, saveShaderModList[i]);
             cornerModList.splice(i, 1, saveCornerModList[i]);
@@ -59,6 +62,7 @@ moreElementBtn.addEventListener("click", function(){
         for (i=0; i<=elemList.length-1; i++){
             let num = i;
             //name
+            idNames[num].value = nameModList[num].name;
             //color
             colors[num].value = colorModList[num].hue;
             opaVisualChgt(colorModList[num].opacity, (num*4));

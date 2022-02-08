@@ -43,13 +43,9 @@ faire que le futur emplacement des element affiché puisse etre bouger dans l'ap
 
 /////////////////////////tres court terme//////////////////////////
 
-refaire les boutons texte et image, et le +, et ajusté en fonction la taille de l'element tool 
-gerer l'évolution visuel de l'interieur de l'element tool : 
-ouverture/fermeture
-grossissement progressif (1, 2, 3 emplacemnt)
-apparition scrollbar
 
-gerer l'attibution de nom automatique, l'obligation de mettre un nom, changer le css si manque un nom, prévenir qu'il faut en écrit un empéché ajout d'element bar si pas de nom
+faire que les  range d'opacité s'affiche au dessus du reste de l'element tool (avec position absolute, mais également convenablement (reréglé les parapetre d'affichage)
+obligation de mettre un nom, changer le css si manque un nom, prévenir qu'il faut en écrit un empéché toute interaction tant qu'il n'y en a pas un
 ajouté la suppression d'element d'element bar 
 ajouté le reset d'element bar
 
@@ -57,12 +53,9 @@ ajouté le reset d'element bar
 
 faire un fichier JS avant les autres qui contient l'ensemble des variable globale
 ajout d'une police supplementaire pour le texte DANS les modules element, ou changer les couleurs de ces derniere
-ajouter une barre de scroll dans l'element tool pour faire déroulé la liste d'element tool
-revoir design de l'ajout d'image de teste et le + (raproché img et text et avoir un + d'avantage sobre)
 ajout d'un element de réduction du element tool (genre un bouton pour replié l'element bar sur lui meme) 
 faire qu'on puisse le faire bouger et ajouster sa taille
 faire une animation d'apparition des module d'element
 
 
-273
 
