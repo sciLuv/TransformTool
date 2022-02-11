@@ -78,7 +78,7 @@ moreElementBtn.addEventListener("click", function(){
                 elemList[num].corner.topLeft, elemList[num].corner.topRight, 
                 elemList[num].corner.bottomRight, elemList[num].corner.bottomLeft, 
 
-                radiusRanges[num]) 
+                radiusRanges[num])
             //border
             visualChgtBorder(
                 elemIFList[num].border.interuptorTB, elemIFList[num].border.interuptorLB, 

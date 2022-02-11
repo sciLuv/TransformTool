@@ -33,5 +33,7 @@ function createModule(){
     createCorner();
     createShader();
     createBox();
+    createResetBtn();
+    createTrashBtn();
     createElement();
 }

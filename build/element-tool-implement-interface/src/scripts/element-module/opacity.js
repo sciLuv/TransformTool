@@ -24,6 +24,8 @@ let shaderGradientContainers = document.getElementsByClassName("gradient-degree-
 //variable qui représente le BODY du HTML
 let bodyDetection = document.getElementsByTagName("body");
 let body = bodyDetection[0];
+//représente l'element-tool dans son ensemble
+let allElement = document.getElementById("all-elements");
 
 //tableau contenant les objets représentant les outils d'opacité de toutes les barres d'éléments
 let opacityButtonList = [];
@@ -51,62 +53,23 @@ function createOpacity(){
                 opacityRange : opacityHTMLRanges[i],
                 opacityInteruptor : false
             } 
-            
-        //actualArticle actualArticleClass afterArticle afterArticleClass:
-        //représente des balises HTML contenante ou adjacentes aux outils d'opacité
-        //cela permettra l'ajout d'information dans les outils d'opacité des modules border et box
-        //ces information permettrons de modifié le css de ces module lors de l'ouverture/fermeture de l'outil d'opacité, et d'évité des bug graphique
-        let actualArticle = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement;   
-        let actualArticleClass = actualArticle.className;
-
-        let afterArticle = opacityButtonList[opacityNumber].opacityButton.parentElement.parentElement.parentElement.nextElementSibling;
-        let afterArticleClass = afterArticle.className;
-
-        //ajout des infos de conteneur HTML des modules des outil d'opacité de "border" et "box" grace aux variable du dessus
-        if(actualArticleClass == "border"){
-            opacityButtonList[i].content = borderContents[elementNum-1];
-        }
-        if(actualArticleClass == "box"){
-            opacityButtonList[i].container = boxRangeContainers[elementNum-1];
-        }
 
         //fonction qui gere l'ouverture et la fermeture du range d'opacité  
-        opacityButtonList[opacityNumber].opacityButton.addEventListener("click", function (){
+        opacityButtonList[opacityNumber].opacityButton.addEventListener("click", function (event){
+            let btnPlace = opacityButtonList[opacityNumber].opacityButton.getBoundingClientRect();
+            let elemPlace = allElement.getBoundingClientRect();
             //ouverture du range
             //suivant le module de l'outil d'opacité les transformation graphique ne sont pas exactement les même
             if (opacityButtonList[opacityNumber].opacityInteruptor == false){
                 opacityButtonList[opacityNumber].opacityContainer.style.display = "block";
                 opacityButtonList[opacityNumber].opacityInteruptor = true;
-                if(afterArticleClass == "hr-shader"){
-                    afterArticle.style.marginLeft = "-85.2px"; 
-                }
-                else if(afterArticleClass == "hr-radius"){
-                    afterArticle.style.marginLeft = "-85px"; 
-                    shaderGradientContainers[elementNum-1].style.marginTop = "-3.5px";
-                }
-                else if(afterArticleClass == "hr-box"){
-                    afterArticle.style.marginLeft = "-75.9px";
-                    opacityButtonList[opacityNumber].content.style.marginTop = "-3px";
-                }
-                else if(afterArticleClass == "hr-image-text-trash-reset"){
-                    afterArticle.style.marginLeft = "-69px";
-                }
-
+                opacityButtonList[opacityNumber].opacityContainer.style.top = (btnPlace.top-elemPlace.top+30) +"px";
+                opacityButtonList[opacityNumber].opacityContainer.style.left = (btnPlace.left-elemPlace.left-5) + "px";
             }
             //fermeture du range
             else{
                 opacityButtonList[opacityNumber].opacityContainer.style.display = "none";
                 opacityButtonList[opacityNumber].opacityInteruptor = false;
-                afterArticle.style.marginLeft = "0px"; 
-                if(afterArticleClass == "hr-box"){
-                    opacityButtonList[opacityNumber].content.style.marginTop = "0px";
-                }
-                if(afterArticleClass == "hr-image-text-trash-reset"){
-                    afterArticle.style.marginLeft = "0px";
-                }
-                if(afterArticleClass == "hr-radius"){
-                    shaderGradientContainers[elementNum-1].style.marginTop = "1px";
-                }
             }
         });
         //fonction qui gere la valeur de l'opacité elle même et sa représentation dans le bouton d'ouverture de l'opacité
@@ -125,8 +88,6 @@ function createOpacity(){
             while(i+1>4*elementNum){
                 elementNum++
             }
-            let afterArticle = opacityButtonList[i].opacityButton.parentElement.parentElement.parentElement.nextElementSibling;
-            let afterArticleClass = afterArticle.className;
             if(((e.target != opacityButtonList[i].opacityRange)&&
             (e.target != opacityButtonList[i].opacityContainer)&&
             (e.target != opacityButtonList[i].opacityArrow)&&
@@ -135,16 +96,6 @@ function createOpacity(){
             (opacityButtonList[i].opacityInteruptor == true)){
                 opacityButtonList[i].opacityContainer.style.display = "none";
                 opacityButtonList[i].opacityInteruptor = false;
-                afterArticle.style.marginLeft = "0px"; 
-                if(afterArticleClass == "hr-radius"){
-                    shaderGradientContainers[elementNum-1].style.marginTop = "1px";
-                }
-                if(afterArticleClass == "hr-box"){
-                    opacityButtonList[i].content.style.marginTop = "0px";
-                }
-                if(afterArticleClass == "hr-image-text-trash-reset"){
-                    afterArticle.style.marginLeft = "0px";
-                }
                 break;
             }
         }

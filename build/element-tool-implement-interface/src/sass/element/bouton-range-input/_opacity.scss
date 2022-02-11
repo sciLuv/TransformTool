@@ -32,10 +32,10 @@
   }
   .opacity-range-container{
     transform: rotateZ(-90deg);
-    position: relative;
+    position: absolute;
     z-index: 100;
-    left: -22px;
-    top: -24px;
+    //left: -22px;
+    //top: -24px;
     display: none;
   }
   .opacity-range-under-container{

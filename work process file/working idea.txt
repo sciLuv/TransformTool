@@ -7,22 +7,10 @@
 
 -gerer les bordure avec un effet de dégradé (je sais plus comment ont fait) 
 
-ajusté la taille du range du bordermodule en fonction de l'affichage du texte dans son input select (en fonction de la précision du range en utilisation reel)
-
-Quand le tool element sera fonctionnel, voir si diminué la taille de certain range baisse
-trop la qualité de la selection. si c'est pas le cas diminué la taille de certain range
-en fonction de la possibilité d'optimisition de la place (radius et border au moment ou j'écris
-ces ligne)
 
 -ajouté un onglet d'aide (un peu a la maniere des autre onglet (element, transform, et les autres prévus) qui 
 ira chercher des informations explicative de l'utilisation des différents onglet pour rendre le fonctionnement globale plus compréhensible.
 (des explications, des gif qui montre l'utilisation et la transformation en lien, voir des liens vers mozilla ect)
-
--ajouté des tooltip (infobulle) a coté des element d'interaction qui n'ont pas d'explication visuel
-
-- quand l'ajout et la suppression d'element dans element tool existera
-faire que l'element actuellement selectionné soi en surbrillance dans la liste.
-egalement faire que déplacé l'element de haut en bas dans liste puisse permettre visuellement également de faire passer un element l'un sur l'autre (Z-index)
 
 
 faire que les select/option puisse affiché les bordure directement plutot que les nom 
@@ -43,19 +31,22 @@ faire que le futur emplacement des element affiché puisse etre bouger dans l'ap
 
 /////////////////////////tres court terme//////////////////////////
 
-
-faire que les  range d'opacité s'affiche au dessus du reste de l'element tool (avec position absolute, mais également convenablement (reréglé les parapetre d'affichage)
+diminué taille du code (faire des fonction avec les parties redondante de reset-trash et element-window)
+faire des fonction des trucs qui doivent etre utilisé dans j'ajout et la suppression d'element (visuellement)
+commenté le code
+ajouté un disclaimer lors du reset et de la suppression
 obligation de mettre un nom, changer le css si manque un nom, prévenir qu'il faut en écrit un empéché toute interaction tant qu'il n'y en a pas un
-ajouté la suppression d'element d'element bar 
-ajouté le reset d'element bar
+mettre des état d'avant selection pour certain modules (shader,box) et changer les couleurs/opacité initial de ces derniere
+changer la liste de selection des bordure de maniere a ce quel affiche les bordure elle meme
+ajout d'une police supplementaire pour le texte DANS les modules element, ou changer les couleurs de ces derniere
+faire que l'element actuellement selectionné soi en surbrillance dans la liste.
 
 /////////////////////////court terme//////////////////////////
 
 faire un fichier JS avant les autres qui contient l'ensemble des variable globale
-ajout d'une police supplementaire pour le texte DANS les modules element, ou changer les couleurs de ces derniere
-ajout d'un element de réduction du element tool (genre un bouton pour replié l'element bar sur lui meme) 
-faire qu'on puisse le faire bouger et ajouster sa taille
-faire une animation d'apparition des module d'element
+commenté le code
+reprendre la documentation
+changer la disposition des fichier du code pour pouvoir acceuillir de nouvelles windows (js, sass, data)
 
 
 
