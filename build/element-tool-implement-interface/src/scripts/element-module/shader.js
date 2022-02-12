@@ -203,7 +203,9 @@ function createShader(){
                 }
             })
             //evement qui s'active lorsqu'on bouge la souris de haut en bas apres un clique qui n'est pas remonté
-            body.addEventListener('mousemove', function(event){    
+            body.addEventListener('mousemove', function(event){ 
+                //this condition is here for if the module container the btn in link with this Event is delete
+                //avoid the rest of the event
                 if(shaderIFList[shaderModNum] != undefined){
                     if (degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].hasAttribute("active")){
                         let placement = event.clientY;
@@ -216,6 +218,8 @@ function createShader(){
             //evenement qui s'active lorsqu'on remonte la souris, qui termine le processus de selection du degré
             //réinitialise une partie des valeurs pour pouvoir recommencer la selection une prochaine fois.
             body.addEventListener('mouseup', function(){
+                //this condition is here for if the module container the btn in link with this Event is delete
+                //avoid the rest of the event
                 if(shaderIFList[shaderModNum] != undefined){
                     if (degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].hasAttribute("active")){
                         if(shaderIFList[shaderModNum].degreeBtn.degreeInteruptor == true){

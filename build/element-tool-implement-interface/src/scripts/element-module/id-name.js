@@ -10,9 +10,30 @@ let nameModList = [];
 
 function createName(){
     for(i=0; i<= elements.length-1; i++){
-        nameNum = i;
-        nameModList[nameNum] = {
-            name : "element-" + (nameNum+1)
+        let nameNum = i;
+        let idNum = 0;
+
+        //condition et boucle qui permettent d'assigné un nom prédéfini qui n'existe pas déjà
+        //par exemple si "element-3" existe déjà mais est le seul elem présent
+        //cela permettra lors de la création de l'elem suivant  de s'appeler "element-1"  
+        if(nameModList.length > 0){
+            for(j=0; j<= elements.length-2; j++){
+                if(nameModList[j].name == ("element-" + (idNum+1))){
+                    idNum++;
+                    j= -1;
+                    console.log("test2");
+                }
+            }
+            nameModList[j] = {
+                name : "element-" + (idNum+1)
+            }
+            console.log(nameModList);
+        }
+        else{
+            console.log('test');
+            nameModList[nameNum] = {
+                name : "element-" + (nameNum+1)
+            }
         }
     
         idNames[nameNum].value = nameModList[nameNum].name;
@@ -198,4 +219,47 @@ function visualChgtBox(boxModValue, boxIFValue, inset, rangeXY, rangeBS, colorIn
     let opacityRepre = Math.abs(Math.trunc((opaVal.color.opacity/100)*255)-255);
     opacityButtonList[opacity].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
     opacityButtonList[opacity].opacityRange.value = opaVal.color.opacity;
+}
+
+//tout les changement visuel en même temps
+//num représente le module/element-bar selectionné
+function allVisualChange(number){
+    let num = number;
+    //name
+    idNames[num].value = nameModList[num].name;
+    //color
+    colors[num].value = colorModList[num].hue;
+    opaVisualChgt(colorModList[num].opacity, (num*4));
+    //shader
+    opaVisualChgt(elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1].color.opacity, 1+(num*4))
+    colorVisualChgt(shaderColors[num],elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
+    rangeVisualChgt(shaderRanges[num], elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
+    //corner
+    visualChgtCorner(
+        elemIFList[num].corner.CornerInteruptorTL, elemIFList[num].corner.CornerInteruptorTR, 
+        elemIFList[num].corner.CornerInteruptorBR, elemIFList[num].corner.CornerInteruptorBL, 
+
+        elemList[num].corner.topLeft, elemList[num].corner.topRight, 
+        elemList[num].corner.bottomRight, elemList[num].corner.bottomLeft, 
+
+        radiusRanges[num])
+    //border
+    visualChgtBorder(
+        elemIFList[num].border.interuptorTB, elemIFList[num].border.interuptorLB, 
+        elemIFList[num].border.interuptorRB, elemIFList[num].border.interuptorBB, 
+        elemList[num].border.top, elemList[num].border.left, 
+        elemList[num].border.right, elemList[num].border.bottom, 
+        borderRanges[num], 
+        borderColors[num], 
+        2+(num*4),
+        borderStyles[num].options[borderStyles[num].selectedIndex], borderStyles[num])
+    //box
+    visualChgtBox(
+        elemList[num].box[elemIFList[num].box.boxSelectNum-1], 
+        elemIFList[num].box, 
+        boxInsetCheckBoxs[num], 
+        boxRangeXYs[num], 
+        boxRangeBSs[num], 
+        boxColors[num], 
+        elemList[num].box[elemIFList[num].box.boxSelectNum-1], 3+(num*4))
 }

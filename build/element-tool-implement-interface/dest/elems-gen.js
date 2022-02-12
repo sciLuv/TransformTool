@@ -113,9 +113,30 @@ let nameModList = [];
 
 function createName(){
     for(i=0; i<= elements.length-1; i++){
-        nameNum = i;
-        nameModList[nameNum] = {
-            name : "element-" + (nameNum+1)
+        let nameNum = i;
+        let idNum = 0;
+
+        //condition et boucle qui permettent d'assigné un nom prédéfini qui n'existe pas déjà
+        //par exemple si "element-3" existe déjà mais est le seul elem présent
+        //cela permettra lors de la création de l'elem suivant  de s'appeler "element-1"  
+        if(nameModList.length > 0){
+            for(j=0; j<= elements.length-2; j++){
+                if(nameModList[j].name == ("element-" + (idNum+1))){
+                    idNum++;
+                    j= -1;
+                    console.log("test2");
+                }
+            }
+            nameModList[j] = {
+                name : "element-" + (idNum+1)
+            }
+            console.log(nameModList);
+        }
+        else{
+            console.log('test');
+            nameModList[nameNum] = {
+                name : "element-" + (nameNum+1)
+            }
         }
     
         idNames[nameNum].value = nameModList[nameNum].name;
@@ -302,6 +323,50 @@ function visualChgtBox(boxModValue, boxIFValue, inset, rangeXY, rangeBS, colorIn
     opacityButtonList[opacity].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
     opacityButtonList[opacity].opacityRange.value = opaVal.color.opacity;
 }
+
+//tout les changement visuel en même temps
+//num représente le module/element-bar selectionné
+function allVisualChange(number){
+    let num = number;
+    //name
+    idNames[num].value = nameModList[num].name;
+    //color
+    colors[num].value = colorModList[num].hue;
+    opaVisualChgt(colorModList[num].opacity, (num*4));
+    //shader
+    opaVisualChgt(elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1].color.opacity, 1+(num*4))
+    colorVisualChgt(shaderColors[num],elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
+    rangeVisualChgt(shaderRanges[num], elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
+    //corner
+    visualChgtCorner(
+        elemIFList[num].corner.CornerInteruptorTL, elemIFList[num].corner.CornerInteruptorTR, 
+        elemIFList[num].corner.CornerInteruptorBR, elemIFList[num].corner.CornerInteruptorBL, 
+
+        elemList[num].corner.topLeft, elemList[num].corner.topRight, 
+        elemList[num].corner.bottomRight, elemList[num].corner.bottomLeft, 
+
+        radiusRanges[num])
+    //border
+    visualChgtBorder(
+        elemIFList[num].border.interuptorTB, elemIFList[num].border.interuptorLB, 
+        elemIFList[num].border.interuptorRB, elemIFList[num].border.interuptorBB, 
+        elemList[num].border.top, elemList[num].border.left, 
+        elemList[num].border.right, elemList[num].border.bottom, 
+        borderRanges[num], 
+        borderColors[num], 
+        2+(num*4),
+        borderStyles[num].options[borderStyles[num].selectedIndex], borderStyles[num])
+    //box
+    visualChgtBox(
+        elemList[num].box[elemIFList[num].box.boxSelectNum-1], 
+        elemIFList[num].box, 
+        boxInsetCheckBoxs[num], 
+        boxRangeXYs[num], 
+        boxRangeBSs[num], 
+        boxColors[num], 
+        elemList[num].box[elemIFList[num].box.boxSelectNum-1], 3+(num*4))
+}
+
 let colors = document.getElementsByClassName("color-element-input");
 
 colorModList = [];
@@ -1267,7 +1332,9 @@ function createShader(){
                 }
             })
             //evement qui s'active lorsqu'on bouge la souris de haut en bas apres un clique qui n'est pas remonté
-            body.addEventListener('mousemove', function(event){    
+            body.addEventListener('mousemove', function(event){ 
+                //this condition is here for if the module container the btn in link with this Event is delete
+                //avoid the rest of the event
                 if(shaderIFList[shaderModNum] != undefined){
                     if (degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].hasAttribute("active")){
                         let placement = event.clientY;
@@ -1280,6 +1347,8 @@ function createShader(){
             //evenement qui s'active lorsqu'on remonte la souris, qui termine le processus de selection du degré
             //réinitialise une partie des valeurs pour pouvoir recommencer la selection une prochaine fois.
             body.addEventListener('mouseup', function(){
+                //this condition is here for if the module container the btn in link with this Event is delete
+                //avoid the rest of the event
                 if(shaderIFList[shaderModNum] != undefined){
                     if (degreeButtons[shaderIFList[shaderModNum].degreeBtn.btnNum].hasAttribute("active")){
                         if(shaderIFList[shaderModNum].degreeBtn.degreeInteruptor == true){
@@ -1538,9 +1607,12 @@ function createBox(){
 }
 
 
+//list of HTML element of reset btn(in each element-bar)
 let resetBtns = document.getElementsByClassName("element-bar-reset");
-let trashBtns = document.getElementsByClassName("element-bar-trash")
+//list of HTML element of trash btn(in each element-bar)
+let trashBtns = document.getElementsByClassName("element-bar-trash");
 
+//fonction de suppression d'une element bar
 function createTrashBtn(){
     for(i=0; i<= elements.length-1; i++){
         let trashNum = i;
@@ -1548,8 +1620,9 @@ function createTrashBtn(){
             fetch('data/element-module.txt')
             .then(response => response.text())
             .then(data => {
+                //delete all element-module HTML elem contents in all
                 elementModulesContainer.innerHTML = "";
-
+                //variables of "old" version of Elem/mod list, for after array manipulation and update of elem
                 let saveElemList = [];
                 let saveNameModList = [];
                 let saveColorModList = [];
@@ -1558,13 +1631,13 @@ function createTrashBtn(){
                 let saveBorderModList = [];
                 let saveBoxModList = []
                 
-        
                 let saveElemIFList = [];
                 let saveShaderIFList = [];
                 let saveCornerIFList = [];
                 let saveBorderIFList = [];
                 let saveBoxIFList = []
     
+                //delete select elem-bar informations in all construction array of element
                 elemList.splice(trashNum, 1);
                 nameModList.splice(trashNum, 1);
                 colorModList.splice(trashNum, 1);
@@ -1579,6 +1652,7 @@ function createTrashBtn(){
                 borderIFList.splice(trashNum, 1);
                 boxIFList.splice(trashNum, 1);
     
+                //adding in saveList init before Elem execpt the elem delete of list before
                 for(j=0; j<=elemList.length-1; j++){
                     saveElemList.push(elemList[j]);
                     saveNameModList.push(nameModList[j]);
@@ -1594,12 +1668,12 @@ function createTrashBtn(){
                     saveBorderIFList.push(borderIFList[j]);
                     saveBoxIFList.push(boxIFList[j]);
                 }
-
+                //adding HTML-ELEM for each Module-ELEM
                 for (k=0; k<=elemList.length-1; k++){
                 elementModulesContainer.innerHTML += data;
                 }
                 createModule();
-    
+                //update Elem-mod-list create with createModule() with our SaveList
                 for (k=0; k<=elements.length-1; k++){
                     elemList.splice(k, 1, saveElemList[k]);
                     nameModList.splice(k, 1, saveNameModList[k]);
@@ -1615,47 +1689,11 @@ function createTrashBtn(){
                     borderIFList.splice(k, 1, saveBorderIFList[k]);
                     boxIFList.splice(k, 1, saveBoxIFList[k]);
                 }
-    
+                //first step of visual change
                 for (o=0; o<=elemList.length-1; o++){
-                    let num = o;
-                    //name
-                    idNames[num].value = nameModList[num].name;
-                    //color
-                    colors[num].value = colorModList[num].hue;
-                    opaVisualChgt(colorModList[num].opacity, (num*4));
-                    //shader
-                    opaVisualChgt(elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1].color.opacity, 1+(num*4))
-                    colorVisualChgt(shaderColors[num],elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
-                    rangeVisualChgt(shaderRanges[num], elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
-                    //corner
-                    visualChgtCorner(
-                        elemIFList[num].corner.CornerInteruptorTL, elemIFList[num].corner.CornerInteruptorTR, 
-                        elemIFList[num].corner.CornerInteruptorBR, elemIFList[num].corner.CornerInteruptorBL, 
-        
-                        elemList[num].corner.topLeft, elemList[num].corner.topRight, 
-                        elemList[num].corner.bottomRight, elemList[num].corner.bottomLeft, 
-        
-                        radiusRanges[num])
-                    //border
-                    visualChgtBorder(
-                        elemIFList[num].border.interuptorTB, elemIFList[num].border.interuptorLB, 
-                        elemIFList[num].border.interuptorRB, elemIFList[num].border.interuptorBB, 
-                        elemList[num].border.top, elemList[num].border.left, 
-                        elemList[num].border.right, elemList[num].border.bottom, 
-                        borderRanges[num], 
-                        borderColors[num], 
-                        2+(num*4),
-                        borderStyles[num].options[borderStyles[num].selectedIndex], borderStyles[num])
-                    //box
-                    visualChgtBox(
-                        elemList[num].box[elemIFList[num].box.boxSelectNum-1], 
-                        elemIFList[num].box, 
-                        boxInsetCheckBoxs[num], 
-                        boxRangeXYs[num], 
-                        boxRangeBSs[num], 
-                        boxColors[num], 
-                        elemList[num].box[elemIFList[num].box.boxSelectNum-1], 3+(num*4))
+                    allVisualChange(o);
                 }
+                //specific visual change for the delete Event, for each par of elem module (id,color,shader,ect)
                 for(j=trashNum; j<=elements.length-1; j++){
                     //shader
                     for(k=2; k<=shaderIFList[j].shaderNum; k++){
@@ -1698,7 +1736,7 @@ function createTrashBtn(){
                         bottomBorderSelectors[j].setAttribute("active","")
                     }
                     //box
-                    let boxNum;
+                    let boxNum = 0;
                     for(k=2; k<=boxIFList[j].boxNum; k++){
                         boxSelectors[j].innerHTML += '<option value="' + k + '">' + k + '</option>';
                         if(k == boxIFList[j].boxSelectNum){
@@ -1725,16 +1763,25 @@ function createTrashBtn(){
                     }
                 }
             })
+            //for visual-changement of elem-window
+            removeAllEllAttr()
+            moduleCounter--;
+            selectAllEllAttr()
+            if(moduleCounter == 0){
+                elemTool.setAttribute("begin", "");
+                angle.setAttribute("begin", "");
+            }
         })
     }
 }
-
+//fonction de reset des information de style de l'element séléctionné
 function createResetBtn(){
     for(i=0; i<= elements.length-1; i++){
         let resetNum = i;
         resetBtns[resetNum].addEventListener("click", function(){
             console.log(resetNum);
             //~~~~~~~~~~~~~~~~~~~~RESET ELEMENT~~~~~~~~~~~~~~~~~~~~~//
+            //put all information in their initial values, for all modules
             //id
             nameModList[resetNum].name = "element-" + (resetNum+1);
             //color
@@ -1802,7 +1849,6 @@ function createResetBtn(){
                 color : { hue : "#969696", opacity : 100 }
             }
 
-            console.log(elemList)
             createElement();
             //~~~~~~~~~~~~~~~~~~~~RESET VISUEL~~~~~~~~~~~~~~~~~~~~~//
             //name
@@ -1894,16 +1940,17 @@ function createModule(){
     createElement();
 }
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Element-Window (bar?)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-//Element module creation, in element windows
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ELEMENT-MODULE-ADDING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+//represent more-btn of the element-window
 let moreElementBtn = document.getElementById("btn-more-tool");
 
+//Event of the more-btn of the element-window
 moreElementBtn.addEventListener("click", function(){
     fetch('data/element-module.txt')
     .then(response => response.text())
     .then(data => {
-
+        //variables of "old" version of Elem/mod list, for after array manipulation and update of elem
         let saveElemList = [];
         let saveNameModList = [];
         let saveColorModList = [];
@@ -1912,14 +1959,13 @@ moreElementBtn.addEventListener("click", function(){
         let saveBorderModList = [];
         let saveBoxModList = []
         
-
         let saveElemIFList = [];
         let saveShaderIFList = [];
         let saveCornerIFList = [];
         let saveBorderIFList = [];
         let saveBoxIFList = []
 
-
+        //adding of "old" element information in the savelist create before
         for (i=0; i<=elemList.length-1; i++){
             saveElemList.push(elemList[i]);
             saveNameModList.push(nameModList[i]);
@@ -1936,9 +1982,11 @@ moreElementBtn.addEventListener("click", function(){
             saveBoxIFList.push(boxIFList[i]);
         }
 
+        //adding of HTML of module element
         elementModulesContainer.innerHTML += data;
         createModule();
 
+        //loop for adding last save information in the "new" array representing actual modules elem
         for (i=0; i<=saveElemList.length-1; i++){
             elemList.splice(i, 1, saveElemList[i]);
             nameModList.splice(i, 1, saveNameModList[i]);
@@ -1947,53 +1995,17 @@ moreElementBtn.addEventListener("click", function(){
             cornerModList.splice(i, 1, saveCornerModList[i]);
             borderModList.splice(i, 1, saveBorderModList[i]);
             boxModList.splice(i, 1, saveBoxModList[i]);
-
+        
             elemIFList.splice(i, 1, saveElemIFList[i]);
             shaderIFList.splice(i, 1, saveShaderIFList[i]);
             cornerIFList.splice(i, 1, saveCornerIFList[i]);
             borderIFList.splice(i, 1, saveBorderIFList[i]);
             boxIFList.splice(i, 1, saveBoxIFList[i]);
         }
-
+        //visual change for the new element list
         for (i=0; i<=elemList.length-1; i++){
-            let num = i;
-            //name
-            idNames[num].value = nameModList[num].name;
-            //color
-            colors[num].value = colorModList[num].hue;
-            opaVisualChgt(colorModList[num].opacity, (num*4));
-            //shader
-            opaVisualChgt(elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1].color.opacity, 1+(num*4))
-            colorVisualChgt(shaderColors[num],elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
-            rangeVisualChgt(shaderRanges[num], elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
-            //corner
-            visualChgtCorner(
-                elemIFList[num].corner.CornerInteruptorTL, elemIFList[num].corner.CornerInteruptorTR, 
-                elemIFList[num].corner.CornerInteruptorBR, elemIFList[num].corner.CornerInteruptorBL, 
-
-                elemList[num].corner.topLeft, elemList[num].corner.topRight, 
-                elemList[num].corner.bottomRight, elemList[num].corner.bottomLeft, 
-
-                radiusRanges[num])
-            //border
-            visualChgtBorder(
-                elemIFList[num].border.interuptorTB, elemIFList[num].border.interuptorLB, 
-                elemIFList[num].border.interuptorRB, elemIFList[num].border.interuptorBB, 
-                elemList[num].border.top, elemList[num].border.left, 
-                elemList[num].border.right, elemList[num].border.bottom, 
-                borderRanges[num], 
-                borderColors[num], 
-                2+(num*4),
-                borderStyles[num].options[borderStyles[num].selectedIndex], borderStyles[num])
-            //box
-            visualChgtBox(
-                elemList[num].box[elemIFList[num].box.boxSelectNum-1], 
-                elemIFList[num].box, 
-                boxInsetCheckBoxs[num], 
-                boxRangeXYs[num], 
-                boxRangeBSs[num], 
-                boxColors[num], 
-                elemList[num].box[elemIFList[num].box.boxSelectNum-1], 3+(num*4))
+           allVisualChange(i); 
         }
     })
 })
+

@@ -1,13 +1,14 @@
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Element-Window (bar?)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-//Element module creation, in element windows
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ELEMENT-MODULE-ADDING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+//represent more-btn of the element-window
 let moreElementBtn = document.getElementById("btn-more-tool");
 
+//Event of the more-btn of the element-window
 moreElementBtn.addEventListener("click", function(){
     fetch('data/element-module.txt')
     .then(response => response.text())
     .then(data => {
-
+        //variables of "old" version of Elem/mod list, for after array manipulation and update of elem
         let saveElemList = [];
         let saveNameModList = [];
         let saveColorModList = [];
@@ -16,14 +17,13 @@ moreElementBtn.addEventListener("click", function(){
         let saveBorderModList = [];
         let saveBoxModList = []
         
-
         let saveElemIFList = [];
         let saveShaderIFList = [];
         let saveCornerIFList = [];
         let saveBorderIFList = [];
         let saveBoxIFList = []
 
-
+        //adding of "old" element information in the savelist create before
         for (i=0; i<=elemList.length-1; i++){
             saveElemList.push(elemList[i]);
             saveNameModList.push(nameModList[i]);
@@ -40,9 +40,11 @@ moreElementBtn.addEventListener("click", function(){
             saveBoxIFList.push(boxIFList[i]);
         }
 
+        //adding of HTML of module element
         elementModulesContainer.innerHTML += data;
         createModule();
 
+        //loop for adding last save information in the "new" array representing actual modules elem
         for (i=0; i<=saveElemList.length-1; i++){
             elemList.splice(i, 1, saveElemList[i]);
             nameModList.splice(i, 1, saveNameModList[i]);
@@ -51,53 +53,17 @@ moreElementBtn.addEventListener("click", function(){
             cornerModList.splice(i, 1, saveCornerModList[i]);
             borderModList.splice(i, 1, saveBorderModList[i]);
             boxModList.splice(i, 1, saveBoxModList[i]);
-
+        
             elemIFList.splice(i, 1, saveElemIFList[i]);
             shaderIFList.splice(i, 1, saveShaderIFList[i]);
             cornerIFList.splice(i, 1, saveCornerIFList[i]);
             borderIFList.splice(i, 1, saveBorderIFList[i]);
             boxIFList.splice(i, 1, saveBoxIFList[i]);
         }
-
+        //visual change for the new element list
         for (i=0; i<=elemList.length-1; i++){
-            let num = i;
-            //name
-            idNames[num].value = nameModList[num].name;
-            //color
-            colors[num].value = colorModList[num].hue;
-            opaVisualChgt(colorModList[num].opacity, (num*4));
-            //shader
-            opaVisualChgt(elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1].color.opacity, 1+(num*4))
-            colorVisualChgt(shaderColors[num],elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
-            rangeVisualChgt(shaderRanges[num], elemList[num].shader[elemIFList[num].shader.shaderSelectNum-1]);
-            //corner
-            visualChgtCorner(
-                elemIFList[num].corner.CornerInteruptorTL, elemIFList[num].corner.CornerInteruptorTR, 
-                elemIFList[num].corner.CornerInteruptorBR, elemIFList[num].corner.CornerInteruptorBL, 
-
-                elemList[num].corner.topLeft, elemList[num].corner.topRight, 
-                elemList[num].corner.bottomRight, elemList[num].corner.bottomLeft, 
-
-                radiusRanges[num])
-            //border
-            visualChgtBorder(
-                elemIFList[num].border.interuptorTB, elemIFList[num].border.interuptorLB, 
-                elemIFList[num].border.interuptorRB, elemIFList[num].border.interuptorBB, 
-                elemList[num].border.top, elemList[num].border.left, 
-                elemList[num].border.right, elemList[num].border.bottom, 
-                borderRanges[num], 
-                borderColors[num], 
-                2+(num*4),
-                borderStyles[num].options[borderStyles[num].selectedIndex], borderStyles[num])
-            //box
-            visualChgtBox(
-                elemList[num].box[elemIFList[num].box.boxSelectNum-1], 
-                elemIFList[num].box, 
-                boxInsetCheckBoxs[num], 
-                boxRangeXYs[num], 
-                boxRangeBSs[num], 
-                boxColors[num], 
-                elemList[num].box[elemIFList[num].box.boxSelectNum-1], 3+(num*4))
+           allVisualChange(i); 
         }
     })
 })
+

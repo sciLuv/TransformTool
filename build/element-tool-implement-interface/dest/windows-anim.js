@@ -1,12 +1,22 @@
-let allElem = document.getElementById("all-elements");
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ELEMENT-WINDOWS-ANIMATION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~OPEN-CLOSE-GROW-DECREASE~~~~~~~~~~~~~~~~~//
+//represent whole "element-tool-window" HTML
 let beforeElemTool = document.getElementsByClassName("element-tool");
 let elemTool = beforeElemTool[0]; 
+//represent HTML tag content of all element-bar
+let allElem = document.getElementById("all-elements");
+//represent btn to open and close element tool
+let angle = document.getElementById("angle");
+//represent separation next to more btn in HTML
 let beforeTitleSeparation = document.getElementsByClassName("element-title-separation");
 let titleSeparation = beforeTitleSeparation[0];
-let angle = document.getElementById("angle");
+//more button in html
 let moreBtn = document.getElementById("btn-more-tool");
 
+//counter for the number of element-bar/module
 let moduleCounter = 0;
+
+//Event of more btn, for adding elementModule
 moreBtn.addEventListener("click", function(){
 
     angle.removeAttribute("close");
@@ -18,6 +28,7 @@ moreBtn.addEventListener("click", function(){
     selectAllEllAttr();
 })
 
+//Event of open/close btn
 let angleInteruptor = false;
 angle.addEventListener("click", function(){
 
@@ -40,6 +51,9 @@ angle.addEventListener("click", function(){
     }
 })
 
+//function use in Event before
+//removeAllEllAttr is a loop to remove all attribut
+//selectAllEllAttr have multiple condition for all numbers of module visual transformation 
 function removeAllEllAttr(){
     for(attrNum = 0; attrNum <= allElem.attributes.length-1; attrNum++){
         if(allElem.attributes[attrNum].name != "id"){
@@ -64,17 +78,20 @@ function selectAllEllAttr(){
     }
 }
 
-////////////////////////////////////////////////////////////////////////////
+//~~~~~~~~~~~~~~MOVE OF WINDOW-ELEMENT~~~~~~~~~~~~~~~~~//
 
+//part of the top pf element-window 
 let elemPlace = document.getElementById("element-placement");
 
 //variable qui représente le BODY du HTML
 let bodyDetection2 = document.getElementsByTagName("body");
 let body2 = bodyDetection2[0];
 
+//boolean : false = moving is inactivate
 let elemPlaceActive = false;
 let initPlaceX, initPlaceY;
 
+//Event for beginning the element-window moving, and assign initial value of X/Y
 elemPlace.addEventListener("mousedown", function(event){
     elemMousePlace = event.target.getBoundingClientRect();
     initPlaceX = event.clientX - elemMousePlace.left;
@@ -84,12 +101,13 @@ elemPlace.addEventListener("mousedown", function(event){
     elemPlaceActive = true;
 
 })
-
+//Event for beginning the element-window moving,
 elemPlace.addEventListener("mouseup", function(event){
     body.removeAttribute("active");
     elemPlace.removeAttribute("active");
     elemPlaceActive = false;
 })
+//Event for ending the element-window moving,
 body2.addEventListener('mouseup', function(event){
     if(elemPlaceActive == true){
         body2.removeAttribute("active");
@@ -97,7 +115,7 @@ body2.addEventListener('mouseup', function(event){
         elemPlaceActive = false;
     }
 })
-
+//Event for calculate and applicate move
 body2.addEventListener('mousemove', function(event){
     if(elemPlaceActive == true){
         elemTool.style.left = Math.round((event.clientX - initPlaceX)/50)*50 + "px";

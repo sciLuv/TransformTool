@@ -38,7 +38,7 @@ function copyData(){
 
 //fonctions d'optimisations des fichiers finaux
 function minimizeJS(){
-    return gulp.src('dest/script.js')
+    return gulp.src('dest/*.js')
     .pipe(strip())
     .pipe(removeLog())
     .pipe(terser())
