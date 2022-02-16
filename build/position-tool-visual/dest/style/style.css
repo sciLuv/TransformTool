@@ -1,0 +1,227 @@
+@font-face {
+  font-family: "pacifico";
+  src: url("./font/Pacifico.ttf") format("truetype");
+}
+@font-face {
+  font-family: "staaliches";
+  src: url("./font/Staatliches.ttf") format("truetype");
+}
+@font-face {
+  font-family: "typori";
+  src: url("./font/Typori.ttf") format("truetype");
+}
+body {
+  margin: 0px;
+  height: 1000px;
+  background-color: #4a6ee565;
+  background-image: url("../img/grid2.png");
+  background-size: 37%;
+  background-repeat: repeat;
+}
+
+hr {
+  margin: 0px;
+  border-left: #b3b3b3 solid 0.5px;
+}
+
+.no-transition {
+  transition: none !important;
+}
+
+img, div, h1 {
+  user-select: none;
+}
+
+#position {
+  position: relative;
+  z-index: 20;
+  top: 200px;
+  left: 200px;
+  width: min-content;
+  display: flex;
+}
+#position #position-move {
+  cursor: grab;
+}
+#position #position-interface {
+  border: red dashed 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+#position[active] #position-move {
+  cursor: grabbing;
+}
+
+#position-tool-opener {
+  white-space: nowrap;
+  height: 50px;
+  border-top: red solid 3px;
+  border-left: red solid 3px;
+  border-radius: 10px 12px 0px 0px;
+  background-color: rgba(255, 0, 0, 0.185);
+  transition: border-radius 0s 0.3s;
+}
+#position-tool-opener .title-and-angle {
+  display: flex;
+  align-items: center;
+}
+#position-tool-opener .title-and-angle .title {
+  width: 100%;
+}
+#position-tool-opener .title-and-angle .title h2 {
+  white-space: nowrap;
+  font-family: "typori";
+  color: #640000;
+  font-size: 35px;
+  margin: 0px;
+  margin-left: 8px;
+}
+#position-tool-opener .title-and-angle .title h2 span {
+  font-family: "pacifico";
+  font-size: 30px;
+}
+#position-tool-opener .title-and-angle #pos-tool-angle {
+  border-left: red solid 3px;
+  border-right: red solid 3px;
+  border-radius: 0px 10px 0px 0px;
+  justify-self: end;
+  margin-left: 20px;
+  height: 53px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: border 0s 0.3s, border-radius 0s 0.3s;
+}
+#position-tool-opener .title-and-angle #pos-tool-angle #pos-tool-angle-img {
+  margin: 0px 5px 0px 8px;
+  height: 30px;
+  transform: rotate(-90deg);
+  filter: invert(10%) sepia(37%) saturate(6220%) hue-rotate(353deg) brightness(95%) contrast(117%);
+  transition: all 0.3s 0s;
+}
+#position-tool-opener[active] {
+  border-radius: 10px 0px 0px 0px;
+  transition: border-radius 0s;
+}
+#position-tool-opener[active] #pos-tool-angle {
+  border-right: rgba(255, 0, 0, 0) solid 3px;
+  border-radius: 0px;
+  transition: border 0s, border-radius 0s;
+}
+#position-tool-opener[active] #pos-tool-angle #pos-tool-angle-img {
+  transform: rotate(90deg);
+  transition: all 0.3s;
+}
+
+#position-tool {
+  width: 0px;
+  height: 0px;
+  opacity: 0;
+  border: rgba(255, 0, 0, 0) solid 3px;
+  border-left: none;
+  border-radius: 0px 10px 10px 0px;
+  background-color: rgba(255, 0, 0, 0.185);
+  transition: width 0.3s, height 0s 0.3s, opacity 0s 0.3s, border 0s 0.3s;
+}
+#position-tool[base] ul {
+  transform: translate(-25px);
+  opacity: 0;
+  margin: 20px 0px 0px 0px;
+  padding: 0px;
+  height: 0px;
+  width: 0px;
+  transition: transform 0.3s, opacity 0.07s, height 0s 0.3s, width 0s 0.3s;
+}
+#position-tool[base] ul[inactive] {
+  overflow: hidden;
+}
+#position-tool[base] ul li {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: #640000 solid 3px;
+  border-radius: 8px;
+  width: 80px;
+  height: 25px;
+  margin-bottom: 12px;
+  background: white;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 100%);
+}
+#position-tool[base] ul li::after {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  width: 80px;
+  height: 25px;
+  opacity: 0;
+  background: white;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 58%);
+  transition: opacity 0.2s;
+}
+#position-tool[base] ul li h3 {
+  white-space: nowrap;
+  font-family: "typori";
+  color: #520000;
+  font-size: 17px;
+  margin: 5px;
+}
+#position-tool[active] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 159px;
+  width: 126px;
+  opacity: 1;
+  border: red solid 3px;
+  border-left: none;
+  transition: width 0.3s, height 0s, opacity 0s, border 0s;
+}
+#position-tool[active][base] ul {
+  margin: 10px 0px 0px 0px;
+  height: auto;
+  width: auto;
+  overflow: visible;
+  transform: translate(0px);
+  opacity: 1;
+  transition: transform 0.3s 0.11s, opacity 0.3s 0.12s;
+}
+#position-tool[active][base] ul li:hover {
+  cursor: pointer;
+}
+#position-tool[active][base] ul li:hover::after {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.in-position {
+  position: relative;
+  z-index: -1;
+  width: 150px;
+  height: 150px;
+  background-color: blue;
+}
+
+/*
+@import "./element/element";
+@import "./element/element-tool";
+@import "./element/element-tool-window-anim.scss";
+    //module element
+    @import "./element/module/shader-module";
+    @import "./element/module/element-module";
+    //bouton range input
+    @import "./element/bouton-range-input/btn-interuptor-degree";
+    @import "./element/bouton-range-input/btn-more-trash-reset-element";
+    @import "./element/bouton-range-input/btn-anim";
+    @import "./element/bouton-range-input/color-input";
+    @import "./element/bouton-range-input/opacity";
+    @import "./element/bouton-range-input/range-input";
+    //Corner et border Selection
+    @import "./element/corner-border-select/corner-border-selector-variable";
+    @import "./element/corner-border-select/corner-selector";
+    @import "./element/corner-border-select/border-selector";
+*/
+
+/*# sourceMappingURL=style.css.map */

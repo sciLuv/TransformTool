@@ -1,0 +1,24 @@
+#position{
+    position: relative;
+    z-index: +20;
+    top: 200px;
+    left: 200px;
+    width: min-content;
+    display: flex;
+    #position-move{
+        cursor: grab;
+    }
+    #position-interface{
+        border: rgb(255, 0, 0) dashed 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        
+    }
+    &[active]{
+        #position-move{
+            cursor: grabbing;
+        }
+    }
+}

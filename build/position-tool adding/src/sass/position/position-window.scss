@@ -1,0 +1,44 @@
+#position{
+    position: relative;
+    z-index: +20;
+    top: 200px;
+    left: 200px;
+    width: min-content;
+    border: rgba(255, 0, 0, 0) dashed 3px;
+    transition: all 5s;
+    #top-position, #bottom-position, #left-position, #right-position{
+        background-color: rgba(255, 0, 0, 0);
+    }
+    #position-tool{
+        display: hidden;
+    }
+    &:hover{
+        border: rgb(255, 0, 0) dashed 3px;
+        transition: all 0.2s;
+        #top-position, #bottom-position, #left-position, #right-position{
+            background-color: rgba(255, 0, 0, 0.185);
+            cursor: grab;
+        }
+    }
+    &[active]{
+        border: rgb(255, 0, 0) dashed 3px;
+        transition: all 0s;
+        #top-position, #bottom-position, #left-position, #right-position{
+            background-color: rgba(255, 0, 0, 0.185);
+            cursor: grab;
+            transition: all 0s;
+        }
+    }
+    #bottom-position, #top-position{
+        height: 40px;
+    }
+    #middle-position{
+        display: flex;
+        #left-position{
+            width: 40px;
+        }
+        #right-position{
+            width: 40px;
+        }
+    }
+}

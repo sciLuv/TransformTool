@@ -1,4 +1,57 @@
-////////////////////////////long terme////////////////////////////
+/////////////////////////beta//////////////////////////
+
+commenté le code déjà fait
+renger le code déjà fait
+faire une premiere version alpha du position-tool :
+faire l'interface de selection du display, position et size, fonctionnel visuellement (et uniquement)
+mettre en place de l'objet qui contiendra les info de conteneur des elements 
+faire que quand il n'y a aucun element, le position tool ne soit absolument pas clickable
+
+faire que les titres des tool soit logique vis a vis des regles synthaxique du html
+faire un dossier sass avec les diférentes interface du position tool
+
+git:
+verifié si seulement avoir node de maniere globale permet de l'utiliser dans tout les sous dossier
+peu etre supprimer des dossier de build tres basique
+faire un fichier git ignore qui envoi que le dest de la version de travail actuel, voir la précedente en plus quand les deux sont complementaire
+viré le site a la racine et reconstruire le dossier build, y ajouté la version actuel du transformation tool
+////////////////////////v1 final///////////////////////////
+
+chose a faire sur la window element, aprés création du position tool : {
+disclaimer lors du reset et de la suppression
+obligation de mettre un nom, changer le css si manque un nom, prévenir qu'il faut en écrit un empéché toute interaction tant qu'il n'y en a pas un
+ajouté bout de code qui recherche si un nom est déja donné, autre que les noms type element-2
+mettre des état d'avant selection pour certain modules (shader,box) et changer les couleurs/opacité/interaction initial de ces derniere
+changer la liste de selection des bordure de maniere a ce quel affiche les bordure elle meme
+ajout d'une police supplementaire pour le texte DANS les modules element, ou changer les couleurs de ces derniere 6c6c6c
+faire que l'element actuellement selectionné soi en surbrillance dans la liste.
+faire que le mouvement de la window soit plus logique a partir du mot tool.
+faire que l'on puisse dupliqué les élément avec un nouveau bouton
+faire que l'on puisse séléctionné les radius soit en degrés soi en pixel
+ajouté des reset spécifiques aux modules (put etre a partir des boutons de poubelle
+faire que toute les liste soit plus représentative de ce quelle contienne (liste des shader, des bordure, des box)
+ajouté les capacité de mouvement dans la page du position tool a l'element tool (en plus du mouvement dans le client) et voir également si ca peut impacté les bouton d'opacité
+renommé les element redondant avec le position tool (genre angle)
+appliqué dans le code les conseil d'optimisation
+ajouté l'outil texte
+ajouté l'outil image
+}
+rendre les tool disponibles recusif (mettre des element dans les element et pouvoir gerer les element comme des conteneur)
+faire une fonction controle Z sur la derniere/ plusieurs derniere actions
+faire le tool html/css
+voir si il n'y a pas moyen de mettre directement dans l'url les info de l'objet que l'on construit
+adapté l'interface pour mozilla
+
+revoir les commentaire et les réécrire en anglais
+revoir les variables JS et leurs nom, les diminué au max tout en les rendant au maximum clair
+idem pour la doc
+convenir au standard web (lighthouse, axeDevTool, correctement nommé les variables, optimisation en divisans les fichier js et css
+peut etre ajouté des balises html plus logique dans leurs dénomination
+rendre le github plus présentable (readMe, photo de profil, réorganiser le github (si sous dossier évité de remettre node a chaque fois, commencer a comprendre les marge ect)
+
+
+
+////////////////////////////v1.+++, V2////////////////////////////
 
 -permettre le fait de gerer le style lors de pseudoclass (hoover, active, ect)
 -un truc pour gerer les animation.
@@ -13,25 +66,6 @@ ira chercher des informations explicative de l'utilisation des différents ongle
 possibilité de changer radicalemement la maniere de selectionné le radius des corner en utilisant un systeme similaire a celui de la selection des degrès des shader
 (moins intuitif mais plus pratique) 
 
-changer le html css des class bouton XY blurSpread linearradial select = choice, interuptor = select
 définir un standard de dénomination des boutons (btn/button)
 trouvé une maniere de dénominé différement les variable qui représente un element html select et les variables nommé select, ou alors précisé la nuance entre les deux
-
-////////////////////////moyen terme///////////////////////////
-
-chose a faire sur la window element, aprés création du position tool : {
-disclaimer lors du reset et de la suppression
-obligation de mettre un nom, changer le css si manque un nom, prévenir qu'il faut en écrit un empéché toute interaction tant qu'il n'y en a pas un
-mettre des état d'avant selection pour certain modules (shader,box) et changer les couleurs/opacité/interaction initial de ces derniere
-changer la liste de selection des bordure de maniere a ce quel affiche les bordure elle meme
-ajout d'une police supplementaire pour le texte DANS les modules element, ou changer les couleurs de ces derniere 6c6c6c
-faire que l'element actuellement selectionné soi en surbrillance dans la liste.
-}
-
-
-/////////////////////////court terme//////////////////////////
-mettre a jour la doc
-faire une premiere version alpha du position-tool
-
-
 

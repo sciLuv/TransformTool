@@ -1,0 +1,61 @@
+#position-tool-opener{
+    white-space: nowrap;
+    height: 50px;
+    border-top: rgb(255, 0, 0) solid 3px;
+    border-left: rgb(255, 0, 0) solid 3px;
+    border-radius: 10px 12px 0px 0px;
+    background-color: rgba(255, 0, 0, 0.185);
+    transition: border-radius 0s 0.3s;
+    .title-and-angle{
+        display: flex;
+        align-items: center;
+        .title{
+            width: 100%;
+            h2{
+                white-space: nowrap;
+                font-family: "typori";
+                color: #640000;
+                font-size: 35px;
+                margin: 0px;
+                margin-left: 8px;
+                span{
+                    font-family: "pacifico";
+                    font-size: 30px;
+                }
+            }
+        }
+        #pos-tool-angle{
+            border-left: rgb(255, 0, 0) solid 3px;
+            border-right: rgb(255, 0, 0) solid 3px;
+            border-radius: 0px 10px 0px 0px;
+            justify-self: end;
+            margin-left: 20px;
+            height: 53px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: border 0s 0.3s, border-radius 0s 0.3s;
+            #pos-tool-angle-img{
+                margin: 0px 5px 0px 8px;
+                height: 30px;
+                transform: rotate(-90deg);
+                filter: invert(10%) sepia(37%) saturate(6220%) hue-rotate(353deg) brightness(95%) contrast(117%);
+                //filter: invert(14%) sepia(96%) saturate(7144%) hue-rotate(4deg) brightness(96%) contrast(115%);
+                transition: all 0.3s 0s;
+            }
+        }
+    }
+    &[active]{
+        border-radius: 10px 0px 0px 0px;
+        transition: border-radius 0s;
+        #pos-tool-angle{
+            border-right: rgba(255, 0, 0, 0) solid 3px;
+            border-radius: 0px;
+            transition: border 0s, border-radius 0s;
+            #pos-tool-angle-img{
+                transform: rotate(90deg);
+                transition: all 0.3s;
+            }
+        }
+    }
+}
