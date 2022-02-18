@@ -2,11 +2,16 @@
 @import "./base/variables";
 @import "./base/base";
 @import "./base/header";
-
+@import "./base/input-range";
 //Position
 @import "./position/position-window";
-@import "./position/position-tool-opener";
-@import "./position/position-tool";
+@import "./position/position-menu-opener";
+@import "./position/pos-range";
+    //position menu
+    @import "./position/position-menu/pos-menu";
+    @import "./position/position-menu/pos-menu-base";
+    @import "./position/position-menu/pos-menu-free";
+    @import "./position/position-menu/pos-menu-flex";
 @import "./position/position-elems-container";
 @import "./position/in-position";
 //Element

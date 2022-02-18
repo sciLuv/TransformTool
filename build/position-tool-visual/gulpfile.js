@@ -32,7 +32,7 @@ function copyImg(){
     .pipe(gulp.dest('dest/img'));
 }
 function copyData(){
-    return src('src/data/*')
+    return src('src/data/**/*')
     .pipe(gulp.dest('dest/data'));
 }
 
@@ -55,6 +55,7 @@ function watchTask(){
         watch('src/style/style.css', copyCSS);
         watch('src/index.html', concatJS);
         watch('src/scripts/**/*', concatJS);
+        watch('src/data/**/*', copyData);
 }
 
 exports.default = parallel(series(concatJS, copyCSS, copyFont, copyImg, copyData), watchTask);

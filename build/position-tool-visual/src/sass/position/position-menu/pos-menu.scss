@@ -1,0 +1,29 @@
+#position-menu{
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+    border: rgba(255, 0, 0, 0) solid 3px;
+    border-left: none;
+    border-radius: 0px 10px 10px 0px;
+    background-color: rgba(255, 0, 0, 0.185);
+    transition: width 0.3s, height 0s 0.3s, opacity 0s 0.3s, border 0s 0.3s;
+    &[active]{            
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        border: #ff0000 solid 3px;
+        border-left: none;
+        transition: width 0.3s, height 0s, opacity 0s, border 0s;
+    }
+    [selected]{
+        background: rgb(255,255,255) !important;
+            background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgb(208, 146, 64) 58%) !important;
+
+        &::after{
+            background: rgb(255,255,255) !important;
+            background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgb(208, 146, 64) 58%) !important;
+        }
+    }
+}
+

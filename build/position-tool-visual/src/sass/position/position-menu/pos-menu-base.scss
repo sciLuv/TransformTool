@@ -1,12 +1,4 @@
-#position-tool{
-    width: 0px;
-    height: 0px;
-    opacity: 0;
-    border: rgba(255, 0, 0, 0) solid 3px;
-    border-left: none;
-    border-radius: 0px 10px 10px 0px;
-    background-color: rgba(255, 0, 0, 0.185);
-    transition: width 0.3s, height 0s 0.3s, opacity 0s 0.3s, border 0s 0.3s;
+#position-menu{
     &[base]{
         ul{
             transform: translate(-25px);
@@ -26,7 +18,7 @@
                 align-items: center;
                 border: #640000 solid 3px;
                 border-radius: 8px;
-                width: 80px;
+                width: 60px;
                 height: 25px;
                 margin-bottom: 12px;
                 background: rgb(255,255,255);
@@ -35,7 +27,7 @@
                     position: absolute;
                     content: "";
                     z-index: -1;
-                    width: 80px;
+                    width: 60px;
                     height: 25px;
                     opacity: 0;
                     background: rgb(255,255,255);
@@ -53,17 +45,9 @@
         }
     }
     &[active]{            
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 159px;
-        width: 126px;
-        opacity: 1;
-        border: rgb(255, 0, 0) solid 3px;
-        border-left: none;
-        transition: width 0.3s, height 0s, opacity 0s, border 0s;
         &[base]{
-            //padding: 10px 20px;
+            height: 159px;
+            width: 106px;
             ul{
                 margin: 10px 0px 0px 0px;
                 height: auto;

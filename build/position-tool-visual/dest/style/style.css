@@ -32,6 +32,34 @@ img, div, h1 {
   user-select: none;
 }
 
+input[type=range] {
+  width: 80px;
+  height: 3px;
+  border-radius: 10px;
+  -webkit-appearance: none;
+  background-color: silver;
+}
+input[type=range]::-webkit-slider-thumb {
+  width: 10px;
+  -webkit-appearance: none;
+  border-radius: 10px;
+  height: 10px;
+  cursor: ew-resize;
+  background: silver;
+  box-shadow: -80px 0 0 80px #00000000;
+  transition: all 0.2s;
+}
+input[type=range]:hover::-webkit-slider-thumb {
+  width: 10px;
+  -webkit-appearance: none;
+  border-radius: 10px;
+  height: 10px;
+  cursor: ew-resize;
+  background: #000000;
+  box-shadow: -80px 0 0 80px #00000000;
+  transition: all 0.2s;
+}
+
 #position {
   position: relative;
   z-index: 20;
@@ -54,7 +82,7 @@ img, div, h1 {
   cursor: grabbing;
 }
 
-#position-tool-opener {
+#position-menu-opener {
   white-space: nowrap;
   height: 50px;
   border-top: red solid 3px;
@@ -63,14 +91,14 @@ img, div, h1 {
   background-color: rgba(255, 0, 0, 0.185);
   transition: border-radius 0s 0.3s;
 }
-#position-tool-opener .title-and-angle {
+#position-menu-opener .title-and-angle {
   display: flex;
   align-items: center;
 }
-#position-tool-opener .title-and-angle .title {
+#position-menu-opener .title-and-angle .title {
   width: 100%;
 }
-#position-tool-opener .title-and-angle .title h2 {
+#position-menu-opener .title-and-angle .title h2 {
   white-space: nowrap;
   font-family: "typori";
   color: #640000;
@@ -78,11 +106,11 @@ img, div, h1 {
   margin: 0px;
   margin-left: 8px;
 }
-#position-tool-opener .title-and-angle .title h2 span {
+#position-menu-opener .title-and-angle .title h2 span {
   font-family: "pacifico";
   font-size: 30px;
 }
-#position-tool-opener .title-and-angle #pos-tool-angle {
+#position-menu-opener .title-and-angle #pos-angle {
   border-left: red solid 3px;
   border-right: red solid 3px;
   border-radius: 0px 10px 0px 0px;
@@ -94,28 +122,42 @@ img, div, h1 {
   align-items: center;
   transition: border 0s 0.3s, border-radius 0s 0.3s;
 }
-#position-tool-opener .title-and-angle #pos-tool-angle #pos-tool-angle-img {
+#position-menu-opener .title-and-angle #pos-angle #pos-angle-img {
   margin: 0px 5px 0px 8px;
   height: 30px;
   transform: rotate(-90deg);
   filter: invert(10%) sepia(37%) saturate(6220%) hue-rotate(353deg) brightness(95%) contrast(117%);
   transition: all 0.3s 0s;
 }
-#position-tool-opener[active] {
+#position-menu-opener[active] {
   border-radius: 10px 0px 0px 0px;
   transition: border-radius 0s;
 }
-#position-tool-opener[active] #pos-tool-angle {
+#position-menu-opener[active] #pos-angle {
   border-right: rgba(255, 0, 0, 0) solid 3px;
   border-radius: 0px;
   transition: border 0s, border-radius 0s;
 }
-#position-tool-opener[active] #pos-tool-angle #pos-tool-angle-img {
+#position-menu-opener[active] #pos-angle #pos-angle-img {
   transform: rotate(90deg);
   transition: all 0.3s;
 }
 
-#position-tool {
+input[type=range] {
+  width: 160px;
+  height: 4px;
+  border-radius: 10px;
+  -webkit-appearance: none;
+  background-color: #520000;
+}
+input[type=range]::-webkit-slider-thumb {
+  background: #520000;
+}
+input[type=range]:hover::-webkit-slider-thumb {
+  background: #a81313;
+}
+
+#position-menu {
   width: 0px;
   height: 0px;
   opacity: 0;
@@ -125,7 +167,25 @@ img, div, h1 {
   background-color: rgba(255, 0, 0, 0.185);
   transition: width 0.3s, height 0s 0.3s, opacity 0s 0.3s, border 0s 0.3s;
 }
-#position-tool[base] ul {
+#position-menu[active] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  border: #ff0000 solid 3px;
+  border-left: none;
+  transition: width 0.3s, height 0s, opacity 0s, border 0s;
+}
+#position-menu [selected] {
+  background: white !important;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d09240 58%) !important;
+}
+#position-menu [selected]::after {
+  background: white !important;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d09240 58%) !important;
+}
+
+#position-menu[base] ul {
   transform: translate(-25px);
   opacity: 0;
   margin: 20px 0px 0px 0px;
@@ -134,52 +194,45 @@ img, div, h1 {
   width: 0px;
   transition: transform 0.3s, opacity 0.07s, height 0s 0.3s, width 0s 0.3s;
 }
-#position-tool[base] ul[inactive] {
+#position-menu[base] ul[inactive] {
   overflow: hidden;
 }
-#position-tool[base] ul li {
+#position-menu[base] ul li {
   list-style: none;
   display: flex;
   justify-content: center;
   align-items: center;
   border: #640000 solid 3px;
   border-radius: 8px;
-  width: 80px;
+  width: 60px;
   height: 25px;
   margin-bottom: 12px;
   background: white;
   background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 100%);
 }
-#position-tool[base] ul li::after {
+#position-menu[base] ul li::after {
   position: absolute;
   content: "";
   z-index: -1;
-  width: 80px;
+  width: 60px;
   height: 25px;
   opacity: 0;
   background: white;
   background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 58%);
   transition: opacity 0.2s;
 }
-#position-tool[base] ul li h3 {
+#position-menu[base] ul li h3 {
   white-space: nowrap;
   font-family: "typori";
   color: #520000;
   font-size: 17px;
   margin: 5px;
 }
-#position-tool[active] {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#position-menu[active][base] {
   height: 159px;
-  width: 126px;
-  opacity: 1;
-  border: red solid 3px;
-  border-left: none;
-  transition: width 0.3s, height 0s, opacity 0s, border 0s;
+  width: 106px;
 }
-#position-tool[active][base] ul {
+#position-menu[active][base] ul {
   margin: 10px 0px 0px 0px;
   height: auto;
   width: auto;
@@ -188,12 +241,206 @@ img, div, h1 {
   opacity: 1;
   transition: transform 0.3s 0.11s, opacity 0.3s 0.12s;
 }
-#position-tool[active][base] ul li:hover {
+#position-menu[active][base] ul li:hover {
   cursor: pointer;
 }
-#position-tool[active][base] ul li:hover::after {
+#position-menu[active][base] ul li:hover::after {
   opacity: 1;
   transition: opacity 0.2s;
+}
+
+#position-menu[free] #pos-free {
+  transform: translate(-25px);
+  margin: 10px 0px 0px 0px;
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.07s, height 0s 0.3s, width 0s 0.3s;
+}
+#position-menu[free] #pos-free[inactive] {
+  overflow: hidden;
+}
+#position-menu[free] #pos-free h4 {
+  white-space: nowrap;
+  font-family: "typori";
+  color: #520000;
+  font-size: 17px;
+  margin: 5px;
+}
+#position-menu[free] #pos-free #pos-title-cross {
+  display: flex;
+  margin-bottom: 2.5px;
+}
+#position-menu[free] #pos-free #pos-title-cross h4 {
+  margin-right: 110px;
+}
+#position-menu[free] #pos-free #pos-title-cross img {
+  height: 20px;
+  transform: translate(0px, 5px);
+  filter: invert(10%) sepia(37%) saturate(6220%) hue-rotate(353deg) brightness(95%) contrast(117%);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+#position-menu[free] #pos-free #pos-title-cross img:hover {
+  filter: invert(43%) sepia(97%) saturate(7454%) hue-rotate(355deg) brightness(93%) contrast(129%);
+  transition: all 0.2s;
+}
+#position-menu[free] #pos-free .pos-btn {
+  display: flex;
+  margin-bottom: 10px;
+}
+#position-menu[free] #pos-free .pos-btn button {
+  border: #640000 solid 3px;
+  color: #520000;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  width: 70px;
+  height: 25px;
+  margin-left: 10px;
+  background: white;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 100%);
+}
+#position-menu[free] #pos-free .pos-btn button::after {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  width: 70px;
+  height: 25px;
+  opacity: 0;
+  border-radius: 8px;
+  background: white;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 58%);
+  transition: opacity 0.2s;
+}
+#position-menu[free] #pos-free #free-size-container {
+  display: flex;
+}
+#position-menu[active][free] {
+  height: 180px;
+  width: 206px;
+}
+#position-menu[active][free] #pos-free {
+  margin: 0px 0px 0px 0px;
+  transform: translate(0px);
+  opacity: 1;
+  transition: transform 0.3s 0.11s, opacity 0.3s 0.12s;
+}
+#position-menu[active][free] #pos-free #free-btn button:hover {
+  cursor: pointer;
+}
+#position-menu[active][free] #pos-free #free-btn button:hover::after {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+#position-menu[flex] {
+  align-items: flex-start;
+}
+#position-menu[flex] h4 {
+  white-space: nowrap;
+  font-family: "typori";
+  color: #520000;
+  font-size: 17px;
+  margin: 2px 5px 5px 5px;
+}
+#position-menu[flex] #pos-title-cross {
+  display: flex;
+  margin: 7px;
+  margin-left: 0px;
+  margin-bottom: 2.5px;
+}
+#position-menu[flex] #pos-title-cross h4 {
+  margin-right: 130px;
+}
+#position-menu[flex] #pos-title-cross img {
+  height: 20px;
+  transform: translate(0px, 5px);
+  filter: invert(10%) sepia(37%) saturate(6220%) hue-rotate(353deg) brightness(95%) contrast(117%);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+#position-menu[flex] #pos-title-cross img:hover {
+  filter: invert(43%) sepia(97%) saturate(7454%) hue-rotate(355deg) brightness(93%) contrast(129%);
+  transition: all 0.2s;
+}
+#position-menu[flex] .pos-btn {
+  display: flex;
+  justify-content: flex-start;
+}
+#position-menu[flex] .pos-btn button {
+  border: #640000 solid 3px;
+  color: #520000;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  width: 60px;
+  height: 25px;
+  margin-left: 2px;
+  margin-right: 10px;
+  background: white;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 100%);
+}
+#position-menu[flex] .pos-btn button::after {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  width: 70px;
+  height: 25px;
+  opacity: 0;
+  border-radius: 8px;
+  background: white;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 58%);
+  transition: opacity 0.2s;
+}
+#position-menu[flex] #pos-reverse-img {
+  border: #833400 solid 3px;
+  transform: translate(0px, -1.3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  width: 20px;
+  height: 20px;
+  color: #d08d40;
+  background: white;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d08d40 100%);
+}
+#position-menu[flex] #pos-reverse-img img {
+  width: 12px;
+  height: 12px;
+  filter: invert(20%) sepia(73%) saturate(1960%) hue-rotate(13deg) brightness(91%) contrast(101%);
+}
+#position-menu[flex] #pos-reverse-img::after {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  width: 70px;
+  height: 25px;
+  opacity: 0;
+  border-radius: 8px;
+  background: white;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d08d40 58%);
+  transition: opacity 0.2s;
+}
+#position-menu[flex] #flex-first-axe button {
+  width: 48px;
+}
+#position-menu[flex] #pos-width, #position-menu[flex] #pos-height {
+  display: flex;
+}
+#position-menu[flex] #pos-width input[type=range], #position-menu[flex] #pos-height input[type=range] {
+  width: 120px;
+  transform: translate(0px, 8px);
+}
+#position-menu[flex] #pos-width input[type=range] {
+  transform: translate(9px, 8px);
+}
+#position-menu[active][flex] {
+  height: 243px;
+  width: 206px;
 }
 
 .in-position {

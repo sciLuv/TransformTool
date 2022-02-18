@@ -1,5 +1,0 @@
-                <ul id="pos-tool-content" inactive>
-                    <li><h3>flex</h3></li>
-                    <li><h3>grid</h3></li>
-                    <li><h3>position</h3></li>
-                </ul>
