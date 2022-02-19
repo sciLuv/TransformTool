@@ -1,20 +1,25 @@
 /////////////////////////beta//////////////////////////
 
-commenté le code déjà fait
-renger le code déjà fait
-faire une premiere version alpha du position-tool :
-faire l'interface de selection du display, position et size, fonctionnel visuellement (et uniquement)
-mettre en place de l'objet qui contiendra les info de conteneur des elements 
-faire que quand il n'y a aucun element, le position tool ne soit absolument pas clickable
+continuer a rendre le code sass plus compatimenté et fonctionnel, en partant du position tool mais a terme pour l'ensemble des elements
+1)commenté le code déjà fait
 
-faire que les titres des tool soit logique vis a vis des regles synthaxique du html
-faire un dossier sass avec les diférentes interface du position tool
+2)faire des modeles de bouton type interupteur adapté au position tool, finir flex et faire grid visuellement
+3)diminué le sass pour le rendre plus modulable (enlevé le plus possible d'id, ou mettre les même nom id en fonction, utiliser davantage de class quitte a complexifié js)
 
-git:
-verifié si seulement avoir node de maniere globale permet de l'utiliser dans tout les sous dossier
-peu etre supprimer des dossier de build tres basique
-faire un fichier git ignore qui envoi que le dest de la version de travail actuel, voir la précedente en plus quand les deux sont complementaire
-viré le site a la racine et reconstruire le dossier build, y ajouté la version actuel du transformation tool
+4)faire l'interface de selection du display, position et size, fonctionnel visuellement (et uniquement)
+  mettre en place de l'objet qui contiendra les info de conteneur des elements 
+  faire que quand il n'y a aucun element, le position tool ne soit absolument pas clickable et 
+  faire qu'une fois les menu fermé les menu se mettent en dehors de l'outil de position
+
+5) git:
+   verifié si seulement avoir node de maniere globale permet de l'utiliser dans tout les sous dossier
+   peu etre supprimer des dossier de build tres basique
+   faire un fichier git ignore qui envoi que le dest de la version de travail actuel, voir la précedente en plus quand les deux sont complementaire
+   viré le site a la racine et reconstruire le dossier build, y ajouté la version actuel du transformation tool
+   faire que les titres des tool soit logique vis a vis des regles synthaxique du html
+
+gerer l'opacité, l'overflow, le display en eux même
+
 ////////////////////////v1 final///////////////////////////
 
 chose a faire sur la window element, aprés création du position tool : {

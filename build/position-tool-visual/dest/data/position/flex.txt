@@ -1,34 +1,28 @@
             <div id="pos-menu-content">
-                <div id="pos-flex">
                     <div id="pos-title-cross">
                         <h4>Flex</h4>
-                        <img id="go-before" src="./img/angle-double-left.svg" alt="">
-                    </div>
-                    <div class="pos-btn">
-                        <button>line</button>
-                        <button>column</button>
-                        <div id="pos-reverse-img">
+                        <div class="interuptor-flex" id="interuptor-flex-xy">
+                            <div id="flex-axes"></div>
+                        </div>
+                        <div class="pos-reverse-btn pos-reverse-btn-1">
                             <img src="./img/reverse.svg" alt="">
                         </div>
+                        <img id="go-before" src="./img/angle-double-left.svg" alt="">
                     </div>
                     <div id="flex-envelop">
                         <h4>envelop</h4>
-                        <div class="pos-btn">
-                            <button>no</button>
-                            <button>yes</button>
-                            <div id="pos-reverse-img">
-                                <img src="./img/reverse.svg" alt="">
-                            </div>
+                        <div class="interuptor-flex">
+                            <div id="flex-axes"></div>
+                        </div>
+                        <div class="pos-reverse-btn">
+                            <img src="./img/reverse.svg" alt="">
                         </div>
                     </div>
-                    <div id="flex-first-axe">
-                        <h4>1st Axe</h4>
-                        <div class="pos-btn">
-                            <button>start</button>
-                            <button>end</button>
-                            <button>center</button>
+                    <div>
+                        <h4>1st axe</h4>
+                        <div class="interuptor-flex">
+                            <div id="flex-axes"></div>
                         </div>
-                    </div>
                     <div id="pos-width">
                         <h4>Width</h4>
                         <input type="range" name="width" id="width" value="150" min="0" max="500">
@@ -37,5 +31,4 @@
                         <h4>Height</h4>
                         <input type="range" name="height" id="height" value="150" min="0" max="500">
                     </div>
-                <div id="pos-flex">
             </div>

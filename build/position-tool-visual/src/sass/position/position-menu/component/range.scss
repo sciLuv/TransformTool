@@ -1,13 +1,8 @@
 input[type='range'] {
-
     width: 160px;
     height: 4px;
-    border-radius: 10px;
-    -webkit-appearance: none;
     background-color: #520000;
-    
     &::-webkit-slider-thumb {
-
         background: #520000;
       }
       &:hover{

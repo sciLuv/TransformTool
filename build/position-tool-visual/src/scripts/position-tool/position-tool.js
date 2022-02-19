@@ -2,7 +2,8 @@ let posAngle = document.getElementById("pos-angle");
 let posOpener = document.getElementById("position-menu-opener");
 let posMenu = document.getElementById("position-menu");
 
-let posMenuContent = document.getElementById("pos-menu-content");
+let posMenuContent; 
+posMenuContent = document.getElementById("pos-menu-content");
 
 let posToolOpen = false;
 
@@ -58,12 +59,13 @@ function baseMenu(){
         .then(response => response.text())
         .then(data => {
             posMenu.innerHTML = data;
+            posMenuContent = document.getElementById("pos-menu-content");
             if(posContainerSetting.selectPos == "free"){
                 whenFreeIsSelect();
             }
             else if (posContainerSetting.selectPos == "flex"){
                 whenFlexIsSelect();
-
+                flexBtns();
             }
             else if (posContainerSetting.selectPos == "grid"){
 
@@ -88,6 +90,7 @@ function whenFreeIsSelect(){
         .then(response => response.text())
         .then(data => {
             posMenu.innerHTML = data;
+            posMenuContent = document.getElementById("pos-menu-content");
             baseMenu();
             freeSelect.setAttribute("selected", "");
     })
@@ -104,8 +107,27 @@ function whenFlexIsSelect(){
         .then(response => response.text())
         .then(data => {
             posMenu.innerHTML = data;
+            posMenuContent = document.getElementById("pos-menu-content");
             baseMenu();
             flexSelect.setAttribute("selected", "");
     })
+    })
+}
+
+function flexBtns(){
+    let selectFlexXY = document.getElementById("interuptor-flex-xy");
+    let interuptorFlexXY = document.getElementById("flex-axes");
+    
+    let flexXY = false;
+    
+    selectFlexXY.addEventListener('click', function(){
+        if(flexXY == false){
+            interuptorFlexXY.setAttribute("active","");
+            flexXY = true;
+        }
+        else{
+            interuptorFlexXY.removeAttribute("active");
+            flexXY = false;
+        }
     })
 }

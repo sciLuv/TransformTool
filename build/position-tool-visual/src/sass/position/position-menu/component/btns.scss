@@ -1,0 +1,80 @@
+.pos-menu-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: #640000 solid 3px;
+    color: #520000;
+    white-space: nowrap;
+    user-select: none;
+    font-family: "typori";
+    border-radius: 8px;
+    width: 60px;
+    height: 25px;
+    background: rgb(255,255,255);
+    background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 100%);
+    &::after{
+        position: absolute;
+        content: "";
+        z-index: -1;
+        width: 60px;
+        height: 25px;
+        opacity: 0;
+        background: rgb(255,255,255);
+        background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 58%);
+        transition: opacity 0.2s;
+    }
+    &:hover{
+        cursor: pointer;
+        &::after{
+            opacity: 1;
+            transition: opacity 0.2s;
+        }
+    }
+}
+
+#go-before{
+    height: 20px;
+    transform: translate(0px, 5px);
+    filter: invert(10%) sepia(37%) saturate(6220%) hue-rotate(353deg) brightness(95%) contrast(117%);
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover{
+        filter: invert(43%) sepia(97%) saturate(7454%) hue-rotate(355deg) brightness(93%) contrast(129%);
+        transition: all 0.2s;
+    }
+}
+
+.pos-reverse-btn{
+    border: #833400 solid 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 25px;
+    width: 20px;
+    height: 20px;
+    background: rgb(255,255,255);
+    background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgb(208, 141, 64) 100%);
+    img{
+        width: 12px;
+        height: 12px;
+        filter: invert(20%) sepia(73%) saturate(1960%) hue-rotate(13deg) brightness(91%) contrast(101%);
+    }
+    &::after{
+        position: absolute;
+        content: "";
+        z-index: -1;
+        width: 20px;
+        height: 20px;
+        opacity: 0;
+        border-radius: 8px;
+        background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgb(243, 211, 123) 58%);
+        transition: opacity 0.2s;
+    }
+    &:hover{
+        &::after{
+            opacity: 1;
+            transition: opacity 0.2s;
+        }
+    }
+}

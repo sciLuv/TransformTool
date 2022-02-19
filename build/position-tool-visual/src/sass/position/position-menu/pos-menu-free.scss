@@ -1,19 +1,8 @@
 #position-menu{
     &[free]{
-        #pos-free{
-            transform: translate(-25px);
+        #pos-menu-content{
             margin: 10px 0px 0px 0px;
-            opacity: 0;
-            &[inactive]{
-                overflow: hidden;
-            }
-            transition: transform 0.3s, opacity 0.07s, height 0s 0.3s, width 0s 0.3s;
             h4{
-                white-space: nowrap;
-                
-                font-family: "typori";
-                color: #520000;
-                font-size: 17px;
                 margin: 5px;
             }
             #pos-title-cross{
@@ -22,45 +11,19 @@
                 h4{
                     margin-right: 110px;
                 }
-                img{
-                    height: 20px;
-                    transform: translate(0px, 5px);
-                    filter: invert(10%) sepia(37%) saturate(6220%) hue-rotate(353deg) brightness(95%) contrast(117%);
-                    cursor: pointer;
-                    transition: all 0.2s;
-                    &:hover{
-                        filter: invert(43%) sepia(97%) saturate(7454%) hue-rotate(355deg) brightness(93%) contrast(129%);
-                        transition: all 0.2s;
-                    }
-                }
             }
             .pos-btn{
                 display: flex;
                 margin-bottom: 10px;
                 button{
-                    border: #640000 solid 3px;
-                    color: #520000;
                     font-weight: bold;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 8px;
                     width: 70px;
                     height: 25px;
                     margin-left: 10px;
-                    background: rgb(255,255,255);
-                    background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 100%);
                     &::after{
-                        position: absolute;
-                        content: "";
-                        z-index: -1;
                         width: 70px;
                         height: 25px;
-                        opacity: 0;
                         border-radius: 8px;
-                        background: rgb(255,255,255);
-                        background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 58%);
-                        transition: opacity 0.2s;
                     }
                 }
             }
@@ -73,22 +36,8 @@
         &[free]{
             height: 180px;
             width: 206px;
-            #pos-free{
+            #pos-menu-content{
                 margin: 0px 0px 0px 0px;
-                transform: translate(0px);
-                opacity: 1;
-                transition: transform 0.3s 0.11s, opacity 0.3s 0.12s;
-                #free-btn{
-                    button{
-                        &:hover{
-                            cursor: pointer;
-                            &::after{
-                                opacity: 1;
-                                transition: opacity 0.2s;
-                            }
-                        }
-                    }
-                }
             }
         }
     }

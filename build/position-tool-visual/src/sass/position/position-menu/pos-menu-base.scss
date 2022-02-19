@@ -1,43 +1,12 @@
 #position-menu{
     &[base]{
-        ul{
-            transform: translate(-25px);
-            opacity: 0;
+        #pos-menu-content{
             margin: 20px 0px 0px 0px;
             padding: 0px;
-            height: 0px;
-            width: 0px;
-            &[inactive]{
-                overflow: hidden;
-            }
-            transition: transform 0.3s, opacity 0.07s, height 0s 0.3s, width 0s 0.3s;
             li{
                 list-style: none;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border: #640000 solid 3px;
-                border-radius: 8px;
-                width: 60px;
-                height: 25px;
                 margin-bottom: 12px;
-                background: rgb(255,255,255);
-                background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 100%);
-                &::after{
-                    position: absolute;
-                    content: "";
-                    z-index: -1;
-                    width: 60px;
-                    height: 25px;
-                    opacity: 0;
-                    background: rgb(255,255,255);
-                    background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 58%);
-                    transition: opacity 0.2s;
-                }
                 h3{
-                    white-space: nowrap;
-                    font-family: "typori";
-                    color: #520000;
                     font-size: 17px;
                     margin: 5px;
                 }
@@ -48,23 +17,8 @@
         &[base]{
             height: 159px;
             width: 106px;
-            ul{
+            #pos-menu-content{
                 margin: 10px 0px 0px 0px;
-                height: auto;
-                width: auto;
-                overflow: visible;
-                transform: translate(0px);
-                opacity: 1;
-                transition: transform 0.3s 0.11s, opacity 0.3s 0.12s;
-                li{
-                    &:hover{
-                        cursor: pointer;
-                        &::after{
-                            opacity: 1;
-                            transition: opacity 0.2s;
-                        }
-                    }
-                }
             }
         }
     }
