@@ -18,16 +18,7 @@
         opacity: 0;
         transition: all 0.2;
     }
-}
-
-#interuptor-flex-xy{
-    background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 100%);
-    &:after{
-        background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 50%);
-    }
-    #flex-axes{
-        background: linear-gradient(90deg, #d04040 41%, #640000 41%, #640000 59%, #d04040 59%);
-        transform: translate(-8px, 0px);
+    .flex-under-interuptor{
         border: #640000 solid 2.5px;
         width: 15px;
         height: 15px;
@@ -41,12 +32,27 @@
             height: 15px;
             border-radius: 12px;
             opacity: 0;
-            background: linear-gradient(90deg, #f16161 41%, #640000 41%, #640000 59%, #f16161 59%);
             transition: all 0.2;
         }
         &[active]{
-            transform: translate(8px, 0px) rotate(90deg);
             transition: all 0.2s;
+        }
+    }
+}
+
+#interuptor-flex-direction{
+    background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 100%);
+    &:after{
+        background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 50%);
+    }
+    #flex-positions{
+        background: linear-gradient(90deg, #d04040 41%, #640000 41%, #640000 59%, #d04040 59%);
+        transform: translate(-8px, 0px);
+        &:after{
+            background: linear-gradient(90deg, #f16161 41%, #640000 41%, #640000 59%, #f16161 59%);
+        }
+        &[active]{
+            transform: translate(8px, 0px) rotate(90deg);
         }
     }
     &:hover{
@@ -54,7 +60,40 @@
             opacity: 1;
             transition: all 0.2s;
         }
-        #flex-axes{
+        #flex-positions{
+            &:after{
+                opacity: 1;
+                transition: all 0.2s;
+            }
+        }
+    }
+}
+.interuptor-flex-content{
+    width: 37px;
+    background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 100%);
+    &:after{
+        width: 37px;
+        background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 50%);
+    }
+    .flex-axes{
+        background: #d04040;
+        transform: translate(-12px, 0px);
+        &:after{
+            background: #f16161;
+        }
+        &[middle]{
+            transform: translate(-1px, 0px);
+        }
+        &[end]{
+            transform: translate(12px, 0px);
+        }
+    }
+    &:hover{
+        &:after{
+            opacity: 1;
+            transition: all 0.2s;
+        }
+        .flex-axes{
             &:after{
                 opacity: 1;
                 transition: all 0.2s;

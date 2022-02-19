@@ -5,7 +5,7 @@
             h4{
                 margin: 5px;
             }
-            #pos-title-cross{
+            .pos-title-cross{
                 display: flex;
                 margin-bottom: 2.5px;
                 h4{
@@ -27,14 +27,11 @@
                     }
                 }
             }
-            #free-size-container{
-                display: flex;
-            }
         }
     }
     &[active]{            
         &[free]{
-            height: 180px;
+            height: 185px;
             width: 206px;
             #pos-menu-content{
                 margin: 0px 0px 0px 0px;

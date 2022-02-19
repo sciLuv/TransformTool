@@ -32,6 +32,10 @@ img, div, h1 {
   user-select: none;
 }
 
+.flexing-box {
+  display: flex;
+}
+
 input[type=range] {
   width: 80px;
   height: 3px;
@@ -184,23 +188,14 @@ input[type=range]:hover::-webkit-slider-thumb {
   opacity: 0;
   transition: all 0.2;
 }
-
-#interuptor-flex-xy {
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 100%);
-}
-#interuptor-flex-xy:after {
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 50%);
-}
-#interuptor-flex-xy #flex-axes {
-  background: linear-gradient(90deg, #d04040 41%, #640000 41%, #640000 59%, #d04040 59%);
-  transform: translate(-8px, 0px);
+.interuptor-flex .flex-under-interuptor {
   border: #640000 solid 2.5px;
   width: 15px;
   height: 15px;
   border-radius: 12px;
   transition: all 0.2s;
 }
-#interuptor-flex-xy #flex-axes:after {
+.interuptor-flex .flex-under-interuptor:after {
   position: absolute;
   content: "";
   z-index: -1;
@@ -208,18 +203,63 @@ input[type=range]:hover::-webkit-slider-thumb {
   height: 15px;
   border-radius: 12px;
   opacity: 0;
-  background: linear-gradient(90deg, #f16161 41%, #640000 41%, #640000 59%, #f16161 59%);
   transition: all 0.2;
 }
-#interuptor-flex-xy #flex-axes[active] {
-  transform: translate(8px, 0px) rotate(90deg);
+.interuptor-flex .flex-under-interuptor[active] {
   transition: all 0.2s;
 }
-#interuptor-flex-xy:hover:after {
+
+#interuptor-flex-direction {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 100%);
+}
+#interuptor-flex-direction:after {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 50%);
+}
+#interuptor-flex-direction #flex-positions {
+  background: linear-gradient(90deg, #d04040 41%, #640000 41%, #640000 59%, #d04040 59%);
+  transform: translate(-8px, 0px);
+}
+#interuptor-flex-direction #flex-positions:after {
+  background: linear-gradient(90deg, #f16161 41%, #640000 41%, #640000 59%, #f16161 59%);
+}
+#interuptor-flex-direction #flex-positions[active] {
+  transform: translate(8px, 0px) rotate(90deg);
+}
+#interuptor-flex-direction:hover:after {
   opacity: 1;
   transition: all 0.2s;
 }
-#interuptor-flex-xy:hover #flex-axes:after {
+#interuptor-flex-direction:hover #flex-positions:after {
+  opacity: 1;
+  transition: all 0.2s;
+}
+
+.interuptor-flex-content {
+  width: 37px;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 100%);
+}
+.interuptor-flex-content:after {
+  width: 37px;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0) 0%, #d04040 50%);
+}
+.interuptor-flex-content .flex-axes {
+  background: #d04040;
+  transform: translate(-12px, 0px);
+}
+.interuptor-flex-content .flex-axes:after {
+  background: #f16161;
+}
+.interuptor-flex-content .flex-axes[middle] {
+  transform: translate(-1px, 0px);
+}
+.interuptor-flex-content .flex-axes[end] {
+  transform: translate(12px, 0px);
+}
+.interuptor-flex-content:hover:after {
+  opacity: 1;
+  transition: all 0.2s;
+}
+.interuptor-flex-content:hover .flex-axes:after {
   opacity: 1;
   transition: all 0.2s;
 }
@@ -375,11 +415,11 @@ input[type=range]:hover::-webkit-slider-thumb {
 #position-menu[free] #pos-menu-content h4 {
   margin: 5px;
 }
-#position-menu[free] #pos-menu-content #pos-title-cross {
+#position-menu[free] #pos-menu-content .pos-title-cross {
   display: flex;
   margin-bottom: 2.5px;
 }
-#position-menu[free] #pos-menu-content #pos-title-cross h4 {
+#position-menu[free] #pos-menu-content .pos-title-cross h4 {
   margin-right: 110px;
 }
 #position-menu[free] #pos-menu-content .pos-btn {
@@ -397,11 +437,8 @@ input[type=range]:hover::-webkit-slider-thumb {
   height: 25px;
   border-radius: 8px;
 }
-#position-menu[free] #pos-menu-content #free-size-container {
-  display: flex;
-}
 #position-menu[active][free] {
-  height: 180px;
+  height: 185px;
   width: 206px;
 }
 #position-menu[active][free] #pos-menu-content {
@@ -414,58 +451,67 @@ input[type=range]:hover::-webkit-slider-thumb {
 #position-menu[flex] h4 {
   margin: 2px 5px 5px 5px;
 }
-#position-menu[flex] #pos-title-cross {
+#position-menu[flex] .pos-title-cross {
   display: flex;
   margin: 7px;
   margin-left: 0px;
-  margin-bottom: 2.5px;
-  margin-top: 12px;
+  margin-bottom: 14px;
+  margin-top: 13px;
 }
-#position-menu[flex] #pos-title-cross h4 {
+#position-menu[flex] .pos-title-cross h4 {
   margin-right: 10px;
 }
-#position-menu[flex] #pos-title-cross #interuptor-flex-xy {
+#position-menu[flex] .pos-title-cross #interuptor-flex-direction {
   margin-top: 2px;
-  margin-right: 10px;
+  margin-right: 5px;
 }
-#position-menu[flex] #pos-title-cross .pos-reverse-btn-1 {
+#position-menu[flex] .pos-title-cross .pos-reverse-btn {
   margin-right: 50px;
 }
-#position-menu[flex] #flex-envelop {
-  display: flex;
+#position-menu[flex] .pos-title-cross #go-before {
+  margin-top: -3px;
 }
-#position-menu[flex] #flex-envelop .interuptor-flex {
-  margin-top: 2px;
+#position-menu[flex] .flex-envelop {
+  margin-bottom: 10px;
+}
+#position-menu[flex] .flex-envelop .pos-reverse-btn {
+  margin: -3px 0px 0px 5px;
+}
+#position-menu[flex] .first-axe h4 {
   margin-right: 10px;
 }
-#position-menu[flex] .pos-btn {
-  display: flex;
-  justify-content: flex-start;
+#position-menu[flex] .second-axe {
+  margin-bottom: 10px;
 }
-#position-menu[flex] .pos-btn .pos-menu-btn {
-  font-weight: bold;
-  margin-left: 2px;
-  margin-right: 10px;
+#position-menu[flex] .axe .btn-container, #position-menu[flex] .flex-envelop .btn-container {
+  margin-top: 2.5px;
 }
-#position-menu[flex] .pos-btn .pos-menu-btn::after {
+#position-menu[flex] .axe button, #position-menu[flex] .flex-envelop button {
+  margin: 1px 0px 0px 5px;
+  width: 28px;
+  height: 19px;
+  font-size: 11.5px;
+  font-weight: bolder;
+  border: #640000 solid 2px;
+}
+#position-menu[flex] .axe button::after, #position-menu[flex] .flex-envelop button::after {
+  width: 28px;
+  height: 19px;
   border-radius: 8px;
 }
-#position-menu[flex] #flex-first-axe button {
-  width: 48px;
-}
-#position-menu[flex] #pos-width, #position-menu[flex] #pos-height {
+#position-menu[flex] .pos-width, #position-menu[flex] .pos-height {
   display: flex;
 }
-#position-menu[flex] #pos-width input[type=range], #position-menu[flex] #pos-height input[type=range] {
+#position-menu[flex] .pos-width input[type=range], #position-menu[flex] .pos-height input[type=range] {
   width: 120px;
   transform: translate(0px, 8px);
 }
-#position-menu[flex] #pos-width input[type=range] {
+#position-menu[flex] .pos-width input[type=range] {
   transform: translate(9px, 8px);
 }
 #position-menu[active][flex] {
-  height: 243px;
-  width: 206px;
+  height: 218px;
+  width: 220px;
 }
 
 .in-position {
