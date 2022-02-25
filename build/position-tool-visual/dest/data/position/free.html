@@ -4,11 +4,26 @@
                     <img id="go-before" src="./img/angle-double-left.svg" alt="">
                 </div>
                 <div class="pos-btn">
-                    <button class="pos-menu-btn">relative</button>
-                    <button class="pos-menu-btn">absolute</button>
+                    <button class="pos-menu-btn pos-menu-btn-alternate">relative</button>
+                    <button class="pos-menu-btn pos-menu-btn-alternate">absolute</button>
                 </div>
-                    <h4>Width</h4>
-                    <input type="range" name="width" id="width" value="150" min="0" max="500">
-                    <h4>Height</h4>
-                    <input type="range" name="height" id="height" value="150" min="0" max="500">
+                <div class="flex z-index">
+                    <h4>Z-index</h4>
+                    <input type="number" value="0" name="" id="">
+                    <button class="pos-menu-btn">+</button>
+                    <button class="pos-menu-btn">-</button>
+                </div>
+                <div class="overflow">
+                    <div class="flex">
+                        <h4>Overflow</h4>
+                        <div class="interuptor-flex interuptor-flex-content interuptor-free-overflow" id="interuptor">
+                            <div class="flex-under-interuptor flex-axes" id="under-interuptor"></div>
+                        </div>
+                    </div>
+                    <div class="pos-btn">
+                        <button class="pos-menu-btn pos-menu-btn-alternate">visible</button>
+                        <button class="pos-menu-btn pos-menu-btn-alternate">hidden</button>
+                        <button class="pos-menu-btn pos-menu-btn-alternate" id="scroll">scroll</button>
+                    </div>
+                </div>
             </div>

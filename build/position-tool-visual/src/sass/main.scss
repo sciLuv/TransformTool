@@ -1,9 +1,10 @@
 //Base
+@import "./base/sciluv-framework";
 @import "./base/variables";
 @import "./base/base";
 @import "./base/header";
 @import "./base/input-range";
-
+@import "./base/border-selector";
 
 //Position
 
@@ -15,11 +16,15 @@
         @import "./position/position-menu/component/range";
         @import "./position/position-menu/component/interuptors";
         @import "./position/position-menu/component/btns";
+        @import "./position/position-menu/component/pos-menu-border-selector";
         //position menu partie
         @import "./position/position-menu/pos-menu";
         @import "./position/position-menu/pos-menu-base";
-        @import "./position/position-menu/pos-menu-free";
+        @import "./position/position-menu/pos-menu-basic";
         @import "./position/position-menu/pos-menu-flex";
+        @import "./position/position-menu/pos-menu-grid";
+        @import "./position/position-menu/pos-menu-free";
+        @import "./position/position-menu/pos-menu-size";
 @import "./position/position-elems-container";
 @import "./position/in-position";
 

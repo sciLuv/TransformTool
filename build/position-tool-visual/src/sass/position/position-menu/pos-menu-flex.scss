@@ -38,6 +38,11 @@
         .second-axe{
             margin-bottom: 10px;
         }
+        .element-axe{
+            .btn-container{
+                margin-left: 40px;
+            }
+        }
         .axe, .flex-envelop{
             .btn-container{
                 margin-top: 2.5px;
@@ -48,7 +53,7 @@
                 height: 19px;
                 font-size: 11.5px;
                 font-weight: bolder;
-                border: #640000 solid 2px;
+                border: $pos-menu-font-color-1 solid 2px;
                 &::after{
                     width: 28px;
                     height: 19px;
@@ -56,23 +61,16 @@
                 }
             }
         }
-        .pos-width, .pos-height{
-            display: flex;
-            input[type='range'] {
-                width: 120px;
-                transform: translate(0px, 8px);
-            }
-        }
-        .pos-width{
-            input[type='range'] {
-                transform: translate(9px, 8px);
-            }
-        }
     }
     &[active]{            
         &[flex]{
             height: 218px;
             width: 220px;
+            .element-axe{
+                .btn-container{
+                    margin-left: 70px;
+                }
+            }
         }
     }
 }

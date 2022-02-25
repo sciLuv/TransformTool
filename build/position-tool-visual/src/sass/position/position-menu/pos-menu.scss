@@ -2,12 +2,12 @@
     width: 0px;
     height: 0px;
     opacity: 0;
-    border: rgba(255, 0, 0, 0) solid 3px;
+    border: $no-opacity solid 3px;
     border-left: none;
     border-radius: 0px 10px 10px 0px;
-    background-color: rgba(255, 0, 0, 0.185);
+    background-color: $pos-menu-bg;
     transition: width 0.3s, height 0s 0.3s, opacity 0s 0.3s, border 0s 0.3s;
-    &[base],&[free],&[flex],&[grid]{
+    &[base],&[basic],&[flex],&[grid],&[free],&[size]{
         #pos-menu-content{
             transform: translate(-25px);
             opacity: 0;
@@ -24,10 +24,10 @@
         justify-content: center;
         align-items: center;
         opacity: 1;
-        border: #ff0000 solid 3px;
+        border: $pos-menu-border-color solid 3px;
         border-left: none;
         transition: width 0.3s, height 0s, opacity 0s, border 0s;
-        &[base],&[free],&[flex],&[grid]{
+        &[base],&[basic],&[flex],&[grid],&[free],&[size]{
             #pos-menu-content{
                 height: auto;
                 width: auto;
@@ -39,12 +39,10 @@
         }
     }
     [selected]{
-        background: rgb(255,255,255) !important;
-            background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgb(208, 146, 64) 58%) !important;
+        background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-btn-bg-selected 80%);
 
         &::after{
-            background: rgb(255,255,255) !important;
-            background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgb(208, 146, 64) 58%) !important;
+            background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-btn-bg-selected 30%);
         }
     }
 }

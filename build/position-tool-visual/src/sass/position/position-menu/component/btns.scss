@@ -2,25 +2,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: #640000 solid 3px;
-    color: #520000;
+    border: $pos-menu-font-color-1 solid 3px;
+    color: $pos-menu-font-color-2;
     white-space: nowrap;
     user-select: none;
     font-family: "typori";
     border-radius: 8px;
-    width: 60px;
-    height: 25px;
-    background: rgb(255,255,255);
-    background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 100%);
+    width: 50px;
+    height: 20px;
+    background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-btn-bg 100%);
     &::after{
         position: absolute;
         content: "";
         z-index: -1;
-        width: 60px;
-        height: 25px;
+        width: 50px;
+        height: 20px;
         opacity: 0;
-        background: rgb(255,255,255);
-        background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(208,64,64,1) 58%);
+        background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-btn-bg 58%);
         transition: opacity 0.2s;
     }
     &:hover{
@@ -29,6 +27,15 @@
             opacity: 1;
             transition: opacity 0.2s;
         }
+    }
+}
+.pos-menu-btn-alternate{
+    border-radius: 12px;
+    background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-alt-btn-bg 80%);
+    &::after{
+        width: 70px;
+        height: 25px;
+        border-radius: 12px;
     }
 }
 
@@ -45,20 +52,26 @@
 }
 
 .pos-reverse-btn{
-    border: #833400 solid 3px;
+    border: $pos-menu-reverse-btn-border-color solid 3px;
+    opacity: 0.5;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: default;
     border-radius: 25px;
     width: 20px;
     height: 20px;
-    background: rgb(255,255,255);
-    background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgb(208, 141, 64) 100%);
+    background: #ffffff;
+    background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-reverse-btn-bg 100%);
     img{
         width: 12px;
         height: 12px;
         filter: invert(20%) sepia(73%) saturate(1960%) hue-rotate(13deg) brightness(91%) contrast(101%);
+        transition: all 0.3s;
+        &[active]{
+            transform: rotate(180deg);
+            transition: all 0.3s;
+        }
     }
     &::after{
         position: absolute;
@@ -68,13 +81,17 @@
         height: 20px;
         opacity: 0;
         border-radius: 8px;
-        background: linear-gradient(165deg, rgba(255,255,255,0) 0%, rgb(243, 211, 123) 58%);
+        background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-reverse-btn-bg-2 58%);
         transition: opacity 0.2s;
     }
-    &:hover{
-        &::after{
-            opacity: 1;
-            transition: opacity 0.2s;
+    &[active]{
+        opacity: 1;
+        cursor: pointer;
+        &:hover{
+            &::after{
+                opacity: 1;
+                transition: opacity 0.2s;
+            }
         }
     }
 }

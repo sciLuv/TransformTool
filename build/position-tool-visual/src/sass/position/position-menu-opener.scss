@@ -1,10 +1,10 @@
 #position-menu-opener{
     white-space: nowrap;
     height: 50px;
-    border-top: rgb(255, 0, 0) solid 3px;
-    border-left: rgb(255, 0, 0) solid 3px;
+    border-top: $pos-menu-border-color solid 3px;
+    border-left: $pos-menu-border-color solid 3px;
     border-radius: 10px 12px 0px 0px;
-    background-color: rgba(255, 0, 0, 0.185);
+    background-color: $pos-menu-bg;
     transition: border-radius 0s 0.3s;
     .title-and-angle{
         display: flex;
@@ -14,7 +14,7 @@
             h2{
                 white-space: nowrap;
                 font-family: "typori";
-                color: #640000;
+                color: $pos-menu-font-color-1;
                 font-size: 35px;
                 margin: 0px;
                 margin-left: 8px;
@@ -25,8 +25,8 @@
             }
         }
         #pos-angle{
-            border-left: rgb(255, 0, 0) solid 3px;
-            border-right: rgb(255, 0, 0) solid 3px;
+            border-left: $pos-menu-border-color solid 3px;
+            border-right: $pos-menu-border-color solid 3px;
             border-radius: 0px 10px 0px 0px;
             justify-self: end;
             margin-left: 20px;
@@ -49,7 +49,7 @@
         border-radius: 10px 0px 0px 0px;
         transition: border-radius 0s;
         #pos-angle{
-            border-right: rgba(255, 0, 0, 0) solid 3px;
+            border-right: $no-opacity solid 3px;
             border-radius: 0px;
             transition: border 0s, border-radius 0s;
             #pos-angle-img{

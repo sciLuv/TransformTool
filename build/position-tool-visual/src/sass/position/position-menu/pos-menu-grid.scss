@@ -1,0 +1,109 @@
+#position-menu{
+    &[grid]{
+        #pos-menu-content{
+            margin: 10px 0px 0px 0px;
+            
+            h4{
+               margin: 5px;
+            }     
+            .pos-title-cross{
+                display: flex;
+                margin-top: 10px;
+                margin-bottom: 8px;
+                h4{
+                    margin-right: 150px;
+                }
+            }
+            .pos-menu-btn{
+                font-weight: bold;
+            }
+            .number{
+                h4{
+                    margin-right: 20px;
+                }
+            }
+            .marge{
+                h4{
+                    margin-right: 30px;
+                }
+            }
+            .marge,.number,.size{
+                margin-bottom: 16px;
+            }
+            .range-number{
+                margin-left: 80px;
+                margin-top: 5px;
+                flex-direction: column;
+                justify-content: center;
+                align-content: center;
+                align-items: center;
+                .number-graduation{
+                    width: 160px;
+                    height: 5px;
+                    transform: translateY(1px);
+                    justify-content: space-between;
+                    position: relative;
+                    z-index: -1;
+                    hr{
+                        border-color: $pos-menu-font-color-1;
+                        background-color: $pos-menu-font-color-1;
+                        height: 7px;
+                    }
+                    .big{
+                        transform: translateY(-3px);
+                        height: 9px;
+                    }
+                }
+            }
+            .size{
+                margin-bottom: 0px;
+                .column{
+                    margin-left: 5px;
+                }
+                .size-selection{
+                    margin-top: 3px;
+                }
+                input[type='range'] {
+                    margin-top: 13px;
+                }
+                select{
+                    margin-top: 3px;
+                    width: 40px;
+                    height: 20px;
+                }
+            }
+            .column{
+                width: 65px;
+                margin-right: 7px;
+                &::after{
+                    width: 65px;
+                }
+            }
+            .line{
+                width: 40px;
+                &::after{
+                    width: 40px;
+                }
+            }
+        }
+        &[active]{ 
+            height: 243px;
+            width: 240px;
+            align-items: flex-start;
+            #pos-menu-content{
+                margin: 0px 0px 0px 0px;
+                input[type='range'] {
+                    width: 200px;
+                    margin-left: 5px;
+                }
+                .range-number{
+                    margin-left: 0px;
+                    .number-graduation{
+                        margin-left: 2px;
+                        width: 192px;
+                    }
+                }
+            }         
+        }
+    }
+}

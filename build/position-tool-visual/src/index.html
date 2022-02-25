@@ -28,10 +28,14 @@
             </section>
         </div>
         <section id="position-menu" base>
-            <ul id="pos-menu-content" inactive>
-                <li class="pos-menu-btn" id="free-pos-select" pos="free"><h3>free</h3></li>
-                <li class="pos-menu-btn" id="flex-pos-select" pos="flex"><h3>flex</h3></li>
-                <li class="pos-menu-btn" id="grid-pos-select" pos="grid"><h3>grid</h3></li>
+            <ul id="pos-menu-content" class="m0 mt1 p0" inactive>
+                <div class="flex wrap center pos-base-menu-1 ml15">
+                    <li class="pos-menu-btn ml15 mr15" id="basic-pos-select" pos="basic"><h3>basic</h3></li>
+                    <li class="pos-menu-btn" id="flex-pos-select" pos="flex"><h3>flex</h3></li>
+                    <li class="pos-menu-btn ml1" id="grid-pos-select" pos="grid"><h3>grid</h3></li>
+                    <li class="pos-menu-btn pos-menu-base-btn-2 mr1" id="free-pos-select" pos="free"><h3>free</h3></li>
+                    <li class="pos-menu-btn pos-menu-base-btn-2" id="size-pos-select" pos="size"><h3>size</h3></li>
+                </div>
             </ul>
         </section>
     </article>
@@ -39,7 +43,10 @@
 
     <!-- build:js ./scripts/position-tool.js defer-->
     <script src="./scripts/position-tool/position.js"></script>
-    <script src="./scripts/position-tool/position-menu.js"></script>
+    <script src="./scripts/position-tool/position-menu/pos-menu.js"></script>
+    <script src="./scripts/position-tool/position-menu/pos-menu-basic.js"></script>
+    <script src="./scripts/position-tool/position-menu/pos-menu-flex.js"></script>
+    <script src="./scripts/position-tool/position-menu/pos-menu-free.js"></script>
     <!-- endbuild -->
 </body>
 </html>

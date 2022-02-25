@@ -111,178 +111,526 @@ body.addEventListener('mousemove', function(event){
     }
 })
 
-let posAngle = document.getElementById("pos-angle");
-let posOpener = document.getElementById("position-menu-opener");
+//JS representation of the opener btn of the position menu
+let posOpener = document.getElementById("pos-angle");
+//JS representation of the tool position title container (contain "position tool title" and the opener menu btn)
+let posToolTitle = document.getElementById("position-menu-opener");
+//JS representation of the position menu container
 let posMenu = document.getElementById("position-menu");
+//JS representation of the position menu content
+let posMenuContent = document.getElementById("pos-menu-content");
 
-let posMenuContent; 
-posMenuContent = document.getElementById("pos-menu-content");
-
+//if menu is open this variable is true
 let posToolOpen = false;
 
-posAngle.addEventListener("click", function(){
+//Event for give specific attribut to the opener and the tool title 
+//in function of there opening and closing 
+posOpener.addEventListener("click", function(){
     if(posToolOpen == false){
         posToolOpen = true;
-        posOpener.setAttribute("active", ""); 
+        posToolTitle.setAttribute("active", ""); 
         posMenu.setAttribute("active", ""); 
         posMenuContent.removeAttribute("inactive");
     }
     else{
         posToolOpen = false;
-        posOpener.removeAttribute("active");
+        posToolTitle.removeAttribute("active");
         posMenu.removeAttribute("active");
         let inativeposMenuContent = window.setTimeout(inativationContent, 300);
     }
 })
-
+//exclusively use in the Event just before 
+//for give specific attribut for few ms to the position menu content
 function inativationContent(){
     posMenuContent.setAttribute("inactive", "");
 }
 
-let posContainerSetting = {
-    selectPos : "none",
-    posMenuOpen : false,
-    settingPos : {}
+//variable for the position tool menu change innerHTML and associate css 
+//in function of selection (flex basic ect) 
+let selectPos = "none";
+
+let lastSelectPosMenu;
+let lastSelectPosMenuDisplay;
+
+//object contain all variable set in the menu for application on the element's container
+let posSetting = {
+    free : {
+        position: "none",
+        zIndex : 0,
+        overflow : "visible"
+    },
+    size : {
+        width : 100,
+        height : 100,
+        padding : {
+            top : 0, bottom : 0,
+            left : 0, right : 0
+        },
+        margin : {
+            top : 0, bottom : 0,
+            left : 0, right : 0
+        }
+    },
+    display : {}
 }
 
-let freeSelect;
+//next 5variables declare in global scope to be accessible for all function 
+//variables represent futur HTML btn to access to different display menu
+let basicSelect;
 let flexSelect;
 let gridSelect;
+//variables represent futur HTML btn to access to position (relative, abs) and size menu
+let freeSelect;
+let sizeSelect;
 
+//function to change the begin of the position menu to an specific part of it
+//this function is call each time we enter in the begin of the menu and be call in function of all part of the menu
+//this function call data content the HTML of the other part of the menu to rewrite the content of the position menu
 function baseMenu(){
-    freeSelect = document.getElementById("free-pos-select");
+    //assign the HTML btn for other part of the menu each time, avoid "undefined", that why this variable are declar in global scope
+    basicSelect = document.getElementById("basic-pos-select");
     flexSelect = document.getElementById("flex-pos-select");
     gridSelect = document.getElementById("grid-pos-select");
 
-    function posSelection(posSelect){
-        console.log("test");
-        if (posContainerSetting.selectPos != posSelect.getAttribute("pos")){
+    freeSelect = document.getElementById("free-pos-select");
+    sizeSelect = document.getElementById("size-pos-select");
 
-            freeSelect.removeAttribute("selected");
+    function posSelection(posSelect){
+        if (selectPos != posSelect.getAttribute("pos")){
+
+            basicSelect.removeAttribute("selected");
             flexSelect.removeAttribute("selected");
             gridSelect.removeAttribute("selected");
 
-            posContainerSetting.selectPos = posSelect.getAttribute("pos");
-            posSelect.setAttribute("selected", "");
+            selectPos = posSelect.getAttribute("pos");
         }
-
+        //
         posMenu.removeAttribute("base");
-        posMenu.setAttribute(posContainerSetting.selectPos, "");
-        fetch('data/position/' + posContainerSetting.selectPos + '.html')
+        posMenu.innerHTML = "";
+        posMenu.setAttribute(selectPos, "");
+        fetch('data/position/' + selectPos + '.html')
         .then(response => response.text())
         .then(data => {
             posMenu.innerHTML = data;
             posMenuContent = document.getElementById("pos-menu-content");
-            if(posContainerSetting.selectPos == "free"){
-                whenFreeIsSelect();
-            }
-            else if (posContainerSetting.selectPos == "flex"){
-                whenFlexIsSelect();
-                flexBtns();
-            }
-            else if (posContainerSetting.selectPos == "grid"){
+            switch(selectPos){
+                case "basic" : whenBasicIsSelect(); break;
+                case "flex" : whenFlexIsSelect(); break;
+                case "grid" : whenGridIsSelect(); break;
 
+                case "free" : whenFreeIsSelect(); break;
+                case "size" : whenSizeIsSelect();break;
             }
-    })
+        })
     }
 
-    freeSelect.addEventListener("mousedown", function(){posSelection(freeSelect);});
+    basicSelect.addEventListener("mousedown", function(){posSelection(basicSelect);});
     flexSelect.addEventListener("mousedown", function(){posSelection(flexSelect);});
     gridSelect.addEventListener("mousedown", function(){posSelection(gridSelect);});
+
+    freeSelect.addEventListener("mousedown", function(){posSelection(freeSelect);});
+    sizeSelect.addEventListener("mousedown", function(){posSelection(sizeSelect);});
 }
+
 baseMenu();
+let goBackMenu;
 
-
-function whenFreeIsSelect(){
-    let goBefore = document.getElementById("go-before");
-    goBefore.addEventListener("mousedown", function(){
+//fonction goBack
+function goToInitialMenu(posMenuSectionName){
+    goBackMenu = document.getElementById("go-before");
+    goBackMenu.addEventListener("mousedown", function(){
         posMenu.setAttribute("base", "");
         posMenu.innerHTML = "";
-        posMenu.removeAttribute("free");
+        posMenu.removeAttribute(posMenuSectionName);
         fetch('data/position/base.html')
         .then(response => response.text())
         .then(data => {
             posMenu.innerHTML = data;
             posMenuContent = document.getElementById("pos-menu-content");
             baseMenu();
-            freeSelect.setAttribute("selected", "");
-    })
+            selectAttributeIfItsDisplay(posMenuSectionName);
+        })
     })
 }
 
+function selectAttributeIfItsDisplay(posMenuSectionName){
+    switch(posMenuSectionName){
+        case "basic" : basicSelect.setAttribute("selected", ""); break;
+        case "flex" : flexSelect.setAttribute("selected", ""); break;
+        case "grid" : gridSelect.setAttribute("selected", ""); break;
+    }
+}
+
+function whenBasicIsSelect(){
+    goToInitialMenu(selectPos);
+}
+
+function whenGridIsSelect(){
+    goToInitialMenu(selectPos);
+}
+
+function whenSizeIsSelect(){
+    goToInitialMenu(selectPos);
+}
+function whenBasicIsSelect(){
+
+    let block = document.getElementById("block");
+    let inline = document.getElementById("inline");
+    let blockInline = document.getElementById("block-inline");
+
+    initBasicMenu()
+    basicDisplaySelection();
+    goToInitialMenu(selectPos);
+
+
+    function initBasicMenu(){
+
+        block.removeAttribute("selected");
+        inline.removeAttribute("selected");
+        blockInline.removeAttribute("selected");
+
+        switch(posSetting.display.display){
+            case undefined : block.setAttribute("selected", "");
+                             posSetting.display = {  display : "block"  }; break;
+            case "block" : block.setAttribute("selected", ""); break;
+            case "inline" : inline.setAttribute("selected", ""); break;
+            case "block-inline" : blockInline.setAttribute("selected", ""); break;
+        }
+    }
+
+    function basicDisplaySelection(){
+        block.addEventListener("click", function(){
+            inline.removeAttribute("selected");
+            blockInline.removeAttribute("selected");
+            posSetting.display = {  display : "block"  };
+            block.setAttribute("selected", "");
+            console.log("test");
+        })
+        inline.addEventListener("click", function(){
+            block.removeAttribute("selected");
+            blockInline.removeAttribute("selected");
+            posSetting.display = {  display : "inline"  };
+            inline.setAttribute("selected", "");
+        })
+        blockInline.addEventListener("click", function(){
+            block.removeAttribute("selected");
+            inline.removeAttribute("selected");   
+            posSetting.display = {  display : "block-inline"  };
+            blockInline.setAttribute("selected", "");
+        })
+    }
+}
 function whenFlexIsSelect(){
-    let goBefore = document.getElementById("go-before");
-    goBefore.addEventListener("mousedown", function(){
-        posMenu.setAttribute("base", "");
-        posMenu.innerHTML = "";
-        posMenu.removeAttribute("flex");
-        fetch('data/position/base.html')
-        .then(response => response.text())
-        .then(data => {
-            posMenu.innerHTML = data;
-            posMenuContent = document.getElementById("pos-menu-content");
-            baseMenu();
-            flexSelect.setAttribute("selected", "");
-    })
-    })
+    
+    reverseBtnAnim();
+    initFlexDisplay();
+    flexEnvelop();
+    flexBtns();
+    goToInitialMenu(selectPos);
+}
+
+function initFlexDisplay(){
+    //if(posSetting.display.display == "flex"){}
+    posSetting.display = {
+        display : "flex",
+        flexDirection : "row",
+        directionReverse : false,
+        wrap : "warp",
+        wrapReverse : false,
+        justifyContent : "center",
+        alignItem : "center",
+        alignContent : "jesaispas"
+    }
 }
 
 function flexBtns(){
     let selectFlexXY = document.getElementById("interuptor-flex-direction");
     let interuptorFlexRowColumn = document.getElementById("flex-positions");
-    
-    let flexXY = false;
+    let flexXY = true;
     
     selectFlexXY.addEventListener('click', function(){
         if(flexXY == false){
             interuptorFlexRowColumn.setAttribute("active","");
             flexXY = true;
+            posSetting.display.flexDirection = "row";
+            posSetting.display.flexDirection = "column";
+            interuptorFlexStartEnd2.setAttribute("column", "");
+            interuptorFlexStartEnd1.removeAttribute("column");
         }
         else{
             interuptorFlexRowColumn.removeAttribute("active");
             flexXY = false;
+            posSetting.display.flexDirection = "column";
+            interuptorFlexStartEnd1.setAttribute("column", "");
+            interuptorFlexStartEnd2.removeAttribute("column");
+
         }
     })
+
+    let reverseInteruptor = document.getElementById("flex-reverse");
+    let reverseActivator = false;
+    reverseInteruptor.addEventListener("click", function(){
+        if(reverseActivator == false){
+            posSetting.display.directionReverse = true;
+            reverseActivator = true;
+        }
+        else{
+            posSetting.display.directionReverse = false;
+            reverseActivator = false;
+        }
+    })
+
 
     let selectFlexAxe1 = document.getElementById("first-axe-interuptor");
     let interuptorFlexStartEnd1 = document.getElementById("first-axe-under-interuptor");
     
-    let flexStartEnd1 = "start";
+    let flexStartEnd1 = "middle";
     
     selectFlexAxe1.addEventListener('click', function(){
-        if(flexStartEnd1 == "start"){
-            interuptorFlexStartEnd1.setAttribute("middle","");
-            flexStartEnd1 = "middle";
-        }
-        else if(flexStartEnd1 == "middle"){
-            interuptorFlexStartEnd1.removeAttribute("middle");
-            interuptorFlexStartEnd1.setAttribute("end","");
-            flexStartEnd1 = "end";
+        around1.removeAttribute("selected");
+        between1.removeAttribute("selected");
+        if(selectFlexAxe1.hasAttribute("active")){
+            if(flexStartEnd1 == "start"){
+                interuptorFlexStartEnd1.setAttribute("middle","");
+                posSetting.display.justifyContent = "center";
+                flexStartEnd1 = "middle";
+                
+            }
+            else if(flexStartEnd1 == "middle"){
+                interuptorFlexStartEnd1.removeAttribute("middle");
+                interuptorFlexStartEnd1.setAttribute("end","");
+                posSetting.display.justifyContent = "flex-end";
+                flexStartEnd1 = "end";
+            }
+            else{
+                interuptorFlexStartEnd1.removeAttribute("end");
+                posSetting.display.justifyContent = "flex-start";
+                flexStartEnd1 = "start";
+            }
         }
         else{
-            interuptorFlexStartEnd1.removeAttribute("end");
-            flexStartEnd1 = "start";
+            selectFlexAxe1.setAttribute("active","");
+            if(flexStartEnd1 == "start"){
+                posSetting.display.justifyContent = "flex-start";
+            }
+            else if(flexStartEnd1 == "middle"){
+                posSetting.display.justifyContent = "center";
+            }
+            else if(flexStartEnd1 == "end"){
+                posSetting.display.justifyContent = "flex-end";
+            }
         }
+    })
+
+    let between1 = document.getElementById("between-1");
+    let around1 = document.getElementById("around-1");
+
+    between1.addEventListener("click", function(){
+        between1.setAttribute("selected", "");
+        around1.removeAttribute("selected");
+        selectFlexAxe1.removeAttribute("active");
+        posSetting.display.justifyContent = "space-between";
+    })
+    around1.addEventListener("click", function(){
+        around1.setAttribute("selected", "");
+        between1.removeAttribute("selected");
+        selectFlexAxe1.removeAttribute("active");
+        posSetting.display.justifyContent = "space-around";
     })
 
     let selectFlexAxe2 = document.getElementById("second-axe-interuptor");
     let interuptorFlexStartEnd2 = document.getElementById("second-axe-under-interuptor");
     
-    let flexStartEnd2 = "start";
+    let flexStartEnd2 = "middle";
     
     selectFlexAxe2.addEventListener('click', function(){
-        if(flexStartEnd2 == "start"){
-            interuptorFlexStartEnd2.setAttribute("middle","");
-            flexStartEnd2 = "middle";
-        }
-        else if(flexStartEnd2 == "middle"){
-            interuptorFlexStartEnd2.removeAttribute("middle");
-            interuptorFlexStartEnd2.setAttribute("end","");
-            flexStartEnd2 = "end";
+        around2.removeAttribute("selected");
+        between2.removeAttribute("selected");
+        if(selectFlexAxe2.hasAttribute("active")){
+            if(flexStartEnd2 == "start"){
+                interuptorFlexStartEnd2.setAttribute("middle","");
+                posSetting.display.alignItem = "center";
+                flexStartEnd2 = "middle";
+            }
+            else if(flexStartEnd2 == "middle"){
+                interuptorFlexStartEnd2.removeAttribute("middle");
+                interuptorFlexStartEnd2.setAttribute("end","");
+                posSetting.display.alignItem = "flex-end";
+                flexStartEnd2 = "end";
+            }
+            else{
+                interuptorFlexStartEnd2.removeAttribute("end");
+                posSetting.display.alignItem = "flex-start";
+                flexStartEnd2 = "start";
+            }
         }
         else{
-            interuptorFlexStartEnd2.removeAttribute("end");
-            flexStartEnd2 = "start";
+            selectFlexAxe2.setAttribute("active","");
+            if(flexStartEnd2 == "start"){
+                posSetting.display.alignItem = "flex-start";
+            }
+            else if(flexStartEnd2 == "middle"){
+                posSetting.display.alignItem = "center";
+            }
+            else if(flexStartEnd2 == "end"){
+                posSetting.display.alignItem = "flex-end";
+            }
         }
     })
+
+    let between2 = document.getElementById("between-2");
+    let around2 = document.getElementById("around-2");
+
+    between2.addEventListener("click", function(){
+        between2.setAttribute("selected", "");
+        around2.removeAttribute("selected");
+        selectFlexAxe2.removeAttribute("active");
+        posSetting.display.alignItem = "space-between";
+    })
+    around2.addEventListener("click", function(){
+        around2.setAttribute("selected", "");
+        between2.removeAttribute("selected");
+        selectFlexAxe2.removeAttribute("active");
+        posSetting.display.alignItem = "space-around";
+    })
+
+    let selectFlexElem = document.getElementById("element-axe-interuptor");
+    let interuptorFlexStartEndElem = document.getElementById("element-axe-under-interuptor");
+    
+    let flexStartEndElem = "start";
+    
+    selectFlexElem.addEventListener('click', function(){
+        aroundElem.removeAttribute("selected");
+        betweenElem.removeAttribute("selected");
+        if(selectFlexElem.hasAttribute("active")){
+            if(flexStartEndElem == "start"){
+                interuptorFlexStartEndElem.setAttribute("middle","");
+                posSetting.display.alignContent = "center";
+                flexStartEndElem = "middle";
+            }
+            else if(flexStartEndElem == "middle"){
+                interuptorFlexStartEndElem.removeAttribute("middle");
+                interuptorFlexStartEndElem.setAttribute("end","");
+                posSetting.display.alignContent = "flex-end";
+                flexStartEndElem = "end";
+            }
+            else{
+                interuptorFlexStartEndElem.removeAttribute("end");
+                posSetting.display.alignContent = "flex-start";
+                flexStartEndElem = "start";
+            }
+        }
+        else{
+            selectFlexElem.setAttribute("active","");
+            if(flexStartEndElem == "start"){
+                posSetting.display.alignContent = "flex-start";
+            }
+            else if(flexStartEndElem == "middle"){
+                posSetting.display.alignContent = "center";
+            }
+            else if(flexStartEndElem == "end"){
+                posSetting.display.alignContent = "flex-end";
+            }
+        }
+    })
+
+    let betweenElem = document.getElementById("between-elem");
+    let aroundElem = document.getElementById("around-elem");
+
+    betweenElem.addEventListener("click", function(){
+        betweenElem.setAttribute("selected", "");
+        aroundElem.removeAttribute("selected");
+        selectFlexElem.removeAttribute("active");
+        posSetting.display.alignContent = "space-between";
+    })
+    aroundElem.addEventListener("click", function(){
+        aroundElem.setAttribute("selected", "");
+        betweenElem.removeAttribute("selected");
+        selectFlexElem.removeAttribute("active");
+        posSetting.display.alignContent = "space-around";
+    })
+}
+
+function flexEnvelop(){
+    let noWrap = document.getElementById("envelop-no");
+    let wrap = document.getElementById("envelop-yes");
+    let reverseWarp = document.getElementById("envelop-reverse");
+    
+    noWrap.addEventListener("click", function(){
+        wrap.removeAttribute("selected");
+        noWrap.setAttribute("selected", "");
+        posSetting.display.wrap = "nowrap";
+        posSetting.display.wrapReverse = false;
+        reverseActivator = false;
+        reverseWarp.removeAttribute("active");
+    })
+    wrap.addEventListener("click", function(){
+        noWrap.removeAttribute("selected");
+        wrap.setAttribute("selected", "");
+        posSetting.display.wrap = "wrap";
+        reverseWarp.setAttribute("active", "");
+    })
+    let reverseActivator = false;
+    reverseWarp.addEventListener("click", function(){ 
+        if(reverseWarp.hasAttribute("active")){
+            if(reverseActivator == false){
+                posSetting.display.wrapReverse = true;
+                reverseActivator = true;
+            }
+            else{
+                posSetting.display.wrapReverse = false;
+                reverseActivator = false;
+            }
+        } 
+    })
+}
+
+function reverseBtnAnim(){
+    let reverseBtnImgs = document.getElementsByClassName("reverse-img");
+    let reverseBtns = document.getElementsByClassName("pos-reverse-btn");
+    for(i=0; i<=reverseBtnImgs.length-1; i++){
+        let reverseBtnImg = reverseBtnImgs[i];
+        let reverseBtn = reverseBtns[i];
+        let reverseActivator = false 
+        reverseBtn.addEventListener("click", function(){
+            if(reverseBtn.hasAttribute("active")){
+                if(reverseActivator == false){
+                    reverseBtnImg.setAttribute("active", "");
+                    reverseActivator = true;
+                }
+                else{
+                    reverseBtnImg.removeAttribute("active");
+                    reverseActivator = false;
+                }
+            }
+        })     
+    }
+}
+function whenFreeIsSelect(){
+    goToInitialMenu(selectPos);
+    overflowInteruptor();
+}
+
+function overflowInteruptor(){
+    let interuptorOF = document.getElementById("interuptor");
+    let underInteruptorOF = document.getElementById("under-interuptor");
+
+    let startMiddleEnd = "start";
+    
+    interuptorOF.addEventListener('click', function(){
+        if(startMiddleEnd == "start"){
+            underInteruptorOF.setAttribute("end","");
+            startMiddleEnd = "end";
+        }
+        else if(startMiddleEnd == "end"){
+            underInteruptorOF.removeAttribute("end");
+            underInteruptorOF.setAttribute("middle","");
+            startMiddleEnd = "middle";
+        }
+        else{
+            underInteruptorOF.removeAttribute("middle");
+            startMiddleEnd = "start";
+        }
+    })
+
 }

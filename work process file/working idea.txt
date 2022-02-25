@@ -1,12 +1,12 @@
 /////////////////////////beta//////////////////////////
 
-continuer a rendre le code sass plus compatimenté et fonctionnel, en partant du position tool mais a terme pour l'ensemble des elements
+faire des element graphique spécifique a free et size (go-before 
 1)commenté le code déjà fait
 
-2)faire des modeles de bouton type interupteur adapté au position tool, finir flex et faire grid visuellement
 3)diminué le sass pour le rendre plus modulable (enlevé le plus possible d'id, ou mettre les même nom id en fonction, utiliser davantage de class quitte a complexifié js)
 
 4)faire l'interface de selection du display, position et size, fonctionnel visuellement (et uniquement)
+grid : faire que le bouton de selection de loverflow ai une fonction js pour gerer son background au niveau du middle
   mettre en place de l'objet qui contiendra les info de conteneur des elements 
   faire que quand il n'y a aucun element, le position tool ne soit absolument pas clickable et 
   faire qu'une fois les menu fermé les menu se mettent en dehors de l'outil de position
@@ -62,6 +62,8 @@ rendre le github plus présentable (readMe, photo de profil, réorganiser le git
 -un truc pour gerer les animation.
 
 -gerer les before/after
+
+ajouté une fonction "traiter cet element comme une classe" qui poura donner a dautre element les meme valeurs
 
 -ajouté un onglet d'aide (un peu a la maniere des autre onglet (element, transform, et les autres prévus) qui 
 ira chercher des informations explicative de l'utilisation des différents onglet pour rendre le fonctionnement globale plus compréhensible.

@@ -9,7 +9,7 @@
         cursor: grab;
     }
     #position-interface{
-        border: rgb(255, 0, 0) dashed 3px;
+        border: $pos-menu-border-color dashed 3px;
         display: flex;
         align-items: center;
         justify-content: center;
