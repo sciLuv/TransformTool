@@ -58,7 +58,7 @@ let posSetting = {
             left : 0, right : 0
         }
     },
-    display : {}
+    display : { display : "block"}
 }
 
 //next 5variables declare in global scope to be accessible for all function 
@@ -146,14 +146,6 @@ function selectAttributeIfItsDisplay(posMenuSectionName){
         case "flex" : flexSelect.setAttribute("selected", ""); break;
         case "grid" : gridSelect.setAttribute("selected", ""); break;
     }
-}
-
-function whenBasicIsSelect(){
-    goToInitialMenu(selectPos);
-}
-
-function whenGridIsSelect(){
-    goToInitialMenu(selectPos);
 }
 
 function whenSizeIsSelect(){

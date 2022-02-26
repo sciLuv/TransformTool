@@ -16,11 +16,11 @@ function whenBasicIsSelect(){
         blockInline.removeAttribute("selected");
 
         switch(posSetting.display.display){
-            case undefined : block.setAttribute("selected", "");
-                             posSetting.display = {  display : "block"  }; break;
             case "block" : block.setAttribute("selected", ""); break;
             case "inline" : inline.setAttribute("selected", ""); break;
             case "block-inline" : blockInline.setAttribute("selected", ""); break;
+            default : block.setAttribute("selected", "");
+            posSetting.display = {  display : "block"  }; break;
         }
     }
 
