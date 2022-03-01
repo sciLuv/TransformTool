@@ -1,15 +1,18 @@
 /////////////////////////beta//////////////////////////
 
-faire des element graphique spécifique a free et size (go-before 
+faire que il y ai une initialisation du size a son ouverture
+ajouté un bouton "non position" dans le menu free. et faire le menu free
+faire que la barre de margin ou padding s'active directement (et donc le selecteur entierement également) lorsqu'on a selectionne sans aucune bordure de selectionné
+faire que lorsqu'on va dans size ou free basic, flex ou grid restent séléctionné au retour au menu de base
+faire que si l'on appuis sur le bouton reverse d'envelop celui ci puisse activé le yes en meme temps que sa selection alors qu'il est inactif
+
 1)commenté le code déjà fait
 
-3)diminué le sass pour le rendre plus modulable (enlevé le plus possible d'id, ou mettre les même nom id en fonction, utiliser davantage de class quitte a complexifié js)
 
 4)faire l'interface de selection du display, position et size, fonctionnel visuellement (et uniquement)
 grid : faire que le bouton de selection de loverflow ai une fonction js pour gerer son background au niveau du middle
   mettre en place de l'objet qui contiendra les info de conteneur des elements 
-  faire que quand il n'y a aucun element, le position tool ne soit absolument pas clickable et 
-  faire qu'une fois les menu fermé les menu se mettent en dehors de l'outil de position
+  faire que quand il n'y a aucun element, le position tool ne soit absolument pas clickable
 
 5) git:
    verifié si seulement avoir node de maniere globale permet de l'utiliser dans tout les sous dossier
@@ -37,6 +40,7 @@ ajouté des reset spécifiques aux modules (put etre a partir des boutons de pou
 faire que toute les liste soit plus représentative de ce quelle contienne (liste des shader, des bordure, des box)
 ajouté les capacité de mouvement dans la page du position tool a l'element tool (en plus du mouvement dans le client) et voir également si ca peut impacté les bouton d'opacité
 renommé les element redondant avec le position tool (genre angle)
+faire que les selecteur de bord ou de coin fonctionne de la meme maniere que ceux du position tool
 appliqué dans le code les conseil d'optimisation
 ajouté l'outil texte
 ajouté l'outil image

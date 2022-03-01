@@ -44,6 +44,13 @@
         &::after{
             background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-btn-bg-selected 30%);
         }
+        &.pos-menu-btn-alternate{
+            background: linear-gradient(165deg, $no-opacity 0%, #ee9b02 80%) !important;
+            &::after{
+                background: linear-gradient(165deg, $no-opacity 0%, #a35e25 80%) !important;;
+            }
+  
+        }
     }
 }
 

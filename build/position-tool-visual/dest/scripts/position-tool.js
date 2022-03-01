@@ -160,15 +160,21 @@ let posSetting = {
         overflow : "visible"
     },
     size : {
-        width : 100,
-        height : 100,
+        width : 100, height : 100,
         padding : {
-            top : 0, bottom : 0,
-            left : 0, right : 0
+            top : 0, bottom : 0, left : 0, right : 0
         },
         margin : {
-            top : 0, bottom : 0,
-            left : 0, right : 0
+            top : 0, bottom : 0, left : 0, right : 0
+        },
+        menu : {
+            size : "width",
+            margin : {
+                top : false, left : false, right : false, bottom : false
+            },
+            padding : {
+                top : false, left : false, right : false, bottom : false
+            }
         }
     },
     display : { display : "block"}
@@ -261,9 +267,6 @@ function selectAttributeIfItsDisplay(posMenuSectionName){
     }
 }
 
-function whenSizeIsSelect(){
-    goToInitialMenu(selectPos);
-}
 function whenBasicIsSelect(){
 
     let block = document.getElementById("block");
@@ -346,7 +349,7 @@ function whenFlexIsSelect(){
                 interuptorFlexStartEnd1.setAttribute("column", "");
                 interuptorFlexStartEnd2.removeAttribute("column");
             }
-
+            
             if(posSetting.display.wrap == "nowrap"){
                 wrap.removeAttribute("selected");
                 noWrap.setAttribute("selected", "");
@@ -660,21 +663,7 @@ function whenFlexIsSelect(){
 }
 function whenGridIsSelect(){
 
-    posSetting.display = {
-        display : "grid",
-        columns : 4,
-        lines : 4, 
-        margeColumns : 0,
-        margeLines : 0,
-        size : {
-            column : {
-                default : 15
-            },
-            line : {
-                default : 15
-            }
-        }
-    }
+
     let numColumn = document.getElementById("num-column");
     let numLine = document.getElementById("num-line");
     let numRange = document.getElementById("num-range");
@@ -683,27 +672,96 @@ function whenGridIsSelect(){
     let margeLine = document.getElementById("marge-line");
     let margeRange = document.getElementById("marge-range");
 
+    let sizeColumn = document.getElementById("size-column");
+    let sizeLine = document.getElementById("size-line");
+    let gridSizeSelect = document.getElementById("size-select")
+    let sizeRange = document.getElementById("size-range");
+
+    function initGridDisplay(){
+        if(posSetting.display.menu != undefined){
+            if(posSetting.display.display == "grid"){
+                if(posSetting.display.menu.num == "column"){
+                    numRange.value = posSetting.display.columns;
+                }
+                else{
+                    numColumn.removeAttribute("selected");
+                    numLine.setAttribute("selected", "");
+                    numRange.value = posSetting.display.lines;
+                }
+                if(posSetting.display.menu.marge == "column"){
+                    margeRange.value = posSetting.display.margeColumns;
+                }
+                else{
+                    margeColumn.removeAttribute("selected");
+                    margeLine.setAttribute("selected", "");
+                    margeRange.value = posSetting.display.margeLines;
+                }
+                if(posSetting.display.menu.size == "line"){
+                    sizeColumn.removeAttribute("selected");
+                    sizeLine.setAttribute("selected", "");
+                    gridSelectModif("lines");
+                } 
+                else{
+                    gridSelectModif("columns");
+                }
+            }
+        }
+        else{
+            posSetting.display = {
+                display : "grid",
+                columns : 4,
+                lines : 4, 
+                margeColumns : 0,
+                margeLines : 0,
+                size : {
+                    column : {
+                        default : 15
+                    },
+                    line : {
+                        default : 15
+                    }
+                },
+                menu : {
+                    num : "column",
+                    marge : "column",
+                    size: "column",
+                    sizeSelect : 1
+                } 
+            }
+        }
+    }
+
     function gridNum(){
         numColumn.addEventListener("click", function(){
             numLine.removeAttribute("selected")
             numColumn.setAttribute("selected", "");
             numRange.value = posSetting.display.columns;
-            gridSelectModif("columns");
+            posSetting.display.menu.num = "column";
+            if(sizeColumn.hasAttribute("selected")){
+                gridSelectModif("columns");
+            }
         })
         numLine.addEventListener("click", function(){
             numColumn.removeAttribute("selected")
             numLine.setAttribute("selected", "");
             numRange.value = posSetting.display.lines;
-            gridSelectModif("lines");
+            posSetting.display.menu.num = "line";
+            if(sizeLine.hasAttribute("selected")){
+                gridSelectModif("lines");
+            }
         })
         numRange.addEventListener("input", function(){
             if(numColumn.hasAttribute("selected")){
                 posSetting.display.columns = numRange.value;
-                gridSelectModif("columns");
+                if(sizeColumn.hasAttribute("selected")){
+                    gridSelectModif("columns");
+                }
             }
             else{
                 posSetting.display.lines = numRange.value;
-                gridSelectModif("lines");
+                if(sizeLine.hasAttribute("selected")){
+                    gridSelectModif("lines");
+                }
             }
         })
     }
@@ -712,11 +770,13 @@ function whenGridIsSelect(){
             margeLine.removeAttribute("selected");
             margeColumn.setAttribute("selected", "");
             margeRange.value = posSetting.display.margeColumns;
+            posSetting.display.menu.marge = "column";
         })
         margeLine.addEventListener("click", function(){
             margeColumn.removeAttribute("selected");
             margeLine.setAttribute("selected", "");
             margeRange.value = posSetting.display.lines;
+            posSetting.display.menu.marge = "line";
         })
         margeRange.addEventListener("input", function(){
             if(margeColumn.hasAttribute("selected")){
@@ -728,38 +788,34 @@ function whenGridIsSelect(){
         })
     }
 
-    let sizeColumn = document.getElementById("size-column");
-    let sizeLine = document.getElementById("size-line");
-    let gridSizeSelect = document.getElementById("size-select")
-    let sizeRange = document.getElementById("size-range");
-
     function gridSize(){
         sizeColumn.addEventListener("click", function(){
             sizeLine.removeAttribute("selected");
             sizeColumn.setAttribute("selected", "");
             gridSelectModif("columns");
             changeSizeRange();
+            posSetting.display.menu.size = "column";
         })
         sizeLine.addEventListener("click", function(){
             sizeColumn.removeAttribute("selected");
             sizeLine.setAttribute("selected", "");
             gridSelectModif("lines");
             changeSizeRange();
+            posSetting.display.menu.size = "line";
         })
         sizeRange.addEventListener("input",function(){
+            let sizeSelected = sizeRange.value;
             if(sizeColumn.hasAttribute("selected")){
-                let sizeSelected = sizeRange.value;
                 let columnSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.column[columnSelected] = sizeSelected;
             }
             else{
-                let sizeSelected = sizeRange.value;
                 let lineSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.line[lineSelected] = sizeSelected;
             }
         })
         gridSizeSelect.addEventListener("change", function(){
-            changeSizeRange();
+            changeSizeRange(); 
         })
     }
 
@@ -775,7 +831,7 @@ function whenGridIsSelect(){
 
     function changeSizeRange(){
         let selectedOption = 1 + (gridSizeSelect.selectedIndex);
-        console.log(selectedOption);
+        gridSizeSelectSetting = gridSizeSelect.selectedIndex;
         if(sizeColumn.hasAttribute("selected")){
             if(posSetting.display.size.column[selectedOption] != undefined){
                 sizeRange.value = posSetting.display.size.column[selectedOption];
@@ -793,6 +849,8 @@ function whenGridIsSelect(){
             }
         }
     }
+
+    initGridDisplay();
     gridNum();
     gridMarge();
     gridSize();
@@ -825,4 +883,151 @@ function overflowInteruptor(){
         }
     })
 
+}
+function whenSizeIsSelect(){
+
+    //interaction element link with selection of size (height or width)
+    let widthBtn = document.getElementById("pos-menu-size-width");
+    let HeightBtn = document.getElementById("pos-menu-size-height");
+    let sizeRange = document.getElementById("pos-menu-size-range");
+
+    //interaction element link with selection of margin
+    let margeTB = document.getElementById("pos-marge-border-top");
+    let margeLB = document.getElementById("pos-marge-border-left");
+    let margeRB = document.getElementById("pos-marge-border-right");
+    let margeBB = document.getElementById("pos-marge-border-bottom");
+
+    let margeSelector = document.getElementById("pos-marge-all-border");
+    let margeRange = document.getElementById("pos-menu-marge-range");
+
+    //interaction element link with selection of padding
+    let padTB = document.getElementById("pos-padding-border-top");
+    let padLB = document.getElementById("pos-padding-border-left");
+    let padRB = document.getElementById("pos-padding-border-right");
+    let padBB = document.getElementById("pos-padding-border-bottom");
+
+    let padSelector = document.getElementById("pos-padding-all-border");
+    let padRange = document.getElementById("pos-menu-padding-range");
+
+    function selectWidthHeight(){
+        widthBtn.addEventListener("click", function(){
+            HeightBtn.removeAttribute("selected");
+            widthBtn.setAttribute("selected", "");
+            posSetting.size.menu.size = "width";
+            sizeRange.value = posSetting.size.width;
+        })
+        HeightBtn.addEventListener("click", function(){
+            widthBtn.removeAttribute("selected");
+            HeightBtn.setAttribute("selected", "");
+            posSetting.size.menu.size = "height";
+            sizeRange.value = posSetting.size.height;
+        })
+        sizeRange.addEventListener("input", function(){
+            if(widthBtn.hasAttribute("selected")){
+                posSetting.size.width = sizeRange.value;
+            }
+            else{
+                posSetting.size.height = sizeRange.value;
+            }
+        })
+    }
+
+    function marginPadding(btnTB, btnLB, btnRB, btnBB, btnSelector, margePad, range){
+
+        let btnMargePads = [btnTB, btnLB, btnRB, btnBB]
+        let borders = ["top", "left", "right","bottom"];
+        let borderCounter = 0;
+        btnMargePads.forEach((btnMargePad) => {
+            let size = borders[borderCounter];
+            btnMargePad.addEventListener("mousedown", function(){
+                border(margePad, size, range, this);
+            })
+            borderCounter++;
+        });
+
+        btnSelector.addEventListener("mousedown", function(){
+            if((posSetting.size.menu[margePad].top == false)||
+            (posSetting.size.menu[margePad].left == false)||
+            (posSetting.size.menu[margePad].right == false)||
+            (posSetting.size.menu[margePad].bottom == false)){
+                margPadTrue(btnTB, margePad, "top"); margPadTrue(btnBB, margePad, "bottom");
+                margPadTrue(btnRB, margePad, "right"); margPadTrue(btnLB, margePad, "left");
+                range.removeAttribute("inactive");
+            }
+            else{
+                margPadFalse(btnTB, margePad, "top"); margPadFalse(btnBB, margePad, "bottom"); 
+                margPadFalse(btnRB, margePad, "right"); margPadFalse(btnLB, margePad, "left");
+                range.setAttribute("inactive", "");
+            }
+            RangeVisualChgt(margePad, range);
+        })
+
+        range.addEventListener("input", function(){
+            margPadSizeAssign(margePad, "top", range); margPadSizeAssign(margePad, "bottom", range);
+            margPadSizeAssign(margePad, "left", range); margPadSizeAssign(margePad, "right", range);
+        })
+    }
+    
+    function border(margePad, border, range, btn){
+        if(posSetting.size.menu[margePad][border] == false){
+            margPadTrue(btn, margePad, border);
+        }
+        else{
+            margPadFalse(btn, margePad, border);
+        }
+        RangeVisualChgt(margePad, range);
+        margPadRangeActive(margePad, range);
+    }
+    function margPadTrue(border, margePad, object){
+        border.setAttribute("selected", "");
+        posSetting.size.menu[margePad][object] = true;
+    }
+    function margPadFalse(border, margePad, object){
+        border.removeAttribute("selected");
+        posSetting.size.menu[margePad][object] = false;
+    }
+    function margPadRangeActive(margePad, range){
+        if((posSetting.size.menu[margePad].top == false)&&
+        (posSetting.size.menu[margePad].left == false)&&
+        (posSetting.size.menu[margePad].right == false)&&
+        (posSetting.size.menu[margePad].bottom == false)){
+            range.setAttribute("inactive", "");
+        } 
+        else{
+            range.removeAttribute("inactive");
+        }
+    }
+    function margPadSizeAssign(margePad ,border, range){
+        if(posSetting.size.menu[margePad][border] == true){
+            posSetting.size[margePad][border] = range.value;
+        }
+    }
+    function RangeVisualChgt(margePad, range){
+        let borders = ["top","left","right","bottom"];
+        let borderSelects = [];
+        borders.forEach((border) => {
+            if(posSetting.size.menu[margePad][border] == true){
+                borderSelects.push(posSetting.size[margePad][border]);
+            }
+        });
+        if(borderSelects.length > 0){
+            borderSelects.forEach((borderSelect) => {
+                if (borderSelect == borderSelects[0]){
+                    range.value = borderSelects[0];
+                }
+                else{
+                    range.value = 0; 
+                    borderSelects = [];
+                }
+            })
+        }
+        else{
+            range.value = 0;
+        }
+    }
+    
+    marginPadding(margeTB, margeLB, margeRB, margeBB, margeSelector, "margin", margeRange);
+    marginPadding(padTB, padLB, padRB, padBB, padSelector, "padding", padRange);
+    selectWidthHeight()
+    goToInitialMenu(selectPos);
 }

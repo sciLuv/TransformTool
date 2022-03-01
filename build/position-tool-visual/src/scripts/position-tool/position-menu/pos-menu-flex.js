@@ -32,7 +32,7 @@ function whenFlexIsSelect(){
                 interuptorFlexStartEnd1.setAttribute("column", "");
                 interuptorFlexStartEnd2.removeAttribute("column");
             }
-
+            
             if(posSetting.display.wrap == "nowrap"){
                 wrap.removeAttribute("selected");
                 noWrap.setAttribute("selected", "");

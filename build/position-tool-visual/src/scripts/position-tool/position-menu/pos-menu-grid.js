@@ -1,20 +1,6 @@
 function whenGridIsSelect(){
 
-    posSetting.display = {
-        display : "grid",
-        columns : 4,
-        lines : 4, 
-        margeColumns : 0,
-        margeLines : 0,
-        size : {
-            column : {
-                default : 15
-            },
-            line : {
-                default : 15
-            }
-        }
-    }
+
     let numColumn = document.getElementById("num-column");
     let numLine = document.getElementById("num-line");
     let numRange = document.getElementById("num-range");
@@ -23,27 +9,96 @@ function whenGridIsSelect(){
     let margeLine = document.getElementById("marge-line");
     let margeRange = document.getElementById("marge-range");
 
+    let sizeColumn = document.getElementById("size-column");
+    let sizeLine = document.getElementById("size-line");
+    let gridSizeSelect = document.getElementById("size-select")
+    let sizeRange = document.getElementById("size-range");
+
+    function initGridDisplay(){
+        if(posSetting.display.menu != undefined){
+            if(posSetting.display.display == "grid"){
+                if(posSetting.display.menu.num == "column"){
+                    numRange.value = posSetting.display.columns;
+                }
+                else{
+                    numColumn.removeAttribute("selected");
+                    numLine.setAttribute("selected", "");
+                    numRange.value = posSetting.display.lines;
+                }
+                if(posSetting.display.menu.marge == "column"){
+                    margeRange.value = posSetting.display.margeColumns;
+                }
+                else{
+                    margeColumn.removeAttribute("selected");
+                    margeLine.setAttribute("selected", "");
+                    margeRange.value = posSetting.display.margeLines;
+                }
+                if(posSetting.display.menu.size == "line"){
+                    sizeColumn.removeAttribute("selected");
+                    sizeLine.setAttribute("selected", "");
+                    gridSelectModif("lines");
+                } 
+                else{
+                    gridSelectModif("columns");
+                }
+            }
+        }
+        else{
+            posSetting.display = {
+                display : "grid",
+                columns : 4,
+                lines : 4, 
+                margeColumns : 0,
+                margeLines : 0,
+                size : {
+                    column : {
+                        default : 15
+                    },
+                    line : {
+                        default : 15
+                    }
+                },
+                menu : {
+                    num : "column",
+                    marge : "column",
+                    size: "column",
+                    sizeSelect : 1
+                } 
+            }
+        }
+    }
+
     function gridNum(){
         numColumn.addEventListener("click", function(){
             numLine.removeAttribute("selected")
             numColumn.setAttribute("selected", "");
             numRange.value = posSetting.display.columns;
-            gridSelectModif("columns");
+            posSetting.display.menu.num = "column";
+            if(sizeColumn.hasAttribute("selected")){
+                gridSelectModif("columns");
+            }
         })
         numLine.addEventListener("click", function(){
             numColumn.removeAttribute("selected")
             numLine.setAttribute("selected", "");
             numRange.value = posSetting.display.lines;
-            gridSelectModif("lines");
+            posSetting.display.menu.num = "line";
+            if(sizeLine.hasAttribute("selected")){
+                gridSelectModif("lines");
+            }
         })
         numRange.addEventListener("input", function(){
             if(numColumn.hasAttribute("selected")){
                 posSetting.display.columns = numRange.value;
-                gridSelectModif("columns");
+                if(sizeColumn.hasAttribute("selected")){
+                    gridSelectModif("columns");
+                }
             }
             else{
                 posSetting.display.lines = numRange.value;
-                gridSelectModif("lines");
+                if(sizeLine.hasAttribute("selected")){
+                    gridSelectModif("lines");
+                }
             }
         })
     }
@@ -52,11 +107,13 @@ function whenGridIsSelect(){
             margeLine.removeAttribute("selected");
             margeColumn.setAttribute("selected", "");
             margeRange.value = posSetting.display.margeColumns;
+            posSetting.display.menu.marge = "column";
         })
         margeLine.addEventListener("click", function(){
             margeColumn.removeAttribute("selected");
             margeLine.setAttribute("selected", "");
             margeRange.value = posSetting.display.lines;
+            posSetting.display.menu.marge = "line";
         })
         margeRange.addEventListener("input", function(){
             if(margeColumn.hasAttribute("selected")){
@@ -68,38 +125,34 @@ function whenGridIsSelect(){
         })
     }
 
-    let sizeColumn = document.getElementById("size-column");
-    let sizeLine = document.getElementById("size-line");
-    let gridSizeSelect = document.getElementById("size-select")
-    let sizeRange = document.getElementById("size-range");
-
     function gridSize(){
         sizeColumn.addEventListener("click", function(){
             sizeLine.removeAttribute("selected");
             sizeColumn.setAttribute("selected", "");
             gridSelectModif("columns");
             changeSizeRange();
+            posSetting.display.menu.size = "column";
         })
         sizeLine.addEventListener("click", function(){
             sizeColumn.removeAttribute("selected");
             sizeLine.setAttribute("selected", "");
             gridSelectModif("lines");
             changeSizeRange();
+            posSetting.display.menu.size = "line";
         })
         sizeRange.addEventListener("input",function(){
+            let sizeSelected = sizeRange.value;
             if(sizeColumn.hasAttribute("selected")){
-                let sizeSelected = sizeRange.value;
                 let columnSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.column[columnSelected] = sizeSelected;
             }
             else{
-                let sizeSelected = sizeRange.value;
                 let lineSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.line[lineSelected] = sizeSelected;
             }
         })
         gridSizeSelect.addEventListener("change", function(){
-            changeSizeRange();
+            changeSizeRange(); 
         })
     }
 
@@ -115,7 +168,7 @@ function whenGridIsSelect(){
 
     function changeSizeRange(){
         let selectedOption = 1 + (gridSizeSelect.selectedIndex);
-        console.log(selectedOption);
+        gridSizeSelectSetting = gridSizeSelect.selectedIndex;
         if(sizeColumn.hasAttribute("selected")){
             if(posSetting.display.size.column[selectedOption] != undefined){
                 sizeRange.value = posSetting.display.size.column[selectedOption];
@@ -133,6 +186,8 @@ function whenGridIsSelect(){
             }
         }
     }
+
+    initGridDisplay();
     gridNum();
     gridMarge();
     gridSize();
