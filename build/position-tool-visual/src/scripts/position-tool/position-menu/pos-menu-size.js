@@ -23,6 +23,47 @@ function whenSizeIsSelect(){
     let padSelector = document.getElementById("pos-padding-all-border");
     let padRange = document.getElementById("pos-menu-padding-range");
 
+    //PARAMETER NAME FOR ALL THE 7 FUNCTION DECLARE AFTER  : 
+    //all parameter "btn" represent the selection border element, if the name is "btnSOMETHING" the parameter taget a spécific btn 
+    //margePad = object of margin OR padding content border information : "margin" or "padding"
+    //border = side of the padding or margin, "top", "left" ect
+    //range = the range of padding or margin : margeRange or padRange 
+
+    //initialize the size menu, and changing the interaction element in function of value in posSetting.Size menu
+    function initSize(){
+        if(posSetting.size.menu.size == "width"){
+            sizeRange.value = posSetting.size.width;
+        }
+        else{
+            sizeRange.value = posSetting.size.height;
+            widthBtn.removeAttribute("selected");
+            HeightBtn.setAttribute("selected", "");
+        }
+        initSelectBorder(margeTB, margeLB, margeRB, margeBB, "margin", margeRange)
+        initSelectBorder(padTB, padLB, padRB, padBB, "padding", padRange)
+    }
+    //with a foreach loop apply the initBorder for each border selection of a marging/padding 
+    //tb,lb,rb,bb are parameter represent all borders selection of a margin/padding section 
+    function initSelectBorder(tB, lB, rB, bB, margePad, range){
+        let margePads = [tB, lB, rB, bB]
+        let borders = ["top", "left", "right","bottom"];
+        let borderCounter = 0;
+            margePads.forEach((margeOrPad) => {
+                let size = borders[borderCounter];
+                initBorder(margePad, size, range, margeOrPad);
+                borderCounter++;
+            })
+    }
+    //for a border selection (interaction elem) select his state (true/false//selected/not selected) and apply chgt in rest of interaction element
+    function initBorder(margePad, border, range, btn){
+        if(posSetting.size.menu[margePad][border] == true){
+            margPadTrue(btn, margePad, border);
+        }
+        RangeVisualChgt(margePad, range);
+        margPadRangeActive(margePad, range);
+    }
+
+    //Event in link with interaction element of size selection of width or height
     function selectWidthHeight(){
         widthBtn.addEventListener("click", function(){
             HeightBtn.removeAttribute("selected");
@@ -44,8 +85,9 @@ function whenSizeIsSelect(){
                 posSetting.size.height = sizeRange.value;
             }
         })
-    }
+    }    
 
+    //contain all function to declare event in link with interaction element (btn, selector, input) in link with marge or padding. 
     function marginPadding(btnTB, btnLB, btnRB, btnBB, btnSelector, margePad, range){
 
         let btnMargePads = [btnTB, btnLB, btnRB, btnBB]
@@ -81,7 +123,7 @@ function whenSizeIsSelect(){
             margPadSizeAssign(margePad, "left", range); margPadSizeAssign(margePad, "right", range);
         })
     }
-    
+    //contain function margePadTrue, and margePadFalse and active them if border selector in link is selected. PARAMETER :
     function border(margePad, border, range, btn){
         if(posSetting.size.menu[margePad][border] == false){
             margPadTrue(btn, margePad, border);
@@ -92,14 +134,17 @@ function whenSizeIsSelect(){
         RangeVisualChgt(margePad, range);
         margPadRangeActive(margePad, range);
     }
-    function margPadTrue(border, margePad, object){
-        border.setAttribute("selected", "");
-        posSetting.size.menu[margePad][object] = true;
+    //activate a selection of a borderSelection margin or padding. PARAMETER :
+    function margPadTrue(btn, margePad, border){
+        btn.setAttribute("selected", "");
+        posSetting.size.menu[margePad][border] = true;
     }
-    function margPadFalse(border, margePad, object){
-        border.removeAttribute("selected");
-        posSetting.size.menu[margePad][object] = false;
+    //inactivate a selection of a borderSelection margin or padding. PARAMETER : idem of margePadTrue
+    function margPadFalse(btn, margePad, border){
+        btn.removeAttribute("selected");
+        posSetting.size.menu[margePad][border] = false;
     }
+    //active range marge/pad if one borderSelection is actif, else inactive the range. PARAMETER :
     function margPadRangeActive(margePad, range){
         if((posSetting.size.menu[margePad].top == false)&&
         (posSetting.size.menu[margePad].left == false)&&
@@ -111,11 +156,13 @@ function whenSizeIsSelect(){
             range.removeAttribute("inactive");
         }
     }
+    //assign value of the range marge/pad of each side of the element's container if it is selected
     function margPadSizeAssign(margePad ,border, range){
         if(posSetting.size.menu[margePad][border] == true){
             posSetting.size[margePad][border] = range.value;
         }
     }
+    //if each selected border of marge/pad have a same value, the range represent this value, else the range represent 0
     function RangeVisualChgt(margePad, range){
         let borders = ["top","left","right","bottom"];
         let borderSelects = [];
@@ -140,6 +187,8 @@ function whenSizeIsSelect(){
         }
     }
     
+    //use of all fonction create before for a size menu operationnal
+    initSize()
     marginPadding(margeTB, margeLB, margeRB, margeBB, margeSelector, "margin", margeRange);
     marginPadding(padTB, padLB, padRB, padBB, padSelector, "padding", padRange);
     selectWidthHeight()

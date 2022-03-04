@@ -5,24 +5,28 @@ function whenFlexIsSelect(){
     let flexXY = true;
     let reverseInteruptor = document.getElementById("flex-reverse");
     let reverseActivator = false;
+        
+    let noWrap = document.getElementById("envelop-no");
+    let wrap = document.getElementById("envelop-yes");
+    let reverseWarp = document.getElementById("envelop-reverse");
+
     let selectFlexAxe1 = document.getElementById("first-axe-interuptor");
     let interuptorFlexStartEnd1 = document.getElementById("first-axe-under-interuptor");
     let flexStartEnd1 = "middle";
     let between1 = document.getElementById("between-1");
     let around1 = document.getElementById("around-1");
+
     let selectFlexAxe2 = document.getElementById("second-axe-interuptor");
     let interuptorFlexStartEnd2 = document.getElementById("second-axe-under-interuptor");
     let flexStartEnd2 = "middle";
     let between2 = document.getElementById("between-2");
     let around2 = document.getElementById("around-2");
+
     let selectFlexElem = document.getElementById("element-axe-interuptor");
     let interuptorFlexStartEndElem = document.getElementById("element-axe-under-interuptor");
     let flexStartEndElem = "start";
     let betweenElem = document.getElementById("between-elem");
     let aroundElem = document.getElementById("around-elem");
-    let noWrap = document.getElementById("envelop-no");
-    let wrap = document.getElementById("envelop-yes");
-    let reverseWarp = document.getElementById("envelop-reverse");
 
     function initFlexDisplay(){
         if(posSetting.display.display == "flex"){

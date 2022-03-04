@@ -44,7 +44,11 @@ let posSetting = {
     free : {
         position: "none",
         zIndex : 0,
-        overflow : "visible"
+        overflow : {
+            x : "visible",
+            y : "visible",
+            interuptor : "xy" 
+        }
     },
     size : {
         width : 100, height : 100,
@@ -88,6 +92,9 @@ function baseMenu(){
     freeSelect = document.getElementById("free-pos-select");
     sizeSelect = document.getElementById("size-pos-select");
 
+    //here after deselection of all btn
+    //this function define the way to select new html for the content of the menu delete the actual
+    //and define global style for each html selected (under menu)
     function posSelection(posSelect){
         if (selectPos != posSelect.getAttribute("pos")){
 
@@ -95,9 +102,11 @@ function baseMenu(){
             flexSelect.removeAttribute("selected");
             gridSelect.removeAttribute("selected");
 
+            //the line just after is to get the exact name of the futur html file load after
+            //use an attribute in the btn associate to do that
             selectPos = posSelect.getAttribute("pos");
         }
-        //
+        //here the specific code to delete old html and select and add new html
         posMenu.removeAttribute("base");
         posMenu.innerHTML = "";
         posMenu.setAttribute(selectPos, "");
@@ -106,6 +115,7 @@ function baseMenu(){
         .then(data => {
             posMenu.innerHTML = data;
             posMenuContent = document.getElementById("pos-menu-content");
+            //here trigger the function contain all specific rules of each under-menu
             switch(selectPos){
                 case "basic" : whenBasicIsSelect(); break;
                 case "flex" : whenFlexIsSelect(); break;
@@ -116,7 +126,7 @@ function baseMenu(){
             }
         })
     }
-
+    //here event use last function posSelection to access to each under menu
     basicSelect.addEventListener("mousedown", function(){posSelection(basicSelect);});
     flexSelect.addEventListener("mousedown", function(){posSelection(flexSelect);});
     gridSelect.addEventListener("mousedown", function(){posSelection(gridSelect);});
@@ -128,7 +138,7 @@ function baseMenu(){
 baseMenu();
 let goBackMenu;
 
-//fonction goBack
+//for all under menu, there are a event associate to the btn to go back to the base menu
 function goToInitialMenu(posMenuSectionName){
     goBackMenu = document.getElementById("go-before");
     goBackMenu.addEventListener("mousedown", function(){
@@ -139,16 +149,18 @@ function goToInitialMenu(posMenuSectionName){
         .then(response => response.text())
         .then(data => {
             posMenu.innerHTML = data;
-            posMenuContent = document.getElementById("pos-menu-content");
             baseMenu();
-            selectAttributeIfItsDisplay(posMenuSectionName);
+            selectAttributeIfItsDisplay();
         })
     })
 }
 
-function selectAttributeIfItsDisplay(posMenuSectionName){
-    switch(posMenuSectionName){
-        case "basic" : basicSelect.setAttribute("selected", ""); break;
+//to put in state of selection btn link of the display of the object of display 
+function selectAttributeIfItsDisplay(){
+    switch(posSetting.display.display){
+        case "block" : basicSelect.setAttribute("selected", ""); break;
+        case "inline" : basicSelect.setAttribute("selected", ""); break;
+        case "block-inline" : basicSelect.setAttribute("selected", ""); break;
         case "flex" : flexSelect.setAttribute("selected", ""); break;
         case "grid" : gridSelect.setAttribute("selected", ""); break;
     }

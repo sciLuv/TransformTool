@@ -1,12 +1,9 @@
 /////////////////////////beta//////////////////////////
 
-faire que il y ai une initialisation du size a son ouverture
-ajouté un bouton "non position" dans le menu free. et faire le menu free
-faire que la barre de margin ou padding s'active directement (et donc le selecteur entierement également) lorsqu'on a selectionne sans aucune bordure de selectionné
-faire que lorsqu'on va dans size ou free basic, flex ou grid restent séléctionné au retour au menu de base
 faire que si l'on appuis sur le bouton reverse d'envelop celui ci puisse activé le yes en meme temps que sa selection alors qu'il est inactif
+diminué code de flex en faisant des fonctions (notamment pour les element redondant de selection
 
-1)commenté le code déjà fait
+1)commenté le code déjà fait (grid et flex)
 
 
 4)faire l'interface de selection du display, position et size, fonctionnel visuellement (et uniquement)

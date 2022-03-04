@@ -21,13 +21,26 @@
                     height: 25px;
                     margin-left: 10px;
                 }
+                #no-free-btn{
+                    width: 30px;
+                    border-radius: 30px;
+                    &::after{
+                        width: 30px;
+                        border-radius: 30px;
+                    }
+                    img{
+                        height: 17px;
+                        transform: rotate(45deg);
+                        filter: invert(10%) sepia(37%) saturate(6220%) hue-rotate(353deg) brightness(95%) contrast(117%);
+                    }
+                }
             }
             .z-index{
                 margin: 15px 0px 8px 0px;
                 input[type='number']{
                     margin-top: 2.5px;
                     margin-right: 5px;
-                    width: 15px;
+                    width: 22px;
                     height: 15px;
                     font-family: "typori";
                     border: $pos-menu-font-color-1 solid 3px;

@@ -1442,13 +1442,26 @@ input[type=range]:hover::-webkit-slider-thumb {
   height: 25px;
   margin-left: 10px;
 }
+#position-menu[free] #pos-menu-content .pos-btn #no-free-btn {
+  width: 30px;
+  border-radius: 30px;
+}
+#position-menu[free] #pos-menu-content .pos-btn #no-free-btn::after {
+  width: 30px;
+  border-radius: 30px;
+}
+#position-menu[free] #pos-menu-content .pos-btn #no-free-btn img {
+  height: 17px;
+  transform: rotate(45deg);
+  filter: invert(10%) sepia(37%) saturate(6220%) hue-rotate(353deg) brightness(95%) contrast(117%);
+}
 #position-menu[free] #pos-menu-content .z-index {
   margin: 15px 0px 8px 0px;
 }
 #position-menu[free] #pos-menu-content .z-index input[type=number] {
   margin-top: 2.5px;
   margin-right: 5px;
-  width: 15px;
+  width: 22px;
   height: 15px;
   font-family: "typori";
   border: #640000 solid 3px;
