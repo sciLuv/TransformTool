@@ -174,7 +174,7 @@ function whenFreeIsSelect(){
         setAttribute.setAttribute("selected","");
     }
 
-    //use of all fonction create before for a free menu operationnal   
+    //use of all fonction create before for a operationnal free menu   
     initFree() 
     freePositionSelection();
     zIndexAssignValue();

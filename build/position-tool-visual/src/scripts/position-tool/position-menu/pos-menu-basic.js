@@ -1,14 +1,11 @@
 function whenBasicIsSelect(){
 
+    //JS representation of the btns of selection of basic display
     let block = document.getElementById("block");
     let inline = document.getElementById("inline");
     let blockInline = document.getElementById("block-inline");
 
-    initBasicMenu()
-    basicDisplaySelection();
-    goToInitialMenu(selectPos);
-
-
+    //init the basic menu in function of selected display in the display object
     function initBasicMenu(){
 
         block.removeAttribute("selected");
@@ -24,25 +21,29 @@ function whenBasicIsSelect(){
         }
     }
 
+    //Event in link of each display btn
     function basicDisplaySelection(){
         block.addEventListener("click", function(){
-            inline.removeAttribute("selected");
-            blockInline.removeAttribute("selected");
-            posSetting.display = {  display : "block"  };
-            block.setAttribute("selected", "");
-            console.log("test");
+            AddAttributeAndDisplayValue(inline, blockInline, block, "block");
         })
         inline.addEventListener("click", function(){
-            block.removeAttribute("selected");
-            blockInline.removeAttribute("selected");
-            posSetting.display = {  display : "inline"  };
-            inline.setAttribute("selected", "");
+            AddAttributeAndDisplayValue(block, blockInline, inline, "inline");
         })
         blockInline.addEventListener("click", function(){
-            block.removeAttribute("selected");
-            inline.removeAttribute("selected");   
-            posSetting.display = {  display : "block-inline"  };
-            blockInline.setAttribute("selected", "");
+            AddAttributeAndDisplayValue(block, inline, blockInline, "block-inline");
         })
     }
+    //use in the event above to add/remove graphic attribut for the selected display, and change the display object with his new attribute. PARAMETER :
+    // btn1, btn2 : btn unselected // btnSelected : the btn of the selected display // displayVal :the new value of the displayObjct
+    function AddAttributeAndDisplayValue(btn1, btn2, btnSelect, displayVal){
+        btn1.removeAttribute("selected");
+        btn2.removeAttribute("selected");   
+        btnSelect.setAttribute("selected", "");
+        posSetting.display = {  display : displayVal  };
+    }
+
+    //use of all fonction create before for a operationnal basic menu   
+    initBasicMenu()
+    basicDisplaySelection();
+    goToInitialMenu(selectPos);
 }

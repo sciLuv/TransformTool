@@ -1,33 +1,39 @@
 function whenFlexIsSelect(){
-    
+    //elements interaction of flexDirection selection, and boolean to set them
     let selectFlexXY = document.getElementById("interuptor-flex-direction");
     let interuptorFlexRowColumn = document.getElementById("flex-positions");
     let flexXY = true;
     let reverseInteruptor = document.getElementById("flex-reverse");
     let reverseActivator = false;
-        
+
+    //elements interaction of flexWrap    
     let noWrap = document.getElementById("envelop-no");
     let wrap = document.getElementById("envelop-yes");
     let reverseWarp = document.getElementById("envelop-reverse");
 
+    //elements interaction of justify-content
     let selectFlexAxe1 = document.getElementById("first-axe-interuptor");
     let interuptorFlexStartEnd1 = document.getElementById("first-axe-under-interuptor");
     let flexStartEnd1 = "middle";
     let between1 = document.getElementById("between-1");
     let around1 = document.getElementById("around-1");
 
+    //elements interaction of align-items
     let selectFlexAxe2 = document.getElementById("second-axe-interuptor");
     let interuptorFlexStartEnd2 = document.getElementById("second-axe-under-interuptor");
     let flexStartEnd2 = "middle";
     let between2 = document.getElementById("between-2");
     let around2 = document.getElementById("around-2");
 
+    //elements interaction of align-content
     let selectFlexElem = document.getElementById("element-axe-interuptor");
     let interuptorFlexStartEndElem = document.getElementById("element-axe-under-interuptor");
     let flexStartEndElem = "start";
     let betweenElem = document.getElementById("between-elem");
     let aroundElem = document.getElementById("around-elem");
 
+    //set visual state of elements interaction in function of the state of the posSetting.display value (in the "if" part)
+    //or creation of a posSetting.display.flex object (in the "else" part)
     function initFlexDisplay(){
         if(posSetting.display.display == "flex"){
             if(posSetting.display.flexDirection == "column"){
@@ -44,63 +50,11 @@ function whenFlexIsSelect(){
                 posSetting.display.wrapReverse = false;
                 reverseWarp.removeAttribute("active");
             }
+
+            initFlexAxesSelectors(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
+            initFlexAxesSelectors(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItem");
+            initFlexAxesSelectors(selectFlexElem, interuptorFlexStartEndElem, flexStartEndElem, aroundElem, betweenElem, "alignContent");
             
-            if(posSetting.display.justifyContent == "flex-start"){
-                interuptorFlexStartEnd1.removeAttribute("middle");
-                interuptorFlexStartEnd1.setAttribute("start","");
-                flexStartEnd1 = "start";
-            }
-            else if(posSetting.display.justifyContent == "flex-end"){
-                interuptorFlexStartEnd1.removeAttribute("middle");
-                interuptorFlexStartEnd1.setAttribute("end","");
-                flexStartEnd1 = "end";
-            }
-            else if(posSetting.display.justifyContent == "space-between"){
-                between1.setAttribute("selected", "");
-                selectFlexAxe1.removeAttribute("active");
-            }
-            else if(posSetting.display.justifyContent == "space-around"){
-                around1.setAttribute("selected", "");
-                selectFlexAxe1.removeAttribute("active");
-            }
-
-            if(posSetting.display.alignItem == "flex-start"){
-                interuptorFlexStartEnd2.removeAttribute("middle");
-                interuptorFlexStartEnd2.setAttribute("start","");
-                flexStartEnd2 = "start";
-            }
-            else if(posSetting.display.alignItem == "flex-end"){
-                interuptorFlexStartEnd2.removeAttribute("middle");
-                interuptorFlexStartEnd2.setAttribute("end","");
-                flexStartEnd2 = "end";
-            }
-            else if(posSetting.display.alignItem == "space-between"){
-                between2.setAttribute("selected", "");
-                selectFlexAxe2.removeAttribute("active");
-            }
-            else if(posSetting.display.alignItem == "space-around"){
-                around2.setAttribute("selected", "");
-                selectFlexAxe2.removeAttribute("active");
-            }
-
-            if(posSetting.display.alignContent == "flex-start"){
-                interuptorFlexStartEndElem.removeAttribute("middle");
-                interuptorFlexStartEndElem.setAttribute("start","");
-                flexStartEndElem = "start";
-            }
-            else if(posSetting.display.alignContent == "flex-end"){
-                interuptorFlexStartEndElem.removeAttribute("middle");
-                interuptorFlexStartEndElem.setAttribute("end","");
-                flexStartEndElem = "end";
-            }
-            else if(posSetting.display.alignContent == "space-between"){
-                betweenElem.setAttribute("selected", "");
-                selectFlexElem.removeAttribute("active");
-            }
-            else if(posSetting.display.alignContent == "space-around"){
-                aroundElem.setAttribute("selected", "");
-                selectFlexElem.removeAttribute("active");
-            }
         }
         else{
             posSetting.display = {
@@ -111,12 +65,35 @@ function whenFlexIsSelect(){
                 wrapReverse : false,
                 justifyContent : "center",
                 alignItem : "center",
-                alignContent : "jesaispas"
+                alignContent : "center"
             }
         }
     }
+    //use exclusively in the initFlexDisplay (function just before) to set all the axis part of the flex menu (justifyContent, alignItem, AlignContent)
+    function initFlexAxesSelectors(interuptor, underInteruptor, interuptorValRpz, around, between, displayFlexVal){
+        if(posSetting.display[displayFlexVal] == "flex-start"){
+            underInteruptor.removeAttribute("middle");
+            underInteruptor.setAttribute("start","");
+            interuptorValRpz = "start";
+        }
+        else if(posSetting.display[displayFlexVal] == "flex-end"){
+            underInteruptor.removeAttribute("middle");
+            underInteruptor.setAttribute("end","");
+            interuptorValRpz = "end";
+        }
+        else if(posSetting.display[displayFlexVal] == "space-between"){
+            between.setAttribute("selected", "");
+            interuptor.removeAttribute("active");
+        }
+        else if(posSetting.display[displayFlexVal] == "space-around"){
+            around.setAttribute("selected", "");
+            interuptor.removeAttribute("active");
+        }
+    }
 
-    function flexBtns(){
+    //Events for interaction element of the flex direction (flex direction and flexReverse)
+    //and, in there rules to set flexDirection object and visual value of the interaction element
+    function flexDirection(){
         selectFlexXY.addEventListener('click', function(){
             if(flexXY == false){
                 interuptorFlexRowColumn.setAttribute("active","");
@@ -144,153 +121,10 @@ function whenFlexIsSelect(){
                 reverseActivator = false;
             }
         })
-        
-        selectFlexAxe1.addEventListener('click', function(){
-            around1.removeAttribute("selected");
-            between1.removeAttribute("selected");
-            if(selectFlexAxe1.hasAttribute("active")){
-                if(flexStartEnd1 == "start"){
-                    interuptorFlexStartEnd1.setAttribute("middle","");
-                    posSetting.display.justifyContent = "center";
-                    flexStartEnd1 = "middle";
-                    
-                }
-                else if(flexStartEnd1 == "middle"){
-                    interuptorFlexStartEnd1.removeAttribute("middle");
-                    interuptorFlexStartEnd1.setAttribute("end","");
-                    posSetting.display.justifyContent = "flex-end";
-                    flexStartEnd1 = "end";
-                }
-                else{
-                    interuptorFlexStartEnd1.removeAttribute("end");
-                    posSetting.display.justifyContent = "flex-start";
-                    flexStartEnd1 = "start";
-                }
-            }
-            else{
-                selectFlexAxe1.setAttribute("active","");
-                if(flexStartEnd1 == "start"){
-                    posSetting.display.justifyContent = "flex-start";
-                }
-                else if(flexStartEnd1 == "middle"){
-                    posSetting.display.justifyContent = "center";
-                }
-                else if(flexStartEnd1 == "end"){
-                    posSetting.display.justifyContent = "flex-end";
-                }
-            }
-        })
-
-        between1.addEventListener("click", function(){
-            between1.setAttribute("selected", "");
-            around1.removeAttribute("selected");
-            selectFlexAxe1.removeAttribute("active");
-            posSetting.display.justifyContent = "space-between";
-        })
-        around1.addEventListener("click", function(){
-            around1.setAttribute("selected", "");
-            between1.removeAttribute("selected");
-            selectFlexAxe1.removeAttribute("active");
-            posSetting.display.justifyContent = "space-around";
-        })
-        
-        selectFlexAxe2.addEventListener('click', function(){
-            around2.removeAttribute("selected");
-            between2.removeAttribute("selected");
-            if(selectFlexAxe2.hasAttribute("active")){
-                if(flexStartEnd2 == "start"){
-                    interuptorFlexStartEnd2.setAttribute("middle","");
-                    posSetting.display.alignItem = "center";
-                    flexStartEnd2 = "middle";
-                }
-                else if(flexStartEnd2 == "middle"){
-                    interuptorFlexStartEnd2.removeAttribute("middle");
-                    interuptorFlexStartEnd2.setAttribute("end","");
-                    posSetting.display.alignItem = "flex-end";
-                    flexStartEnd2 = "end";
-                }
-                else{
-                    interuptorFlexStartEnd2.removeAttribute("end");
-                    posSetting.display.alignItem = "flex-start";
-                    flexStartEnd2 = "start";
-                }
-            }
-            else{
-                selectFlexAxe2.setAttribute("active","");
-                if(flexStartEnd2 == "start"){
-                    posSetting.display.alignItem = "flex-start";
-                }
-                else if(flexStartEnd2 == "middle"){
-                    posSetting.display.alignItem = "center";
-                }
-                else if(flexStartEnd2 == "end"){
-                    posSetting.display.alignItem = "flex-end";
-                }
-            }
-        })
-
-        between2.addEventListener("click", function(){
-            between2.setAttribute("selected", "");
-            around2.removeAttribute("selected");
-            selectFlexAxe2.removeAttribute("active");
-            posSetting.display.alignItem = "space-between";
-        })
-        around2.addEventListener("click", function(){
-            around2.setAttribute("selected", "");
-            between2.removeAttribute("selected");
-            selectFlexAxe2.removeAttribute("active");
-            posSetting.display.alignItem = "space-around";
-        })
-        
-        selectFlexElem.addEventListener('click', function(){
-            aroundElem.removeAttribute("selected");
-            betweenElem.removeAttribute("selected");
-            if(selectFlexElem.hasAttribute("active")){
-                if(flexStartEndElem == "start"){
-                    interuptorFlexStartEndElem.setAttribute("middle","");
-                    posSetting.display.alignContent = "center";
-                    flexStartEndElem = "middle";
-                }
-                else if(flexStartEndElem == "middle"){
-                    interuptorFlexStartEndElem.removeAttribute("middle");
-                    interuptorFlexStartEndElem.setAttribute("end","");
-                    posSetting.display.alignContent = "flex-end";
-                    flexStartEndElem = "end";
-                }
-                else{
-                    interuptorFlexStartEndElem.removeAttribute("end");
-                    posSetting.display.alignContent = "flex-start";
-                    flexStartEndElem = "start";
-                }
-            }
-            else{
-                selectFlexElem.setAttribute("active","");
-                if(flexStartEndElem == "start"){
-                    posSetting.display.alignContent = "flex-start";
-                }
-                else if(flexStartEndElem == "middle"){
-                    posSetting.display.alignContent = "center";
-                }
-                else if(flexStartEndElem == "end"){
-                    posSetting.display.alignContent = "flex-end";
-                }
-            }
-        })
-
-        betweenElem.addEventListener("click", function(){
-            betweenElem.setAttribute("selected", "");
-            aroundElem.removeAttribute("selected");
-            selectFlexElem.removeAttribute("active");
-            posSetting.display.alignContent = "space-between";
-        })
-        aroundElem.addEventListener("click", function(){
-            aroundElem.setAttribute("selected", "");
-            betweenElem.removeAttribute("selected");
-            selectFlexElem.removeAttribute("active");
-            posSetting.display.alignContent = "space-around";
-        })
     }
 
+    //Events for interaction element of the flexWrap (flexWrap and flexWrapReverse)
+    //and, in there rules to set flexWrap object and visual value of the interaction element
     function flexEnvelop(){
         noWrap.addEventListener("click", function(){
             wrap.removeAttribute("selected");
@@ -307,19 +141,87 @@ function whenFlexIsSelect(){
             reverseWarp.setAttribute("active", "");
         })
         reverseWarp.addEventListener("click", function(){ 
-            if(reverseWarp.hasAttribute("active")){
                 if(reverseActivator == false){
                     posSetting.display.wrapReverse = true;
+                    posSetting.display.wrap = "wrap";
                     reverseActivator = true;
+                    reverseWarp.setAttribute("active", "");
+                    noWrap.removeAttribute("selected");
+                    wrap.setAttribute("selected", "");
                 }
                 else{
                     posSetting.display.wrapReverse = false;
                     reverseActivator = false;
                 }
-            } 
         })
     }
 
+    //Events for interaction element of the  (justifyContent, alignItem, AlignContent)
+    //and, in there rules to set flex Axis object and visual value of the interaction element
+    function flexAxesInteruptorBtn(){
+        flexAxesSelectorsEvent(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
+        flexAxesSelectorsEvent(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItem");
+        flexAxesSelectorsEvent(selectFlexElem, interuptorFlexStartEndElem, flexStartEndElem, aroundElem, betweenElem, "alignContent");
+    }
+
+    //because each element interaction for axis selection work in a same way, a function to set them with less writing code. PARAMETER :
+    //interuptor = the JS representation of the HTML interuptor.
+    //underInteruptor = the inside part of the interuptor, represent visually the selection of start/middle/end
+    //around/between = represent the JS representation of the around and between btn
+    //displayFlexVal = represente the posSetting.display["justifyContent"/"alignItem"/"alignContent"]
+    function flexAxesSelectorsEvent(interuptor, underInteruptor, interuptorValRpz, around, between, displayFlexVal){
+        interuptor.addEventListener('click', function(){
+            around.removeAttribute("selected");
+            between.removeAttribute("selected");
+            if(interuptor.hasAttribute("active")){
+                if(interuptorValRpz == "start"){
+                    underInteruptor.setAttribute("middle","");
+                    posSetting.display[displayFlexVal] = "center";
+                    interuptorValRpz = "middle";
+                    
+                }
+                else if(interuptorValRpz == "middle"){
+                    underInteruptor.removeAttribute("middle");
+                    underInteruptor.setAttribute("end","");
+                    posSetting.display[displayFlexVal] = "flex-end";
+                    interuptorValRpz = "end";
+                }
+                else{
+                    underInteruptor.removeAttribute("end");
+                    posSetting.display[displayFlexVal] = "flex-start";
+                    interuptorValRpz = "start";
+                }
+            }
+            else{
+                interuptor.setAttribute("active","");
+                if(interuptorValRpz == "start"){
+                    posSetting.display[displayFlexVal] = "flex-start";
+                }
+                else if(interuptorValRpz == "middle"){
+                    posSetting.display[displayFlexVal] = "center";
+                }
+                else if(interuptorValRpz == "end"){
+                    posSetting.display[displayFlexVal] = "flex-end";
+                }
+            }
+        })
+        
+        aroundBetweenBtnEvent(around, between, interuptor, displayFlexVal, "space-around");
+        aroundBetweenBtnEvent(between, around, interuptor, displayFlexVal, "space-between");
+    }
+    //Event of btn around and between. PARAMETER : (if same name in the parameter of last function, same possibility of value)
+    //btn1, btn2 = around or between btn in function of the event create
+    //spacingValue = "space-around" or "space-between"
+    function aroundBetweenBtnEvent(btn1, btn2, interuptor, displayFlexVal, spacingValue){
+        btn1.addEventListener("click", function(){
+            btn1.setAttribute("selected", "");
+            btn2.removeAttribute("selected");
+            interuptor.removeAttribute("active");
+            posSetting.display[displayFlexVal] = spacingValue;
+        })
+    }
+
+    //use to put a visual feelback when user click on a reverse btn
     function reverseBtnAnim(){
         let reverseBtnImgs = document.getElementsByClassName("reverse-img");
         let reverseBtns = document.getElementsByClassName("pos-reverse-btn");
@@ -342,9 +244,11 @@ function whenFlexIsSelect(){
         }
     }
 
+    //use of all fonction create before for a operationnal free menu   
     reverseBtnAnim();
     initFlexDisplay();
+    flexDirection();
     flexEnvelop();
-    flexBtns();
+    flexAxesInteruptorBtn();
     goToInitialMenu(selectPos);
 }

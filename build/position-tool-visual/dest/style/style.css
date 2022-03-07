@@ -1026,7 +1026,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: default;
+  cursor: pointer;
   border-radius: 25px;
   width: 20px;
   height: 20px;
@@ -1056,7 +1056,6 @@ input[type=range]:hover::-webkit-slider-thumb {
 }
 .pos-reverse-btn[active] {
   opacity: 1;
-  cursor: pointer;
 }
 .pos-reverse-btn[active]:hover::after {
   opacity: 1;
