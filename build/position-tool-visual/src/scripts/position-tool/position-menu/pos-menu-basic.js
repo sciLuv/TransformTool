@@ -19,18 +19,21 @@ function whenBasicIsSelect(){
             default : block.setAttribute("selected", "");
             posSetting.display = {  display : "block"  }; break;
         }
+
+        elemsContainer.style.display = posSetting.display.display;
     }
 
     //Event in link of each display btn
     function basicDisplaySelection(){
         block.addEventListener("click", function(){
             AddAttributeAndDisplayValue(inline, blockInline, block, "block");
+            elemsContainer.style.display = posSetting.display.display;
         })
         inline.addEventListener("click", function(){
             AddAttributeAndDisplayValue(block, blockInline, inline, "inline");
         })
         blockInline.addEventListener("click", function(){
-            AddAttributeAndDisplayValue(block, inline, blockInline, "block-inline");
+            AddAttributeAndDisplayValue(block, inline, blockInline, "inline-block");
         })
     }
     //use in the event above to add/remove graphic attribut for the selected display, and change the display object with his new attribute. PARAMETER :
@@ -40,6 +43,7 @@ function whenBasicIsSelect(){
         btn2.removeAttribute("selected");   
         btnSelect.setAttribute("selected", "");
         posSetting.display = {  display : displayVal  };
+        elemsContainer.style.display = posSetting.display.display;
     }
 
     //use of all fonction create before for a operationnal basic menu   

@@ -23,8 +23,14 @@
             </section>
             <section id="position-interface">
                 <div id="position-elems-container">
-                    <div class="in-position"></div>
+                    <!--
+                        <div id="element-1"></div>
+                        <div id="element-2"></div>
+                        <div id="element-3"></div>
+                        <div id="element-4"></div>
+                    -->
                 </div>
+                <div id="under-position-elems-container"></div>
             </section>
         </div>
         <section id="position-menu" base>
@@ -42,6 +48,7 @@
     <article class="code-gen"></article>
 
     <!-- build:js ./scripts/position-tool.js defer-->
+    <script src="./scripts/position-tool/position-reusable.js"></script>
     <script src="./scripts/position-tool/position.js"></script>
     <script src="./scripts/position-tool/position-menu/pos-menu.js"></script>
     <script src="./scripts/position-tool/position-menu/pos-menu-basic.js"></script>

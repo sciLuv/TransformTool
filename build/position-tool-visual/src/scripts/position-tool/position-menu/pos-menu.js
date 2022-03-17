@@ -42,7 +42,7 @@ let lastSelectPosMenuDisplay;
 //object contain all variable set in the menu for application on the element's container
 let posSetting = {
     free : {
-        position: "none",
+        position: "intial",
         zIndex : 0,
         overflow : {
             x : "visible",
@@ -51,7 +51,7 @@ let posSetting = {
         }
     },
     size : {
-        width : 100, height : 100,
+        width : 250, height : 150,
         padding : {
             top : 0, bottom : 0, left : 0, right : 0
         },
@@ -69,6 +69,15 @@ let posSetting = {
         }
     },
     display : { display : "block"}
+}
+
+
+let posSize = posSetting.size;
+let allWidthSize;
+//use in posSize part of the menu to calculate all the width size of the container
+function calcWidth(){
+    allWidthSize = Number(posSize.width) + Number(posSize.margin.left) + Number(posSize.margin.right) + Number(posSize.padding.left) + Number(posSize.padding.right);
+    return allWidthSize;
 }
 
 //next 5variables declare in global scope to be accessible for all function 

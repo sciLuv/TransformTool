@@ -93,4 +93,10 @@
             }
         }
     }
+    &[selected]{
+        background: linear-gradient(165deg, $no-opacity 0%, #ffa600 80%) !important;
+        &::after{
+            background: linear-gradient(165deg, $no-opacity 0%, #ffa600 80%) !important;
+        }
+    }
 }

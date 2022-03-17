@@ -1,8 +1,99 @@
+let posIFWidthMin = 244;
+let posIFHeightMin = 150;
+
+let topPosition = 200;
+let leftPosition = 200;
+
+//function for size part of the position menu (size, padding and margin) and changing of the
+function posIFAutoPlaceAndSize(size, sizeSpe, minIF, range, positionWindow){
+    let diffRange = 0;
+    console.log("size : " +  size + " sizeSpe : " + sizeSpe + " minIF : " + minIF + " range : " + range.value + " positionWindow : " + positionWindow );
+    if(size > minIF){
+        console.log("test1");
+        if(range.value < minIF-(size-sizeSpe)){
+            console.log("test2");
+            diffRange = sizeSpe - (minIF-(size-sizeSpe));
+            console.log(sizeSpe - (minIF-(size-sizeSpe)));
+        }
+        else{
+            console.log("test3");
+            diffRange = sizeSpe - range.value;
+        }
+    }
+    else if((size < minIF)&&(range.value > minIF-(size-sizeSpe))){
+        console.log("test4");
+            diffRange = (minIF-(size-sizeSpe)) - range.value;  
+    }
+    leftPosition = Number(leftPosition) + Number(diffRange);
+    position.style[positionWindow] = leftPosition + "px";
+}
+
+//functions for grid
+function addGridCel(column, line, underContainer){
+    underContainer.innerHTML = "";
+    let numOfCel = column*line;
+    for(i=1; i <= numOfCel; i++){
+        underContainer.innerHTML += "<div id='cel-" + i + "' class='cel''></div>"
+    }
+} 
+function addGridGap(container, underContainer, columnOrLine, gap){
+    container.style["grid"+ columnOrLine + "Gap"] = gap + "px";
+    underContainer.style["grid"+ columnOrLine + "Gap"] = gap + "px";
+}
+
+function addGridColLine(container, underContainer, columnsOrLines, columnOrLine, num){
+    let GridTemplateVal = ""; 
+    let specificTemplateVal = false;
+    let lastSpecificTemplateVal = 0;
+
+    for(i=1; i<=num; i++){
+        if(posSetting.display.size[columnOrLine][i] != undefined){
+            if(i == 1){
+                GridTemplateVal += posSetting.display.size[columnOrLine][i] + "fr";
+                specificTemplateVal = true;
+                lastSpecificTemplateVal = 1;
+            }
+            else{    
+                if(lastSpecificTemplateVal == (i-1)){
+                    GridTemplateVal += " " + posSetting.display.size[columnOrLine][i] + "fr";
+                }
+                else{
+                    GridTemplateVal += " repeat(" + ((i-1)-lastSpecificTemplateVal) + ", " + posSetting.display.size[columnOrLine].default + "fr) " + posSetting.display.size[columnOrLine][i] + "fr";
+                }
+                specificTemplateVal = true;
+                lastSpecificTemplateVal = i;
+            }
+        }
+        if((i == num)&&(lastSpecificTemplateVal != num)){
+            if(lastSpecificTemplateVal == (num-1)){
+                GridTemplateVal += " " + posSetting.display.size[columnOrLine].default + "fr"
+            }
+            else{
+                GridTemplateVal += " repeat(" + (i-lastSpecificTemplateVal) + ", " + posSetting.display.size[columnOrLine].default + "fr) "
+            }
+        }
+    }
+    if(specificTemplateVal == false){
+        GridTemplateVal = "repeat("+ num +", 15fr)"
+        container.style["gridTemplate" + columnsOrLines] = "repeat("+ num +", 15fr)";
+        underContainer.style["gridTemplate" + columnsOrLines] = "repeat("+ num +", 15fr)";
+    }
+    else{
+        container.style["gridTemplate" + columnsOrLines] = GridTemplateVal;
+        underContainer.style["gridTemplate" + columnsOrLines] = GridTemplateVal;
+    }
+    console.log(GridTemplateVal);
+}
+
+
+
 let beforeBody = document.getElementsByTagName("body");
 let body = beforeBody[0];
 
 let position = document.getElementById("position");
 let elemsContainer = document.getElementById("position-elems-container");
+let underElemsContainer = document.getElementById("under-position-elems-container");
+
 let positionMove = document.getElementById("position-move");
 
 let moreBtn2 = document.getElementById("btn-more-tool");
@@ -103,11 +194,14 @@ body.addEventListener('mouseup', function(event){
     }
 })
 //Event for calculate and applicate move
+
 body.addEventListener('mousemove', function(event){
     if(posPlaceActive == true){
         position.style.left = Math.round(event.pageX - posInitPlaceX) + "px";
+        leftPosition = Math.round(event.pageX - posInitPlaceX);
         //console.log(Math.round((event.clientX - posInitPlaceX)/10)*10 + "px");
         position.style.top = Math.round(event.pageY - posInitPlaceY) + "px";
+        topPosition = Math.round(event.pageY - posInitPlaceY);
     }
 })
 
@@ -155,7 +249,7 @@ let lastSelectPosMenuDisplay;
 //object contain all variable set in the menu for application on the element's container
 let posSetting = {
     free : {
-        position: "none",
+        position: "intial",
         zIndex : 0,
         overflow : {
             x : "visible",
@@ -164,7 +258,7 @@ let posSetting = {
         }
     },
     size : {
-        width : 100, height : 100,
+        width : 250, height : 150,
         padding : {
             top : 0, bottom : 0, left : 0, right : 0
         },
@@ -182,6 +276,15 @@ let posSetting = {
         }
     },
     display : { display : "block"}
+}
+
+
+let posSize = posSetting.size;
+let allWidthSize;
+//use in posSize part of the menu to calculate all the width size of the container
+function calcWidth(){
+    allWidthSize = Number(posSize.width) + Number(posSize.margin.left) + Number(posSize.margin.right) + Number(posSize.padding.left) + Number(posSize.padding.right);
+    return allWidthSize;
 }
 
 //next 5variables declare in global scope to be accessible for all function 
@@ -300,18 +403,21 @@ function whenBasicIsSelect(){
             default : block.setAttribute("selected", "");
             posSetting.display = {  display : "block"  }; break;
         }
+
+        elemsContainer.style.display = posSetting.display.display;
     }
 
     //Event in link of each display btn
     function basicDisplaySelection(){
         block.addEventListener("click", function(){
             AddAttributeAndDisplayValue(inline, blockInline, block, "block");
+            elemsContainer.style.display = posSetting.display.display;
         })
         inline.addEventListener("click", function(){
             AddAttributeAndDisplayValue(block, blockInline, inline, "inline");
         })
         blockInline.addEventListener("click", function(){
-            AddAttributeAndDisplayValue(block, inline, blockInline, "block-inline");
+            AddAttributeAndDisplayValue(block, inline, blockInline, "inline-block");
         })
     }
     //use in the event above to add/remove graphic attribut for the selected display, and change the display object with his new attribute. PARAMETER :
@@ -321,6 +427,7 @@ function whenBasicIsSelect(){
         btn2.removeAttribute("selected");   
         btnSelect.setAttribute("selected", "");
         posSetting.display = {  display : displayVal  };
+        elemsContainer.style.display = posSetting.display.display;
     }
 
     //use of all fonction create before for a operationnal basic menu   
@@ -328,18 +435,22 @@ function whenBasicIsSelect(){
     basicDisplaySelection();
     goToInitialMenu(selectPos);
 }
+
 function whenFlexIsSelect(){
     //elements interaction of flexDirection selection, and boolean to set them
     let selectFlexXY = document.getElementById("interuptor-flex-direction");
     let interuptorFlexRowColumn = document.getElementById("flex-positions");
     let flexXY = true;
     let reverseInteruptor = document.getElementById("flex-reverse");
+    let reverseInteruptorImg = document.querySelector("#flex-reverse img");
     let reverseActivator = false;
 
     //elements interaction of flexWrap    
     let noWrap = document.getElementById("envelop-no");
     let wrap = document.getElementById("envelop-yes");
     let reverseWarp = document.getElementById("envelop-reverse");
+    let reverseWarpImg = document.querySelector("#envelop-reverse img");
+    let warpReverseActivator = false;
 
     //elements interaction of justify-content
     let selectFlexAxe1 = document.getElementById("first-axe-interuptor");
@@ -358,7 +469,7 @@ function whenFlexIsSelect(){
     //elements interaction of align-content
     let selectFlexElem = document.getElementById("element-axe-interuptor");
     let interuptorFlexStartEndElem = document.getElementById("element-axe-under-interuptor");
-    let flexStartEndElem = "start";
+    let flexStartEndElem = "middle";
     let betweenElem = document.getElementById("between-elem");
     let aroundElem = document.getElementById("around-elem");
 
@@ -372,6 +483,11 @@ function whenFlexIsSelect(){
                 interuptorFlexStartEnd1.setAttribute("column", "");
                 interuptorFlexStartEnd2.removeAttribute("column");
             }
+            if(posSetting.display.directionReverse == true){
+                reverseInteruptor.setAttribute("selected", "");
+                reverseInteruptorImg.setAttribute("active", "");
+                reverseActivator = true;
+            }
             
             if(posSetting.display.wrap == "nowrap"){
                 wrap.removeAttribute("selected");
@@ -380,9 +496,14 @@ function whenFlexIsSelect(){
                 posSetting.display.wrapReverse = false;
                 reverseWarp.removeAttribute("active");
             }
+            if(posSetting.display.wrapReverse == true){
+                reverseWarp.setAttribute("selected", "");
+                reverseWarpImg.setAttribute("active", "");
+                warpReverseActivator = true;
+            }
 
             initFlexAxesSelectors(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
-            initFlexAxesSelectors(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItem");
+            initFlexAxesSelectors(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");
             initFlexAxesSelectors(selectFlexElem, interuptorFlexStartEndElem, flexStartEndElem, aroundElem, betweenElem, "alignContent");
             
         }
@@ -391,25 +512,32 @@ function whenFlexIsSelect(){
                 display : "flex",
                 flexDirection : "row",
                 directionReverse : false,
-                wrap : "warp",
+                wrap : "wrap",
                 wrapReverse : false,
                 justifyContent : "center",
-                alignItem : "center",
+                alignItems : "center",
                 alignContent : "center"
             }
+            elemsContainer.style.display = posSetting.display.display;
+            elemsContainer.style.flexDirection = posSetting.display.flexDirection;
+            elemsContainer.style.flexWrap = posSetting.display.wrap;
+            elemsContainer.style.justifyContent = posSetting.display.justifyContent;
+            elemsContainer.style.alignItems = posSetting.display.alignItems;
+            elemsContainer.style.alignContent = posSetting.display.alignContent;
         }
     }
     //use exclusively in the initFlexDisplay (function just before) to set all the axis part of the flex menu (justifyContent, alignItem, AlignContent)
     function initFlexAxesSelectors(interuptor, underInteruptor, interuptorValRpz, around, between, displayFlexVal){
         if(posSetting.display[displayFlexVal] == "flex-start"){
             underInteruptor.removeAttribute("middle");
-            underInteruptor.setAttribute("start","");
             interuptorValRpz = "start";
+            console.log(interuptorValRpz);
         }
         else if(posSetting.display[displayFlexVal] == "flex-end"){
             underInteruptor.removeAttribute("middle");
             underInteruptor.setAttribute("end","");
             interuptorValRpz = "end";
+            console.log(interuptorValRpz);
         }
         else if(posSetting.display[displayFlexVal] == "space-between"){
             between.setAttribute("selected", "");
@@ -419,6 +547,7 @@ function whenFlexIsSelect(){
             around.setAttribute("selected", "");
             interuptor.removeAttribute("active");
         }
+        giveValAgain(interuptor, interuptorValRpz);
     }
 
     //Events for interaction element of the flex direction (flex direction and flexReverse)
@@ -431,6 +560,7 @@ function whenFlexIsSelect(){
                 posSetting.display.flexDirection = "row";
                 interuptorFlexStartEnd2.setAttribute("column", "");
                 interuptorFlexStartEnd1.removeAttribute("column");
+                elemsContainer.style.flexDirection = posSetting.display.flexDirection;
             }
             else{
                 interuptorFlexRowColumn.removeAttribute("active");
@@ -438,17 +568,19 @@ function whenFlexIsSelect(){
                 posSetting.display.flexDirection = "column";
                 interuptorFlexStartEnd1.setAttribute("column", "");
                 interuptorFlexStartEnd2.removeAttribute("column");
-
+                elemsContainer.style.flexDirection = posSetting.display.flexDirection;
             }
         })
         reverseInteruptor.addEventListener("click", function(){
             if(reverseActivator == false){
                 posSetting.display.directionReverse = true;
                 reverseActivator = true;
+                elemsContainer.style.flexDirection = posSetting.display.flexDirection + "-reverse";
             }
             else{
                 posSetting.display.directionReverse = false;
                 reverseActivator = false;
+                elemsContainer.style.flexDirection = posSetting.display.flexDirection;
             }
         })
     }
@@ -461,27 +593,31 @@ function whenFlexIsSelect(){
             noWrap.setAttribute("selected", "");
             posSetting.display.wrap = "nowrap";
             posSetting.display.wrapReverse = false;
-            reverseActivator = false;
+            warpReverseActivator = false;
             reverseWarp.removeAttribute("active");
+            elemsContainer.style.flexWrap = posSetting.display.wrap;
         })
         wrap.addEventListener("click", function(){
             noWrap.removeAttribute("selected");
             wrap.setAttribute("selected", "");
             posSetting.display.wrap = "wrap";
             reverseWarp.setAttribute("active", "");
+            elemsContainer.style.flexWrap = posSetting.display.wrap;
         })
         reverseWarp.addEventListener("click", function(){ 
-                if(reverseActivator == false){
+                if(warpReverseActivator == false){
                     posSetting.display.wrapReverse = true;
                     posSetting.display.wrap = "wrap";
-                    reverseActivator = true;
+                    warpReverseActivator = true;
                     reverseWarp.setAttribute("active", "");
                     noWrap.removeAttribute("selected");
                     wrap.setAttribute("selected", "");
+                    elemsContainer.style.flexWrap = posSetting.display.wrap + "-reverse";
                 }
                 else{
                     posSetting.display.wrapReverse = false;
-                    reverseActivator = false;
+                    warpReverseActivator = false;
+                    elemsContainer.style.flexWrap = posSetting.display.wrap;
                 }
         })
     }
@@ -490,7 +626,7 @@ function whenFlexIsSelect(){
     //and, in there rules to set flex Axis object and visual value of the interaction element
     function flexAxesInteruptorBtn(){
         flexAxesSelectorsEvent(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
-        flexAxesSelectorsEvent(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItem");
+        flexAxesSelectorsEvent(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");
         flexAxesSelectorsEvent(selectFlexElem, interuptorFlexStartEndElem, flexStartEndElem, aroundElem, betweenElem, "alignContent");
     }
 
@@ -501,37 +637,50 @@ function whenFlexIsSelect(){
     //displayFlexVal = represente the posSetting.display["justifyContent"/"alignItem"/"alignContent"]
     function flexAxesSelectorsEvent(interuptor, underInteruptor, interuptorValRpz, around, between, displayFlexVal){
         interuptor.addEventListener('click', function(){
+
+            console.log(interuptorValRpz);
             around.removeAttribute("selected");
             between.removeAttribute("selected");
             if(interuptor.hasAttribute("active")){
                 if(interuptorValRpz == "start"){
+                    console.log("test1");
                     underInteruptor.setAttribute("middle","");
                     posSetting.display[displayFlexVal] = "center";
                     interuptorValRpz = "middle";
+                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
                     
                 }
                 else if(interuptorValRpz == "middle"){
+                    console.log("test2");
                     underInteruptor.removeAttribute("middle");
                     underInteruptor.setAttribute("end","");
                     posSetting.display[displayFlexVal] = "flex-end";
                     interuptorValRpz = "end";
+                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
                 }
-                else{
+                else if(interuptorValRpz == "end"){
+                    console.log("test3");
                     underInteruptor.removeAttribute("end");
                     posSetting.display[displayFlexVal] = "flex-start";
                     interuptorValRpz = "start";
+                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
                 }
+
+                giveValAgain(interuptor, interuptorValRpz);
             }
             else{
                 interuptor.setAttribute("active","");
                 if(interuptorValRpz == "start"){
                     posSetting.display[displayFlexVal] = "flex-start";
+                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
                 }
                 else if(interuptorValRpz == "middle"){
                     posSetting.display[displayFlexVal] = "center";
+                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
                 }
                 else if(interuptorValRpz == "end"){
                     posSetting.display[displayFlexVal] = "flex-end";
+                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
                 }
             }
         })
@@ -539,6 +688,19 @@ function whenFlexIsSelect(){
         aroundBetweenBtnEvent(around, between, interuptor, displayFlexVal, "space-around");
         aroundBetweenBtnEvent(between, around, interuptor, displayFlexVal, "space-between");
     }
+
+    function giveValAgain(interuptor, interuptorValRpz){
+        if (interuptor.getAttribute("id") == "first-axe-interuptor"){
+            flexStartEnd1 = interuptorValRpz;
+        }
+        else if (interuptor.getAttribute("id") == "second-axe-interuptor"){
+            flexStartEnd2 = interuptorValRpz;
+        }
+        else{
+            flexStartEndElem = interuptorValRpz;
+        }
+    }
+
     //Event of btn around and between. PARAMETER : (if same name in the parameter of last function, same possibility of value)
     //btn1, btn2 = around or between btn in function of the event create
     //spacingValue = "space-around" or "space-between"
@@ -548,35 +710,32 @@ function whenFlexIsSelect(){
             btn2.removeAttribute("selected");
             interuptor.removeAttribute("active");
             posSetting.display[displayFlexVal] = spacingValue;
+            elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
         })
     }
 
     //use to put a visual feelback when user click on a reverse btn
-    function reverseBtnAnim(){
-        let reverseBtnImgs = document.getElementsByClassName("reverse-img");
-        let reverseBtns = document.getElementsByClassName("pos-reverse-btn");
-        for(i=0; i<=reverseBtnImgs.length-1; i++){
-            let reverseBtnImg = reverseBtnImgs[i];
-            let reverseBtn = reverseBtns[i];
-            let reverseActivator = false 
+    function reverseBtnAnim(reverseBtn, reverseBtnImg, reverseActivator){
             reverseBtn.addEventListener("click", function(){
                 if(reverseBtn.hasAttribute("active")){
                     if(reverseActivator == false){
                         reverseBtnImg.setAttribute("active", "");
+                        reverseBtn.setAttribute("selected", "");
                         reverseActivator = true;
                     }
                     else{
                         reverseBtnImg.removeAttribute("active");
+                        reverseBtn .removeAttribute("selected");
                         reverseActivator = false;
                     }
                 }
             })     
-        }
     }
 
     //use of all fonction create before for a operationnal free menu   
-    reverseBtnAnim();
     initFlexDisplay();
+    reverseBtnAnim(reverseInteruptor, reverseInteruptorImg, reverseActivator);
+    reverseBtnAnim(reverseWarp, reverseWarpImg, warpReverseActivator);
     flexDirection();
     flexEnvelop();
     flexAxesInteruptorBtn();
@@ -633,6 +792,14 @@ function whenGridIsSelect(){
                     sizeSelect : 1
                 } 
             }
+
+            elemsContainer.style.display = posSetting.display.display;
+            underElemsContainer.style.display = posSetting.display.display;
+
+            addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
+            addGridColLine(elemsContainer, underElemsContainer, "Rows", "line", posSetting.display.lines);
+
+            addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
         }
     }
     //init num and marge section of the grid menu is relatively similar, so a function to reduce code. PARAMETER : 
@@ -665,13 +832,25 @@ function whenGridIsSelect(){
         })
         numRange.addEventListener("input", function(){
             if(numColumn.hasAttribute("selected")){
+                const num = posSetting.display.columns;
+                console.log(num);
                 posSetting.display.columns = numRange.value;
+                console.log(posSetting.display.columns);
+                console.log(posSetting.display.size.column[num]);
+                if((posSetting.display.size.column[num])&&(num>posSetting.display.columns)){
+                    console.log("test");
+                    delete posSetting.display.size.column[num];
+                }
+                addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
+                addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
                 if(sizeColumn.hasAttribute("selected")){
                     gridSelectModif("columns");
                 }
             }
             else{
                 posSetting.display.lines = numRange.value;
+                addGridColLine(elemsContainer, underElemsContainer, "Rows", "line", posSetting.display.lines);
+                addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
                 if(sizeLine.hasAttribute("selected")){
                     gridSelectModif("lines");
                 }
@@ -689,9 +868,12 @@ function whenGridIsSelect(){
         margeRange.addEventListener("input", function(){
             if(margeColumn.hasAttribute("selected")){
                 posSetting.display.margeColumns = margeRange.value;
+                addGridGap(elemsContainer, underElemsContainer, "Column", posSetting.display.margeColumns);
+
             }
             else{
                 posSetting.display.margeLines = margeRange.value;
+                addGridGap(elemsContainer, underElemsContainer, "Row", posSetting.display.margeLines);
             }
         })
     }
@@ -714,10 +896,12 @@ function whenGridIsSelect(){
             if(sizeColumn.hasAttribute("selected")){
                 let columnSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.column[columnSelected] = sizeSelected;
+                addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
             }
             else{
                 let lineSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.line[lineSelected] = sizeSelected;
+                addGridColLine(elemsContainer, underElemsContainer, "Rows", "line", posSetting.display.lines);
             }
         })
         gridSizeSelect.addEventListener("change", function(){
@@ -756,14 +940,14 @@ function whenGridIsSelect(){
         let selectedOption = 1 + (gridSizeSelect.selectedIndex);
         gridSizeSelectSetting = gridSizeSelect.selectedIndex;
         if(sizeColumn.hasAttribute("selected")){
-            chgtSizeColumnLine("column");
+            chgtSizeColumnLine("column", selectedOption);
         }
         else{
-            chgtSizeColumnLine("line");
+            chgtSizeColumnLine("line", selectedOption);
         }
     }
     //for less code, function for avoid repeating code in chgtSizeRange()
-    function chgtSizeColumnLine(columnOrLine){
+    function chgtSizeColumnLine(columnOrLine, selectedOption){
         if(posSetting.display.size[columnOrLine][selectedOption] != undefined){
             sizeRange.value = posSetting.display.size[columnOrLine][selectedOption];
         }
@@ -821,21 +1005,28 @@ function whenFreeIsSelect(){
         else{
             overflowChgt("xy")
         }
+    
+        positionOfChildOfContainer();
+        elemsContainer.style.zIndex = posSetting.free.zIndex;
+
     }
 
     //contain all event in link with element interaction of position selection value
     function freePositionSelection(){
         noFree.addEventListener("click", function(){
             removeAndSetAttribute(relative, absolute, noFree);
-            posSetting.free.position = "none";
+            posSetting.free.position = "initial";
+            positionOfChildOfContainer()
         })
         relative.addEventListener("click", function(){
             removeAndSetAttribute(noFree, absolute, relative);
             posSetting.free.position = "relative";
+            positionOfChildOfContainer()
         })
         absolute.addEventListener("click", function(){
             removeAndSetAttribute(noFree, relative, absolute);
             posSetting.free.position = "absolute";
+            positionOfChildOfContainer()
         })
     }
     //contain all event in link with element interaction of Z-index selection value
@@ -844,12 +1035,14 @@ function whenFreeIsSelect(){
             if(posSetting.free.zIndex <= 49){
                 posSetting.free.zIndex ++;
                 zIndex.value = posSetting.free.zIndex;
+                elemsContainer.style.zIndex = posSetting.free.zIndex;
             }
         })
         zIndexLess.addEventListener("click", function(){
             if(posSetting.free.zIndex >= -49){
             posSetting.free.zIndex --;
             zIndex.value = posSetting.free.zIndex;
+            elemsContainer.style.zIndex = posSetting.free.zIndex;
             }
         })
         zIndex.addEventListener("input", function(e){
@@ -860,6 +1053,8 @@ function whenFreeIsSelect(){
                 zIndex.value = -50;
             }
             posSetting.free.zIndex = zIndex.value;
+            elemsContainer.style.zIndex = posSetting.free.zIndex;
+            setOverflow();
         })
     }
 
@@ -889,15 +1084,18 @@ function whenFreeIsSelect(){
     function overflowSelection(){
         visibleOF.addEventListener("click", function(){
             removeAndSetAttribute(hiddenOF, scrollOF, visibleOF);
-            axeOF("visible");
+            axeOF("visible"); 
+            setOverflow();
         })
         hiddenOF.addEventListener("click", function(){
             removeAndSetAttribute(visibleOF, scrollOF, hiddenOF);
             axeOF("hidden");
+            setOverflow();
         })
         scrollOF.addEventListener("click", function(){
             removeAndSetAttribute(visibleOF, hiddenOF, scrollOF);
             axeOF("scroll");
+            setOverflow();
         })
     }
 
@@ -953,6 +1151,16 @@ function whenFreeIsSelect(){
         firstRemove.removeAttribute("selected");
         secondRemove.removeAttribute("selected");
         setAttribute.setAttribute("selected","");
+    }
+
+    function positionOfChildOfContainer(){
+        for(i=0; i<= elemsContainer.children.length-1; i++){
+            elemsContainer.children[i].style.position = posSetting.free.position
+        }
+    }
+    function setOverflow(){
+        elemsContainer.style.overflowX = posSetting.free.overflow.x;
+        elemsContainer.style.overflowY = posSetting.free.overflow.y;
     }
 
     //use of all fonction create before for a operationnal free menu   
@@ -1042,12 +1250,18 @@ function whenSizeIsSelect(){
             posSetting.size.menu.size = "height";
             sizeRange.value = posSetting.size.height;
         })
+
         sizeRange.addEventListener("input", function(){
             if(widthBtn.hasAttribute("selected")){
+                posIFAutoPlaceAndSize(calcWidth(), posSetting.size.width, posIFWidthMin, sizeRange, "left");
+                elemsContainer.style.width = sizeRange.value + "px";
+                underElemsContainer.style.width = sizeRange.value + "px";
                 posSetting.size.width = sizeRange.value;
             }
             else{
                 posSetting.size.height = sizeRange.value;
+                elemsContainer.style.height = sizeRange.value + "px";
+                underElemsContainer.style.height = sizeRange.value + "px";
             }
         })
     }    
@@ -1084,8 +1298,10 @@ function whenSizeIsSelect(){
         })
 
         range.addEventListener("input", function(){
-            margPadSizeAssign(margePad, "top", range); margPadSizeAssign(margePad, "bottom", range);
-            margPadSizeAssign(margePad, "left", range); margPadSizeAssign(margePad, "right", range);
+            margPadSizeAssign(margePad, "top", range, margePad + "Top");
+            margPadSizeAssign(margePad, "bottom", range, margePad + "Bottom");
+            margPadSizeAssign(margePad, "left", range, margePad + "Left"); 
+            margPadSizeAssign(margePad, "right", range, margePad + "Right");
         })
     }
     //contain function margePadTrue, and margePadFalse and active them if border selector in link is selected. PARAMETER :
@@ -1122,9 +1338,16 @@ function whenSizeIsSelect(){
         }
     }
     //assign value of the range marge/pad of each side of the element's container if it is selected
-    function margPadSizeAssign(margePad ,border, range){
+    function margPadSizeAssign(margePad, border, range, margePadStyle){
         if(posSetting.size.menu[margePad][border] == true){
+            if(border == "left"){
+                posIFAutoPlaceAndSize(calcWidth(), posSetting.size[margePad].left, posIFWidthMin, range, "left");
+            }
+            if(border == "right"){
+                posIFAutoPlaceAndSize(calcWidth(), posSetting.size[margePad].right, posIFWidthMin, range, "left");
+            }
             posSetting.size[margePad][border] = range.value;
+            elemsContainer.style[margePadStyle] = range.value + "px";
         }
     }
     //if each selected border of marge/pad have a same value, the range represent this value, else the range represent 0

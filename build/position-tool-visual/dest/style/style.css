@@ -726,6 +726,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  min-height: 150px;
 }
 #position[active] #position-move {
   cursor: grabbing;
@@ -1061,6 +1062,12 @@ input[type=range]:hover::-webkit-slider-thumb {
   opacity: 1;
   transition: opacity 0.2s;
 }
+.pos-reverse-btn[selected] {
+  background: linear-gradient(165deg, #ffffff00 0%, #ffa600 80%) !important;
+}
+.pos-reverse-btn[selected]::after {
+  background: linear-gradient(165deg, #ffffff00 0%, #ffa600 80%) !important;
+}
 
 .border-select-pos-menu {
   height: 30px;
@@ -1154,10 +1161,10 @@ input[type=range]:hover::-webkit-slider-thumb {
   background: linear-gradient(165deg, #ffffff00 0%, #fd2424 30%);
 }
 #position-menu [selected].pos-menu-btn-alternate {
-  background: linear-gradient(165deg, #ffffff00 0%, #ee9b02 80%) !important;
+  background: linear-gradient(165deg, #ffffff00 0%, #ffa600 80%) !important;
 }
 #position-menu [selected].pos-menu-btn-alternate::after {
-  background: linear-gradient(165deg, #ffffff00 0%, #a35e25 80%) !important;
+  background: linear-gradient(165deg, #ffffff00 0%, #ffa600 80%) !important;
 }
 
 #position-menu[base] {
@@ -1562,12 +1569,48 @@ input[type=range]:hover::-webkit-slider-thumb {
   width: 180px;
 }
 
-.in-position {
+#position-elems-container {
   position: relative;
   z-index: -1;
-  width: 150px;
+  width: 250px;
   height: 150px;
-  background-color: blue;
+  background-color: rgba(0, 0, 255, 0.192);
+}
+
+#under-position-elems-container {
+  position: absolute;
+  z-index: -51;
+  width: 250px;
+  height: 150px;
+  background-color: rgba(255, 0, 0, 0);
+}
+
+.cel {
+  border: solid red 1px;
+}
+
+#element-1 {
+  width: 50px;
+  height: 50px;
+  background-color: red;
+}
+
+#element-2 {
+  width: 50px;
+  height: 50px;
+  background-color: green;
+}
+
+#element-3 {
+  width: 50px;
+  height: 50px;
+  background-color: pink;
+}
+
+#element-4 {
+  width: 50px;
+  height: 50px;
+  background-color: gray;
 }
 
 /*

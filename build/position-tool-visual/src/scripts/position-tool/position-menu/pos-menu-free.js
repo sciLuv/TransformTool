@@ -40,21 +40,28 @@ function whenFreeIsSelect(){
         else{
             overflowChgt("xy")
         }
+    
+        positionOfChildOfContainer();
+        elemsContainer.style.zIndex = posSetting.free.zIndex;
+
     }
 
     //contain all event in link with element interaction of position selection value
     function freePositionSelection(){
         noFree.addEventListener("click", function(){
             removeAndSetAttribute(relative, absolute, noFree);
-            posSetting.free.position = "none";
+            posSetting.free.position = "initial";
+            positionOfChildOfContainer()
         })
         relative.addEventListener("click", function(){
             removeAndSetAttribute(noFree, absolute, relative);
             posSetting.free.position = "relative";
+            positionOfChildOfContainer()
         })
         absolute.addEventListener("click", function(){
             removeAndSetAttribute(noFree, relative, absolute);
             posSetting.free.position = "absolute";
+            positionOfChildOfContainer()
         })
     }
     //contain all event in link with element interaction of Z-index selection value
@@ -63,12 +70,14 @@ function whenFreeIsSelect(){
             if(posSetting.free.zIndex <= 49){
                 posSetting.free.zIndex ++;
                 zIndex.value = posSetting.free.zIndex;
+                elemsContainer.style.zIndex = posSetting.free.zIndex;
             }
         })
         zIndexLess.addEventListener("click", function(){
             if(posSetting.free.zIndex >= -49){
             posSetting.free.zIndex --;
             zIndex.value = posSetting.free.zIndex;
+            elemsContainer.style.zIndex = posSetting.free.zIndex;
             }
         })
         zIndex.addEventListener("input", function(e){
@@ -79,6 +88,8 @@ function whenFreeIsSelect(){
                 zIndex.value = -50;
             }
             posSetting.free.zIndex = zIndex.value;
+            elemsContainer.style.zIndex = posSetting.free.zIndex;
+            setOverflow();
         })
     }
 
@@ -108,15 +119,18 @@ function whenFreeIsSelect(){
     function overflowSelection(){
         visibleOF.addEventListener("click", function(){
             removeAndSetAttribute(hiddenOF, scrollOF, visibleOF);
-            axeOF("visible");
+            axeOF("visible"); 
+            setOverflow();
         })
         hiddenOF.addEventListener("click", function(){
             removeAndSetAttribute(visibleOF, scrollOF, hiddenOF);
             axeOF("hidden");
+            setOverflow();
         })
         scrollOF.addEventListener("click", function(){
             removeAndSetAttribute(visibleOF, hiddenOF, scrollOF);
             axeOF("scroll");
+            setOverflow();
         })
     }
 
@@ -172,6 +186,16 @@ function whenFreeIsSelect(){
         firstRemove.removeAttribute("selected");
         secondRemove.removeAttribute("selected");
         setAttribute.setAttribute("selected","");
+    }
+
+    function positionOfChildOfContainer(){
+        for(i=0; i<= elemsContainer.children.length-1; i++){
+            elemsContainer.children[i].style.position = posSetting.free.position
+        }
+    }
+    function setOverflow(){
+        elemsContainer.style.overflowX = posSetting.free.overflow.x;
+        elemsContainer.style.overflowY = posSetting.free.overflow.y;
     }
 
     //use of all fonction create before for a operationnal free menu   

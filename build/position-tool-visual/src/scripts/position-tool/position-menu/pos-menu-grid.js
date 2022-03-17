@@ -49,6 +49,14 @@ function whenGridIsSelect(){
                     sizeSelect : 1
                 } 
             }
+
+            elemsContainer.style.display = posSetting.display.display;
+            underElemsContainer.style.display = posSetting.display.display;
+
+            addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
+            addGridColLine(elemsContainer, underElemsContainer, "Rows", "line", posSetting.display.lines);
+
+            addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
         }
     }
     //init num and marge section of the grid menu is relatively similar, so a function to reduce code. PARAMETER : 
@@ -81,13 +89,25 @@ function whenGridIsSelect(){
         })
         numRange.addEventListener("input", function(){
             if(numColumn.hasAttribute("selected")){
+                const num = posSetting.display.columns;
+                console.log(num);
                 posSetting.display.columns = numRange.value;
+                console.log(posSetting.display.columns);
+                console.log(posSetting.display.size.column[num]);
+                if((posSetting.display.size.column[num])&&(num>posSetting.display.columns)){
+                    console.log("test");
+                    delete posSetting.display.size.column[num];
+                }
+                addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
+                addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
                 if(sizeColumn.hasAttribute("selected")){
                     gridSelectModif("columns");
                 }
             }
             else{
                 posSetting.display.lines = numRange.value;
+                addGridColLine(elemsContainer, underElemsContainer, "Rows", "line", posSetting.display.lines);
+                addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
                 if(sizeLine.hasAttribute("selected")){
                     gridSelectModif("lines");
                 }
@@ -105,9 +125,12 @@ function whenGridIsSelect(){
         margeRange.addEventListener("input", function(){
             if(margeColumn.hasAttribute("selected")){
                 posSetting.display.margeColumns = margeRange.value;
+                addGridGap(elemsContainer, underElemsContainer, "Column", posSetting.display.margeColumns);
+
             }
             else{
                 posSetting.display.margeLines = margeRange.value;
+                addGridGap(elemsContainer, underElemsContainer, "Row", posSetting.display.margeLines);
             }
         })
     }
@@ -130,10 +153,12 @@ function whenGridIsSelect(){
             if(sizeColumn.hasAttribute("selected")){
                 let columnSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.column[columnSelected] = sizeSelected;
+                addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
             }
             else{
                 let lineSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.line[lineSelected] = sizeSelected;
+                addGridColLine(elemsContainer, underElemsContainer, "Rows", "line", posSetting.display.lines);
             }
         })
         gridSizeSelect.addEventListener("change", function(){
@@ -172,14 +197,14 @@ function whenGridIsSelect(){
         let selectedOption = 1 + (gridSizeSelect.selectedIndex);
         gridSizeSelectSetting = gridSizeSelect.selectedIndex;
         if(sizeColumn.hasAttribute("selected")){
-            chgtSizeColumnLine("column");
+            chgtSizeColumnLine("column", selectedOption);
         }
         else{
-            chgtSizeColumnLine("line");
+            chgtSizeColumnLine("line", selectedOption);
         }
     }
     //for less code, function for avoid repeating code in chgtSizeRange()
-    function chgtSizeColumnLine(columnOrLine){
+    function chgtSizeColumnLine(columnOrLine, selectedOption){
         if(posSetting.display.size[columnOrLine][selectedOption] != undefined){
             sizeRange.value = posSetting.display.size[columnOrLine][selectedOption];
         }

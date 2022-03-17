@@ -3,6 +3,8 @@ let body = beforeBody[0];
 
 let position = document.getElementById("position");
 let elemsContainer = document.getElementById("position-elems-container");
+let underElemsContainer = document.getElementById("under-position-elems-container");
+
 let positionMove = document.getElementById("position-move");
 
 let moreBtn2 = document.getElementById("btn-more-tool");
@@ -103,10 +105,13 @@ body.addEventListener('mouseup', function(event){
     }
 })
 //Event for calculate and applicate move
+
 body.addEventListener('mousemove', function(event){
     if(posPlaceActive == true){
         position.style.left = Math.round(event.pageX - posInitPlaceX) + "px";
+        leftPosition = Math.round(event.pageX - posInitPlaceX);
         //console.log(Math.round((event.clientX - posInitPlaceX)/10)*10 + "px");
         position.style.top = Math.round(event.pageY - posInitPlaceY) + "px";
+        topPosition = Math.round(event.pageY - posInitPlaceY);
     }
 })

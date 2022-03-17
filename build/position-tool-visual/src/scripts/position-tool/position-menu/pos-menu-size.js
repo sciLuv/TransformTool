@@ -77,12 +77,18 @@ function whenSizeIsSelect(){
             posSetting.size.menu.size = "height";
             sizeRange.value = posSetting.size.height;
         })
+
         sizeRange.addEventListener("input", function(){
             if(widthBtn.hasAttribute("selected")){
+                posIFAutoPlaceAndSize(calcWidth(), posSetting.size.width, posIFWidthMin, sizeRange, "left");
+                elemsContainer.style.width = sizeRange.value + "px";
+                underElemsContainer.style.width = sizeRange.value + "px";
                 posSetting.size.width = sizeRange.value;
             }
             else{
                 posSetting.size.height = sizeRange.value;
+                elemsContainer.style.height = sizeRange.value + "px";
+                underElemsContainer.style.height = sizeRange.value + "px";
             }
         })
     }    
@@ -119,8 +125,10 @@ function whenSizeIsSelect(){
         })
 
         range.addEventListener("input", function(){
-            margPadSizeAssign(margePad, "top", range); margPadSizeAssign(margePad, "bottom", range);
-            margPadSizeAssign(margePad, "left", range); margPadSizeAssign(margePad, "right", range);
+            margPadSizeAssign(margePad, "top", range, margePad + "Top");
+            margPadSizeAssign(margePad, "bottom", range, margePad + "Bottom");
+            margPadSizeAssign(margePad, "left", range, margePad + "Left"); 
+            margPadSizeAssign(margePad, "right", range, margePad + "Right");
         })
     }
     //contain function margePadTrue, and margePadFalse and active them if border selector in link is selected. PARAMETER :
@@ -157,9 +165,16 @@ function whenSizeIsSelect(){
         }
     }
     //assign value of the range marge/pad of each side of the element's container if it is selected
-    function margPadSizeAssign(margePad ,border, range){
+    function margPadSizeAssign(margePad, border, range, margePadStyle){
         if(posSetting.size.menu[margePad][border] == true){
+            if(border == "left"){
+                posIFAutoPlaceAndSize(calcWidth(), posSetting.size[margePad].left, posIFWidthMin, range, "left");
+            }
+            if(border == "right"){
+                posIFAutoPlaceAndSize(calcWidth(), posSetting.size[margePad].right, posIFWidthMin, range, "left");
+            }
             posSetting.size[margePad][border] = range.value;
+            elemsContainer.style[margePadStyle] = range.value + "px";
         }
     }
     //if each selected border of marge/pad have a same value, the range represent this value, else the range represent 0
