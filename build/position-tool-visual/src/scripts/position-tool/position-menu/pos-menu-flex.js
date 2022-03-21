@@ -30,11 +30,7 @@ function whenFlexIsSelect(){
     let around2 = document.getElementById("around-2");
 
     //elements interaction of align-content
-    let selectFlexElem = document.getElementById("element-axe-interuptor");
-    let interuptorFlexStartEndElem = document.getElementById("element-axe-under-interuptor");
     let flexStartEndElem = "middle";
-    let betweenElem = document.getElementById("between-elem");
-    let aroundElem = document.getElementById("around-elem");
 
     //set visual state of elements interaction in function of the state of the posSetting.display value (in the "if" part)
     //or creation of a posSetting.display.flex object (in the "else" part)
@@ -66,11 +62,10 @@ function whenFlexIsSelect(){
             }
 
             initFlexAxesSelectors(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
-            initFlexAxesSelectors(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");
-            initFlexAxesSelectors(selectFlexElem, interuptorFlexStartEndElem, flexStartEndElem, aroundElem, betweenElem, "alignContent");
-            
+            initFlexAxesSelectors(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");            
         }
         else{
+            reInitContainerStyle();
             posSetting.display = {
                 display : "flex",
                 flexDirection : "row",
@@ -188,10 +183,47 @@ function whenFlexIsSelect(){
     //Events for interaction element of the  (justifyContent, alignItem, AlignContent)
     //and, in there rules to set flex Axis object and visual value of the interaction element
     function flexAxesInteruptorBtn(){
-        flexAxesSelectorsEvent(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
-        flexAxesSelectorsEvent(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");
-        flexAxesSelectorsEvent(selectFlexElem, interuptorFlexStartEndElem, flexStartEndElem, aroundElem, betweenElem, "alignContent");
+
+        selectFlexAxe1.addEventListener('click', function(){
+            flexAxesSelectorsEvent(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
+
+        })
+        around1.addEventListener('click', function(){
+            aroundBetweenBtnEvent(around1, between1, selectFlexAxe1, "justifyContent", "space-around");
+        })
+        between1.addEventListener('click', function(){
+            aroundBetweenBtnEvent(between1, around1, selectFlexAxe1, "justifyContent", "space-between");
+        })
+
+
+        selectFlexAxe2.addEventListener('click', function(){
+            if(posSetting.display.wrap == "wrap"){
+                flexAxesSelectorsEvent(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignContent");
+
+            }
+            else{
+                flexAxesSelectorsEvent(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");
+
+            }
+        })
+        around2.addEventListener('click', function(){
+            if(posSetting.display.wrap == "wrap"){
+                aroundBetweenBtnEvent(around2, between2, selectFlexAxe2, "alignContent", "space-around");
+            }
+            else{
+                aroundBetweenBtnEvent(around2, between2, selectFlexAxe2, "alignItems", "space-around");
+            }
+        })
+        between2.addEventListener('click', function(){
+            if(posSetting.display.wrap == "wrap"){
+                aroundBetweenBtnEvent(between2, around2, selectFlexAxe2 , "alignContent", "space-between");
+            }
+            else{
+                aroundBetweenBtnEvent(between2, around2, selectFlexAxe2, "alignItems", "space-between");
+            }
+        })
     }
+
 
     //because each element interaction for axis selection work in a same way, a function to set them with less writing code. PARAMETER :
     //interuptor = the JS representation of the HTML interuptor.
@@ -199,57 +231,49 @@ function whenFlexIsSelect(){
     //around/between = represent the JS representation of the around and between btn
     //displayFlexVal = represente the posSetting.display["justifyContent"/"alignItem"/"alignContent"]
     function flexAxesSelectorsEvent(interuptor, underInteruptor, interuptorValRpz, around, between, displayFlexVal){
-        interuptor.addEventListener('click', function(){
-
-            console.log(interuptorValRpz);
-            around.removeAttribute("selected");
-            between.removeAttribute("selected");
-            if(interuptor.hasAttribute("active")){
-                if(interuptorValRpz == "start"){
-                    console.log("test1");
-                    underInteruptor.setAttribute("middle","");
-                    posSetting.display[displayFlexVal] = "center";
-                    interuptorValRpz = "middle";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                    
-                }
-                else if(interuptorValRpz == "middle"){
-                    console.log("test2");
-                    underInteruptor.removeAttribute("middle");
-                    underInteruptor.setAttribute("end","");
-                    posSetting.display[displayFlexVal] = "flex-end";
-                    interuptorValRpz = "end";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
-                else if(interuptorValRpz == "end"){
-                    console.log("test3");
-                    underInteruptor.removeAttribute("end");
-                    posSetting.display[displayFlexVal] = "flex-start";
-                    interuptorValRpz = "start";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
-
-                giveValAgain(interuptor, interuptorValRpz);
+        console.log(interuptorValRpz);
+        around.removeAttribute("selected");
+        between.removeAttribute("selected");
+        if(interuptor.hasAttribute("active")){
+            if(interuptorValRpz == "start"){
+                console.log("test1");
+                underInteruptor.setAttribute("middle","");
+                posSetting.display[displayFlexVal] = "center";
+                interuptorValRpz = "middle";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];     
             }
-            else{
-                interuptor.setAttribute("active","");
-                if(interuptorValRpz == "start"){
-                    posSetting.display[displayFlexVal] = "flex-start";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
-                else if(interuptorValRpz == "middle"){
-                    posSetting.display[displayFlexVal] = "center";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
-                else if(interuptorValRpz == "end"){
-                    posSetting.display[displayFlexVal] = "flex-end";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
+            else if(interuptorValRpz == "middle"){
+                console.log("test2");
+                underInteruptor.removeAttribute("middle");
+                underInteruptor.setAttribute("end","");
+                posSetting.display[displayFlexVal] = "flex-end";
+                interuptorValRpz = "end";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
             }
-        })
-        
-        aroundBetweenBtnEvent(around, between, interuptor, displayFlexVal, "space-around");
-        aroundBetweenBtnEvent(between, around, interuptor, displayFlexVal, "space-between");
+            else if(interuptorValRpz == "end"){
+                console.log("test3");
+                underInteruptor.removeAttribute("end");
+                posSetting.display[displayFlexVal] = "flex-start";
+                interuptorValRpz = "start";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
+            }
+        giveValAgain(interuptor, interuptorValRpz);
+        }
+        else{
+            interuptor.setAttribute("active","");
+            if(interuptorValRpz == "start"){
+                posSetting.display[displayFlexVal] = "flex-start";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
+            }
+            else if(interuptorValRpz == "middle"){
+                posSetting.display[displayFlexVal] = "center";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
+            }
+            else if(interuptorValRpz == "end"){
+                posSetting.display[displayFlexVal] = "flex-end";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
+            }
+        }
     }
 
     function giveValAgain(interuptor, interuptorValRpz){
@@ -268,13 +292,11 @@ function whenFlexIsSelect(){
     //btn1, btn2 = around or between btn in function of the event create
     //spacingValue = "space-around" or "space-between"
     function aroundBetweenBtnEvent(btn1, btn2, interuptor, displayFlexVal, spacingValue){
-        btn1.addEventListener("click", function(){
-            btn1.setAttribute("selected", "");
-            btn2.removeAttribute("selected");
-            interuptor.removeAttribute("active");
-            posSetting.display[displayFlexVal] = spacingValue;
-            elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-        })
+        btn1.setAttribute("selected", "");
+        btn2.removeAttribute("selected");
+        interuptor.removeAttribute("active");
+        posSetting.display[displayFlexVal] = spacingValue;
+        elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
     }
 
     //use to put a visual feelback when user click on a reverse btn

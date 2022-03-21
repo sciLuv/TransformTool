@@ -1,29 +1,24 @@
 function whenGridIsSelect(){
     //element interaction of the number of lines or column in a grid display 
-    let numColumn = document.getElementById("num-column");
-    let numLine = document.getElementById("num-line");
+    let btnColumn = document.getElementById("num-column");
+    let btnLine = document.getElementById("num-line");
     let numRange = document.getElementById("num-range");
 
     //element interaction of the size of the marges of lines or column in a grid display 
-    let margeColumn = document.getElementById("marge-column");
-    let margeLine = document.getElementById("marge-line");
     let margeRange = document.getElementById("marge-range");
 
     //element interaction of the size of each lines or column in a grid display 
-    let sizeColumn = document.getElementById("size-column");
-    let sizeLine = document.getElementById("size-line");
     let gridSizeSelect = document.getElementById("size-select")
     let sizeRange = document.getElementById("size-range");
 
     //to init the grid menu and its selectio in function of object of grid value
     function initGridDisplay(){
+        underElemsContainer.setAttribute("active","");
         if(posSetting.display.menu != undefined){
             if(posSetting.display.display == "grid"){
-                initNumAndColumn("num", numColumn, numLine, numRange, "columns", "lines");
-                initNumAndColumn("marge", margeColumn, margeLine, margeRange, "margeColumns", "margeLines");
+                initNumAndColumn("num", btnColumn, btnLine, numRange, "columns", "lines");
+                initNumAndColumn("marge", btnColumn, btnLine, margeRange, "margeColumns", "margeLines");
                 if(posSetting.display.menu.size == "line"){
-                    sizeColumn.removeAttribute("selected");
-                    sizeLine.setAttribute("selected", "");
                     gridSelectModif("lines");
                 } 
                 else{
@@ -32,6 +27,7 @@ function whenGridIsSelect(){
             }
         }
         else{
+            reInitContainerStyle();
             posSetting.display = {
                 display : "grid",
                 columns : 4, 
@@ -49,7 +45,6 @@ function whenGridIsSelect(){
                     sizeSelect : 1
                 } 
             }
-
             elemsContainer.style.display = posSetting.display.display;
             underElemsContainer.style.display = posSetting.display.display;
 
@@ -75,55 +70,48 @@ function whenGridIsSelect(){
 
     //event to remove/add select attribut to the btn column/line num, and the range , change value of the num of column and line
     function gridNum(){
-        numColumn.addEventListener("click", function(){
-            chgtRangeAndMenu(numLine, numColumn, numRange, "columns", "num", "column");
-            if(sizeColumn.hasAttribute("selected")){
-                gridSelectModif("columns");
-            }
+        btnColumn.addEventListener("click", function(){
+            chgtRangeAndMenu(btnLine, btnColumn, numRange, "columns", "num", "column");
+            gridSelectModif("columns");
         })
-        numLine.addEventListener("click", function(){
-            chgtRangeAndMenu(numColumn, numLine, numRange, "lines", "num", "line");
-            if(sizeLine.hasAttribute("selected")){
-                gridSelectModif("lines");
-            }
+        btnLine.addEventListener("click", function(){
+            chgtRangeAndMenu(btnColumn, btnLine, numRange, "lines", "num", "line");
+            gridSelectModif("lines");
         })
         numRange.addEventListener("input", function(){
-            if(numColumn.hasAttribute("selected")){
+            if(btnColumn.hasAttribute("selected")){
                 const num = posSetting.display.columns;
-                console.log(num);
                 posSetting.display.columns = numRange.value;
-                console.log(posSetting.display.columns);
-                console.log(posSetting.display.size.column[num]);
-                if((posSetting.display.size.column[num])&&(num>posSetting.display.columns)){
-                    console.log("test");
+                if((posSetting.display.size.column[num])&&(Number(num)>posSetting.display.columns)){
                     delete posSetting.display.size.column[num];
                 }
                 addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
                 addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
-                if(sizeColumn.hasAttribute("selected")){
-                    gridSelectModif("columns");
-                }
+                gridSelectModif("columns");
             }
             else{
+                const num = posSetting.display.lines;
+                posSetting.display.lines = numRange.value;
+                if((posSetting.display.size.line[num])&&(Number(num)>posSetting.display.lines)){
+                    delete posSetting.display.size.line[num];
+                }
                 posSetting.display.lines = numRange.value;
                 addGridColLine(elemsContainer, underElemsContainer, "Rows", "line", posSetting.display.lines);
                 addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
-                if(sizeLine.hasAttribute("selected")){
-                    gridSelectModif("lines");
-                }
+                gridSelectModif("lines");
             }
         })
     }
     //event to remove/add select attribut to the btn column/line marge, and the range, change value of the marge of column and line
     function gridMarge(){
-        margeColumn.addEventListener("click", function(){
-            chgtRangeAndMenu(margeLine, margeColumn, margeRange, "margeColumns", "marge", "column");
+        btnColumn.addEventListener("click", function(){
+            chgtRangeAndMenu(btnLine, btnColumn, margeRange, "margeColumns", "marge", "column");
         })
-        margeLine.addEventListener("click", function(){
-            chgtRangeAndMenu(margeColumn, margeLine, margeRange, "margeLines", "marge", "line");
+        btnLine.addEventListener("click", function(){
+            chgtRangeAndMenu(btnColumn, btnLine, margeRange, "margeLines", "marge", "line");
         })
         margeRange.addEventListener("input", function(){
-            if(margeColumn.hasAttribute("selected")){
+            if(btnColumn.hasAttribute("selected")){
                 posSetting.display.margeColumns = margeRange.value;
                 addGridGap(elemsContainer, underElemsContainer, "Column", posSetting.display.margeColumns);
 
@@ -136,21 +124,21 @@ function whenGridIsSelect(){
     }
     //event to remove/add select attribut to the btn column/line size, and the range, change value of the size of column and line
     function gridSize(){
-        sizeColumn.addEventListener("click", function(){
-            columnOrLineSelect(sizeLine, sizeColumn);
+        btnColumn.addEventListener("click", function(){
+            //columnOrLineSelect(sizeLine, sizeColumn);
             gridSelectModif("columns");
             chgtSizeRange();
             posSetting.display.menu.size = "column";
         })
-        sizeLine.addEventListener("click", function(){
-            columnOrLineSelect(sizeColumn, sizeLine);
+        btnLine.addEventListener("click", function(){
+            //columnOrLineSelect(sizeColumn, sizeLine);
             gridSelectModif("lines");
             chgtSizeRange();
             posSetting.display.menu.size = "line";
         })
         sizeRange.addEventListener("input",function(){
             let sizeSelected = sizeRange.value;
-            if(sizeColumn.hasAttribute("selected")){
+            if(btnColumn.hasAttribute("selected")){
                 let columnSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.column[columnSelected] = sizeSelected;
                 addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
@@ -196,7 +184,7 @@ function whenGridIsSelect(){
     function chgtSizeRange(){
         let selectedOption = 1 + (gridSizeSelect.selectedIndex);
         gridSizeSelectSetting = gridSizeSelect.selectedIndex;
-        if(sizeColumn.hasAttribute("selected")){
+        if(btnColumn.hasAttribute("selected")){
             chgtSizeColumnLine("column", selectedOption);
         }
         else{

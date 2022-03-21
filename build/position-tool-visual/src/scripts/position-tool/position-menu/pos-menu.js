@@ -74,10 +74,15 @@ let posSetting = {
 
 let posSize = posSetting.size;
 let allWidthSize;
+let allHeightSize;
 //use in posSize part of the menu to calculate all the width size of the container
 function calcWidth(){
     allWidthSize = Number(posSize.width) + Number(posSize.margin.left) + Number(posSize.margin.right) + Number(posSize.padding.left) + Number(posSize.padding.right);
     return allWidthSize;
+}
+function calcHeight(){
+    allHeightSize = Number(posSize.height) + Number(posSize.margin.top) + Number(posSize.margin.bottom) + Number(posSize.padding.top) + Number(posSize.padding.bottom);
+    return allHeightSize;
 }
 
 //next 5variables declare in global scope to be accessible for all function 
@@ -160,6 +165,7 @@ function goToInitialMenu(posMenuSectionName){
             posMenu.innerHTML = data;
             baseMenu();
             selectAttributeIfItsDisplay();
+            underElemsContainer.removeAttribute("active");
         })
     })
 }

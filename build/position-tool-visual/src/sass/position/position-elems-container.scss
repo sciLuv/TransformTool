@@ -11,8 +11,12 @@
     width: 250px;
     height: 150px;
     background-color: rgba(255, 0, 0, 0);
+    .cel{
+        border: dashed rgba(255, 0, 0, 0.199) 1px;
+    }
 }
-
-.cel{
-    border: solid red 1px;
+#under-position-elems-container[active]{
+    .cel{
+        border: dashed red 1px;
+    }
 }

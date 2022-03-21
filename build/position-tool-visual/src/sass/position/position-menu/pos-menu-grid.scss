@@ -9,22 +9,26 @@
             .pos-title-cross{
                 display: flex;
                 margin-top: 10px;
-                margin-bottom: 8px;
+                margin-bottom: 15px;
                 h4{
-                    margin-right: 150px;
+                    margin-right: 15px;
+                }
+                #num-line{
+                    margin-right: 15px;
                 }
             }
             .pos-menu-btn{
                 font-weight: bold;
-            }
-            .number{
-                h4{
-                    margin-right: 20px;
-                }
+                margin-top: 5px;
             }
             .marge{
+                margin-top: -5px;
                 h4{
-                    margin-right: 30px;
+                    margin-right: 10px;
+                }
+                input[type='range']{
+                    width : 133px !important;
+                    margin-top: 15px;
                 }
             }
             .marge,.number,.size{
@@ -56,15 +60,18 @@
                 }
             }
             .size{
+                margin-top: -12px;
                 margin-bottom: 0px;
                 .column{
                     margin-left: 5px;
                 }
                 .size-selection{
                     margin-top: 3px;
+                    margin-right: 5px;
                 }
-                input[type='range'] {
+                input[type='range']{
                     margin-top: 13px;
+                    width: 113px !important;
                 }
                 select{
                     margin-top: 3px;
@@ -87,7 +94,7 @@
             }
         }
         &[active]{ 
-            height: 243px;
+            height: 152px;
             width: 240px;
             align-items: flex-start;
             #pos-menu-content{

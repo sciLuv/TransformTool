@@ -1,9 +1,13 @@
 /////////////////////////beta//////////////////////////
 
-faire que si l'on appuis sur le bouton reverse d'envelop celui ci puisse activé le yes en meme temps que sa selection alors qu'il est inactif
-diminué code de flex en faisant des fonctions (notamment pour les element redondant de selection
 
-1)commenté le code déjà fait (grid et flex)
+voir écrit cahier et l'ajouté ici
+faire que le "padding" du window soit rouge.
+enlevé de la balise de conteneur les info de style inutile (par exemple les display non selectionné)
+dans flex, en fonction du wrap et de l'axe secondaire selectionné, réinitialisé itemcontent/alignItem et leurs btn
+dans grid, quand on quitte le sous menu grid, faire disparaitre le grid de repere, ou diminué son opacité. et le faire disparaitre si on change de display
+dans size faire que les selectionneur de coté soi plus facilement cliquable
+refaire le style de la liste de selection de colonne/ligne de la partie size du grid, et changer son fonctionnement pour qu'ils puissent etre personnalisé
 
 
 4)faire l'interface de selection du display, position et size, fonctionnel visuellement (et uniquement)

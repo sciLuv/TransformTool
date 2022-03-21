@@ -1,8 +1,35 @@
 let posIFWidthMin = 244;
-let posIFHeightMin = 150;
+let posIFHeightMin = 125;
 
 let topPosition = 200;
 let leftPosition = 200;
+
+//function to reinitialize style of container 
+function reInitContainerStyle(){
+    if(posSetting.display.display == "flex"){
+        console.log("test1");
+        elemsContainer.style.flexDirection = null;
+        elemsContainer.style.flexWrap = null;
+        elemsContainer.style.justifyContent = null;
+        elemsContainer.style.alignContent = null;
+        elemsContainer.style.alignItems = null;
+    }
+    else if(posSetting.display.display == "grid"){
+        console.log("test2");
+        elemsContainer.style.gridTemplateColumns = null;
+        elemsContainer.style.gridTemplateRows = null;
+        elemsContainer.style.gridColumnGap = null;
+        elemsContainer.style.gridRowGap = null;
+
+        underElemsContainer.style.display = null;
+        underElemsContainer.style.gridTemplateColumns = null;
+        underElemsContainer.style.gridTemplateRows = null;
+        underElemsContainer.style.gridColumnGap = null;
+        underElemsContainer.style.gridRowGap = null;
+
+        underElemsContainer.innerHTML = "";
+    }
+}
 
 //function for size part of the position menu (size, padding and margin) and changing of the
 function posIFAutoPlaceAndSize(size, sizeSpe, minIF, range, positionWindow){
@@ -27,7 +54,14 @@ function posIFAutoPlaceAndSize(size, sizeSpe, minIF, range, positionWindow){
     leftPosition = Number(leftPosition) + Number(diffRange);
     position.style[positionWindow] = leftPosition + "px";
 }
-
+function posIFHeightCSS(size, posIF){
+    if(size <= 112){
+        posIF.style.height = "152px";
+    }
+    else{
+        posIF.style.height = null;
+    }
+}
 //functions for grid
 function addGridCel(column, line, underContainer){
     underContainer.innerHTML = "";
@@ -40,7 +74,6 @@ function addGridGap(container, underContainer, columnOrLine, gap){
     container.style["grid"+ columnOrLine + "Gap"] = gap + "px";
     underContainer.style["grid"+ columnOrLine + "Gap"] = gap + "px";
 }
-
 function addGridColLine(container, underContainer, columnsOrLines, columnOrLine, num){
     let GridTemplateVal = ""; 
     let specificTemplateVal = false;
@@ -84,5 +117,3 @@ function addGridColLine(container, underContainer, columnsOrLines, columnOrLine,
     }
     console.log(GridTemplateVal);
 }
-
-

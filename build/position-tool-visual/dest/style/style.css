@@ -725,8 +725,37 @@ input[type=range]:hover::-webkit-slider-thumb {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  min-height: 150px;
+  min-height: 152px;
+}
+#position #position-interface .contain-elem-and-padding {
+  min-height: 152px;
+  height: 100%;
+  width: 100%;
+}
+#position #position-interface .contain-elem-and-padding .contain-elem {
+  background-color: #ff00002f;
+}
+#position #position-interface .contain-elem-and-padding .pos-if-center {
+  min-height: 152px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#position #position-interface .contain-elem-and-padding .pos-if-center .contain-elem-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#position #position-interface .contain-elem-and-padding .pos-if-center .horizon-padding {
+  width: auto;
+  min-height: 20px;
+  height: 50%;
+}
+#position #position-interface .contain-elem-and-padding .vertical-padding {
+  height: auto;
+  min-width: 20px;
+  width: 100%;
 }
 #position[active] #position-move {
   cursor: grabbing;
@@ -1317,7 +1346,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   border-radius: 8px;
 }
 #position-menu[active][flex] {
-  height: 218px;
+  height: 160px;
   width: 220px;
 }
 #position-menu[active][flex] .element-axe .btn-container {
@@ -1333,19 +1362,27 @@ input[type=range]:hover::-webkit-slider-thumb {
 #position-menu[grid] #pos-menu-content .pos-title-cross {
   display: flex;
   margin-top: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
 }
 #position-menu[grid] #pos-menu-content .pos-title-cross h4 {
-  margin-right: 150px;
+  margin-right: 15px;
+}
+#position-menu[grid] #pos-menu-content .pos-title-cross #num-line {
+  margin-right: 15px;
 }
 #position-menu[grid] #pos-menu-content .pos-menu-btn {
   font-weight: bold;
+  margin-top: 5px;
 }
-#position-menu[grid] #pos-menu-content .number h4 {
-  margin-right: 20px;
+#position-menu[grid] #pos-menu-content .marge {
+  margin-top: -5px;
 }
 #position-menu[grid] #pos-menu-content .marge h4 {
-  margin-right: 30px;
+  margin-right: 10px;
+}
+#position-menu[grid] #pos-menu-content .marge input[type=range] {
+  width: 133px !important;
+  margin-top: 15px;
 }
 #position-menu[grid] #pos-menu-content .marge, #position-menu[grid] #pos-menu-content .number, #position-menu[grid] #pos-menu-content .size {
   margin-bottom: 16px;
@@ -1376,6 +1413,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   height: 9px;
 }
 #position-menu[grid] #pos-menu-content .size {
+  margin-top: -12px;
   margin-bottom: 0px;
 }
 #position-menu[grid] #pos-menu-content .size .column {
@@ -1383,9 +1421,11 @@ input[type=range]:hover::-webkit-slider-thumb {
 }
 #position-menu[grid] #pos-menu-content .size .size-selection {
   margin-top: 3px;
+  margin-right: 5px;
 }
 #position-menu[grid] #pos-menu-content .size input[type=range] {
   margin-top: 13px;
+  width: 113px !important;
 }
 #position-menu[grid] #pos-menu-content .size select {
   margin-top: 3px;
@@ -1406,7 +1446,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   width: 40px;
 }
 #position-menu[grid][active] {
-  height: 243px;
+  height: 152px;
   width: 240px;
   align-items: flex-start;
 }
@@ -1584,9 +1624,12 @@ input[type=range]:hover::-webkit-slider-thumb {
   height: 150px;
   background-color: rgba(255, 0, 0, 0);
 }
+#under-position-elems-container .cel {
+  border: dashed rgba(255, 0, 0, 0.199) 1px;
+}
 
-.cel {
-  border: solid red 1px;
+#under-position-elems-container[active] .cel {
+  border: dashed red 1px;
 }
 
 #element-1 {

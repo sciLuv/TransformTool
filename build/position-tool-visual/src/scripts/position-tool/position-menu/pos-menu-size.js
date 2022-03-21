@@ -1,5 +1,6 @@
 function whenSizeIsSelect(){
 
+    let posIF = document.getElementById("position-interface");
     //interaction element link with selection of size (height or width)
     let widthBtn = document.getElementById("pos-menu-size-width");
     let HeightBtn = document.getElementById("pos-menu-size-height");
@@ -86,6 +87,7 @@ function whenSizeIsSelect(){
                 posSetting.size.width = sizeRange.value;
             }
             else{
+                posIFHeightCSS(calcHeight(), posIF);
                 posSetting.size.height = sizeRange.value;
                 elemsContainer.style.height = sizeRange.value + "px";
                 underElemsContainer.style.height = sizeRange.value + "px";
@@ -125,6 +127,7 @@ function whenSizeIsSelect(){
         })
 
         range.addEventListener("input", function(){
+            posIFHeightCSS(calcHeight(), posIF);
             margPadSizeAssign(margePad, "top", range, margePad + "Top");
             margPadSizeAssign(margePad, "bottom", range, margePad + "Bottom");
             margPadSizeAssign(margePad, "left", range, margePad + "Left"); 

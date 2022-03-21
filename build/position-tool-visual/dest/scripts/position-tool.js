@@ -1,8 +1,35 @@
 let posIFWidthMin = 244;
-let posIFHeightMin = 150;
+let posIFHeightMin = 125;
 
 let topPosition = 200;
 let leftPosition = 200;
+
+//function to reinitialize style of container 
+function reInitContainerStyle(){
+    if(posSetting.display.display == "flex"){
+        console.log("test1");
+        elemsContainer.style.flexDirection = null;
+        elemsContainer.style.flexWrap = null;
+        elemsContainer.style.justifyContent = null;
+        elemsContainer.style.alignContent = null;
+        elemsContainer.style.alignItems = null;
+    }
+    else if(posSetting.display.display == "grid"){
+        console.log("test2");
+        elemsContainer.style.gridTemplateColumns = null;
+        elemsContainer.style.gridTemplateRows = null;
+        elemsContainer.style.gridColumnGap = null;
+        elemsContainer.style.gridRowGap = null;
+
+        underElemsContainer.style.display = null;
+        underElemsContainer.style.gridTemplateColumns = null;
+        underElemsContainer.style.gridTemplateRows = null;
+        underElemsContainer.style.gridColumnGap = null;
+        underElemsContainer.style.gridRowGap = null;
+
+        underElemsContainer.innerHTML = "";
+    }
+}
 
 //function for size part of the position menu (size, padding and margin) and changing of the
 function posIFAutoPlaceAndSize(size, sizeSpe, minIF, range, positionWindow){
@@ -27,7 +54,14 @@ function posIFAutoPlaceAndSize(size, sizeSpe, minIF, range, positionWindow){
     leftPosition = Number(leftPosition) + Number(diffRange);
     position.style[positionWindow] = leftPosition + "px";
 }
-
+function posIFHeightCSS(size, posIF){
+    if(size <= 112){
+        posIF.style.height = "152px";
+    }
+    else{
+        posIF.style.height = null;
+    }
+}
 //functions for grid
 function addGridCel(column, line, underContainer){
     underContainer.innerHTML = "";
@@ -40,7 +74,6 @@ function addGridGap(container, underContainer, columnOrLine, gap){
     container.style["grid"+ columnOrLine + "Gap"] = gap + "px";
     underContainer.style["grid"+ columnOrLine + "Gap"] = gap + "px";
 }
-
 function addGridColLine(container, underContainer, columnsOrLines, columnOrLine, num){
     let GridTemplateVal = ""; 
     let specificTemplateVal = false;
@@ -84,9 +117,6 @@ function addGridColLine(container, underContainer, columnsOrLines, columnOrLine,
     }
     console.log(GridTemplateVal);
 }
-
-
-
 let beforeBody = document.getElementsByTagName("body");
 let body = beforeBody[0];
 
@@ -281,10 +311,15 @@ let posSetting = {
 
 let posSize = posSetting.size;
 let allWidthSize;
+let allHeightSize;
 //use in posSize part of the menu to calculate all the width size of the container
 function calcWidth(){
     allWidthSize = Number(posSize.width) + Number(posSize.margin.left) + Number(posSize.margin.right) + Number(posSize.padding.left) + Number(posSize.padding.right);
     return allWidthSize;
+}
+function calcHeight(){
+    allHeightSize = Number(posSize.height) + Number(posSize.margin.top) + Number(posSize.margin.bottom) + Number(posSize.padding.top) + Number(posSize.padding.bottom);
+    return allHeightSize;
 }
 
 //next 5variables declare in global scope to be accessible for all function 
@@ -367,6 +402,7 @@ function goToInitialMenu(posMenuSectionName){
             posMenu.innerHTML = data;
             baseMenu();
             selectAttributeIfItsDisplay();
+            underElemsContainer.removeAttribute("active");
         })
     })
 }
@@ -391,6 +427,8 @@ function whenBasicIsSelect(){
 
     //init the basic menu in function of selected display in the display object
     function initBasicMenu(){
+
+        reInitContainerStyle();
 
         block.removeAttribute("selected");
         inline.removeAttribute("selected");
@@ -467,11 +505,7 @@ function whenFlexIsSelect(){
     let around2 = document.getElementById("around-2");
 
     //elements interaction of align-content
-    let selectFlexElem = document.getElementById("element-axe-interuptor");
-    let interuptorFlexStartEndElem = document.getElementById("element-axe-under-interuptor");
     let flexStartEndElem = "middle";
-    let betweenElem = document.getElementById("between-elem");
-    let aroundElem = document.getElementById("around-elem");
 
     //set visual state of elements interaction in function of the state of the posSetting.display value (in the "if" part)
     //or creation of a posSetting.display.flex object (in the "else" part)
@@ -503,11 +537,10 @@ function whenFlexIsSelect(){
             }
 
             initFlexAxesSelectors(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
-            initFlexAxesSelectors(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");
-            initFlexAxesSelectors(selectFlexElem, interuptorFlexStartEndElem, flexStartEndElem, aroundElem, betweenElem, "alignContent");
-            
+            initFlexAxesSelectors(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");            
         }
         else{
+            reInitContainerStyle();
             posSetting.display = {
                 display : "flex",
                 flexDirection : "row",
@@ -625,10 +658,47 @@ function whenFlexIsSelect(){
     //Events for interaction element of the  (justifyContent, alignItem, AlignContent)
     //and, in there rules to set flex Axis object and visual value of the interaction element
     function flexAxesInteruptorBtn(){
-        flexAxesSelectorsEvent(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
-        flexAxesSelectorsEvent(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");
-        flexAxesSelectorsEvent(selectFlexElem, interuptorFlexStartEndElem, flexStartEndElem, aroundElem, betweenElem, "alignContent");
+
+        selectFlexAxe1.addEventListener('click', function(){
+            flexAxesSelectorsEvent(selectFlexAxe1, interuptorFlexStartEnd1, flexStartEnd1, around1, between1, "justifyContent");
+
+        })
+        around1.addEventListener('click', function(){
+            aroundBetweenBtnEvent(around1, between1, selectFlexAxe1, "justifyContent", "space-around");
+        })
+        between1.addEventListener('click', function(){
+            aroundBetweenBtnEvent(between1, around1, selectFlexAxe1, "justifyContent", "space-between");
+        })
+
+
+        selectFlexAxe2.addEventListener('click', function(){
+            if(posSetting.display.wrap == "wrap"){
+                flexAxesSelectorsEvent(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignContent");
+
+            }
+            else{
+                flexAxesSelectorsEvent(selectFlexAxe2, interuptorFlexStartEnd2, flexStartEnd2, around2, between2, "alignItems");
+
+            }
+        })
+        around2.addEventListener('click', function(){
+            if(posSetting.display.wrap == "wrap"){
+                aroundBetweenBtnEvent(around2, between2, selectFlexAxe2, "alignContent", "space-around");
+            }
+            else{
+                aroundBetweenBtnEvent(around2, between2, selectFlexAxe2, "alignItems", "space-around");
+            }
+        })
+        between2.addEventListener('click', function(){
+            if(posSetting.display.wrap == "wrap"){
+                aroundBetweenBtnEvent(between2, around2, selectFlexAxe2 , "alignContent", "space-between");
+            }
+            else{
+                aroundBetweenBtnEvent(between2, around2, selectFlexAxe2, "alignItems", "space-between");
+            }
+        })
     }
+
 
     //because each element interaction for axis selection work in a same way, a function to set them with less writing code. PARAMETER :
     //interuptor = the JS representation of the HTML interuptor.
@@ -636,57 +706,49 @@ function whenFlexIsSelect(){
     //around/between = represent the JS representation of the around and between btn
     //displayFlexVal = represente the posSetting.display["justifyContent"/"alignItem"/"alignContent"]
     function flexAxesSelectorsEvent(interuptor, underInteruptor, interuptorValRpz, around, between, displayFlexVal){
-        interuptor.addEventListener('click', function(){
-
-            console.log(interuptorValRpz);
-            around.removeAttribute("selected");
-            between.removeAttribute("selected");
-            if(interuptor.hasAttribute("active")){
-                if(interuptorValRpz == "start"){
-                    console.log("test1");
-                    underInteruptor.setAttribute("middle","");
-                    posSetting.display[displayFlexVal] = "center";
-                    interuptorValRpz = "middle";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                    
-                }
-                else if(interuptorValRpz == "middle"){
-                    console.log("test2");
-                    underInteruptor.removeAttribute("middle");
-                    underInteruptor.setAttribute("end","");
-                    posSetting.display[displayFlexVal] = "flex-end";
-                    interuptorValRpz = "end";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
-                else if(interuptorValRpz == "end"){
-                    console.log("test3");
-                    underInteruptor.removeAttribute("end");
-                    posSetting.display[displayFlexVal] = "flex-start";
-                    interuptorValRpz = "start";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
-
-                giveValAgain(interuptor, interuptorValRpz);
+        console.log(interuptorValRpz);
+        around.removeAttribute("selected");
+        between.removeAttribute("selected");
+        if(interuptor.hasAttribute("active")){
+            if(interuptorValRpz == "start"){
+                console.log("test1");
+                underInteruptor.setAttribute("middle","");
+                posSetting.display[displayFlexVal] = "center";
+                interuptorValRpz = "middle";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];     
             }
-            else{
-                interuptor.setAttribute("active","");
-                if(interuptorValRpz == "start"){
-                    posSetting.display[displayFlexVal] = "flex-start";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
-                else if(interuptorValRpz == "middle"){
-                    posSetting.display[displayFlexVal] = "center";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
-                else if(interuptorValRpz == "end"){
-                    posSetting.display[displayFlexVal] = "flex-end";
-                    elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-                }
+            else if(interuptorValRpz == "middle"){
+                console.log("test2");
+                underInteruptor.removeAttribute("middle");
+                underInteruptor.setAttribute("end","");
+                posSetting.display[displayFlexVal] = "flex-end";
+                interuptorValRpz = "end";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
             }
-        })
-        
-        aroundBetweenBtnEvent(around, between, interuptor, displayFlexVal, "space-around");
-        aroundBetweenBtnEvent(between, around, interuptor, displayFlexVal, "space-between");
+            else if(interuptorValRpz == "end"){
+                console.log("test3");
+                underInteruptor.removeAttribute("end");
+                posSetting.display[displayFlexVal] = "flex-start";
+                interuptorValRpz = "start";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
+            }
+        giveValAgain(interuptor, interuptorValRpz);
+        }
+        else{
+            interuptor.setAttribute("active","");
+            if(interuptorValRpz == "start"){
+                posSetting.display[displayFlexVal] = "flex-start";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
+            }
+            else if(interuptorValRpz == "middle"){
+                posSetting.display[displayFlexVal] = "center";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
+            }
+            else if(interuptorValRpz == "end"){
+                posSetting.display[displayFlexVal] = "flex-end";
+                elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
+            }
+        }
     }
 
     function giveValAgain(interuptor, interuptorValRpz){
@@ -705,13 +767,11 @@ function whenFlexIsSelect(){
     //btn1, btn2 = around or between btn in function of the event create
     //spacingValue = "space-around" or "space-between"
     function aroundBetweenBtnEvent(btn1, btn2, interuptor, displayFlexVal, spacingValue){
-        btn1.addEventListener("click", function(){
-            btn1.setAttribute("selected", "");
-            btn2.removeAttribute("selected");
-            interuptor.removeAttribute("active");
-            posSetting.display[displayFlexVal] = spacingValue;
-            elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
-        })
+        btn1.setAttribute("selected", "");
+        btn2.removeAttribute("selected");
+        interuptor.removeAttribute("active");
+        posSetting.display[displayFlexVal] = spacingValue;
+        elemsContainer.style[displayFlexVal] = posSetting.display[displayFlexVal];
     }
 
     //use to put a visual feelback when user click on a reverse btn
@@ -743,30 +803,25 @@ function whenFlexIsSelect(){
 }
 function whenGridIsSelect(){
     //element interaction of the number of lines or column in a grid display 
-    let numColumn = document.getElementById("num-column");
-    let numLine = document.getElementById("num-line");
+    let btnColumn = document.getElementById("num-column");
+    let btnLine = document.getElementById("num-line");
     let numRange = document.getElementById("num-range");
 
     //element interaction of the size of the marges of lines or column in a grid display 
-    let margeColumn = document.getElementById("marge-column");
-    let margeLine = document.getElementById("marge-line");
     let margeRange = document.getElementById("marge-range");
 
     //element interaction of the size of each lines or column in a grid display 
-    let sizeColumn = document.getElementById("size-column");
-    let sizeLine = document.getElementById("size-line");
     let gridSizeSelect = document.getElementById("size-select")
     let sizeRange = document.getElementById("size-range");
 
     //to init the grid menu and its selectio in function of object of grid value
     function initGridDisplay(){
+        underElemsContainer.setAttribute("active","");
         if(posSetting.display.menu != undefined){
             if(posSetting.display.display == "grid"){
-                initNumAndColumn("num", numColumn, numLine, numRange, "columns", "lines");
-                initNumAndColumn("marge", margeColumn, margeLine, margeRange, "margeColumns", "margeLines");
+                initNumAndColumn("num", btnColumn, btnLine, numRange, "columns", "lines");
+                initNumAndColumn("marge", btnColumn, btnLine, margeRange, "margeColumns", "margeLines");
                 if(posSetting.display.menu.size == "line"){
-                    sizeColumn.removeAttribute("selected");
-                    sizeLine.setAttribute("selected", "");
                     gridSelectModif("lines");
                 } 
                 else{
@@ -775,6 +830,7 @@ function whenGridIsSelect(){
             }
         }
         else{
+            reInitContainerStyle();
             posSetting.display = {
                 display : "grid",
                 columns : 4, 
@@ -792,7 +848,6 @@ function whenGridIsSelect(){
                     sizeSelect : 1
                 } 
             }
-
             elemsContainer.style.display = posSetting.display.display;
             underElemsContainer.style.display = posSetting.display.display;
 
@@ -818,55 +873,48 @@ function whenGridIsSelect(){
 
     //event to remove/add select attribut to the btn column/line num, and the range , change value of the num of column and line
     function gridNum(){
-        numColumn.addEventListener("click", function(){
-            chgtRangeAndMenu(numLine, numColumn, numRange, "columns", "num", "column");
-            if(sizeColumn.hasAttribute("selected")){
-                gridSelectModif("columns");
-            }
+        btnColumn.addEventListener("click", function(){
+            chgtRangeAndMenu(btnLine, btnColumn, numRange, "columns", "num", "column");
+            gridSelectModif("columns");
         })
-        numLine.addEventListener("click", function(){
-            chgtRangeAndMenu(numColumn, numLine, numRange, "lines", "num", "line");
-            if(sizeLine.hasAttribute("selected")){
-                gridSelectModif("lines");
-            }
+        btnLine.addEventListener("click", function(){
+            chgtRangeAndMenu(btnColumn, btnLine, numRange, "lines", "num", "line");
+            gridSelectModif("lines");
         })
         numRange.addEventListener("input", function(){
-            if(numColumn.hasAttribute("selected")){
+            if(btnColumn.hasAttribute("selected")){
                 const num = posSetting.display.columns;
-                console.log(num);
                 posSetting.display.columns = numRange.value;
-                console.log(posSetting.display.columns);
-                console.log(posSetting.display.size.column[num]);
-                if((posSetting.display.size.column[num])&&(num>posSetting.display.columns)){
-                    console.log("test");
+                if((posSetting.display.size.column[num])&&(Number(num)>posSetting.display.columns)){
                     delete posSetting.display.size.column[num];
                 }
                 addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
                 addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
-                if(sizeColumn.hasAttribute("selected")){
-                    gridSelectModif("columns");
-                }
+                gridSelectModif("columns");
             }
             else{
+                const num = posSetting.display.lines;
+                posSetting.display.lines = numRange.value;
+                if((posSetting.display.size.line[num])&&(Number(num)>posSetting.display.lines)){
+                    delete posSetting.display.size.line[num];
+                }
                 posSetting.display.lines = numRange.value;
                 addGridColLine(elemsContainer, underElemsContainer, "Rows", "line", posSetting.display.lines);
                 addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
-                if(sizeLine.hasAttribute("selected")){
-                    gridSelectModif("lines");
-                }
+                gridSelectModif("lines");
             }
         })
     }
     //event to remove/add select attribut to the btn column/line marge, and the range, change value of the marge of column and line
     function gridMarge(){
-        margeColumn.addEventListener("click", function(){
-            chgtRangeAndMenu(margeLine, margeColumn, margeRange, "margeColumns", "marge", "column");
+        btnColumn.addEventListener("click", function(){
+            chgtRangeAndMenu(btnLine, btnColumn, margeRange, "margeColumns", "marge", "column");
         })
-        margeLine.addEventListener("click", function(){
-            chgtRangeAndMenu(margeColumn, margeLine, margeRange, "margeLines", "marge", "line");
+        btnLine.addEventListener("click", function(){
+            chgtRangeAndMenu(btnColumn, btnLine, margeRange, "margeLines", "marge", "line");
         })
         margeRange.addEventListener("input", function(){
-            if(margeColumn.hasAttribute("selected")){
+            if(btnColumn.hasAttribute("selected")){
                 posSetting.display.margeColumns = margeRange.value;
                 addGridGap(elemsContainer, underElemsContainer, "Column", posSetting.display.margeColumns);
 
@@ -879,21 +927,21 @@ function whenGridIsSelect(){
     }
     //event to remove/add select attribut to the btn column/line size, and the range, change value of the size of column and line
     function gridSize(){
-        sizeColumn.addEventListener("click", function(){
-            columnOrLineSelect(sizeLine, sizeColumn);
+        btnColumn.addEventListener("click", function(){
+            //columnOrLineSelect(sizeLine, sizeColumn);
             gridSelectModif("columns");
             chgtSizeRange();
             posSetting.display.menu.size = "column";
         })
-        sizeLine.addEventListener("click", function(){
-            columnOrLineSelect(sizeColumn, sizeLine);
+        btnLine.addEventListener("click", function(){
+            //columnOrLineSelect(sizeColumn, sizeLine);
             gridSelectModif("lines");
             chgtSizeRange();
             posSetting.display.menu.size = "line";
         })
         sizeRange.addEventListener("input",function(){
             let sizeSelected = sizeRange.value;
-            if(sizeColumn.hasAttribute("selected")){
+            if(btnColumn.hasAttribute("selected")){
                 let columnSelected = 1 + (gridSizeSelect.selectedIndex);
                 posSetting.display.size.column[columnSelected] = sizeSelected;
                 addGridColLine(elemsContainer, underElemsContainer, "Columns", "column", posSetting.display.columns);
@@ -939,7 +987,7 @@ function whenGridIsSelect(){
     function chgtSizeRange(){
         let selectedOption = 1 + (gridSizeSelect.selectedIndex);
         gridSizeSelectSetting = gridSizeSelect.selectedIndex;
-        if(sizeColumn.hasAttribute("selected")){
+        if(btnColumn.hasAttribute("selected")){
             chgtSizeColumnLine("column", selectedOption);
         }
         else{
@@ -1173,6 +1221,7 @@ function whenFreeIsSelect(){
 }
 function whenSizeIsSelect(){
 
+    let posIF = document.getElementById("position-interface");
     //interaction element link with selection of size (height or width)
     let widthBtn = document.getElementById("pos-menu-size-width");
     let HeightBtn = document.getElementById("pos-menu-size-height");
@@ -1259,6 +1308,7 @@ function whenSizeIsSelect(){
                 posSetting.size.width = sizeRange.value;
             }
             else{
+                posIFHeightCSS(calcHeight(), posIF);
                 posSetting.size.height = sizeRange.value;
                 elemsContainer.style.height = sizeRange.value + "px";
                 underElemsContainer.style.height = sizeRange.value + "px";
@@ -1298,6 +1348,7 @@ function whenSizeIsSelect(){
         })
 
         range.addEventListener("input", function(){
+            posIFHeightCSS(calcHeight(), posIF);
             margPadSizeAssign(margePad, "top", range, margePad + "Top");
             margPadSizeAssign(margePad, "bottom", range, margePad + "Bottom");
             margPadSizeAssign(margePad, "left", range, margePad + "Left"); 

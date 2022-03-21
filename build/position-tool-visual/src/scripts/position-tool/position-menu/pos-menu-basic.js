@@ -8,6 +8,8 @@ function whenBasicIsSelect(){
     //init the basic menu in function of selected display in the display object
     function initBasicMenu(){
 
+        reInitContainerStyle();
+
         block.removeAttribute("selected");
         inline.removeAttribute("selected");
         blockInline.removeAttribute("selected");
