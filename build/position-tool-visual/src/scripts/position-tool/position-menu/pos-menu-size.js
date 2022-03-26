@@ -178,6 +178,7 @@ function whenSizeIsSelect(){
             }
             posSetting.size[margePad][border] = range.value;
             elemsContainer.style[margePadStyle] = range.value + "px";
+            underElemsContainer.style[margePadStyle] = range.value + "px";
         }
     }
     //if each selected border of marge/pad have a same value, the range represent this value, else the range represent 0

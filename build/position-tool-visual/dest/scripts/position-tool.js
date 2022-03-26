@@ -314,6 +314,7 @@ let allWidthSize;
 let allHeightSize;
 //use in posSize part of the menu to calculate all the width size of the container
 function calcWidth(){
+    console.log(Number(posSize.width) + " "+ Number(posSize.margin.left) + " "+ Number(posSize.margin.right) + " "+ Number(posSize.padding.left) + " "+ Number(posSize.padding.right));
     allWidthSize = Number(posSize.width) + Number(posSize.margin.left) + Number(posSize.margin.right) + Number(posSize.padding.left) + Number(posSize.padding.right);
     return allWidthSize;
 }
@@ -1399,6 +1400,7 @@ function whenSizeIsSelect(){
             }
             posSetting.size[margePad][border] = range.value;
             elemsContainer.style[margePadStyle] = range.value + "px";
+            underElemsContainer.style[margePadStyle] = range.value + "px";
         }
     }
     //if each selected border of marge/pad have a same value, the range represent this value, else the range represent 0

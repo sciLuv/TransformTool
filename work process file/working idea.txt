@@ -1,28 +1,14 @@
 /////////////////////////beta//////////////////////////
+	
+   voir fichier : progress axis
 
-
-voir écrit cahier et l'ajouté ici
-faire que le "padding" du window soit rouge.
-enlevé de la balise de conteneur les info de style inutile (par exemple les display non selectionné)
-dans flex, en fonction du wrap et de l'axe secondaire selectionné, réinitialisé itemcontent/alignItem et leurs btn
-dans grid, quand on quitte le sous menu grid, faire disparaitre le grid de repere, ou diminué son opacité. et le faire disparaitre si on change de display
-dans size faire que les selectionneur de coté soi plus facilement cliquable
-refaire le style de la liste de selection de colonne/ligne de la partie size du grid, et changer son fonctionnement pour qu'ils puissent etre personnalisé
-
-
-4)faire l'interface de selection du display, position et size, fonctionnel visuellement (et uniquement)
-grid : faire que le bouton de selection de loverflow ai une fonction js pour gerer son background au niveau du middle
-  mettre en place de l'objet qui contiendra les info de conteneur des elements 
-  faire que quand il n'y a aucun element, le position tool ne soit absolument pas clickable
-
-5) git:
+   git:
    verifié si seulement avoir node de maniere globale permet de l'utiliser dans tout les sous dossier
    peu etre supprimer des dossier de build tres basique
    faire un fichier git ignore qui envoi que le dest de la version de travail actuel, voir la précedente en plus quand les deux sont complementaire
    viré le site a la racine et reconstruire le dossier build, y ajouté la version actuel du transformation tool
    faire que les titres des tool soit logique vis a vis des regles synthaxique du html
 
-gerer l'opacité, l'overflow, le display en eux même
 
 ////////////////////////v1 final///////////////////////////
 
