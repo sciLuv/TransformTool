@@ -1,60 +1,24 @@
 /////////////////////////beta//////////////////////////
 	
-   voir fichier : progress axis
 
-   git:
-   verifié si seulement avoir node de maniere globale permet de l'utiliser dans tout les sous dossier
-   peu etre supprimer des dossier de build tres basique
-   faire un fichier git ignore qui envoi que le dest de la version de travail actuel, voir la précedente en plus quand les deux sont complementaire
-   viré le site a la racine et reconstruire le dossier build, y ajouté la version actuel du transformation tool
-   faire que les titres des tool soit logique vis a vis des regles synthaxique du html
+finir size : 
+faire que size fonctionne d'avantage comme la fonction qui gere les degre de shader
+conflit entre size() et la maniere de faire d'adapté les element au type de display(flex grid)
+ajouté la possibilité de positionner les element.
 
 
 ////////////////////////v1 final///////////////////////////
 
-chose a faire sur la window element, aprés création du position tool : {
-disclaimer lors du reset et de la suppression
-obligation de mettre un nom, changer le css si manque un nom, prévenir qu'il faut en écrit un empéché toute interaction tant qu'il n'y en a pas un
-ajouté bout de code qui recherche si un nom est déja donné, autre que les noms type element-2
-mettre des état d'avant selection pour certain modules (shader,box) et changer les couleurs/opacité/interaction initial de ces derniere
-changer la liste de selection des bordure de maniere a ce quel affiche les bordure elle meme
-ajout d'une police supplementaire pour le texte DANS les modules element, ou changer les couleurs de ces derniere 6c6c6c
-faire que l'element actuellement selectionné soi en surbrillance dans la liste.
-faire que le mouvement de la window soit plus logique a partir du mot tool.
-faire que l'on puisse dupliqué les élément avec un nouveau bouton
-faire que l'on puisse séléctionné les radius soit en degrés soi en pixel
-ajouté des reset spécifiques aux modules (put etre a partir des boutons de poubelle
-faire que toute les liste soit plus représentative de ce quelle contienne (liste des shader, des bordure, des box)
-ajouté les capacité de mouvement dans la page du position tool a l'element tool (en plus du mouvement dans le client) et voir également si ca peut impacté les bouton d'opacité
-renommé les element redondant avec le position tool (genre angle)
-faire que les selecteur de bord ou de coin fonctionne de la meme maniere que ceux du position tool
-appliqué dans le code les conseil d'optimisation
-ajouté l'outil texte
-ajouté l'outil image
-}
-rendre les tool disponibles recusif (mettre des element dans les element et pouvoir gerer les element comme des conteneur)
-faire une fonction controle Z sur la derniere/ plusieurs derniere actions
-faire le tool html/css
-voir si il n'y a pas moyen de mettre directement dans l'url les info de l'objet que l'on construit
-adapté l'interface pour mozilla
-
-revoir les commentaire et les réécrire en anglais
-revoir les variables JS et leurs nom, les diminué au max tout en les rendant au maximum clair
-idem pour la doc
-convenir au standard web (lighthouse, axeDevTool, correctement nommé les variables, optimisation en divisans les fichier js et css
-peut etre ajouté des balises html plus logique dans leurs dénomination
-rendre le github plus présentable (readMe, photo de profil, réorganiser le github (si sous dossier évité de remettre node a chaque fois, commencer a comprendre les marge ect)
-
-
+voir fichier : progress axis
 
 ////////////////////////////v1.+++, V2////////////////////////////
+
+- voir si il n'y a pas moyen de mettre directement dans l'url les info de l'objet que l'on construit, ou dans le local storage
 
 -permettre le fait de gerer le style lors de pseudoclass (hoover, active, ect)
 -un truc pour gerer les animation.
 
 -gerer les before/after
-
-ajouté une fonction "traiter cet element comme une classe" qui poura donner a dautre element les meme valeurs
 
 -ajouté un onglet d'aide (un peu a la maniere des autre onglet (element, transform, et les autres prévus) qui 
 ira chercher des informations explicative de l'utilisation des différents onglet pour rendre le fonctionnement globale plus compréhensible.
@@ -67,3 +31,6 @@ possibilité de changer radicalemement la maniere de selectionné le radius des 
 définir un standard de dénomination des boutons (btn/button)
 trouvé une maniere de dénominé différement les variable qui représente un element html select et les variables nommé select, ou alors précisé la nuance entre les deux
 
+outil class
+
+outil transform

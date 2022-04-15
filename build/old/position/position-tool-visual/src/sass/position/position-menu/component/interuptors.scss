@@ -1,0 +1,151 @@
+.interuptor-flex{
+    border: $pos-menu-font-color-1 solid 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:after{
+        position: absolute;
+        content: "";
+        z-index: -1;
+        width: 30px;
+        height: 15px;
+        border-radius: 12px;
+        opacity: 0;
+        transition: all 0.2;
+    }
+    .flex-under-interuptor{
+        border: $pos-menu-font-color-1 solid 2.5px;
+        width: 15px;
+        height: 15px;
+        border-radius: 12px;
+        transition: all 0.2s;
+        &:after{
+            position: absolute;
+            content: "";
+            z-index: -1;
+            width: 15px;
+            height: 15px;
+            border-radius: 12px;
+            opacity: 0;
+            transition: all 0.2;
+        }
+        &[active]{
+            transition: all 0.2s;
+        }
+    }
+}
+
+#interuptor-flex-direction{
+    background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-btn-bg 100%);
+    &:after{
+        background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-btn-bg 50%);
+    }
+    #flex-positions{
+        background: linear-gradient(90deg, $pos-menu-btn-bg 41%, $pos-menu-font-color-1 41%, $pos-menu-font-color-1 59%, $pos-menu-btn-bg 59%);
+        transform: translate(-8px, 0px);
+        &:after{
+            background: linear-gradient(90deg, $pos-menu-flex-under-interuptor-after 41%, $pos-menu-font-color-1 41%, $pos-menu-font-color-1 59%, $pos-menu-flex-under-interuptor-after 59%);
+        }
+        &[active]{
+            transform: translate(8px, 0px) rotate(90deg);
+        }
+    }
+    &:hover{
+        &:after{
+            opacity: 1;
+            transition: all 0.2s;
+        }
+        #flex-positions{
+            &:after{
+                opacity: 1;
+                transition: all 0.2s;
+            }
+        }
+    }
+}
+.interuptor-flex-content{
+    opacity: 0.5;
+    width: 37px;
+    background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-btn-bg 100%);
+    &:after{
+        width: 37px;
+        background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-btn-bg 50%);
+    }
+    .flex-axes{
+        background: linear-gradient(180deg, $pos-menu-btn-bg 41%, $pos-menu-font-color-1 41%, $pos-menu-font-color-1 59%, $pos-menu-btn-bg 59%);
+        transform: translate(-12px, 0px);
+        &:after{
+            background: linear-gradient(180deg, $pos-menu-flex-under-interuptor-after 41%, $pos-menu-font-color-1 41%, $pos-menu-font-color-1 59%, $pos-menu-flex-under-interuptor-after 59%);
+        }
+        &[middle]{
+            transform: translate(-1px, 0px);
+        }
+        &[end]{
+            transform: translate(12px, 0px);
+        }
+        &[column]{
+            transform : translate(-12px, 0px) rotate(-90deg);
+            &[middle]{
+                transform: translate(-1px, 0px) rotate(-90deg);
+            }
+            &[end]{
+                transform: translate(12px, 0px) rotate(-90deg);
+            }
+        }
+        &[element]{
+            background: $pos-menu-btn-bg;
+            &:after{
+                background: $pos-menu-flex-under-interuptor-after;
+            }
+        }
+    }
+    &:hover{
+        &:after{
+            opacity: 1;
+            transition: all 0.2s;
+        }
+        .flex-axes{
+            &:after{
+                opacity: 1;
+                transition: all 0.2s;
+            }
+        }
+    }
+    &[active]{
+        opacity: 1;
+    }
+}
+
+.interuptor-free-overflow{
+    background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-alt-btn-bg-2 80%);
+    &:after{
+        width: 37px;
+        background: linear-gradient(165deg, $no-opacity 0%, $pos-menu-alt-btn-bg 50%);
+    }
+    .flex-axes{
+        background: linear-gradient(90deg, $pos-menu-alt-btn-bg 41%, $pos-menu-font-color-1 41%, $pos-menu-font-color-1 59%, $pos-menu-alt-btn-bg 59%);
+        transform: translate(-12px, 0px);
+        &:after{
+            background: linear-gradient(90deg, $pos-menu-btn-bg 41%, $pos-menu-font-color-1 41%, $pos-menu-font-color-1 59%, $pos-menu-btn-bg 59%);
+        }
+        &[middle]{
+            transform: translate(0px, 0px);
+            background: $pos-menu-alt-btn-bg;
+            &:after{
+                background: $pos-menu-btn-bg 45%;
+            }
+        }
+        &[end]{
+            background: linear-gradient(180deg, $pos-menu-alt-btn-bg 41%, $pos-menu-font-color-1 41%, $pos-menu-font-color-1 59%, $pos-menu-alt-btn-bg 59%);
+            transform: translate(12px, 0px), rotate(90deg);
+            &:after{
+                transform: rotate(90deg);
+            }
+        }
+    }
+}
