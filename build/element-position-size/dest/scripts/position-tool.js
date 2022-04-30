@@ -1536,7 +1536,7 @@ function createSize(){
                 },
                 width : {
                     num : elemNum,
-                    interuptor1 : false,
+                    interuptor1 : false ,
                     interuptor2 : false
                 }
             }

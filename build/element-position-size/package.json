@@ -1,7 +1,6 @@
 {
   "name": "gulp-adding",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "sass": "sass --watch ./src/sass/main.scss:./src/style/style.css"
@@ -13,8 +12,8 @@
     "sass": "^1.45.2"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.1",
-    "cssnano": "^5.0.14",
+    "autoprefixer": "^10.4.5",
+    "cssnano": "^5.1.7",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-if": "^3.0.0",
@@ -25,5 +24,6 @@
     "gulp-terser": "^2.1.0",
     "gulp-uglify": "^3.0.2",
     "gulp-useref": "^5.0.0"
-  }
+  },
+  "description": ""
 }
