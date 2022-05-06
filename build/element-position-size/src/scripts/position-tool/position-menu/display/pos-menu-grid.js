@@ -42,7 +42,11 @@ function whenGridIsSelect(){
                     num : "column",
                     marge : "column",
                     size: "column",
-                    sizeSelect : 1
+                    sizeSelect : 1,
+                    top : [0,37.5,75,112.5,150],
+                    left : [0, 62.5, 125, 187.5, 250],
+                    clientTop : 126,
+                    clientLeft : 73
                 } 
             }
             topElemsContainer.style.display = posSetting.display.display;
@@ -55,6 +59,7 @@ function whenGridIsSelect(){
             addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
             changePosIFDisplay();
         }
+        calcGrid();
     }
     //init num and marge section of the grid menu is relatively similar, so a function to reduce code. PARAMETER : 
     //menu = menu "num" or "marge" //column, line, range = selection element of the part of the grid menu (ex : margeColumn)
@@ -102,6 +107,7 @@ function whenGridIsSelect(){
                 addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
                 gridSelectModif("lines");
             }
+            calcGrid();
         })
     }
     //event to remove/add select attribut to the btn column/line marge, and the range, change value of the marge of column and line
@@ -122,6 +128,7 @@ function whenGridIsSelect(){
                 posSetting.display.margeLines = margeRange.value;
                 addGridGap(elemsContainer, underElemsContainer, topElemsContainer, "Row", posSetting.display.margeLines);
             }
+            calcGrid();
         })
     }
     //event to remove/add select attribut to the btn column/line size, and the range, change value of the size of column and line
@@ -150,10 +157,12 @@ function whenGridIsSelect(){
                 posSetting.display.size.line[lineSelected] = sizeSelected;
                 addGridColLine(elemsContainer, underElemsContainer, topElemsContainer, "Rows", "line", posSetting.display.lines);
             }
+            calcGrid();
         })
         gridSizeSelect.addEventListener("change", function(){
             chgtSizeRange(); 
         })
+        calcGrid();
     }
     //in link with the size part of the menu. allow to add or remove option in the select element in function of the number of column or line
     function gridSelectModif(columnOrLine){

@@ -2,10 +2,13 @@
 	
 
 finir size : 
-faire que size fonctionne d'avantage comme la fonction qui gere les degre de shader
 conflit entre size() et la maniere de faire d'adapté les element au type de display(flex grid)
 ajouté la possibilité de positionner les element.
 
+simplification : posSetting.display.menu = 
+marge, num et size semble etre en doublons car ont systematiquement la même valeur
+
+bug : pourquoi quand calcGrid s'active dans initGridDisplay(), il a l'air de s'activé deux fois (cf console log)
 
 ////////////////////////v1 final///////////////////////////
 

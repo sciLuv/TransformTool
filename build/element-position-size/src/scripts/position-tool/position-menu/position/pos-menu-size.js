@@ -92,6 +92,7 @@ function whenSizeIsSelect(){
                 underElemsContainer.style.height = sizeRange.value + "px";
                 topElemsContainer.style.height = sizeRange.value + "px";
             }
+            calcGrid();
         })
     }    
 
@@ -132,6 +133,7 @@ function whenSizeIsSelect(){
             margPadSizeAssign(margePad, "bottom", range, margePad + "Bottom");
             margPadSizeAssign(margePad, "left", range, margePad + "Left"); 
             margPadSizeAssign(margePad, "right", range, margePad + "Right");
+            inPositionPlacement();
         })
     }
     //contain function margePadTrue, and margePadFalse and active them if border selector in link is selected. PARAMETER :

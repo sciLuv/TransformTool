@@ -14,7 +14,13 @@ function createElement(){
             size : {
                 width : 60,
                 height : 60
-            }
+            },
+            grid : {
+                left : 1,
+                top : 1,
+                right : 2,
+                bottom : 2
+            } 
         }
         elemIFList[elemNum] = 
         {

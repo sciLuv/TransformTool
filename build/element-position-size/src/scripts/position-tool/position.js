@@ -1,12 +1,4 @@
-//let applyDesign = setInterval(updatePos,70);
-
-function hexToRGB(hex, alpha) {
-    var r = parseInt(hex.slice(1, 3), 16),
-        g = parseInt(hex.slice(3, 5), 16),
-        b = parseInt(hex.slice(5, 7), 16);
-        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha/100 + ")";
-}
-
+//updatePos is used in element code for creation/deletion of html/css part of the element 
 function updatePos(){
     elemsContainer.innerHTML = ""
     topElemsContainer.innerHTML = "";
@@ -36,8 +28,10 @@ function updatePos(){
             //size
             size(i);
         }
+        calcElemCelPlace();
     }
 }
+//similar of updatePos but only for MaJ of the graphism of elements
 function updateGraphicPos(){
     if(elemList.length > 0){
         for(i=0; i<=elemList.length-1; i++){
@@ -54,43 +48,11 @@ function updateGraphicPos(){
             //size
             size(i);
         }
+        calcElemCelPlace();
     }
 }
 
-
-positionMove.addEventListener("mousedown", function(event){
-    posMousePlace = event.target.getBoundingClientRect();
-    posInitPlaceX =  event.pageX - (posMousePlace.left + (event.pageX - event.clientX));
-    posInitPlaceY =  event.pageY - (posMousePlace.top + (event.pageY - event.clientY));
-    posPlaceActive = true;
-
-    position.setAttribute("active","");
-})
-//Event for beginning the element-window moving,
-positionMove.addEventListener("mouseup", function(event){
-    posPlaceActive = false;
-    position.removeAttribute("active");
-})
-//Event for ending the element-window moving,
-body.addEventListener('mouseup', function(event){
-    if(posPlaceActive == true){
-        body.removeAttribute("active");
-        position.removeAttribute("active");
-        posPlaceActive = false;
-    }
-})
-//Event for calculate and applicate move
-body.addEventListener('mousemove', function(event){
-    if(posPlaceActive == true){
-        position.style.left = Math.round(event.pageX - posInitPlaceX) + "px";
-        leftPosition = Math.round(event.pageX - posInitPlaceX);
-        //console.log(Math.round((event.clientX - posInitPlaceX)/10)*10 + "px");
-        position.style.top = Math.round(event.pageY - posInitPlaceY) + "px";
-        topPosition = Math.round(event.pageY - posInitPlaceY);
-    }
-})
-
-
+//here, each function (color, shader, ect...) update the graphism of elem, with using elemList
 function color(i){
     let elem = document.getElementById(elemList[i].id.name);
     elem.style.background =  hexToRGB(elemList[i].color.hue, elemList[i].color.opacity);
@@ -164,9 +126,25 @@ function size(i){
     let elem = document.getElementById(elemList[i].id.name);
     let ifElem = document.getElementById("if-" + elemList[i].id.name);
 
-    elem.style.width = elemList[i].size.width + "px";
-    elem.style.height = elemList[i].size.height + "px";
+    if((posSetting.display.display == undefined)||(posSetting.display.display != "grid")){
+        elem.style.width = elemList[i].size.width + "px";
+        elem.style.height = elemList[i].size.height + "px";
+        elem.style.removeProperty("grid-area");
+    
+        ifElem.style.width = elemList[i].size.width + "px";
+        ifElem.style.height = elemList[i].size.height + "px";
+        ifElem.style.removeProperty("grid-area");
+        console.log("nogrid");
+    }
+    else{
+        elem.style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+        elem.style.width = "auto";
+        elem.style.height = "auto";
+    
+        ifElem.style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+        ifElem.style.width = "auto";
+        ifElem.style.height = "auto";
+        console.log("grid");
+    }
 
-    ifElem.style.width = elemList[i].size.width + "px";
-    ifElem.style.height = elemList[i].size.height + "px";
 }

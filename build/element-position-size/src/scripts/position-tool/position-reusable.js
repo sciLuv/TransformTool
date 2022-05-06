@@ -1,3 +1,11 @@
+//hexToRGB is used in all updatePos(position file in gulp mode) inside function to associate value of color and value of opacity
+function hexToRGB(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha/100 + ")";
+}
+
 //change the position-interface display
 function changePosIFDisplay(){
     posIF.removeAttribute("block");
@@ -84,7 +92,7 @@ function addGridCel(column, line, underContainer){
     underContainer.innerHTML = "";
     let numOfCel = column*line;
     for(i=1; i <= numOfCel; i++){
-        underContainer.innerHTML += "<div id='cel-" + i + "' class='cel''></div>"
+        underContainer.innerHTML += "<div id='cel-" + i + "' class='cel'></div>"
     }
 } 
 function addGridGap(container, underContainer, topContainer, columnOrLine, gap){
@@ -136,4 +144,109 @@ function addGridColLine(container, underContainer, topContainer, columnsOrLines,
         topContainer.style["gridTemplate" + columnsOrLines] = GridTemplateVal;
     }
     console.log(GridTemplateVal);
+}
+
+let gridRowCelSizeList;
+let gridColumnCelSizeList;
+
+let rowNumb;
+let columnNumb;
+
+function calcGrid(){
+    gridRowCelSizeList = [];
+    gridColumnCelSizeList = [];
+
+    posSetting.display.menu.top = [];
+    posSetting.display.menu.left = [];
+
+    rowNumb = window.getComputedStyle(underElemsContainer).getPropertyValue("grid-template-rows").split(" ").length;
+    columnNumb = window.getComputedStyle(underElemsContainer).getPropertyValue("grid-template-columns").split(" ").length;
+
+    for(i=1; i<=rowNumb; i++){
+        let cel = (columnNumb*(i-1))+1;
+        let celDom = document.getElementById("cel-" + cel);
+        gridRowCelSizeList.push(celDom);
+    } 
+    for(i=1; i<=columnNumb; i++){
+        let celDom = document.getElementById("cel-" + i);
+        gridColumnCelSizeList.push(celDom)
+    }
+
+    for(i=1; i<=gridRowCelSizeList.length; i++){
+        let cel = window.getComputedStyle(gridRowCelSizeList[i-1]).getPropertyValue("height");
+        let celSize = Number(cel.split("px").shift())+2;
+        if(i>1){
+            celSize += posSetting.display.menu.top[i-2];
+            celSize += Number(posSetting.display.margeLines);
+            celSize = Math.round(celSize*100)/100;
+        }
+        posSetting.display.menu.top.push(celSize);
+    }
+    posSetting.display.menu.top.unshift(0)
+
+    for(i=1; i<=gridColumnCelSizeList.length; i++){
+        let cel = window.getComputedStyle(gridColumnCelSizeList[i-1]).getPropertyValue("width");
+        let celSize = Number(cel.split("px").shift())+2;
+        if(i>1){
+            celSize += posSetting.display.menu.left[i-2];
+            celSize += Number(posSetting.display.margeColumns);
+            celSize = Math.round(celSize*100)/100;
+        }
+        posSetting.display.menu.left.push(celSize);
+    }
+    posSetting.display.menu.left.unshift(0);
+    calcElemCelPlace();
+}
+
+function calcElemCelPlace(){
+    //si le nombre d'element est inférieur ou égale au nombre de cellule de la grille 
+    if(elemList.length <= (columnNumb*rowNumb)){
+        
+        console.log("Column" + columnNumb + " Row" + rowNumb);
+        
+        let leftCel = 1;
+        let rightCel = 2;
+
+        let topCel = 1;
+        let bottomCel = 2;
+
+        for(i=0; i<=elemList.length-1; i++){
+            elemList[i].grid.left = leftCel; 
+            elemList[i].grid.right = rightCel;
+
+            elemList[i].grid.top = topCel;
+            elemList[i].grid.bottom = bottomCel;
+
+            if(leftCel == columnNumb){ leftCel = 1; rightCel = 2; topCel++; bottomCel++}
+            else{ leftCel++; rightCel ++;}
+
+            document.getElementById(elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+            document.getElementById(elemList[i].id.name).style.width = "auto";
+            document.getElementById(elemList[i].id.name).style.height = "auto";
+        
+            document.getElementById("if-" + elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+            document.getElementById("if-" + elemList[i].id.name).style.width = "auto";
+            document.getElementById("if-" + elemList[i].id.name).style.height = "auto";
+        }
+    }
+}
+
+let inPositionPaddingTop = document.getElementsByClassName("horizon-padding");
+let inPositionPaddingLeft = document.getElementsByClassName("vertical-padding");
+function inPositionPlacement(){
+    if(posSetting.display.display == "grid"){
+        let inPositionPaddingTopHeight = Number(window.getComputedStyle(inPositionPaddingTop[0]).getPropertyValue("height").replace("px",""));
+        let inPositionPaddingTopBorderHeight = Number(window.getComputedStyle(posIF).getPropertyValue("border-top").split(" ")[0].replace("px",""));
+        let posToolTitleHeight = Number(window.getComputedStyle(posToolTitle).getPropertyValue("height").replace("px",""));
+        let posToolTitleBorderHeight = Number(window.getComputedStyle(posToolTitle).getPropertyValue("border-top").split(" ")[0].replace("px",""));
+        posSetting.display.menu.clientTop = topPosition + inPositionPaddingTopHeight + inPositionPaddingTopBorderHeight + posToolTitleHeight + posToolTitleBorderHeight + Number(posSetting.size.margin.top) + Number(posSetting.size.padding.top);
+    
+    
+        let inPositionPaddingLeftWidth = Number(window.getComputedStyle(inPositionPaddingLeft[0]).getPropertyValue("width").replace("px",""));
+        let inPositionPaddingLeftBorderWidth = Number(window.getComputedStyle(posIF).getPropertyValue("border-left").split(" ")[0].replace("px",""));
+        posSetting.display.menu.clientLeft = leftPosition + inPositionPaddingLeftWidth + inPositionPaddingLeftBorderWidth + Number(posSetting.size.margin.left) + Number(posSetting.size.padding.left);
+    
+        console.log("clientLeft " + posSetting.display.menu.clientLeft);
+        console.log("clientTop " + posSetting.display.menu.clientTop);
+    }
 }

@@ -1,3 +1,11 @@
+//hexToRGB is used in all updatePos(position file in gulp mode) inside function to associate value of color and value of opacity
+function hexToRGB(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha/100 + ")";
+}
+
 //change the position-interface display
 function changePosIFDisplay(){
     posIF.removeAttribute("block");
@@ -84,7 +92,7 @@ function addGridCel(column, line, underContainer){
     underContainer.innerHTML = "";
     let numOfCel = column*line;
     for(i=1; i <= numOfCel; i++){
-        underContainer.innerHTML += "<div id='cel-" + i + "' class='cel''></div>"
+        underContainer.innerHTML += "<div id='cel-" + i + "' class='cel'></div>"
     }
 } 
 function addGridGap(container, underContainer, topContainer, columnOrLine, gap){
@@ -137,15 +145,113 @@ function addGridColLine(container, underContainer, topContainer, columnsOrLines,
     }
     console.log(GridTemplateVal);
 }
-//let applyDesign = setInterval(updatePos,70);
 
-function hexToRGB(hex, alpha) {
-    var r = parseInt(hex.slice(1, 3), 16),
-        g = parseInt(hex.slice(3, 5), 16),
-        b = parseInt(hex.slice(5, 7), 16);
-        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha/100 + ")";
+let gridRowCelSizeList;
+let gridColumnCelSizeList;
+
+let rowNumb;
+let columnNumb;
+
+function calcGrid(){
+    gridRowCelSizeList = [];
+    gridColumnCelSizeList = [];
+
+    posSetting.display.menu.top = [];
+    posSetting.display.menu.left = [];
+
+    rowNumb = window.getComputedStyle(underElemsContainer).getPropertyValue("grid-template-rows").split(" ").length;
+    columnNumb = window.getComputedStyle(underElemsContainer).getPropertyValue("grid-template-columns").split(" ").length;
+
+    for(i=1; i<=rowNumb; i++){
+        let cel = (columnNumb*(i-1))+1;
+        let celDom = document.getElementById("cel-" + cel);
+        gridRowCelSizeList.push(celDom);
+    } 
+    for(i=1; i<=columnNumb; i++){
+        let celDom = document.getElementById("cel-" + i);
+        gridColumnCelSizeList.push(celDom)
+    }
+
+    for(i=1; i<=gridRowCelSizeList.length; i++){
+        let cel = window.getComputedStyle(gridRowCelSizeList[i-1]).getPropertyValue("height");
+        let celSize = Number(cel.split("px").shift())+2;
+        if(i>1){
+            celSize += posSetting.display.menu.top[i-2];
+            celSize += Number(posSetting.display.margeLines);
+            celSize = Math.round(celSize*100)/100;
+        }
+        posSetting.display.menu.top.push(celSize);
+    }
+    posSetting.display.menu.top.unshift(0)
+
+    for(i=1; i<=gridColumnCelSizeList.length; i++){
+        let cel = window.getComputedStyle(gridColumnCelSizeList[i-1]).getPropertyValue("width");
+        let celSize = Number(cel.split("px").shift())+2;
+        if(i>1){
+            celSize += posSetting.display.menu.left[i-2];
+            celSize += Number(posSetting.display.margeColumns);
+            celSize = Math.round(celSize*100)/100;
+        }
+        posSetting.display.menu.left.push(celSize);
+    }
+    posSetting.display.menu.left.unshift(0);
+    calcElemCelPlace();
 }
 
+function calcElemCelPlace(){
+    //si le nombre d'element est inférieur ou égale au nombre de cellule de la grille 
+    if(elemList.length <= (columnNumb*rowNumb)){
+        
+        console.log("Column" + columnNumb + " Row" + rowNumb);
+        
+        let leftCel = 1;
+        let rightCel = 2;
+
+        let topCel = 1;
+        let bottomCel = 2;
+
+        for(i=0; i<=elemList.length-1; i++){
+            elemList[i].grid.left = leftCel; 
+            elemList[i].grid.right = rightCel;
+
+            elemList[i].grid.top = topCel;
+            elemList[i].grid.bottom = bottomCel;
+
+            if(leftCel == columnNumb){ leftCel = 1; rightCel = 2; topCel++; bottomCel++}
+            else{ leftCel++; rightCel ++;}
+
+            document.getElementById(elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+            document.getElementById(elemList[i].id.name).style.width = "auto";
+            document.getElementById(elemList[i].id.name).style.height = "auto";
+        
+            document.getElementById("if-" + elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+            document.getElementById("if-" + elemList[i].id.name).style.width = "auto";
+            document.getElementById("if-" + elemList[i].id.name).style.height = "auto";
+        }
+    }
+}
+
+let inPositionPaddingTop = document.getElementsByClassName("horizon-padding");
+let inPositionPaddingLeft = document.getElementsByClassName("vertical-padding");
+function inPositionPlacement(){
+    if(posSetting.display.display == "grid"){
+        let inPositionPaddingTopHeight = Number(window.getComputedStyle(inPositionPaddingTop[0]).getPropertyValue("height").replace("px",""));
+        let inPositionPaddingTopBorderHeight = Number(window.getComputedStyle(posIF).getPropertyValue("border-top").split(" ")[0].replace("px",""));
+        let posToolTitleHeight = Number(window.getComputedStyle(posToolTitle).getPropertyValue("height").replace("px",""));
+        let posToolTitleBorderHeight = Number(window.getComputedStyle(posToolTitle).getPropertyValue("border-top").split(" ")[0].replace("px",""));
+        posSetting.display.menu.clientTop = topPosition + inPositionPaddingTopHeight + inPositionPaddingTopBorderHeight + posToolTitleHeight + posToolTitleBorderHeight + Number(posSetting.size.margin.top) + Number(posSetting.size.padding.top);
+    
+    
+        let inPositionPaddingLeftWidth = Number(window.getComputedStyle(inPositionPaddingLeft[0]).getPropertyValue("width").replace("px",""));
+        let inPositionPaddingLeftBorderWidth = Number(window.getComputedStyle(posIF).getPropertyValue("border-left").split(" ")[0].replace("px",""));
+        posSetting.display.menu.clientLeft = leftPosition + inPositionPaddingLeftWidth + inPositionPaddingLeftBorderWidth + Number(posSetting.size.margin.left) + Number(posSetting.size.padding.left);
+    
+        console.log("clientLeft " + posSetting.display.menu.clientLeft);
+        console.log("clientTop " + posSetting.display.menu.clientTop);
+    }
+}
+
+//updatePos is used in element code for creation/deletion of html/css part of the element 
 function updatePos(){
     elemsContainer.innerHTML = ""
     topElemsContainer.innerHTML = "";
@@ -175,8 +281,10 @@ function updatePos(){
             //size
             size(i);
         }
+        calcElemCelPlace();
     }
 }
+//similar of updatePos but only for MaJ of the graphism of elements
 function updateGraphicPos(){
     if(elemList.length > 0){
         for(i=0; i<=elemList.length-1; i++){
@@ -193,43 +301,11 @@ function updateGraphicPos(){
             //size
             size(i);
         }
+        calcElemCelPlace();
     }
 }
 
-
-positionMove.addEventListener("mousedown", function(event){
-    posMousePlace = event.target.getBoundingClientRect();
-    posInitPlaceX =  event.pageX - (posMousePlace.left + (event.pageX - event.clientX));
-    posInitPlaceY =  event.pageY - (posMousePlace.top + (event.pageY - event.clientY));
-    posPlaceActive = true;
-
-    position.setAttribute("active","");
-})
-//Event for beginning the element-window moving,
-positionMove.addEventListener("mouseup", function(event){
-    posPlaceActive = false;
-    position.removeAttribute("active");
-})
-//Event for ending the element-window moving,
-body.addEventListener('mouseup', function(event){
-    if(posPlaceActive == true){
-        body.removeAttribute("active");
-        position.removeAttribute("active");
-        posPlaceActive = false;
-    }
-})
-//Event for calculate and applicate move
-body.addEventListener('mousemove', function(event){
-    if(posPlaceActive == true){
-        position.style.left = Math.round(event.pageX - posInitPlaceX) + "px";
-        leftPosition = Math.round(event.pageX - posInitPlaceX);
-        //console.log(Math.round((event.clientX - posInitPlaceX)/10)*10 + "px");
-        position.style.top = Math.round(event.pageY - posInitPlaceY) + "px";
-        topPosition = Math.round(event.pageY - posInitPlaceY);
-    }
-})
-
-
+//here, each function (color, shader, ect...) update the graphism of elem, with using elemList
 function color(i){
     let elem = document.getElementById(elemList[i].id.name);
     elem.style.background =  hexToRGB(elemList[i].color.hue, elemList[i].color.opacity);
@@ -303,13 +379,33 @@ function size(i){
     let elem = document.getElementById(elemList[i].id.name);
     let ifElem = document.getElementById("if-" + elemList[i].id.name);
 
-    elem.style.width = elemList[i].size.width + "px";
-    elem.style.height = elemList[i].size.height + "px";
+    if((posSetting.display.display == undefined)||(posSetting.display.display != "grid")){
+        elem.style.width = elemList[i].size.width + "px";
+        elem.style.height = elemList[i].size.height + "px";
+        elem.style.removeProperty("grid-area");
+    
+        ifElem.style.width = elemList[i].size.width + "px";
+        ifElem.style.height = elemList[i].size.height + "px";
+        ifElem.style.removeProperty("grid-area");
+        console.log("nogrid");
+    }
+    else{
+        elem.style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+        elem.style.width = "auto";
+        elem.style.height = "auto";
+    
+        ifElem.style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+        ifElem.style.width = "auto";
+        ifElem.style.height = "auto";
+        console.log("grid");
+    }
 
-    ifElem.style.width = elemList[i].size.width + "px";
-    ifElem.style.height = elemList[i].size.height + "px";
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~POSITION-VISIBILITY~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+//few function for activate/disable position menu visibility
+//
+//
 function posIsVisibleOrNot(){
     position.addEventListener("mouseover", function(){
         posToolTitle.style.transition = null;
@@ -347,6 +443,41 @@ function closePosMenuWhenMouseLeave(){
 
 posIsVisibleOrNot();
 
+//few function for position menu placement and moving
+//
+//
+positionMove.addEventListener("mousedown", function(event){
+    posMousePlace = event.target.getBoundingClientRect();
+    posInitPlaceX =  event.pageX - (posMousePlace.left + (event.pageX - event.clientX));
+    posInitPlaceY =  event.pageY - (posMousePlace.top + (event.pageY - event.clientY));
+    posPlaceActive = true;
+
+    position.setAttribute("active","");
+})
+//Event for beginning the element-window moving,
+positionMove.addEventListener("mouseup", function(event){
+    posPlaceActive = false;
+    position.removeAttribute("active");
+})
+//Event for ending the element-window moving,
+body.addEventListener('mouseup', function(event){
+    if(posPlaceActive == true){
+        body.removeAttribute("active");
+        position.removeAttribute("active");
+        posPlaceActive = false;
+    }
+    inPositionPlacement();
+})
+//Event for calculate and applicate move
+body.addEventListener('mousemove', function(event){
+    if(posPlaceActive == true){
+        position.style.top = Math.round(event.pageY - posInitPlaceY) + "px";
+        position.style.left = Math.round(event.pageX - posInitPlaceX) + "px";
+
+        topPosition = Math.round(event.pageY - posInitPlaceY);
+        leftPosition = Math.round(event.pageX - posInitPlaceX);
+    }
+})
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~POSITION-MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 //Event for give specific attribut to the opener and the tool title 
@@ -494,6 +625,9 @@ function whenBasicIsSelect(){
 
         elemsContainer.style.display = posSetting.display.display;
         topElemsContainer.style.display = posSetting.display.display;
+        for(i=0; i<=elemList.length-1; i++){
+            size(i);
+        }
     }
 
     //Event in link of each display btn
@@ -618,6 +752,9 @@ function whenFlexIsSelect(){
             topElemsContainer.style.alignItems = posSetting.display.alignItems;
             topElemsContainer.style.alignContent = posSetting.display.alignContent;
             changePosIFDisplay();
+        }
+        for(i=0; i<=elemList.length-1; i++){
+            size(i);
         }
     }
     //use exclusively in the initFlexDisplay (function just before) to set all the axis part of the flex menu (justifyContent, alignItem, AlignContent)
@@ -924,7 +1061,11 @@ function whenGridIsSelect(){
                     num : "column",
                     marge : "column",
                     size: "column",
-                    sizeSelect : 1
+                    sizeSelect : 1,
+                    top : [0,37.5,75,112.5,150],
+                    left : [0, 62.5, 125, 187.5, 250],
+                    clientTop : 126,
+                    clientLeft : 73
                 } 
             }
             topElemsContainer.style.display = posSetting.display.display;
@@ -937,6 +1078,7 @@ function whenGridIsSelect(){
             addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
             changePosIFDisplay();
         }
+        calcGrid();
     }
     //init num and marge section of the grid menu is relatively similar, so a function to reduce code. PARAMETER : 
     //menu = menu "num" or "marge" //column, line, range = selection element of the part of the grid menu (ex : margeColumn)
@@ -984,6 +1126,7 @@ function whenGridIsSelect(){
                 addGridCel(posSetting.display.columns, posSetting.display.lines, underElemsContainer);
                 gridSelectModif("lines");
             }
+            calcGrid();
         })
     }
     //event to remove/add select attribut to the btn column/line marge, and the range, change value of the marge of column and line
@@ -1004,6 +1147,7 @@ function whenGridIsSelect(){
                 posSetting.display.margeLines = margeRange.value;
                 addGridGap(elemsContainer, underElemsContainer, topElemsContainer, "Row", posSetting.display.margeLines);
             }
+            calcGrid();
         })
     }
     //event to remove/add select attribut to the btn column/line size, and the range, change value of the size of column and line
@@ -1032,10 +1176,12 @@ function whenGridIsSelect(){
                 posSetting.display.size.line[lineSelected] = sizeSelected;
                 addGridColLine(elemsContainer, underElemsContainer, topElemsContainer, "Rows", "line", posSetting.display.lines);
             }
+            calcGrid();
         })
         gridSizeSelect.addEventListener("change", function(){
             chgtSizeRange(); 
         })
+        calcGrid();
     }
     //in link with the size part of the menu. allow to add or remove option in the select element in function of the number of column or line
     function gridSelectModif(columnOrLine){
@@ -1394,6 +1540,7 @@ function whenSizeIsSelect(){
                 underElemsContainer.style.height = sizeRange.value + "px";
                 topElemsContainer.style.height = sizeRange.value + "px";
             }
+            calcGrid();
         })
     }    
 
@@ -1434,6 +1581,7 @@ function whenSizeIsSelect(){
             margPadSizeAssign(margePad, "bottom", range, margePad + "Bottom");
             margPadSizeAssign(margePad, "left", range, margePad + "Left"); 
             margPadSizeAssign(margePad, "right", range, margePad + "Right");
+            inPositionPlacement();
         })
     }
     //contain function margePadTrue, and margePadFalse and active them if border selector in link is selected. PARAMETER :
@@ -1536,7 +1684,7 @@ function createSize(){
                 },
                 width : {
                     num : elemNum,
-                    interuptor1 : false ,
+                    interuptor1 : false,
                     interuptor2 : false
                 }
             }

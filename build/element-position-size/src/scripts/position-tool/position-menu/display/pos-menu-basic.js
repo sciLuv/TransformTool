@@ -24,6 +24,9 @@ function whenBasicIsSelect(){
 
         elemsContainer.style.display = posSetting.display.display;
         topElemsContainer.style.display = posSetting.display.display;
+        for(i=0; i<=elemList.length-1; i++){
+            size(i);
+        }
     }
 
     //Event in link of each display btn

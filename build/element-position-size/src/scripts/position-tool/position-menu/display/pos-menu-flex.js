@@ -92,6 +92,9 @@ function whenFlexIsSelect(){
             topElemsContainer.style.alignContent = posSetting.display.alignContent;
             changePosIFDisplay();
         }
+        for(i=0; i<=elemList.length-1; i++){
+            size(i);
+        }
     }
     //use exclusively in the initFlexDisplay (function just before) to set all the axis part of the flex menu (justifyContent, alignItem, AlignContent)
     function initFlexAxesSelectors(interuptor, underInteruptor, interuptorValRpz, around, between, displayFlexVal){
