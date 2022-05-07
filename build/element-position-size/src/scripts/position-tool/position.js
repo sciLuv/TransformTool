@@ -134,7 +134,6 @@ function size(i){
         ifElem.style.width = elemList[i].size.width + "px";
         ifElem.style.height = elemList[i].size.height + "px";
         ifElem.style.removeProperty("grid-area");
-        console.log("nogrid");
     }
     else{
         elem.style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
@@ -144,7 +143,6 @@ function size(i){
         ifElem.style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
         ifElem.style.width = "auto";
         ifElem.style.height = "auto";
-        console.log("grid");
     }
 
 }

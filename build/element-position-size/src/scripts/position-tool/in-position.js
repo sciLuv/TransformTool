@@ -3,6 +3,7 @@ let heightBtns = document.getElementsByClassName("size-line");
 let grabPosBtns = document.getElementsByClassName("pos-grab");
 
 let sizeIFList = [];
+let gridIFList = [];
 
 function createSize(){
     for(l=0; l<=elemList.length-1; l++){ 
@@ -35,6 +36,12 @@ function createSize(){
                 interuptor2 : false
             }
         }
+        if(gridIFList[elemNum] == undefined){
+            gridIFList[elemNum] = {
+                use : false
+            }
+        }
+
         if(sizeIFList[elemNum].existing == false){
             let initialHeight1Placement;
             let initialHeight2Placement;
@@ -118,23 +125,83 @@ function createSize(){
                             document.getElementById("if-" + elemList[sizeIFList[elemNum].height.num].id.name).style.height = elemList[sizeIFList[elemNum].height.num].size.height + "px";
                         }
                     }
+                    else{
+                        let rowsPlaces = [];
+                        let columnsPlaces = [];
+
+                        for(i=0; i<=posSetting.display.menu.top.length-1; i++){
+                            let rowPlace = posSetting.display.menu.top[i] + posSetting.display.menu.clientTop;
+                            rowsPlaces.push(rowPlace);
+                        }
+                        for(i=0; i<=posSetting.display.menu.left.length-1; i++){
+                            let columnPlace = posSetting.display.menu.left[i] + posSetting.display.menu.clientLeft;
+                            columnsPlaces.push(columnPlace);
+                        }
+
+                        if(sizeIFList[elemNum].width.interuptor2 == true){
+                            gridIFList[sizeIFList[elemNum].width.num].use = true;
+                            let placement = event.clientX;
+                            for(i=0; i<=columnsPlaces.length-1; i++){
+                                if(placement >= columnsPlaces[i]){
+                                    elemList[elemNum].grid.right = i+1;
+                                }
+
+                            }
+                        }
+                        if(sizeIFList[elemNum].width.interuptor1 == true){
+                            gridIFList[sizeIFList[elemNum].width.num].use = true;
+                            let placement = event.clientX;
+                            for(i=0; i<=columnsPlaces.length-1; i++){
+                                if(placement >= columnsPlaces[i]){
+                                    elemList[elemNum].grid.left = i+1;
+                                }
+
+                            }
+                        }
+
+                        if(sizeIFList[elemNum].height.interuptor2 == true){
+                            gridIFList[sizeIFList[elemNum].width.num].use = true;
+                            let placement = event.clientY;
+                            for(i=0; i<=rowsPlaces.length-1; i++){
+                                if(placement >= rowsPlaces[i]){
+                                    elemList[elemNum].grid.bottom = i+1;
+                                }
+
+                            }
+                        }
+                        if(sizeIFList[elemNum].height.interuptor1 == true){
+                            gridIFList[sizeIFList[elemNum].width.num].use = true;
+                            let placement = event.clientY;
+                            for(i=0; i<=rowsPlaces.length-1; i++){
+                                if(placement >= rowsPlaces[i]){
+                                    elemList[elemNum].grid.top = i+1;
+                                }
+
+                            }
+                        }
+
+                        let elem = elemList[sizeIFList[elemNum].width.num];
+                        document.getElementById(elem.id.name).style.gridArea = elem.grid.top + "/" + elem.grid.left + "/" + elem.grid.bottom + "/" + elem.grid.right;
+                        document.getElementById("if-" + elem.id.name).style.gridArea = elem.grid.top + "/" + elem.grid.left + "/" + elem.grid.bottom + "/" + elem.grid.right;
+
+                    }
                 }
             }
             body.addEventListener("mouseup", sizeEndMove);
             function sizeEndMove(){
                 if(elemList[elemNum] != undefined){
-                        if(sizeIFList[elemNum].width.interuptor1 == true){
-                            sizeIFList[elemNum].width.interuptor1 = false;
-                        }
-                        if(sizeIFList[elemNum].width.interuptor2 == true){
-                            sizeIFList[elemNum].width.interuptor2 = false;
-                        }
-                        if(sizeIFList[elemNum].height.interuptor1 == true){
-                            sizeIFList[elemNum].height.interuptor1 = false;
-                        }
-                        if(sizeIFList[elemNum].height.interuptor2 == true){
-                            sizeIFList[elemNum].height.interuptor2 = false;
-                        }
+                    if(sizeIFList[elemNum].width.interuptor1 == true){
+                        sizeIFList[elemNum].width.interuptor1 = false;
+                    }
+                    if(sizeIFList[elemNum].width.interuptor2 == true){
+                        sizeIFList[elemNum].width.interuptor2 = false;
+                    }
+                    if(sizeIFList[elemNum].height.interuptor1 == true){
+                        sizeIFList[elemNum].height.interuptor1 = false;
+                    }
+                    if(sizeIFList[elemNum].height.interuptor2 == true){
+                        sizeIFList[elemNum].height.interuptor2 = false;
+                    }
                 }
             }
             sizeIFList[elemNum].existing = true;

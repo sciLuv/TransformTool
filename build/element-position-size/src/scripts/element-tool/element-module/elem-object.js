@@ -28,7 +28,6 @@ function createElement(){
             corner : cornerIFList[elemNum],
             border : borderIFList[elemNum],
             box : boxIFList[elemNum],
-            size : sizeIFList[elemNum]
         }
     }
 }

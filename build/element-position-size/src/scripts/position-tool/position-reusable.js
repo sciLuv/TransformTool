@@ -199,10 +199,7 @@ function calcGrid(){
 }
 
 function calcElemCelPlace(){
-    //si le nombre d'element est inférieur ou égale au nombre de cellule de la grille 
     if(elemList.length <= (columnNumb*rowNumb)){
-        
-        console.log("Column" + columnNumb + " Row" + rowNumb);
         
         let leftCel = 1;
         let rightCel = 2;
@@ -211,22 +208,29 @@ function calcElemCelPlace(){
         let bottomCel = 2;
 
         for(i=0; i<=elemList.length-1; i++){
-            elemList[i].grid.left = leftCel; 
-            elemList[i].grid.right = rightCel;
-
-            elemList[i].grid.top = topCel;
-            elemList[i].grid.bottom = bottomCel;
-
-            if(leftCel == columnNumb){ leftCel = 1; rightCel = 2; topCel++; bottomCel++}
-            else{ leftCel++; rightCel ++;}
-
-            document.getElementById(elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
-            document.getElementById(elemList[i].id.name).style.width = "auto";
-            document.getElementById(elemList[i].id.name).style.height = "auto";
+            console.log(gridIFList[i]);
+            console.log(i + "elem");
+            /*if(gridIFList[i] != undefined){
+                if((gridIFList[i].use == false)){*/
+                    elemList[i].grid.left = leftCel; 
+                    elemList[i].grid.right = rightCel;
         
-            document.getElementById("if-" + elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
-            document.getElementById("if-" + elemList[i].id.name).style.width = "auto";
-            document.getElementById("if-" + elemList[i].id.name).style.height = "auto";
+                    elemList[i].grid.top = topCel;
+                    elemList[i].grid.bottom = bottomCel;
+        
+                    if(leftCel == columnNumb){ leftCel = 1; rightCel = 2; topCel++; bottomCel++}
+                    else{ leftCel++; rightCel ++;}
+        
+                    document.getElementById(elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+                    document.getElementById(elemList[i].id.name).style.width = "auto";
+                    document.getElementById(elemList[i].id.name).style.height = "auto";
+                
+                    document.getElementById("if-" + elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+                    document.getElementById("if-" + elemList[i].id.name).style.width = "auto";
+                    document.getElementById("if-" + elemList[i].id.name).style.height = "auto";
+                    /*
+                }
+            }*/
         }
     }
 }
@@ -245,8 +249,5 @@ function inPositionPlacement(){
         let inPositionPaddingLeftWidth = Number(window.getComputedStyle(inPositionPaddingLeft[0]).getPropertyValue("width").replace("px",""));
         let inPositionPaddingLeftBorderWidth = Number(window.getComputedStyle(posIF).getPropertyValue("border-left").split(" ")[0].replace("px",""));
         posSetting.display.menu.clientLeft = leftPosition + inPositionPaddingLeftWidth + inPositionPaddingLeftBorderWidth + Number(posSetting.size.margin.left) + Number(posSetting.size.padding.left);
-    
-        console.log("clientLeft " + posSetting.display.menu.clientLeft);
-        console.log("clientTop " + posSetting.display.menu.clientTop);
     }
 }

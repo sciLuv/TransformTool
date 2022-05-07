@@ -10,6 +10,8 @@ marge, num et size semble etre en doublons car ont systematiquement la même val
 
 bug : pourquoi quand calcGrid s'active dans initGridDisplay(), il a l'air de s'activé deux fois (cf console log)
 
+les nom des variable et des fonction JS = diminutif différent pour meme mot
+
 ////////////////////////v1 final///////////////////////////
 
 voir fichier : progress axis

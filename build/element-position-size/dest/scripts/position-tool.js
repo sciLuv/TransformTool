@@ -199,10 +199,7 @@ function calcGrid(){
 }
 
 function calcElemCelPlace(){
-    //si le nombre d'element est inférieur ou égale au nombre de cellule de la grille 
     if(elemList.length <= (columnNumb*rowNumb)){
-        
-        console.log("Column" + columnNumb + " Row" + rowNumb);
         
         let leftCel = 1;
         let rightCel = 2;
@@ -211,22 +208,29 @@ function calcElemCelPlace(){
         let bottomCel = 2;
 
         for(i=0; i<=elemList.length-1; i++){
-            elemList[i].grid.left = leftCel; 
-            elemList[i].grid.right = rightCel;
-
-            elemList[i].grid.top = topCel;
-            elemList[i].grid.bottom = bottomCel;
-
-            if(leftCel == columnNumb){ leftCel = 1; rightCel = 2; topCel++; bottomCel++}
-            else{ leftCel++; rightCel ++;}
-
-            document.getElementById(elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
-            document.getElementById(elemList[i].id.name).style.width = "auto";
-            document.getElementById(elemList[i].id.name).style.height = "auto";
+            console.log(gridIFList[i]);
+            console.log(i + "elem");
+            /*if(gridIFList[i] != undefined){
+                if((gridIFList[i].use == false)){*/
+                    elemList[i].grid.left = leftCel; 
+                    elemList[i].grid.right = rightCel;
         
-            document.getElementById("if-" + elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
-            document.getElementById("if-" + elemList[i].id.name).style.width = "auto";
-            document.getElementById("if-" + elemList[i].id.name).style.height = "auto";
+                    elemList[i].grid.top = topCel;
+                    elemList[i].grid.bottom = bottomCel;
+        
+                    if(leftCel == columnNumb){ leftCel = 1; rightCel = 2; topCel++; bottomCel++}
+                    else{ leftCel++; rightCel ++;}
+        
+                    document.getElementById(elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+                    document.getElementById(elemList[i].id.name).style.width = "auto";
+                    document.getElementById(elemList[i].id.name).style.height = "auto";
+                
+                    document.getElementById("if-" + elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+                    document.getElementById("if-" + elemList[i].id.name).style.width = "auto";
+                    document.getElementById("if-" + elemList[i].id.name).style.height = "auto";
+                    /*
+                }
+            }*/
         }
     }
 }
@@ -245,9 +249,6 @@ function inPositionPlacement(){
         let inPositionPaddingLeftWidth = Number(window.getComputedStyle(inPositionPaddingLeft[0]).getPropertyValue("width").replace("px",""));
         let inPositionPaddingLeftBorderWidth = Number(window.getComputedStyle(posIF).getPropertyValue("border-left").split(" ")[0].replace("px",""));
         posSetting.display.menu.clientLeft = leftPosition + inPositionPaddingLeftWidth + inPositionPaddingLeftBorderWidth + Number(posSetting.size.margin.left) + Number(posSetting.size.padding.left);
-    
-        console.log("clientLeft " + posSetting.display.menu.clientLeft);
-        console.log("clientTop " + posSetting.display.menu.clientTop);
     }
 }
 
@@ -387,7 +388,6 @@ function size(i){
         ifElem.style.width = elemList[i].size.width + "px";
         ifElem.style.height = elemList[i].size.height + "px";
         ifElem.style.removeProperty("grid-area");
-        console.log("nogrid");
     }
     else{
         elem.style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
@@ -397,7 +397,6 @@ function size(i){
         ifElem.style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
         ifElem.style.width = "auto";
         ifElem.style.height = "auto";
-        console.log("grid");
     }
 
 }
@@ -1669,6 +1668,7 @@ let heightBtns = document.getElementsByClassName("size-line");
 let grabPosBtns = document.getElementsByClassName("pos-grab");
 
 let sizeIFList = [];
+let gridIFList = [];
 
 function createSize(){
     for(l=0; l<=elemList.length-1; l++){ 
@@ -1701,6 +1701,12 @@ function createSize(){
                 interuptor2 : false
             }
         }
+        if(gridIFList[elemNum] == undefined){
+            gridIFList[elemNum] = {
+                use : false
+            }
+        }
+
         if(sizeIFList[elemNum].existing == false){
             let initialHeight1Placement;
             let initialHeight2Placement;
@@ -1784,23 +1790,83 @@ function createSize(){
                             document.getElementById("if-" + elemList[sizeIFList[elemNum].height.num].id.name).style.height = elemList[sizeIFList[elemNum].height.num].size.height + "px";
                         }
                     }
+                    else{
+                        let rowsPlaces = [];
+                        let columnsPlaces = [];
+
+                        for(i=0; i<=posSetting.display.menu.top.length-1; i++){
+                            let rowPlace = posSetting.display.menu.top[i] + posSetting.display.menu.clientTop;
+                            rowsPlaces.push(rowPlace);
+                        }
+                        for(i=0; i<=posSetting.display.menu.left.length-1; i++){
+                            let columnPlace = posSetting.display.menu.left[i] + posSetting.display.menu.clientLeft;
+                            columnsPlaces.push(columnPlace);
+                        }
+
+                        if(sizeIFList[elemNum].width.interuptor2 == true){
+                            gridIFList[sizeIFList[elemNum].width.num].use = true;
+                            let placement = event.clientX;
+                            for(i=0; i<=columnsPlaces.length-1; i++){
+                                if(placement >= columnsPlaces[i]){
+                                    elemList[elemNum].grid.right = i+1;
+                                }
+
+                            }
+                        }
+                        if(sizeIFList[elemNum].width.interuptor1 == true){
+                            gridIFList[sizeIFList[elemNum].width.num].use = true;
+                            let placement = event.clientX;
+                            for(i=0; i<=columnsPlaces.length-1; i++){
+                                if(placement >= columnsPlaces[i]){
+                                    elemList[elemNum].grid.left = i+1;
+                                }
+
+                            }
+                        }
+
+                        if(sizeIFList[elemNum].height.interuptor2 == true){
+                            gridIFList[sizeIFList[elemNum].width.num].use = true;
+                            let placement = event.clientY;
+                            for(i=0; i<=rowsPlaces.length-1; i++){
+                                if(placement >= rowsPlaces[i]){
+                                    elemList[elemNum].grid.bottom = i+1;
+                                }
+
+                            }
+                        }
+                        if(sizeIFList[elemNum].height.interuptor1 == true){
+                            gridIFList[sizeIFList[elemNum].width.num].use = true;
+                            let placement = event.clientY;
+                            for(i=0; i<=rowsPlaces.length-1; i++){
+                                if(placement >= rowsPlaces[i]){
+                                    elemList[elemNum].grid.top = i+1;
+                                }
+
+                            }
+                        }
+
+                        let elem = elemList[sizeIFList[elemNum].width.num];
+                        document.getElementById(elem.id.name).style.gridArea = elem.grid.top + "/" + elem.grid.left + "/" + elem.grid.bottom + "/" + elem.grid.right;
+                        document.getElementById("if-" + elem.id.name).style.gridArea = elem.grid.top + "/" + elem.grid.left + "/" + elem.grid.bottom + "/" + elem.grid.right;
+
+                    }
                 }
             }
             body.addEventListener("mouseup", sizeEndMove);
             function sizeEndMove(){
                 if(elemList[elemNum] != undefined){
-                        if(sizeIFList[elemNum].width.interuptor1 == true){
-                            sizeIFList[elemNum].width.interuptor1 = false;
-                        }
-                        if(sizeIFList[elemNum].width.interuptor2 == true){
-                            sizeIFList[elemNum].width.interuptor2 = false;
-                        }
-                        if(sizeIFList[elemNum].height.interuptor1 == true){
-                            sizeIFList[elemNum].height.interuptor1 = false;
-                        }
-                        if(sizeIFList[elemNum].height.interuptor2 == true){
-                            sizeIFList[elemNum].height.interuptor2 = false;
-                        }
+                    if(sizeIFList[elemNum].width.interuptor1 == true){
+                        sizeIFList[elemNum].width.interuptor1 = false;
+                    }
+                    if(sizeIFList[elemNum].width.interuptor2 == true){
+                        sizeIFList[elemNum].width.interuptor2 = false;
+                    }
+                    if(sizeIFList[elemNum].height.interuptor1 == true){
+                        sizeIFList[elemNum].height.interuptor1 = false;
+                    }
+                    if(sizeIFList[elemNum].height.interuptor2 == true){
+                        sizeIFList[elemNum].height.interuptor2 = false;
+                    }
                 }
             }
             sizeIFList[elemNum].existing = true;
