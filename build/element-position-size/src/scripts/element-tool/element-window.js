@@ -66,6 +66,7 @@ moreElementBtn.addEventListener("click", function(){
            allVisualChange(i); 
         }
         updateGraphicPos();
+        calcElemCelPlace();
     })
 })
 

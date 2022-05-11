@@ -199,38 +199,101 @@ function calcGrid(){
 }
 
 function calcElemCelPlace(){
-    if(elemList.length <= (columnNumb*rowNumb)){
+    if(posSetting.display.display == "grid"){
+        if(elemList.length <= (columnNumb*rowNumb)){
         
-        let leftCel = 1;
-        let rightCel = 2;
-
-        let topCel = 1;
-        let bottomCel = 2;
-
-        for(i=0; i<=elemList.length-1; i++){
-            console.log(gridIFList[i]);
-            console.log(i + "elem");
-            /*if(gridIFList[i] != undefined){
-                if((gridIFList[i].use == false)){*/
-                    elemList[i].grid.left = leftCel; 
-                    elemList[i].grid.right = rightCel;
-        
-                    elemList[i].grid.top = topCel;
-                    elemList[i].grid.bottom = bottomCel;
-        
-                    if(leftCel == columnNumb){ leftCel = 1; rightCel = 2; topCel++; bottomCel++}
-                    else{ leftCel++; rightCel ++;}
-        
-                    document.getElementById(elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
-                    document.getElementById(elemList[i].id.name).style.width = "auto";
-                    document.getElementById(elemList[i].id.name).style.height = "auto";
+            console.log(columnNumb);
+            console.log(rowNumb);
+            let leftCel = 1;
+            let rightCel = 2;
+    
+            let topCel = 1;
+            let bottomCel = 2;
+            for(i=0; i<=elemList.length-1; i++){
+                if(gridIFList[i] != undefined){
+                    if(i+1==elemList.length){
+                        if(gridIFList[i].use == false){
+                            elemList[i].grid.left = leftCel; 
+                            elemList[i].grid.right = rightCel;
                 
-                    document.getElementById("if-" + elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
-                    document.getElementById("if-" + elemList[i].id.name).style.width = "auto";
-                    document.getElementById("if-" + elemList[i].id.name).style.height = "auto";
-                    /*
+                            elemList[i].grid.top = topCel;
+                            elemList[i].grid.bottom = bottomCel;
+                        }
+                    }
                 }
-            }*/
+                if(leftCel == columnNumb){ leftCel = 1; rightCel = 2; topCel++; bottomCel++}
+                else{ leftCel++; rightCel ++;}
+
+                if((i+1==elemList.length)&&(elemList.length>1)){
+                    if(gridIFList[i].use == false){
+                        topCel = 1;
+                        bottomCel = 2;
+                        leftCel = 1;
+                        rightCel = 2;
+    
+    
+                        let isTopEmpty = [];
+                        let isLeftEmpty = [];
+    
+                        for(j=0; j<=elemList.length-2; j++){
+                            console.log("entré dans la boucle de placement du nouvel element");
+                            console.log(document.getElementById(elemList[j].id.name));
+                            console.log(elemList[j].grid.left);
+                            console.log("topcel " + topCel);
+                            console.log("leftcel " + leftCel);
+                            if(elemList[j].grid.left == leftCel){
+                                if((elemList[j].grid.top == topCel)||((elemList[j].grid.top < topCel)&&(elemList[j].grid.bottom >= bottomCel))){
+                                    isTopEmpty.push(elemList[j].grid.right);
+                                    console.log("si la place est déja prise");
+                                    console.log(document.getElementById(elemList[j].id.name));
+                                    console.log(elemList[j].grid.left);
+                                }
+                                
+                            }
+                            if(j == elemList.length-2){
+                                if(isTopEmpty.length > 0){
+                                    console.log("changement de référence de gauche");
+                                    console.log(isTopEmpty);
+                                    if(isTopEmpty == columnNumb+1){
+                                        console.log("ici c'est quand on change de ligne");
+                                        topCel++;
+                                        bottomCel++;
+                                        leftCel = 1;
+                                        rightCel = 2;
+                                    }
+                                    else{
+                                        console.log("ici c'est quand on change de colonne");
+                                        let newLeft = Math.max(...isTopEmpty);
+                                        leftCel = newLeft;
+                                        rightCel = newLeft+1;
+                                    }
+                                    j = -1;
+                                    isTopEmpty = [];
+                                }
+    
+                            }
+                        }
+                        console.log(leftCel);
+                        console.log(rightCel);
+                        elemList[i].grid.left = leftCel; 
+                        elemList[i].grid.right = rightCel;
+            
+                        elemList[i].grid.top = topCel;
+                        elemList[i].grid.bottom = bottomCel;
+    
+                        gridIFList[i].use = true;
+                    }
+                }
+            
+                document.getElementById(elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+                document.getElementById(elemList[i].id.name).style.width = "auto";
+                document.getElementById(elemList[i].id.name).style.height = "auto";
+                    
+                document.getElementById("if-" + elemList[i].id.name).style.gridArea = elemList[i].grid.top + "/" + elemList[i].grid.left + "/" + elemList[i].grid.bottom + "/" + elemList[i].grid.right;
+                document.getElementById("if-" + elemList[i].id.name).style.width = "auto";
+                document.getElementById("if-" + elemList[i].id.name).style.height = "auto";
+    
+            }
         }
     }
 }
@@ -282,7 +345,7 @@ function updatePos(){
             //size
             size(i);
         }
-        calcElemCelPlace();
+        //calcElemCelPlace();
     }
 }
 //similar of updatePos but only for MaJ of the graphism of elements
@@ -302,7 +365,7 @@ function updateGraphicPos(){
             //size
             size(i);
         }
-        calcElemCelPlace();
+        //calcElemCelPlace();
     }
 }
 

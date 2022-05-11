@@ -1698,6 +1698,7 @@ function createTrashBtn(){
                     }
                 }
                 updatePos();
+                gridIFList[i].use = false;
                 createSize();
 
             })
@@ -1966,6 +1967,7 @@ moreElementBtn.addEventListener("click", function(){
            allVisualChange(i); 
         }
         updateGraphicPos();
+        calcElemCelPlace();
     })
 })
 

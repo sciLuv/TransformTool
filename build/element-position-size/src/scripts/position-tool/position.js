@@ -28,7 +28,7 @@ function updatePos(){
             //size
             size(i);
         }
-        calcElemCelPlace();
+        //calcElemCelPlace();
     }
 }
 //similar of updatePos but only for MaJ of the graphism of elements
@@ -48,7 +48,7 @@ function updateGraphicPos(){
             //size
             size(i);
         }
-        calcElemCelPlace();
+        //calcElemCelPlace();
     }
 }
 
