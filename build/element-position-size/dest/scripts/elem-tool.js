@@ -1700,7 +1700,7 @@ function createTrashBtn(){
                 updatePos();
                 gridIFList[i].use = false;
                 createSize();
-
+                createPlacement();
             })
             //for visual-changement of elem-window
             removeAllEllAttr()
@@ -1874,6 +1874,10 @@ function createElement(){
                 top : 1,
                 right : 2,
                 bottom : 2
+            },
+            position : {
+                left : 0,
+                top : 0
             } 
         }
         elemIFList[elemNum] = 
@@ -1962,6 +1966,7 @@ moreElementBtn.addEventListener("click", function(){
             sizeIFList.splice(i, 1, saveSizeIFList[i]);
         }
         createSize();
+        createPlacement();
         //visual change for the new element list
         for (i=0; i<=elemList.length-1; i++){
            allVisualChange(i); 

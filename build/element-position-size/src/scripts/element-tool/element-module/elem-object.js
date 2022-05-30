@@ -20,6 +20,10 @@ function createElement(){
                 top : 1,
                 right : 2,
                 bottom : 2
+            },
+            position : {
+                left : 0,
+                top : 0
             } 
         }
         elemIFList[elemNum] = 

@@ -171,7 +171,7 @@ function createTrashBtn(){
                 updatePos();
                 gridIFList[i].use = false;
                 createSize();
-
+                createPlacement();
             })
             //for visual-changement of elem-window
             removeAllEllAttr()

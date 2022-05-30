@@ -162,6 +162,8 @@ let elemIFList = [];
 let moduleCounter = 0;
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 //POSITION TOOL VARIABLE
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GLOBAL-POSITION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -189,6 +191,10 @@ let posToolTitle = document.getElementById("position-menu-opener");
 let posMenu = document.getElementById("position-menu");
 //JS representation of the position menu content
 let posMenuContent = document.getElementById("pos-menu-content");
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~IN-POSITION-MARGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+let inPositionPaddingTop = document.getElementsByClassName("horizon-padding");
+let inPositionPaddingLeft = document.getElementsByClassName("vertical-padding");
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NON-DOM-VAR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //if menu is open this variable is true
@@ -256,3 +262,11 @@ let basicSelect, flexSelect, gridSelect;
 //variables represent futur HTML btn to access to position (relative, abs) and size menu
 let freeSelect, sizeSelect;
 let goBackMenu;
+
+//futur array used in calcGrid() to put in firsts (vertical for row/horizontal for column) cels of each row/grid of the under-position-elems-container
+let gridRowCelSizeList;
+let gridColumnCelSizeList;
+
+//global variable use to put value in to calculate place of clicked elem in an grid display context
+let rowNumb;
+let columnNumb;

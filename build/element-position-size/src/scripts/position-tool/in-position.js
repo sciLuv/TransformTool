@@ -1,14 +1,15 @@
 let widthBtns = document.getElementsByClassName("size-col");
 let heightBtns = document.getElementsByClassName("size-line");
-let grabPosBtns = document.getElementsByClassName("pos-grab");
 
 let sizeIFList = [];
 let gridIFList = [];
 
+//use to do all thing in link with sizing and his modifications
 function createSize(){
     for(l=0; l<=elemList.length-1; l++){ 
         let elemNum = l;
-
+        //here conditions to define in sizeIfList[elem] informations relative to the size, to work with after. 
+        //if the sizeIFList[elem] doesn't exist
         if(sizeIFList[elemNum] == undefined){
             sizeIFList[elemNum] = {
                 existing : false,
@@ -24,6 +25,7 @@ function createSize(){
                 }
             }
         }
+        //if the sizeIFList[elem] already exist, just put some information in there default value
         else{
             sizeIFList[elemNum]["height"] = {
                 num : elemNum,
@@ -36,12 +38,15 @@ function createSize(){
                 interuptor2 : false
             }
         }
+
+        //here conditions to define in gridIFList[elem] informations relative to the grid displaying, to work with after. 
+        //if the gridIFList[elem] doesn't exist
         if(gridIFList[elemNum] == undefined){
             gridIFList[elemNum] = {
                 use : false
             }
         }
-
+        //if the gridIFList[elem] exist but the elem in link not (delete) 
         if(sizeIFList[elemNum].existing == false){
             let initialHeight1Placement;
             let initialHeight2Placement;
@@ -49,7 +54,9 @@ function createSize(){
             let initialWidth1Placement;
             let initialWidth2Placement;
         }
-
+        
+        //Event in link of interaction under-elem of each elems to sizing them. init their required value and begin the sizing process
+        //there are 4, 2 for height, 2 for width
         heightBtns[(sizeIFList[elemNum].height.num*2)].addEventListener("mousedown",function(event){
             initialHeight1Placement = event.clientY; 
             sizeIFList[elemNum].height.interuptor1 = true;
@@ -68,63 +75,34 @@ function createSize(){
             sizeIFList[elemNum].width.interuptor2 = true;
         });
 
+        //part of the program doing the sizing of elem.
+        //first a condition before creation of some event, to avoid that, if the elem doesn't exist
         if(sizeIFList[elemNum].existing == false){
+            //event for the middle part of the sizing process, it's here where the size is modified, with a moving of the mouse
             body.addEventListener("mousemove", sizeMove);
             function sizeMove(event){
                 if(elemList[elemNum] != undefined){
+                    //part of sizeMove for none grid Display (flex, block)
                     if(posSetting.display.display != "grid"){
                         if(sizeIFList[elemNum].width.interuptor2 == true){
-                            let placement = event.clientX;
-                            if(placement > initialWidth2Placement){
-                                elemList[elemNum].size.width += (placement - initialWidth2Placement); 
-                            }
-                            if(placement < initialWidth2Placement){
-                                elemList[elemNum].size.width -= (initialWidth2Placement - placement);
-                            }
-                            initialWidth2Placement = placement;
-                            document.getElementById(elemList[sizeIFList[elemNum].width.num].id.name).style.width = elemList[sizeIFList[elemNum].width.num].size.width + "px";
-                            document.getElementById("if-" + elemList[sizeIFList[elemNum].width.num].id.name).style.width = elemList[sizeIFList[elemNum].width.num].size.width + "px";
+                            NoGridSizingCalc(elemNum, event.clientX, "width", initialWidth2Placement);
+                            initialWidth2Placement = event.clientX;
                         }
                         if(sizeIFList[elemNum].width.interuptor1 == true){
-                            let placement = event.clientX;
-                            if(placement < initialWidth1Placement){
-                                elemList[elemNum].size.width += (placement - initialWidth1Placement);
-                            }
-                            if(placement > initialWidth1Placement){
-                                elemList[elemNum].size.width -= (initialWidth1Placement - placement);
-                            }
-                            initialWidth1Placement = placement;
-                            document.getElementById(elemList[sizeIFList[elemNum].width.num].id.name).style.width = elemList[sizeIFList[elemNum].width.num].size.width + "px";
-                            document.getElementById("if-" + elemList[sizeIFList[elemNum].width.num].id.name).style.width = elemList[sizeIFList[elemNum].width.num].size.width + "px";
+                            NoGridSizingCalc(elemNum, event.clientX, "width", initialWidth1Placement);
+                            initialWidth1Placement = event.clientX;
                         }
-            
                         if(sizeIFList[elemNum].height.interuptor2 == true){
-                            let placement = event.clientY;
-                            if(placement > initialHeight2Placement){
-                                elemList[elemNum].size.height += (placement - initialHeight2Placement);
-                            
-                            }
-                            if(placement < initialHeight2Placement){
-                                elemList[elemNum].size.height -= (initialHeight2Placement - placement);
-                            }
-                            initialHeight2Placement = placement;
-                            document.getElementById(elemList[sizeIFList[elemNum].height.num].id.name).style.height = elemList[sizeIFList[elemNum].height.num].size.height + "px";
-                            document.getElementById("if-" + elemList[sizeIFList[elemNum].height.num].id.name).style.height = elemList[sizeIFList[elemNum].height.num].size.height + "px";
+                            NoGridSizingCalc(elemNum, event.clientY, "height", initialHeight2Placement);
+                            initialHeight2Placement = event.clientY;
                         }
                         if(sizeIFList[elemNum].height.interuptor1 == true){
-                            let placement = event.clientY;
-                            if(placement > initialHeight1Placement){
-                                elemList[elemNum].size.height += (placement - initialHeight1Placement);
-                            
-                            }
-                            if(placement < initialHeight1Placement){
-                                elemList[elemNum].size.height -= (initialHeight1Placement - placement);
-                            }
-                            initialHeight1Placement = placement;
-                            document.getElementById(elemList[sizeIFList[elemNum].height.num].id.name).style.height = elemList[sizeIFList[elemNum].height.num].size.height + "px";
-                            document.getElementById("if-" + elemList[sizeIFList[elemNum].height.num].id.name).style.height = elemList[sizeIFList[elemNum].height.num].size.height + "px";
+                            NoGridSizingCalc(elemNum, event.clientY, "height", initialHeight1Placement);
+                            initialHeight1Placement = event.clientY;
                         }
+                        
                     }
+                    //part of sizeMove for grid Display
                     else{
                         let rowsPlaces = [];
                         let columnsPlaces = [];
@@ -139,45 +117,17 @@ function createSize(){
                         }
 
                         if(sizeIFList[elemNum].width.interuptor2 == true){
-                            gridIFList[sizeIFList[elemNum].width.num].use = true;
-                            let placement = event.clientX;
-                            for(i=0; i<=columnsPlaces.length-1; i++){
-                                if(placement >= columnsPlaces[i]){
-                                    elemList[elemNum].grid.right = i+1;
-                                }
-
-                            }
+                            gridSizingCalc(elemNum, "width", event.clientX, columnsPlaces, "right");
                         }
                         if(sizeIFList[elemNum].width.interuptor1 == true){
-                            gridIFList[sizeIFList[elemNum].width.num].use = true;
-                            let placement = event.clientX;
-                            for(i=0; i<=columnsPlaces.length-1; i++){
-                                if(placement >= columnsPlaces[i]){
-                                    elemList[elemNum].grid.left = i+1;
-                                }
-
-                            }
+                            gridSizingCalc(elemNum, "width", event.clientX, columnsPlaces, "left");
                         }
 
                         if(sizeIFList[elemNum].height.interuptor2 == true){
-                            gridIFList[sizeIFList[elemNum].width.num].use = true;
-                            let placement = event.clientY;
-                            for(i=0; i<=rowsPlaces.length-1; i++){
-                                if(placement >= rowsPlaces[i]){
-                                    elemList[elemNum].grid.bottom = i+1;
-                                }
-
-                            }
+                            gridSizingCalc(elemNum, "height", event.clientY, rowsPlaces, "bottom");
                         }
                         if(sizeIFList[elemNum].height.interuptor1 == true){
-                            gridIFList[sizeIFList[elemNum].width.num].use = true;
-                            let placement = event.clientY;
-                            for(i=0; i<=rowsPlaces.length-1; i++){
-                                if(placement >= rowsPlaces[i]){
-                                    elemList[elemNum].grid.top = i+1;
-                                }
-
-                            }
+                            gridSizingCalc(elemNum, "height", event.clientY, rowsPlaces, "top");
                         }
 
                         let elem = elemList[sizeIFList[elemNum].width.num];
@@ -206,5 +156,17 @@ function createSize(){
             }
             sizeIFList[elemNum].existing = true;
         }
+    }
+}
+
+let grabPosBtns = document.getElementsByClassName("pos-grab");
+
+//do all things in link with placement of elements and their modifications
+function createPlacement(){
+    for(l=0; l<=elemList.length-1; l++){
+        let elemNum = l;
+        grabPosBtns[elemNum].addEventListener("mousedown",function(event){
+            console.log("i'm a btn");
+        });
     }
 }
