@@ -21,7 +21,7 @@ function createElement(){
                 right : 2,
                 bottom : 2
             },
-            position : {
+            place : {
                 left : 0,
                 top : 0
             } 

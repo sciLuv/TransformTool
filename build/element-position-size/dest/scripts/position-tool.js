@@ -342,6 +342,8 @@ function updatePos(){
             box(i);
             //size
             size(i);
+            //place
+            place(i);
         }
     }
 }
@@ -361,6 +363,8 @@ function updateGraphicPos(){
             box(i);
             //size
             size(i);
+            //place
+            place(i);
         }
     }
 }
@@ -458,6 +462,17 @@ function size(i){
         ifElem.style.height = "auto";
     }
 
+}
+
+function place(i){
+    let elem = document.getElementById(elemList[i].id.name);
+    let ifElem = document.getElementById("if-" + elemList[i].id.name);
+
+    elem.style.top = elemList[i].place.top + "px";
+    ifElem.style.top = elemList[i].place.top + "px";
+
+    elem.style.top = elemList[i].place.left + "px";
+    ifElem.style.top = elemList[i].place.left + "px";
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~POSITION-VISIBILITY~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
@@ -1488,7 +1503,8 @@ function whenFreeIsSelect(){
 
     function positionOfChildOfContainer(){
         for(i=0; i<= elemsContainer.children.length-1; i++){
-            elemsContainer.children[i].style.position = posSetting.free.position
+            elemsContainer.children[i].style.position = posSetting.free.position;
+            topElemsContainer.children[i].style.position = posSetting.free.position;
         }
     }
     function setOverflow(){
@@ -1598,7 +1614,9 @@ function whenSizeIsSelect(){
                 underElemsContainer.style.height = sizeRange.value + "px";
                 topElemsContainer.style.height = sizeRange.value + "px";
             }
-            calcGrid();
+            if(posSetting.display.display == "grid"){
+                calcGrid();
+            }
         })
     }    
 
@@ -1884,13 +1902,68 @@ function createSize(){
 }
 
 let grabPosBtns = document.getElementsByClassName("pos-grab");
+let placeIFList = [];
 
 //do all things in link with placement of elements and their modifications
 function createPlacement(){
     for(l=0; l<=elemList.length-1; l++){
+        
         let elemNum = l;
+        let elem = document.getElementById(elemList[elemNum].id.name);
+        let topElem = document.getElementById("if-" + elemList[elemNum].id.name);
+        console.log(topElem);
+        let initialPlaceX, initialPlaceY;
+        
+        if(placeIFList[elemNum] == undefined){
+            placeIFList[elemNum] = {
+                existing : false,
+                exist : false
+            } 
+        }
+
         grabPosBtns[elemNum].addEventListener("mousedown",function(event){
-            console.log("i'm a btn");
+            placeIFList[elemNum].exist = true;
+            initialPlaceX = event.clientX; 
+            initialPlaceY = event.clientY;
         });
+        
+        body.addEventListener("mousemove", placeMove);
+        function placeMove(event){
+            if(placeIFList[elemNum].exist == true){
+                let placementX = event.clientX;
+                let placementY = event.clientY;
+                if(placementX > initialPlaceX){
+                    elemList[elemNum].place.left += (placementX - initialPlaceX);
+                }
+                if(placementX < initialPlaceX){
+                    elemList[elemNum].place.left -= (initialPlaceX - placementX);
+                }
+                initialPlaceX = placementX;
+
+                if(placementY > initialPlaceY){
+                    elemList[elemNum].place.top += (placementY - initialPlaceY);
+                }
+                if(placementY < initialPlaceY){
+                    elemList[elemNum].place.top -= (initialPlaceY - placementY);
+                }
+                initialPlaceY = placementY;
+                
+                elem.style.top = elemList[elemNum].place.top + "px";
+                topElem.style.top = elemList[elemNum].place.top + "px";
+                
+                elem.style.left = elemList[elemNum].place.left + "px";
+                topElem.style.left = elemList[elemNum].place.left + "px";
+            }
+        }
+
+        body.addEventListener("mouseup", placeEndMove);
+        function placeEndMove(){
+            if(elemList[elemNum] != undefined){
+                if(placeIFList[elemNum].exist == true){
+                    placeIFList[elemNum].exist = false;
+                }
+            }
+        }
+        placeIFList[elemNum].existing = true;
     }
 }

@@ -27,6 +27,8 @@ function updatePos(){
             box(i);
             //size
             size(i);
+            //place
+            place(i);
         }
     }
 }
@@ -46,6 +48,8 @@ function updateGraphicPos(){
             box(i);
             //size
             size(i);
+            //place
+            place(i);
         }
     }
 }
@@ -143,4 +147,15 @@ function size(i){
         ifElem.style.height = "auto";
     }
 
+}
+
+function place(i){
+    let elem = document.getElementById(elemList[i].id.name);
+    let ifElem = document.getElementById("if-" + elemList[i].id.name);
+
+    elem.style.top = elemList[i].place.top + "px";
+    ifElem.style.top = elemList[i].place.top + "px";
+
+    elem.style.top = elemList[i].place.left + "px";
+    ifElem.style.top = elemList[i].place.left + "px";
 }

@@ -190,7 +190,8 @@ function whenFreeIsSelect(){
 
     function positionOfChildOfContainer(){
         for(i=0; i<= elemsContainer.children.length-1; i++){
-            elemsContainer.children[i].style.position = posSetting.free.position
+            elemsContainer.children[i].style.position = posSetting.free.position;
+            topElemsContainer.children[i].style.position = posSetting.free.position;
         }
     }
     function setOverflow(){

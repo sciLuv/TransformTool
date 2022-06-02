@@ -92,7 +92,9 @@ function whenSizeIsSelect(){
                 underElemsContainer.style.height = sizeRange.value + "px";
                 topElemsContainer.style.height = sizeRange.value + "px";
             }
-            calcGrid();
+            if(posSetting.display.display == "grid"){
+                calcGrid();
+            }
         })
     }    
 
