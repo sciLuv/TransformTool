@@ -1,0 +1,20 @@
+$neutralBackgroundCornerBorder : rgba(255, 255, 255, 0);
+$neutralBoxShadowCornerBorder : 0px 0px 0px 0px $neutralBackgroundCornerBorder;
+@mixin colorNeutralCornerBorder($boxShadow : $neutralBoxShadowCornerBorder, $background : $neutralBoxShadowCornerBorder){
+    box-shadow: $boxShadow;
+    background-color: $background;
+}
+$neutralBorderStyleCornerBorder : solid 0.8px rgb(141, 141, 141);
+$neutralMarginCorner : 2px;
+
+$activeBackgroundCornerBorder : rgba(0, 110, 255, 0.22);
+$activeBoxShadowCornerborder : 0px 0px 5px 3px $activeBackgroundCornerBorder;
+@mixin colorActiveCorner($boxShadow: $activeBoxShadowCornerborder, $background: $activeBackgroundCornerBorder){
+    box-shadow: $boxShadow;
+    background-color: $background;
+}
+$activeBorderStyleCornerBorner : 1px solid rgb(0, 80, 255);
+$activeMarginCorner : 1.8px;
+
+$borderMarginNeutral : 4px;
+$borderMarginActivate : 3.8px;

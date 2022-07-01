@@ -1,0 +1,65 @@
+.button-selector{
+    transition: box-shadow 0.2s;
+    &:hover{
+        box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.192) inset;
+        transition: box-shadow 0.2s;
+    }
+    .box-select-range-interuptor{
+        transition: transform 0.5s, margin-left 0.5s;
+        &[active]{
+            margin-left: 3px;
+            transform: rotate(90deg);
+            transition: transform 0.5s, margin-left 0.5s;
+        }
+    }
+    .spread-blur-interuptor{
+        transition: height 0.5s, width 0.5s, margin-left 0.5s, box-shadow 0.5s;
+        &[active]{
+            height: 5px;
+            width: 5px;
+            margin-left: 4.7px;
+            box-shadow: 0px 0px 3px 3px gray;
+            transition: height 0.5s, width 0.5s, margin-left 0.5s, box-shadow 0.5s;
+        }
+    }
+    .shader-select-gradient-interuptor{
+        border-radius: 1.5px;
+        transition: height 0.5s, width 0.5s, margin-left 0.5s, margin-top 0.5s, border-radius 0.5s;
+        &[active]{
+            border-radius: 5px;
+            margin-left: 3px;
+            transition: height 0.5s, width 0.5s, margin-left 0.5s, margin-top 0.5s, border-radius 0.5s;
+        }
+    }
+}
+
+.degree-radiant-btn{
+    transition: border 0.5s, box-shadow 0.5s;
+    &[active]{
+        opacity: 1;
+        transition: opacity 0.3s;
+        cursor: pointer;
+        & .degree-bar{
+            transition: background-color 0.5s;
+        }
+        &:hover{
+            border: solid rgb(95, 95, 95) 1px;
+            box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.192) inset;
+            transition: border 0.5s, box-shadow 0.5s;
+            & .degree-bar{
+                background-color: rgb(95, 95, 95);
+                transition: background-color 0.5s;
+            }
+        }
+        &:active{
+            border: solid rgb(95, 95, 95) 1px;
+            box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.192) inset;
+            & .degree-bar{
+                background-color: rgb(95, 95, 95);
+            }
+        }
+    }
+    opacity: 0.3;
+    transition: opacity 0.3s;
+}
+

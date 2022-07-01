@@ -1,0 +1,18 @@
+#position[invisible]{
+    #position-menu-opener, #position-menu{
+        opacity: 0;
+        transition: opacity 0.5s 1s;
+    }
+    #position-interface{
+        border: dashed rgba(255, 0, 0, 0) 3px;
+        transition: border 0.5s 1s;
+    }
+    .contain-elem, #position-elems-container{
+        background: rgba(0, 0, 0, 0) !important;
+        transition: background 0.5s 1s;
+    }
+    .cel{
+        border: dashed rgba(255, 0, 0, 0) 1px !important;
+        transition: border 0.5s 1s;
+    }
+}

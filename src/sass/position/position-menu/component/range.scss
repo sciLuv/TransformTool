@@ -1,0 +1,30 @@
+#pos-menu-content{
+  input[type='range'] {
+      opacity: 1;
+      width: 160px;
+      height: 4px;
+      background-color: $pos-menu-font-color-2;
+      &::-webkit-slider-thumb {
+          background: $pos-menu-font-color-2;
+        }
+        &:hover{
+          &::-webkit-slider-thumb {
+            background: $pos-menu-input-range-cursor;
+          }
+        }
+    &[inactive]{
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
+}
+
+[free],[size]{
+  input[type='range'] {
+    &:hover{
+      &::-webkit-slider-thumb {
+        background: $pos-menu-alt-btn-bg-2!important;
+      }
+    }
+  }
+}
