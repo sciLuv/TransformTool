@@ -150,12 +150,16 @@ function size(i){
 }
 
 function place(i){
-    let elem = document.getElementById(elemList[i].id.name);
-    let ifElem = document.getElementById("if-" + elemList[i].id.name);
 
-    elem.style.top = elemList[i].place.top + "px";
-    ifElem.style.top = elemList[i].place.top + "px";
+        let elem = document.getElementById(elemList[i].id.name);
+        let ifElem = document.getElementById("if-" + elemList[i].id.name);
+    
+        elem.style.top = elemList[i].place.top + "px";
+        ifElem.style.top = elemList[i].place.top + "px";
+    
+        elem.style.left = elemList[i].place.left + "px";
+        ifElem.style.left = elemList[i].place.left + "px";
 
-    elem.style.top = elemList[i].place.left + "px";
-    ifElem.style.top = elemList[i].place.left + "px";
+        elem.style.position = posSetting.free.position;
+        ifElem.style.position = posSetting.free.position;
 }

@@ -465,14 +465,18 @@ function size(i){
 }
 
 function place(i){
-    let elem = document.getElementById(elemList[i].id.name);
-    let ifElem = document.getElementById("if-" + elemList[i].id.name);
 
-    elem.style.top = elemList[i].place.top + "px";
-    ifElem.style.top = elemList[i].place.top + "px";
+        let elem = document.getElementById(elemList[i].id.name);
+        let ifElem = document.getElementById("if-" + elemList[i].id.name);
+    
+        elem.style.top = elemList[i].place.top + "px";
+        ifElem.style.top = elemList[i].place.top + "px";
+    
+        elem.style.left = elemList[i].place.left + "px";
+        ifElem.style.left = elemList[i].place.left + "px";
 
-    elem.style.top = elemList[i].place.left + "px";
-    ifElem.style.top = elemList[i].place.left + "px";
+        elem.style.position = posSetting.free.position;
+        ifElem.style.position = posSetting.free.position;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~POSITION-VISIBILITY~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
@@ -1930,29 +1934,31 @@ function createPlacement(){
         body.addEventListener("mousemove", placeMove);
         function placeMove(event){
             if(placeIFList[elemNum].exist == true){
-                let placementX = event.clientX;
-                let placementY = event.clientY;
-                if(placementX > initialPlaceX){
-                    elemList[elemNum].place.left += (placementX - initialPlaceX);
+                if((posSetting.free.position == "relative")||(posSetting.free.position == "absolute")){
+                    let placementX = event.clientX;
+                    let placementY = event.clientY;
+                    if(placementX > initialPlaceX){
+                        elemList[elemNum].place.left += (placementX - initialPlaceX);
+                    }
+                    if(placementX < initialPlaceX){
+                        elemList[elemNum].place.left -= (initialPlaceX - placementX);
+                    }
+                    initialPlaceX = placementX;
+    
+                    if(placementY > initialPlaceY){
+                        elemList[elemNum].place.top += (placementY - initialPlaceY);
+                    }
+                    if(placementY < initialPlaceY){
+                        elemList[elemNum].place.top -= (initialPlaceY - placementY);
+                    }
+                    initialPlaceY = placementY;
+                    
+                    elem.style.top = elemList[elemNum].place.top + "px";
+                    topElem.style.top = elemList[elemNum].place.top + "px";
+                    
+                    elem.style.left = elemList[elemNum].place.left + "px";
+                    topElem.style.left = elemList[elemNum].place.left + "px";
                 }
-                if(placementX < initialPlaceX){
-                    elemList[elemNum].place.left -= (initialPlaceX - placementX);
-                }
-                initialPlaceX = placementX;
-
-                if(placementY > initialPlaceY){
-                    elemList[elemNum].place.top += (placementY - initialPlaceY);
-                }
-                if(placementY < initialPlaceY){
-                    elemList[elemNum].place.top -= (initialPlaceY - placementY);
-                }
-                initialPlaceY = placementY;
-                
-                elem.style.top = elemList[elemNum].place.top + "px";
-                topElem.style.top = elemList[elemNum].place.top + "px";
-                
-                elem.style.left = elemList[elemNum].place.left + "px";
-                topElem.style.left = elemList[elemNum].place.left + "px";
             }
         }
 

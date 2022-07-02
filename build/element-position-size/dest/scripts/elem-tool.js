@@ -386,7 +386,7 @@ for(i=0; i<= elements.length-1; i++){
         interuptorBB : false
     }
 
-    //représente l'option selectionné du select de style de bordure
+    //représente l'option selectionné du select de style de bordure.
     let selectedStyle = borderStyles[borderModNum].options[borderStyles[borderModNum].selectedIndex];
 
     //objet qui contient l'ensemble des info de style de chacune des bordures.

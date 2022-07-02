@@ -8,7 +8,7 @@ for(i=0; i<= elements.length-1; i++){
     let opaNum = 2+(borderModNum*4);
 
     borderIFList[borderModNum] = {
-        //compteur permettant de selectionné grace au bouton centrale de selection des bordure. 
+        //compteur permettant de selectionné grace au bouton centrale de selection des bordure 
         //une succession de selection des différentes bordures et de leurs représentation graphique. 
         borderSelectorCounter : 1,
 
@@ -19,7 +19,7 @@ for(i=0; i<= elements.length-1; i++){
         interuptorBB : false
     }
 
-    //représente l'option selectionné du select de style de bordure
+    //représente l'option selectionné du select de style de bordure.
     let selectedStyle = borderStyles[borderModNum].options[borderStyles[borderModNum].selectedIndex];
 
     //objet qui contient l'ensemble des info de style de chacune des bordures.
