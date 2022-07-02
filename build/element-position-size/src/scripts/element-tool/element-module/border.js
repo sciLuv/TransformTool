@@ -8,7 +8,7 @@ for(i=0; i<= elements.length-1; i++){
     let opaNum = 2+(borderModNum*4);
 
     borderIFList[borderModNum] = {
-        //compteur permettant de selectionné grace au bouton centrale de selection des bordure 
+        //compteur permettant de selectionné grace au bouton centrale de selection des bordure. 
         //une succession de selection des différentes bordures et de leurs représentation graphique. 
         borderSelectorCounter : 1,
 
