@@ -313,6 +313,31 @@ function gridSizingCalc(elemNum, widthOrHeight, placement, rowOrColPlaces, side)
         }
     }
 }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~ IN LINK WITH CREATEPLACEMENT(), THE IN-POSITION PLACEMENT FUNCTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+function insidePlaceMove(placementX, placementY, elemNum, elem, topElem){
+    if(placementX > initialPlaceX){
+        elemList[elemNum].place.left += (placementX - initialPlaceX);
+    }
+    if(placementX < initialPlaceX){
+        elemList[elemNum].place.left -= (initialPlaceX - placementX);
+    }
+    initialPlaceX = placementX;
+
+    if(placementY > initialPlaceY){
+        elemList[elemNum].place.top += (placementY - initialPlaceY);
+    }
+    if(placementY < initialPlaceY){
+        elemList[elemNum].place.top -= (initialPlaceY - placementY);
+    }
+    initialPlaceY = placementY;
+
+    elem.style.top = elemList[elemNum].place.top + "px";
+    topElem.style.top = elemList[elemNum].place.top + "px";
+    
+    elem.style.left = elemList[elemNum].place.left + "px";
+    topElem.style.left = elemList[elemNum].place.left + "px";
+} 
 //updatePos is used in element code for creation/deletion of html/css part of the element 
 function updatePos(){
     elemsContainer.innerHTML = ""
@@ -1907,6 +1932,7 @@ function createSize(){
 
 let grabPosBtns = document.getElementsByClassName("pos-grab");
 let placeIFList = [];
+let initialPlaceX, initialPlaceY;
 
 //do all things in link with placement of elements and their modifications
 function createPlacement(){
@@ -1916,7 +1942,7 @@ function createPlacement(){
         let elem = document.getElementById(elemList[elemNum].id.name);
         let topElem = document.getElementById("if-" + elemList[elemNum].id.name);
         console.log(topElem);
-        let initialPlaceX, initialPlaceY;
+        
         
         if(placeIFList[elemNum] == undefined){
             placeIFList[elemNum] = {
@@ -1933,31 +1959,11 @@ function createPlacement(){
         
         body.addEventListener("mousemove", placeMove);
         function placeMove(event){
+            let placementX = event.clientX;
+            let placementY = event.clientY;
             if(placeIFList[elemNum].exist == true){
                 if((posSetting.free.position == "relative")||(posSetting.free.position == "absolute")){
-                    let placementX = event.clientX;
-                    let placementY = event.clientY;
-                    if(placementX > initialPlaceX){
-                        elemList[elemNum].place.left += (placementX - initialPlaceX);
-                    }
-                    if(placementX < initialPlaceX){
-                        elemList[elemNum].place.left -= (initialPlaceX - placementX);
-                    }
-                    initialPlaceX = placementX;
-    
-                    if(placementY > initialPlaceY){
-                        elemList[elemNum].place.top += (placementY - initialPlaceY);
-                    }
-                    if(placementY < initialPlaceY){
-                        elemList[elemNum].place.top -= (initialPlaceY - placementY);
-                    }
-                    initialPlaceY = placementY;
-                    
-                    elem.style.top = elemList[elemNum].place.top + "px";
-                    topElem.style.top = elemList[elemNum].place.top + "px";
-                    
-                    elem.style.left = elemList[elemNum].place.left + "px";
-                    topElem.style.left = elemList[elemNum].place.left + "px";
+                    insidePlaceMove(placementX, placementY, elemNum, elem, topElem);
                 }
             }
         }

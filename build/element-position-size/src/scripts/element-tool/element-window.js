@@ -61,6 +61,8 @@ moreElementBtn.addEventListener("click", function(){
             sizeIFList.splice(i, 1, saveSizeIFList[i]);
         }
         createSize();
+        //body.removeEventListener("mousemove", placeMove);
+        //body.removeEventListener("mouseup", placeEndMove);
         createPlacement();
         //visual change for the new element list
         for (i=0; i<=elemList.length-1; i++){

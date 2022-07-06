@@ -313,3 +313,28 @@ function gridSizingCalc(elemNum, widthOrHeight, placement, rowOrColPlaces, side)
         }
     }
 }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~ IN LINK WITH CREATEPLACEMENT(), THE IN-POSITION PLACEMENT FUNCTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+function insidePlaceMove(placementX, placementY, elemNum, elem, topElem){
+    if(placementX > initialPlaceX){
+        elemList[elemNum].place.left += (placementX - initialPlaceX);
+    }
+    if(placementX < initialPlaceX){
+        elemList[elemNum].place.left -= (initialPlaceX - placementX);
+    }
+    initialPlaceX = placementX;
+
+    if(placementY > initialPlaceY){
+        elemList[elemNum].place.top += (placementY - initialPlaceY);
+    }
+    if(placementY < initialPlaceY){
+        elemList[elemNum].place.top -= (initialPlaceY - placementY);
+    }
+    initialPlaceY = placementY;
+
+    elem.style.top = elemList[elemNum].place.top + "px";
+    topElem.style.top = elemList[elemNum].place.top + "px";
+    
+    elem.style.left = elemList[elemNum].place.left + "px";
+    topElem.style.left = elemList[elemNum].place.left + "px";
+} 
