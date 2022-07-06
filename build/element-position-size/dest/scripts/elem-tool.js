@@ -350,8 +350,11 @@ function createColor(){
         let ColorModNum = i;
         let opaNum = (ColorModNum*4);
     
+        let beforColor = Math.floor(Math.random() * 16777215).toString(16);
+        let color = "#" + ("000000" + beforColor).slice(-6);
+
         colorModList[ColorModNum] = {
-            hue : "#009DFF",
+            hue : color,
             opacity : 100
         }
         colors[ColorModNum].addEventListener("input", function(){
