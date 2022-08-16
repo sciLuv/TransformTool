@@ -1,4 +1,5 @@
 node_modules/
 private/
+src/
 gulpfile.js
 *json
