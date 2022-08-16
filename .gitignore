@@ -1,5 +1,4 @@
-work_process_file/
-build/*
-!add-html-css-tool
-build/add-html-css-tool/*
-!dest
+node_modules/
+private/
+gulpfile.js
+*json
