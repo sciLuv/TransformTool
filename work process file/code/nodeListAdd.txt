@@ -1,0 +1,21 @@
+node et npm lui même 
+
+sass -> permet d'utiliser la synthaxe sass pour ensuite concaténer les différents fichiers 
+
+gulp -> outil en npm qui permet grace a ses nombreux plugin (qui sont en dessous d'automatiser certaine taches 
+
+gulp-useref -> plugin gulp pour concatener les fichiers a partir de leurs place dans le fichier html (pour simplement concatener on aurai pu utiliser gulp-concat)
+gulp-terser -> plugin gulp pour minifié les fichiers JS
+gulpsourcemaps -> plugin gulp qui crée un fichier qui cite les sources des fichiers de destination (utile avec une concatenation)
+gulp-strip-comments -> plugin gulp supprime les commentaires.
+gulp-remove-logging -> plugin gulp supprime les console.log
+
+gulp-postcss -> outil qui acceuil des plugins pour changer le 
+cssnano -> minifie le css
+autoprefixer -> permet d'ajouté des refle css supplementaire pour adapté le css a tout les navigateurs
+
+
+ligne de commande a executé pour installer toutes les dependances necessaire au dévellopement :
+npm init -y
+npm install sass
+npm install --save-dev gulp gulp-sourcemaps gulp-terser gulp-useref gulp-strip-comments gulp-remove-logging gulp-postcss cssnano autoprefixer

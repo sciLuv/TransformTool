@@ -1,0 +1,140 @@
+/* rules for information element of the transform tool */
+html{
+overflow: hidden;
+}
+
+body{
+    display: flex;
+    height: 800px;
+    margin: 0px;
+}
+#info{
+    padding: 7px;
+    width: 380px;
+    min-width: 380px;
+    position: relative;
+    z-index: 10;
+}
+#fonctionning{
+    font-size: 20px;
+    color: white;
+    background-color: rgb(3, 72, 151);
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+#fonctionning strong{
+    padding: 5px 0px 5px 5px;
+    cursor: help;
+}
+#fonctionning-container{
+    display: flex;
+    flex-direction: row;
+}
+#fonctionning-container #arrow-container{
+    width: 100%;
+    padding: 0px 10px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#arrow-container .arrow{
+    color: white;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.267);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#arrow-container .arrow:hover{
+    background-color: rgba(255, 255, 255, 0.541);
+}
+#arrow-container .arrow:active{
+    background-color: rgb(253, 107, 107);
+}
+#arrow-container #arrow-up{
+    background-image: url(../img/arrow-up.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 20px;
+}
+#arrow-container #arrow-down{
+    background-image: url(../img/arrow-down.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#fonctionning-container .btn{
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.267);
+    margin: 5px;
+    width: 120px;
+    cursor: pointer;
+    text-align: center;
+}
+#fonctionning-container .btn:hover{
+    background-color: rgba(255, 255, 255, 0.541);
+}
+#fonctionning-container #reset{
+    background-color: rgba(148, 67, 144, 0.671);
+}
+#code-container{
+    margin-top: 10px;
+    border: 2px solid gray;
+    position: relative;
+    z-index: 10;
+}
+#writing-transform-css-propriety{
+    width: 400px;
+}
+#title{
+    display: inline-block;
+    font-weight: bold;
+    font-size: 19px;
+    padding-top: 7px;
+    color: rgb(3, 72, 151);
+}
+.adding-code{
+    margin-top: 5px;
+    height: 140px;
+    min-height: 140px;
+    max-height: 140px;
+    width: 374px;
+    max-width: 374px;
+    min-width: 374px;
+    color: white;
+    background-color: rgb(48, 48, 48);
+}
+#selected-ID{
+    position: relative;
+    top: 6px;
+    left: 5px;
+    height: 18px;
+    max-height: 18px;
+    min-height: 18px;
+    width: 130px;
+    max-width: 130px;
+    min-width: 130px;
+    margin-right: 10px !important;
+}
+.btn-2{
+    padding: 1px 5px;
+    border-radius: 3px;
+    background-color: rgb(165, 207, 247);
+    font-weight: bold;
+    border: solid black 1px;
+}
+.btn-2:hover{
+    background-color: rgb(109, 184, 255);
+    cursor: pointer;
+}
+#control-space{
+    background-color: rgba(179, 221, 245, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}

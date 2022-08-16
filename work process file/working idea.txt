@@ -1,0 +1,47 @@
+/////////////////////////beta//////////////////////////
+	
+
+finir size : 
+conflit entre size() et la maniere de faire d'adapté les element au type de display(flex grid) : j'ai l'impression que c'est plus le cas edit du 18/05
+ajouté la possibilité de positionner les element.
+
+simplification : posSetting.display.menu = 
+marge, num et size semble etre en doublons car ont systematiquement la même valeur
+
+faire un tableau des objets représentant les différentes parties des objets utilisé
+
+bug : pourquoi quand calcGrid s'active dans initGridDisplay(), il a l'air de s'activé deux fois (cf console log)
+
+les nom des variable et des fonction JS = diminutif différent pour meme mot? C4EST PROBLEMATIQUE POUR S4Y RETROUVER
+
+pour le placement des elem dans le grid, quand on arrive sur une deuxieme couche d'element faire que ceux la se place sur la grille comme la premiere couche mais sur la seconde.
+bug vers 228 position-rusable, la comparaison isTopEmpty peux provoqué de rare bug car il compare un tableau avec une valeur, mais mettre newleft a la place amene plus de bug plus grave, la c'est déconnant mais le programme s'y retrouve
+
+sans doute un bug lié a la place des element dans le client et les marge dans le grid
+////////////////////////v1 final///////////////////////////
+
+voir fichier : progress axis
+
+////////////////////////////v1.+++, V2////////////////////////////
+
+- voir si il n'y a pas moyen de mettre directement dans l'url les info de l'objet que l'on construit, ou dans le local storage
+
+-permettre le fait de gerer le style lors de pseudoclass (hoover, active, ect)
+-un truc pour gerer les animation.
+
+-gerer les before/after
+
+-ajouté un onglet d'aide (un peu a la maniere des autre onglet (element, transform, et les autres prévus) qui 
+ira chercher des informations explicative de l'utilisation des différents onglet pour rendre le fonctionnement globale plus compréhensible.
+(des explications, des gif qui montre l'utilisation et la transformation en lien, voir des liens vers mozilla ect)
+
+-onglet d'animation
+possibilité de changer radicalemement la maniere de selectionné le radius des corner en utilisant un systeme similaire a celui de la selection des degrès des shader
+(moins intuitif mais plus pratique) 
+
+définir un standard de dénomination des boutons (btn/button)
+trouvé une maniere de dénominé différement les variable qui représente un element html select et les variables nommé select, ou alors précisé la nuance entre les deux
+
+outil class
+
+outil transform
