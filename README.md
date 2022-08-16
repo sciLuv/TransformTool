@@ -6,6 +6,4 @@ Need to finish the tool of positionning HTML element and add the tool writting t
 
 and tcheck more deeply every bugs ! 
 
-if you want to try the actual version : 
-https://sciluv.github.io/actual-Transform-Tool/
 

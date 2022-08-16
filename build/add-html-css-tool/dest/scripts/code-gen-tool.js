@@ -1,4 +1,4 @@
-let angleCodeOpener = false;
+let angleCodeOpener = true;
 
 
 let codeGen = document.getElementById("code-gen");
