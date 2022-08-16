@@ -1,3 +1,5 @@
 work_process_file/
-build/
-test.txt
+build/*
+!add-html-css-tool
+build/add-html-css-tool/*
+!dest
