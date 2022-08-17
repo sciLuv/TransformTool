@@ -717,7 +717,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   width: min-content;
   display: flex;
 }
-#position #position-move {
+#position #position-placement {
   cursor: grab;
 }
 #position #position-interface {
@@ -757,7 +757,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   min-width: 20px;
   width: 100%;
 }
-#position[active] #position-move {
+#position[active] #position-placement {
   cursor: grabbing;
 }
 
