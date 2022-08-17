@@ -288,9 +288,11 @@ let columnNumb;
     let elemInitPlaceX, elemInitPlaceY;
     let codeInitPlaceX, codeInitPlaceY;
 
-
+/* calculate the moving of the windows :
+    dropToMoveElem :  moved HTML tag / initPlaceX, initPlaceY : initial position X/Y
+    placeActive: the state of moving / tool : moved HTML tag  */
 function movingTool(dropToMoveElem, initPlaceX, initPlaceY, placeActive, tool){
-
+//set up inital value of all variables for moving the window with the mouse
 dropToMoveElem.addEventListener("mousedown", function(event){
     let mousePlace = event.target.getBoundingClientRect();
     initPlaceX =  event.pageX - (mousePlace.left + (event.pageX - event.clientX));
