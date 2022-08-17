@@ -145,7 +145,6 @@ function addGridColLine(container, underContainer, topContainer, columnsOrLines,
 //this function give to the object posSetting.Display.menu[left|top] information about placement and size of each cel of grid 
 function insideCalcGrid(rowOrColNumb, celSizeList, placeTopOrLeft, heightOrWidth, lineOrColumn){
     celSizeList = []; //asign to variable array type or/and emptying arrays of variables to recalculate their content
-    
     //global variable use specificly in this function to define DOM element of first row or column of the grid of under-position-elem
     posSetting.display.menu[placeTopOrLeft] = [];
 
@@ -155,9 +154,10 @@ function insideCalcGrid(rowOrColNumb, celSizeList, placeTopOrLeft, heightOrWidth
         if(posSetting.display[lineOrColumn] != posSetting.display.margeLines){
             let cel = (columnNumb*(i-1))+1;
             let celDom = document.getElementById("cel-" + cel);
+            celSizeList.push(celDom)
         }
         else{
-            let celDom = document.getElementById("cel-" + i);
+            let celDom = document.getElementById("cel-" + i);;
             celSizeList.push(celDom)
         }
     }
@@ -307,6 +307,7 @@ function NoGridSizingCalc(elemNum, placement, widthOrHeight, initialPlacement){
 //placement = event.clientX or Y/ widthOrHeight = "height" or "width"/ rowOrColPlaces = rowsPlaces or columnsPlaces (array) / side = "top", "left", ect...
 function gridSizingCalc(elemNum, widthOrHeight, placement, rowOrColPlaces, side){
     gridIFList[sizeIFList[elemNum][widthOrHeight].num].use = true;
+    console.log(gridIFList);
     for(i=0; i<=rowOrColPlaces.length-1; i++){
         if(placement >= rowOrColPlaces[i]){
             elemList[elemNum].grid[side] = i+1;
@@ -1881,24 +1882,30 @@ function createSize(){
                         for(i=0; i<=posSetting.display.menu.top.length-1; i++){
                             let rowPlace = posSetting.display.menu.top[i] + posSetting.display.menu.clientTop;
                             rowsPlaces.push(rowPlace);
+                            //console.log(rowsPlaces);
                         }
                         for(i=0; i<=posSetting.display.menu.left.length-1; i++){
                             let columnPlace = posSetting.display.menu.left[i] + posSetting.display.menu.clientLeft;
                             columnsPlaces.push(columnPlace);
+                            //console.log(columnsPlaces);
                         }
 
                         if(sizeIFList[elemNum].width.interuptor2 == true){
                             gridSizingCalc(elemNum, "width", event.clientX, columnsPlaces, "right");
+                            console.log("test");
                         }
                         if(sizeIFList[elemNum].width.interuptor1 == true){
                             gridSizingCalc(elemNum, "width", event.clientX, columnsPlaces, "left");
+                            console.log("test");
                         }
 
                         if(sizeIFList[elemNum].height.interuptor2 == true){
                             gridSizingCalc(elemNum, "height", event.clientY, rowsPlaces, "bottom");
+                            console.log("test");
                         }
                         if(sizeIFList[elemNum].height.interuptor1 == true){
                             gridSizingCalc(elemNum, "height", event.clientY, rowsPlaces, "top");
+                            console.log("test");
                         }
 
                         let elem = elemList[sizeIFList[elemNum].width.num];

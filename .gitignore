@@ -3,3 +3,4 @@ private/
 src/
 gulpfile.js
 *json
+*sh
