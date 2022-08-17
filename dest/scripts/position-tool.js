@@ -546,41 +546,6 @@ function closePosMenuWhenMouseLeave(){
 
 posIsVisibleOrNot();
 
-//few function for position menu placement and moving
-//
-//
-positionMove.addEventListener("mousedown", function(event){
-    posMousePlace = event.target.getBoundingClientRect();
-    posInitPlaceX =  event.pageX - (posMousePlace.left + (event.pageX - event.clientX));
-    posInitPlaceY =  event.pageY - (posMousePlace.top + (event.pageY - event.clientY));
-    posPlaceActive = true;
-
-    position.setAttribute("active","");
-})
-//Event for beginning the element-window moving,
-positionMove.addEventListener("mouseup", function(event){
-    posPlaceActive = false;
-    position.removeAttribute("active");
-})
-//Event for ending the element-window moving,
-body.addEventListener('mouseup', function(event){
-    if(posPlaceActive == true){
-        body.removeAttribute("active");
-        position.removeAttribute("active");
-        posPlaceActive = false;
-    }
-    inPositionPlacement();
-})
-//Event for calculate and applicate move
-body.addEventListener('mousemove', function(event){
-    if(posPlaceActive == true){
-        position.style.top = Math.round(event.pageY - posInitPlaceY) + "px";
-        position.style.left = Math.round(event.pageX - posInitPlaceX) + "px";
-
-        topPosition = Math.round(event.pageY - posInitPlaceY);
-        leftPosition = Math.round(event.pageX - posInitPlaceX);
-    }
-})
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~POSITION-MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 //Event for give specific attribut to the opener and the tool title 

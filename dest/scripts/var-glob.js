@@ -174,8 +174,6 @@ let topElemsContainer = document.getElementById("top-position-elems-container");
 let elemsContainer = document.getElementById("position-elems-container");
 let underElemsContainer = document.getElementById("under-position-elems-container");
 
-let positionMove = document.getElementById("position-move");
-
 let moreBtn2 = document.getElementById("btn-more-tool");
 let lessBtns = document.getElementsByClassName("element-bar-trash");
 
@@ -200,10 +198,7 @@ let inPositionPaddingLeft = document.getElementsByClassName("vertical-padding");
 //if menu is open this variable is true
 let posToolOpen = false;
 
-//POSITION
-//boolean : false = moving is inactivate
-let posPlaceActive = false;
-let posInitPlaceX, posInitPlaceY;
+
 
 let posIFWidthMin = 244;
 let posIFHeightMin = 125;
@@ -270,3 +265,70 @@ let gridColumnCelSizeList;
 //global variable use to put value in to calculate place of clicked elem in an grid display context
 let rowNumb;
 let columnNumb;
+
+
+
+//VARIABLES AND FUNCTION USED TO MOVE WINDOWS TOOL BY DRAG AND MOVE
+
+//Variables needed to move windows of each tools
+    //represent moved HTML tag 
+    let posContent = document.getElementById("position");
+    let elemContent = document.getElementById("move-element-tool");
+    let codeContent = document.getElementById("move-code-tool");
+    //represent the drag & move HTML tag 
+    let posPlace = document.getElementById("position-placement");
+    let elemPlace = document.getElementById("element-placement");
+    let codePlace = document.getElementById("code-placement");
+    //represent the state of the moving, if the drag & move HTML tag is clicked == true / else == false
+    let posPlaceActive = false;
+    let elemPlaceActive = false;
+    let codePlaceActive = false;
+    //initial position of the moved HTML tag in X/Y axis
+    let posInitPlaceX, posInitPlaceY;
+    let elemInitPlaceX, elemInitPlaceY;
+    let codeInitPlaceX, codeInitPlaceY;
+
+
+function movingTool(dropToMoveElem, initPlaceX, initPlaceY, placeActive, tool){
+
+dropToMoveElem.addEventListener("mousedown", function(event){
+    let mousePlace = event.target.getBoundingClientRect();
+    initPlaceX =  event.pageX - (mousePlace.left + (event.pageX - event.clientX));
+    initPlaceY =  event.pageY - (mousePlace.top + (event.pageY - event.clientY));
+    placeActive = true;
+    tool.setAttribute("active","");
+})
+//Event for beginning the element-window moving,
+dropToMoveElem.addEventListener("mouseup", function(event){
+    placeActive = false;
+    tool.removeAttribute("active");
+})
+//Event for ending the element-window moving,
+body.addEventListener('mouseup', function(event){
+    if(placeActive == true){
+        body.removeAttribute("active");
+        tool.removeAttribute("active");
+        placeActive = false;
+    }
+    if(tool == position){
+        inPositionPlacement();
+    }
+})
+//Event for calculate and applicate move
+body.addEventListener('mousemove', function(event){
+    if(placeActive == true){
+        tool.style.top = Math.round(event.pageY - initPlaceY) + "px";
+        tool.style.left = Math.round(event.pageX - initPlaceX) + "px";
+
+        if(tool == position){
+            topPosition = Math.round(event.pageY - initPlaceY);
+            leftPosition = Math.round(event.pageX - initPlaceX);
+        }
+    }
+})
+}
+
+//call moving function for each tool's windows
+movingTool(posPlace, posInitPlaceX, posInitPlaceY, posPlaceActive, posContent);
+movingTool(elemPlace, elemInitPlaceX, elemInitPlaceY, elemPlaceActive, elemContent);
+movingTool(codePlace, codeInitPlaceX, codeInitPlaceY, codePlaceActive, codeContent);
