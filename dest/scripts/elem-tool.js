@@ -365,7 +365,6 @@ function createColor(){
         colorModList[ColorModNum].opacity = opacityButtonList[opaNum].opacityRange.value;
         color(ColorModNum);
         })
-        //LOL
     }
 }
 
