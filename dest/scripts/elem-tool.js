@@ -365,6 +365,7 @@ function createColor(){
         colorModList[ColorModNum].opacity = opacityButtonList[opaNum].opacityRange.value;
         color(ColorModNum);
         })
+        //LOL
     }
 }
 
@@ -1912,6 +1913,7 @@ moreElementBtn.addEventListener("click", function(){
     fetch('data/element-module.txt')
     .then(response => response.text())
     .then(data => {
+        elementModulesContainer.innerHTML += data;
         //variables of "old" version of Elem/mod list, for after array manipulation and update of elem
         let saveElemList = [];
         let saveNameModList = [];
@@ -1947,7 +1949,7 @@ moreElementBtn.addEventListener("click", function(){
         }
 
         //adding of HTML of module element
-        elementModulesContainer.innerHTML += data;
+        
         createModule();
         updatePos();
 
