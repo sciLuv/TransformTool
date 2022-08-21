@@ -1,71 +1,48 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OPACITY-BTN-RANGES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-function createOpacity(){
-    //Boucle qui itere pour chaque barre d'element des objets représentant les outils d'opacité et leurs EVENTS
-    //4 objets représentant les outils d'opacité (color,shader,border,box) par barre d'element
-    //2 EVENTS par outils d'opacité = Event du bouton d'ouverture du range, Event du range lui même
-    //et les fonction de traitement de l'opacité elle même
-    for(i=0; i<=opacityHTMLButtons.length-1; i++){
-        //elementNum et le while associé permettent de définir le nombre de barre d'element
-        let elementNum=1;
-        while(i+1>4*elementNum){
-            elementNum++
+function createOpacity(opaBtnNum){
+
+    //ref to all the opacity HTML tag conposantes
+    let opacityButton = opaHTMLBtns[opaBtnNum];
+    let opacityInsideButton = opaHTMLInsideBtns[opaBtnNum];
+    let opacityContainer = opaHTMLRangeContainers[opaBtnNum];
+    let opacityRange = opaHTMLRanges[opaBtnNum];
+    let opacityInteruptor = false;
+
+    console.log(opacityButton);
+    //manage opening and closing of the opacity range 
+    opacityButton.addEventListener("click", function (event){
+        let btnPlace = opacityButton.getBoundingClientRect();
+        let elemPlace = allElement.getBoundingClientRect();
+        //opeining range
+        //spécific graphique modulation in function of module's place of btn
+        if (opacityInteruptor == false){
+            opacityContainer.style.display = "block";
+            opacityInteruptor = true;
+            opacityContainer.style.top = (btnPlace.top-elemPlace.top+30) +"px";
+            opacityContainer.style.left = (btnPlace.left-elemPlace.left-5) + "px";
         }
-        //opacityNumber défini un numéro pour chaque range d'opacité
-        let opacityNumber = i;
-        //ajout des différentes infos (un booleen et les variables représentant le HTML) pour chaque outil d'opacité dans des objet, dans opacityButtonList
-        opacityButtonList[i] =
-            {
-                opacityButton : opacityHTMLButtons[i],
-                opacityInsideButton : opacityHTMLInsideButtons[i],
-                opacityContainer : opacityHTMLRangeContainers[i],
-                opacityArrow : opacityHTMLArrows[i],
-                opacityRange : opacityHTMLRanges[i],
-                opacityInteruptor : false
-            } 
+        //closing range
+        else{
+            opacityContainer.style.display = "none";
+            opacityInteruptor = false;
+        }
+    });
+    //fonction qui gere la valeur de l'opacité elle même et sa représentation dans le bouton d'ouverture de l'opacité
+    opacityRange.addEventListener("click", function(){
+        let opacityValue = opacityRange.value/100;
+        let opacityRepre = Math.abs(Math.trunc(opacityValue*255)-255);
+        opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
+    })
 
-        //fonction qui gere l'ouverture et la fermeture du range d'opacité  
-        opacityButtonList[opacityNumber].opacityButton.addEventListener("click", function (event){
-            let btnPlace = opacityButtonList[opacityNumber].opacityButton.getBoundingClientRect();
-            let elemPlace = allElement.getBoundingClientRect();
-            //ouverture du range
-            //suivant le module de l'outil d'opacité les transformation graphique ne sont pas exactement les même
-            if (opacityButtonList[opacityNumber].opacityInteruptor == false){
-                opacityButtonList[opacityNumber].opacityContainer.style.display = "block";
-                opacityButtonList[opacityNumber].opacityInteruptor = true;
-                opacityButtonList[opacityNumber].opacityContainer.style.top = (btnPlace.top-elemPlace.top+30) +"px";
-                opacityButtonList[opacityNumber].opacityContainer.style.left = (btnPlace.left-elemPlace.left-5) + "px";
-            }
-            //fermeture du range
-            else{
-                opacityButtonList[opacityNumber].opacityContainer.style.display = "none";
-                opacityButtonList[opacityNumber].opacityInteruptor = false;
-            }
-        });
-        //fonction qui gere la valeur de l'opacité elle même et sa représentation dans le bouton d'ouverture de l'opacité
-        opacityButtonList[opacityNumber].opacityRange.addEventListener("click", function(){
-            let opacityValue = opacityButtonList[opacityNumber].opacityRange.value/100;
-            let opacityRepre = Math.abs(Math.trunc(opacityValue*255)-255);
-            opacityButtonList[opacityNumber].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
-        })
-    }
-
-    //fonction lié au BODY, permettant fermeture des conteneur des range d'opacité
-    //quand l'utilisateur clique en dehors du HTML lié à ces derniers
+    //body listener, if the opacity btn is open, if you click elsewhere of it, close it
     body.addEventListener("click", function(e){
-        for(i=0; i<=opacityHTMLButtons.length-1; i++){
-            let elementNum=1;
-            while(i+1>4*elementNum){
-                elementNum++
-            }
-            if(((e.target != opacityButtonList[i].opacityRange)&&
-            (e.target != opacityButtonList[i].opacityContainer)&&
-            (e.target != opacityButtonList[i].opacityArrow)&&
-            (e.target != opacityButtonList[i].opacityInsideButton)&&
-            (e.target != opacityButtonList[i].opacityButton))&&
-            (opacityButtonList[i].opacityInteruptor == true)){
-                opacityButtonList[i].opacityContainer.style.display = "none";
-                opacityButtonList[i].opacityInteruptor = false;
+        for(i=0; i<=opaHTMLBtns.length-1; i++){
+            if(((e.target != opacityRange)&&(e.target != opacityContainer)&&
+            (e.target != opacityInsideButton)&&(e.target != opacityButton))&&
+            (opacityInteruptor == true)){
+                opacityContainer.style.display = "none";
+                opacityInteruptor = false;
                 break;
             }
         }
@@ -130,8 +107,8 @@ function createName(){
 //val = en fonction du module, ou se trouve la valeur de l'opacité (dans un objet)
 function opaVisualChgt(val, opacity){
     let opacityRepre = Math.abs(Math.trunc((val/100)*255)-255);
-    opacityButtonList[opacity].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
-    opacityButtonList[opacity].opacityRange.value = val;
+    opaHTMLInsideBtns[opacity].style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
+    opaHTMLRanges[opacity].value = val;
 }
 //color
 //colorInput = la représentation HTML de l'input de couleur ex : shaderColors[shaderModNum].value 
@@ -297,10 +274,10 @@ function visualChgtBox(boxModValue, boxIFValue, inset, rangeXY, rangeBS, colorIn
     colorInput.value = boxModValue.color.hue;
     //chgt visuel du range d'opacité et du range de selection d'opacité
     let opacityRepre = Math.abs(Math.trunc((opaVal.color.opacity/100)*255)-255);
-    opacityButtonList[opacity].opacityInsideButton.style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
-    opacityButtonList[opacity].opacityRange.value = opaVal.color.opacity;
+    opaHTMLInsideBtns[opacity].style.backgroundColor = "rgb(" + opacityRepre + ", " + opacityRepre + ", " + opacityRepre + ")";
+    opaHTMLRanges[opacity].value = opaVal.color.opacity;
 }
-
+ 
 //tout les changement visuel en même temps
 //num représente le module/element-bar selectionné
 function allVisualChange(number){
@@ -349,7 +326,7 @@ function createColor(){
         //represente le nombre de modules de corner (1 pour chaque module d'element)
         let ColorModNum = i;
         let opaNum = (ColorModNum*4);
-    
+        createOpacity(opaNum);
         let beforColor = Math.floor(Math.random() * 16777215).toString(16);
         let colorElem = "#" + ("000000" + beforColor).slice(-6);
 
@@ -361,8 +338,8 @@ function createColor(){
             colorModList[ColorModNum].hue = colors[ColorModNum].value;
             color(ColorModNum);
         })
-        opacityButtonList[opaNum].opacityRange.addEventListener("input", function(){
-        colorModList[ColorModNum].opacity = opacityButtonList[opaNum].opacityRange.value;
+        opaHTMLRanges[opaNum].addEventListener("input", function(){
+        colorModList[ColorModNum].opacity = opaHTMLRanges[opaNum].value;
         color(ColorModNum);
         })
     }
@@ -376,7 +353,7 @@ for(i=0; i<= elements.length-1; i++){
     let borderModNum = i;
     //permet pour chaque module de border de selectionné le range d'opacité correspondant
     let opaNum = 2+(borderModNum*4);
-
+    createOpacity(opaNum);
     borderIFList[borderModNum] = {
         //compteur permettant de selectionné grace au bouton centrale de selection des bordure 
         //une succession de selection des différentes bordures et de leurs représentation graphique. 
@@ -743,18 +720,18 @@ for(i=0; i<= elements.length-1; i++){
         border(borderModNum);
     })
     //Event du bouton d'opacité
-    opacityButtonList[opaNum].opacityRange.addEventListener("input", function(){
+    opaHTMLRanges[opaNum].addEventListener("input", function(){
         if(borderIFList[borderModNum].interuptorTB == true){
-            borderModList[borderModNum].top.color.opacity = opacityButtonList[opaNum].opacityRange.value;
+            borderModList[borderModNum].top.color.opacity = opaHTMLRanges[opaNum].value;
         }
         if(borderIFList[borderModNum].interuptorRB == true){
-            borderModList[borderModNum].right.color.opacity = opacityButtonList[opaNum].opacityRange.value;
+            borderModList[borderModNum].right.color.opacity = opaHTMLRanges[opaNum].value;
         }
         if(borderIFList[borderModNum].interuptorBB == true){
-            borderModList[borderModNum].bottom.color.opacity = opacityButtonList[opaNum].opacityRange.value;
+            borderModList[borderModNum].bottom.color.opacity = opaHTMLRanges[opaNum].value;
         }
         if(borderIFList[borderModNum].interuptorLB == true){
-            borderModList[borderModNum].left.color.opacity = opacityButtonList[opaNum].opacityRange.value;
+            borderModList[borderModNum].left.color.opacity = opaHTMLRanges[opaNum].value;
         }
         selectionIfNoBorderIsSelected();
         border(borderModNum);
@@ -1083,7 +1060,7 @@ function createShader(){
         let shaderModNum = i;
         //permet de selectionner le range d'opacité lié au module de shader
         let opaNum = 1+(shaderModNum*4);
-
+        createOpacity(opaNum);
         //objet qui contient les informations concernant le nombre de shader différent, celui qui est sélectionné et les info sur les btns
         shaderIFList[shaderModNum] = {
             //représente le nombre de shaders différent dans un même module
@@ -1211,8 +1188,8 @@ function createShader(){
             shader(shaderModNum);
         })
         //event qui attribut l'opacité des shaders grace a l'outil d'opacité du module shader
-        opacityButtonList[opaNum].opacityRange.addEventListener("input", function(){
-            shaderModList[shaderModNum][shaderIFList[shaderModNum].shaderSelectNum-1].color.opacity = opacityButtonList[opaNum].opacityRange.value;
+        opaHTMLRanges[opaNum].addEventListener("input", function(){
+            shaderModList[shaderModNum][shaderIFList[shaderModNum].shaderSelectNum-1].color.opacity = opaHTMLRanges[opaNum].value;
             shader(shaderModNum);
         })
 
@@ -1306,6 +1283,7 @@ function createBox(){
         let boxModNum = i;
         //permet de selectionner le range d'opacité lié au module de box
         let opaNum = 3+(boxModNum*4);
+        createOpacity(opaNum);
         boxIFList[boxModNum] = {
             //représente le nombre de boxs différent dans un même module
             boxNum : 1,
@@ -1522,8 +1500,8 @@ function createBox(){
             boxModList[boxModNum][boxIFList[boxModNum].boxSelectNum-1].color.hue = boxColors[boxModNum].value;
             box(boxModNum);
         })
-        opacityButtonList[opaNum].opacityRange.addEventListener("input", function(){
-            boxModList[boxModNum][boxIFList[boxModNum].boxSelectNum-1].color.opacity = opacityButtonList[opaNum].opacityRange.value;
+        opaHTMLRanges[opaNum].addEventListener("input", function(){
+            boxModList[boxModNum][boxIFList[boxModNum].boxSelectNum-1].color.opacity = opaHTMLRanges[opaNum].value;
             box(boxModNum);
         })
     }
@@ -1894,7 +1872,6 @@ function createElement(){
 }
 
 function createModule(){
-    createOpacity();
     createName();
     createColor();
     createBorder();

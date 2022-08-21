@@ -21,15 +21,15 @@ let allElement = document.getElementById("all-elements");
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OPACITY-BTN-RANGES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //4 tableaux qui contiennent l'ensemble des balises construisant la structure HTML de l'outil d'opacité
 //btn qui ouvre le conteneur du range
-let opacityHTMLButtons = document.getElementsByClassName("opacity-btn");
+let opaHTMLBtns = document.getElementsByClassName("opacity-btn");
 //pastille de niveau de gris a l'interieur de l'opacityHTMLButton qui représente visuellement l'état d'opacité 
-let opacityHTMLInsideButtons = document.getElementsByClassName("inside-opacity-btn");
+let opaHTMLInsideBtns = document.getElementsByClassName("inside-opacity-btn");
 //conteneur du range gérant l'opacité, caché tant qu'opacityHTMLButton n'est pas cliqué
-let opacityHTMLRangeContainers = document.getElementsByClassName("opacity-range-container");
+let opaHTMLRangeContainers = document.getElementsByClassName("opacity-range-container");
 //element exclusivement graphique pour plus de clarté pour l'utilisateur lors de l'ouverture du range
-let opacityHTMLArrows = document.getElementsByClassName("opacity-range-container-arrow");
+let opaHTMLArrows = document.getElementsByClassName("opacity-range-container-arrow");
 //le range qui gere l'opacité lui même
-let opacityHTMLRanges = document.getElementsByClassName("opacity-range");
+let opaHTMLRanges = document.getElementsByClassName("opacity-range");
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ID-INPUT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //représente chaque le conteneur de toutes les barres d'elements
