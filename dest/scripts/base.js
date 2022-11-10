@@ -135,7 +135,6 @@ let moreBtn = document.getElementById("btn-more-tool");
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NON-DOM-VAR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //tableau contenant les objets représentant les outils d'opacité de toutes les barres d'éléments
-let opacityButtonList = [];
 
 let nameModList = [];
 
@@ -155,6 +154,8 @@ let shaderModList = [];
 let shaderIFList = []
 let boxModList = [];
 let boxIFList = [];
+
+
 let elemList  = [];
 let elemIFList = [];
 //ELEMENT-WINDOWS-ANIMATION
