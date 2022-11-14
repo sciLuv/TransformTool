@@ -31,6 +31,9 @@ let opaHTMLArrows = document.getElementsByClassName("opacity-range-container-arr
 //le range qui gere l'opacité lui même
 let opaHTMLRanges = document.getElementsByClassName("opacity-range");
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CHANGE-LIST-PLACE-ELEMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+let listPlaces = document.getElementsByClassName("list-place-elem");
+let temporaryElem = document.getElementsByClassName('temporary-elem');
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ID-INPUT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //représente chaque le conteneur de toutes les barres d'elements
 let elementModulesContainer = document.getElementById("all-elements");
@@ -135,26 +138,6 @@ let moreBtn = document.getElementById("btn-more-tool");
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NON-DOM-VAR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //tableau contenant les objets représentant les outils d'opacité de toutes les barres d'éléments
-
-let nameModList = [];
-
-let colorModList = [];
-
-//liste qui contient l'ensemble des objets représentant les bordures de chaque éléments crée
-let borderModList = [];
-//liste qui contient l'ensemble des info d'interface de chaque module de bordure
-let borderIFList = [];
-//liste qui contient l'ensemble des objets représentant les coins de chaque élément crée
-let cornerModList = [];
-//tableau qui contiendra les information d'interface de corner
-let cornerIFList = []
-//Tableau qui contiendra par la suite tout les shaders des différents modules element
-let shaderModList = [];
-//tableau qui contiendra les information d'interface de shader
-let shaderIFList = []
-let boxModList = [];
-let boxIFList = [];
-
 
 let elemList  = [];
 let elemIFList = [];
