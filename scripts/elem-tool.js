@@ -52,7 +52,54 @@ function createOpacity(opaBtnNum){
         }
     })
 }
+function createListPlace(i){
+    let listNum = i;
+    let activeListPlaceElem = false;
 
+    listPlaces[listNum].addEventListener('mousedown', beginChangePlaceListElem);
+    function beginChangePlaceListElem(event){
+        if (activeListPlaceElem == false){
+        let mouseX = event.clientX; 
+        let mouseY = event.clientY; 
+
+
+        let temporaryElem = document.createElement('div');
+        temporaryElem.classList.add("temporary-elem");
+        body.appendChild(temporaryElem);
+
+        temporaryElem.style.left = mouseX + 'px';
+        temporaryElem.style.top = mouseY + 'px';
+
+        activeListPlaceElem = true;
+        }
+    }
+
+    body.addEventListener('mousemove', inChangePlaceListElem);
+    function inChangePlaceListElem(event){
+        if (activeListPlaceElem == true){
+            let mouseX = event.clientX; 
+            let mouseY = event.clientY; 
+            temporaryElem[0].style.left = mouseX + 'px';
+            temporaryElem[0].style.top = mouseY + 'px';
+            body.style.cursor = "grabbing";
+
+            elements[listNum].style.background = "#00000013";
+            console.log(elements[listNum].getBoundingClientRect());
+            console.log(mouseX);
+            console.log(mouseY);
+        }
+    }
+
+    body.addEventListener('mouseup', endChangePlaceListElem);
+    function endChangePlaceListElem(){
+        if (activeListPlaceElem == true){
+            temporaryElem[0].remove();
+            activeListPlaceElem = false;
+            body.style.cursor = "auto";
+            elements[listNum].style.background = "#00000000";
+        }
+    }
+}
 /** @function 
  *  if the module is not already create, create an object in elemList[] with caracteristic of name, else create eventListener in link with the name of element. 
  *  @params {number} give by createModule(), the number of the actual generate element
@@ -1749,6 +1796,7 @@ function createModule(i){
     createCorner(i);
     createShader(i);
     createBox(i);
+    createListPlace(i);
 
     createResetBtn(i);
     createTrashBtn(i);

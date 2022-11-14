@@ -634,6 +634,14 @@ img, div, h1 {
   user-select: none;
 }
 
+.temporary-elem {
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  position: relative;
+  z-index: 1000;
+}
+
 input[type=range] {
   width: 80px;
   height: 3px;
@@ -1928,18 +1936,22 @@ body[active] {
       } */
 }
 .html-element .list-place-elem {
+  user-select: none;
   min-width: 15px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.05) 60%, rgba(255, 255, 255, 0) 100%);
-}
-.html-element .list-place-elem img {
   cursor: grab;
-  max-width: 12px;
-  height: auto;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.08) 40%, rgba(0, 0, 0, 0.08) 60%, rgba(255, 255, 255, 0) 100%);
+}
+.html-element .list-place-elem div {
+  background: url("../img/grip-lines.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 10px;
+  height: 100%;
   filter: invert(78%) sepia(3%) saturate(0%) hue-rotate(196deg) brightness(92%) contrast(90%);
 }
 .html-element .move-elem-container {
