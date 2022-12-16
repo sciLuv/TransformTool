@@ -20,7 +20,6 @@ function changePosIFDisplay(){
 //function to reinitialize style of container 
 function reInitContainerStyle(){
     if(posSetting.display.display == "flex"){
-        console.log("test1");
         topElemsContainer.style.flexDirection = null;
         topElemsContainer.style.flexWrap = null;
         topElemsContainer.style.justifyContent = null;
@@ -34,7 +33,6 @@ function reInitContainerStyle(){
         elemsContainer.style.alignItems = null;
     }
     else if(posSetting.display.display == "grid"){
-        console.log("test2");
         topElemsContainer.style.display = null;
         topElemsContainer.style.gridTemplateColumns = null;
         topElemsContainer.style.gridTemplateRows = null;
@@ -62,7 +60,6 @@ function posIFAutoPlaceAndSize(size, sizeSpe, minIF, range, positionWindow){
     if(size > minIF){
         if(range.value < minIF-(size-sizeSpe)){
             diffRange = sizeSpe - (minIF-(size-sizeSpe));
-            console.log(sizeSpe - (minIF-(size-sizeSpe)));
         }
         else{
             diffRange = sizeSpe - range.value;
@@ -217,7 +214,6 @@ function calcElemCelPlace(){
                                 //if the empty value is superior of the number of column, change value of top/left/bottom/right 
                                 //in this way change the row selected 
                                 if(isTopEmpty == columnNumb+1){
-                                    console.log(isTopEmpty);
                                     topCel++;
                                     bottomCel++;
                                     leftCel = 1;
@@ -240,7 +236,6 @@ function calcElemCelPlace(){
                                 bottomCel = 2;
                                  leftCel = 1;
                                 rightCel = 2;  
-                                console.log("prout");  
                             }
                         }
                     }
@@ -307,7 +302,6 @@ function NoGridSizingCalc(elemNum, placement, widthOrHeight, initialPlacement){
 //placement = event.clientX or Y/ widthOrHeight = "height" or "width"/ rowOrColPlaces = rowsPlaces or columnsPlaces (array) / side = "top", "left", ect...
 function gridSizingCalc(elemNum, widthOrHeight, placement, rowOrColPlaces, side){
     gridIFList[sizeIFList[elemNum][widthOrHeight].num].use = true;
-    console.log(gridIFList);
     for(i=0; i<=rowOrColPlaces.length-1; i++){
         if(placement >= rowOrColPlaces[i]){
             elemList[elemNum].grid[side] = i+1;
@@ -1847,30 +1841,24 @@ function createSize(){
                         for(i=0; i<=posSetting.display.menu.top.length-1; i++){
                             let rowPlace = posSetting.display.menu.top[i] + posSetting.display.menu.clientTop;
                             rowsPlaces.push(rowPlace);
-                            //console.log(rowsPlaces);
                         }
                         for(i=0; i<=posSetting.display.menu.left.length-1; i++){
                             let columnPlace = posSetting.display.menu.left[i] + posSetting.display.menu.clientLeft;
                             columnsPlaces.push(columnPlace);
-                            //console.log(columnsPlaces);
                         }
 
                         if(sizeIFList[elemNum].width.interuptor2 == true){
                             gridSizingCalc(elemNum, "width", event.clientX, columnsPlaces, "right");
-                            console.log("test");
                         }
                         if(sizeIFList[elemNum].width.interuptor1 == true){
                             gridSizingCalc(elemNum, "width", event.clientX, columnsPlaces, "left");
-                            console.log("test");
                         }
 
                         if(sizeIFList[elemNum].height.interuptor2 == true){
                             gridSizingCalc(elemNum, "height", event.clientY, rowsPlaces, "bottom");
-                            console.log("test");
                         }
                         if(sizeIFList[elemNum].height.interuptor1 == true){
                             gridSizingCalc(elemNum, "height", event.clientY, rowsPlaces, "top");
-                            console.log("test");
                         }
 
                         let elem = elemList[sizeIFList[elemNum].width.num];
@@ -1913,7 +1901,6 @@ function createPlacement(){
         let elemNum = l;
         let elem = document.getElementById(elemList[elemNum].id.name);
         let topElem = document.getElementById("if-" + elemList[elemNum].id.name);
-        console.log(topElem);
         
         
         if(placeIFList[elemNum] == undefined){
