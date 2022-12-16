@@ -53,53 +53,239 @@ function createOpacity(opaBtnNum){
     })
 }
 function createListPlace(i){
-    let listNum = i;
-    let activeListPlaceElem = false;
+    let listNum = i; //the num of the place of the element in the elemlist
 
+    //variables in link with the interface feature of the 
+    let activeListPlaceElem = false; //define state of the event of changement of placement of elem
+    let elemListInInterface = []; //define interface place of each elem in element tool
+    //contain info use to selected the new place of the element selected. 
+    let newPlaceElem = {
+        old : undefined,
+        realNew : undefined
+    };
+
+    //begin the process of the changement place of the selected elem
     listPlaces[listNum].addEventListener('mousedown', beginChangePlaceListElem);
     function beginChangePlaceListElem(event){
+        //if the event is not now in work
         if (activeListPlaceElem == false){
-        let mouseX = event.clientX; 
-        let mouseY = event.clientY; 
+            //place of the cursor in the page, to place representation of the temporary elem selected next to it
+            let mouseX = event.pageX; 
+            let mouseY = event.pageY; 
+            
+            //creation of the representation of the temporary elem selected 
+            let temporaryElem = document.createElement('div');
+            let temporaryColor = document.createElement('div');
+            //adding it a class 
+            temporaryElem.classList.add("temporary-elem");
+            temporaryColor.classList.add("temporary-elem-color");
+            //adding it in the document and put in some relative information to the element
+            body.appendChild(temporaryElem); 
+            temporaryElem.innerHTML = elemList[listNum].id.name;
+            temporaryElem.appendChild(temporaryColor);
+            temporaryColor.style.backgroundColor = elemList[listNum].color.hue;
 
+            //to place it next to the cursor
+            temporaryElem.style.left = mouseX + 'px';
+            temporaryElem.style.top = mouseY + 'px';
+            elements[listNum].style.background = "#00000013";
 
-        let temporaryElem = document.createElement('div');
-        temporaryElem.classList.add("temporary-elem");
-        body.appendChild(temporaryElem);
-
-        temporaryElem.style.left = mouseX + 'px';
-        temporaryElem.style.top = mouseY + 'px';
-
-        activeListPlaceElem = true;
+            //create array of placement of interface representation of elements in elements tool
+            elemListInInterface = [];
+            for(l = 0; l <= elements.length-1; l++){
+                //getBoundingClientRect() + window.scrollY = the place of the elem interface in elem tool in the page (not the window)
+                elemListInInterface.push(elements[l].getBoundingClientRect().y + 72 + window.scrollY);
+            }
+            //to authorize the next step of the event to work
+            activeListPlaceElem = true;
         }
     }
 
+    //manage the selection of the new place of the element in the elem list, by the place of other elem in the element tool window
     body.addEventListener('mousemove', inChangePlaceListElem);
     function inChangePlaceListElem(event){
+        //if the first step of the event is activate
         if (activeListPlaceElem == true){
-            let mouseX = event.clientX; 
-            let mouseY = event.clientY; 
+            //place of the cursor in the page
+            let mouseX = event.pageX; 
+            let mouseY = event.pageY; 
+            //replace the representation of the temporary elem selected in function of the placement of the cursor
             temporaryElem[0].style.left = mouseX + 'px';
             temporaryElem[0].style.top = mouseY + 'px';
+
+            //change the theme of the cursor for better undestanding of the action
             body.style.cursor = "grabbing";
 
-            elements[listNum].style.background = "#00000013";
-            console.log(elements[listNum].getBoundingClientRect());
-            console.log(mouseX);
-            console.log(mouseY);
+            //algorythm to manage graphic effect of the changement place
+            //realNew et old are two variables represent the actual and the last element where the cursor are placed
+            newPlaceElem.realNew = elemListInInterface.findIndex(element => element >= mouseY); 
+            if(newPlaceElem.realNew == listNum){
+                if((newPlaceElem.realNew != newPlaceElem.old)&&(newPlaceElem.old != listNum)&&(newPlaceElem.old != undefined)){
+                    elements[newPlaceElem.old].style.background = "#ffffff";
+                }
+                } else {
+                    if((newPlaceElem.realNew != newPlaceElem.old)&&(newPlaceElem.old != listNum)){
+                        elements[newPlaceElem.old].style.background = "#ffffff";
+                    }
+                    elements[newPlaceElem.realNew].style.background = "linear-gradient(180deg, #ffffff 90%, #00000020 90%)";
+            }
+            newPlaceElem.old = newPlaceElem.realNew; 
+            
         }
     }
 
+    //finish the event
     body.addEventListener('mouseup', endChangePlaceListElem);
     function endChangePlaceListElem(){
         if (activeListPlaceElem == true){
-            temporaryElem[0].remove();
-            activeListPlaceElem = false;
+            //to remove effect and html element create to see the element position change
             body.style.cursor = "auto";
+
             elements[listNum].style.background = "#00000000";
+            elements[newPlaceElem.realNew].style.background = "#00000000";
+            elements[newPlaceElem.old].style.background = "#00000000";
+            
+            temporaryElem[0].remove();
+
+            if(newPlaceElem.realNew != listNum){
+                
+                document.getElementById("if-" + elemList[listNum].id.name).remove();
+                document.getElementById(elemList[listNum].id.name).remove();
+
+                let saveElem, saveElemIF;
+
+                saveElem = elemList[listNum];
+                saveElemIF = elemIFList[listNum];   
+
+
+                elemList.splice(listNum, 1);
+                elemIFList.splice(listNum, 1);
+
+                elemList.splice(newPlaceElem.realNew, 0, saveElem);
+                elemIFList.splice(newPlaceElem.realNew, 0, saveElemIF);
+            }
+
+            for (i=listNum; i<=elemList.length-1; i++){
+                elements[i].replaceWith(elements[i].cloneNode(true));
+                createModule(i)
+            }
+
+
+            //first step of visual change
+            for (o=0; o<=elemList.length-1; o++){
+                allVisualChange(o);
+                //shader
+                shaderSelectors[o].innerHTML = "";
+                for(p=1; p <= elemIFList[o].shader.shaderNum; p++){
+                    let option = document.createElement("option");
+                    option.innerHTML = p;
+                    if(p == elemIFList[o].shader.shaderSelectNum) option.setAttribute("selected", "");
+                    shaderSelectors[o].appendChild(option);
+                }
+                //to change the background diffusion (linear/radial) btn
+                if((elemIFList[o].shader.interuptor == false)&&(btnSelectGradients[o].hasAttribute("active"))){
+                    //linear
+                    btnSelectGradients[o].removeAttribute("active");
+                    degreeButtons[o].setAttribute("active", "");
+                } 
+                else if((elemIFList[o].shader.interuptor == true)&&(btnSelectGradients[o].hasAttribute("active")) == false){
+                    //radial
+                    btnSelectGradients[o].setAttribute("active", "");
+                    degreeButtons[o].removeAttribute("active");
+                }
+                //visual change of linear background btn degree selection
+                //premet le changement visuel du bouton
+                degreeButtons[o].style.transform = "rotate(" + elemIFList[o].shader.degreeBtn.degree + "deg)";
+                if(o == newPlaceElem.realNew){
+                    elemIFList[o].shader.degreeBtn.btnNum = newPlaceElem.realNew;
+                }
+                if(o == listNum){
+                    elemIFList[o].shader.degreeBtn.btnNum = listNum;
+                }
+
+
+                //corner
+                let cornerIFArray = [
+                    elemIFList[o].corner.CornerInteruptorBL,
+                    elemIFList[o].corner.CornerInteruptorBR,
+                    elemIFList[o].corner.CornerInteruptorTL,
+                    elemIFList[o].corner.CornerInteruptorTR
+                ];
+                let cornerArray = [ bottomLefts[o], bottomRights[o], topLefts[o], topRights[o] ];
+                let cornerCounter = 0;
+                cornerIFArray.forEach(element => {
+                    if(element == true){
+                        cornerArray[cornerCounter].setAttribute("active", "");
+                    } else {
+                        cornerArray[cornerCounter].removeAttribute("active");
+                    }
+                    cornerCounter++;
+                });
+
+                //border
+                let borderIFarray = [
+                    elemIFList[o].border.interuptorRB,
+                    elemIFList[o].border.interuptorTB,
+                    elemIFList[o].border.interuptorBB,
+                    elemIFList[o].border.interuptorLB
+                ]
+                let borderHTMLArray = [
+                    rightBorderSelectors[o],
+                    topBorderSelectors[o],
+                    bottomBorderSelectors[o],
+                    leftBorderSelectors[o]
+                ]
+                let counterBorder = 0;
+                borderIFarray.forEach(element => {
+                    if(element == true){
+                        borderHTMLArray[counterBorder].setAttribute("active", "");
+                    } else {
+                        borderHTMLArray[counterBorder].removeAttribute("active");
+                    }
+                    counterBorder++;
+                });
+                //box
+                boxSelectors[o].innerHTML = "";
+                for(p=1; p <= elemIFList[o].box.boxNum; p++){
+                    let option = document.createElement("option");
+                    option.innerHTML = p;
+                    if(p == elemIFList[o].box.boxSelectNum) option.setAttribute("selected", "");
+                    boxSelectors[o].appendChild(option);
+                }
+
+
+                if((elemIFList[o].box.interuptorXY == false)&&(interuptorSelectsXYs[o].hasAttribute("active"))){
+                    //y
+                    interuptorSelectsXYs[o].removeAttribute("active");
+                } 
+                else if((elemIFList[o].box.interuptorXY == true)&&(interuptorSelectsXYs[o].hasAttribute("active")) == false){
+                    //x
+                    interuptorSelectsXYs[o].setAttribute("active", "");
+                }
+
+                if((elemIFList[o].box.interuptorBS == false)&&(interuptorSpreadBlurs[o].hasAttribute("active"))){
+                    //y
+                    interuptorSpreadBlurs[o].removeAttribute("active");
+                } 
+                else if((elemIFList[o].box.interuptorBS == true)&&(interuptorSpreadBlurs[o].hasAttribute("active")) == false){
+                    //x
+                    interuptorSpreadBlurs[o].setAttribute("active", "");
+                }
+            }
+            
+            updatePos();
+
+            /* gridIFList[newPlaceElem.realNew].use = false; */
+
+            createSize();
+            createPlacement();
+            
+
+            activeListPlaceElem = false;
         }
     }
 }
+
 /** @function 
  *  if the module is not already create, create an object in elemList[] with caracteristic of name, else create eventListener in link with the name of element. 
  *  @params {number} give by createModule(), the number of the actual generate element
@@ -190,6 +376,9 @@ function visualChgtCorner(interuptorTL, interuptorTR, InteruptorBR, interuptorBL
     let selectedCorner = [];
     //les 4 conditions suivante permettent d'ajouté ou non les valeurs des différentes coins. 
     //(topLeft/topRight/bottomRight/bottomLeft, dans l'ordre)
+    if(selectedCorner.length == 0){
+        rangeInput.value = 0;
+    }
     let cornerSelectedValueTest;
     if(interuptorTL == true){
         selectedCorner.push(topLeft);
@@ -245,6 +434,14 @@ function visualChgtBorder(interuptorTB, interuptorLB, interuptorRB, interuptorBB
         modifiedBorder.push(left);
     }
     //boucle permettant mise a jour de l'input d'attribution de couleur
+    if(modifiedBorder.length == 0){
+        colorInput.value = "#000000";
+        range.value = 0;
+        opaHTMLRanges[opacity].value = 100;
+        opaHTMLInsideBtns[opacity].style.backgroundColor = "black";
+        selectedStyle.removeAttribute("selected");
+        
+    }
     for(m=0; m<=modifiedBorder.length-1; m++){
         //selection de la couleur commune
         if(modifiedBorder[m].color.hue == modifiedBorder[0].color.hue){
@@ -526,7 +723,6 @@ function createBorder(i){
     //les fonction neutral/active pour chgmt grahique et 
     //les variables interuptors (o/i) pour validé ou non la possibilité de modification des bord  
     borderSelects[borderNum].addEventListener("click", function(e){
-        console.log("test");
         //selection de tout les bords
         if(elemIFList[borderNum].border.borderSelectorCounter == 1){
             elemIFList[borderNum].border.borderSelectorCounter++
@@ -831,7 +1027,6 @@ function createCorner(i){
                     bottomLeft : 0
                 }
         }
-        console.log(elemIFList);
         //RangeVisualChangeBeforeCornerSelection :
         //fonction permettant la mise à jour visuel du range de selection de la valeur de la courbure, en fonctions des coins séléctionné
         function RangeVisualChangeBeforeCornerSelection(){
@@ -1122,7 +1317,6 @@ function createShader(i){
     //boucle qui permet de remplir le shaderModList d'objet representant chacun des module de shaders et leurs différentes valeurs
     //déclaration d'evenement avec les outils HTML d'interactions et de selection
         //représente le nombre de module de shader
-        console.log(elemList);
         let shaderNum = i;
         //permet de selectionner le range d'opacité lié au module de shader
         let opaNum = 1+(shaderNum*4);
@@ -1163,34 +1357,36 @@ function createShader(i){
             }
         }
 
-        let newShader = elemList[shaderNum].shader;
-        let newShaderIF = elemIFList[shaderNum].shader;
         elemIFList[shaderNum].shader.degreeBtn.btnNum = shaderNum;
 
-        console.log(elemList);
-        console.log("elemList");
         //fonction de changement visuel des element de selection du shader en fonction du shader du module selectionné dans la liste
         function visualChangeBeforeListSelection(val, opacity){
             //changement visuel du range de placement et du bouton de selection de couleur
-            rangeVisualChgt(shaderRanges[shaderNum], newShader[val]);
-            colorVisualChgt(shaderColors[shaderNum], newShader[val])
+            rangeVisualChgt(shaderRanges[shaderNum], elemList[shaderNum].shader[val]);
+            colorVisualChgt(shaderColors[shaderNum], elemList[shaderNum].shader[val])
             //changement visuel du range d'opacité et du range de selection d'opacité
-            opaVisualChgt(newShader[val].color.opacity, opacity);
+            opaVisualChgt(elemList[shaderNum].shader[val].color.opacity, opacity);
         }
         
         //event de selection du shader dans la liste des shader dans chaque module
         shaderSelectors[shaderNum].addEventListener("click", changeListShadersNumber);
         function changeListShadersNumber(){
+            console.log(document.getElementById(elemList[shaderNum].id.name));
             //active la fonction si l'option selectionné est différente de celle qui l'est déjà
-            if (newShaderIF.shaderSelectNum != shaderSelectors[shaderNum].options[shaderSelectors[shaderNum].selectedIndex].value){
+            if (elemIFList[shaderNum].shader.shaderSelectNum != shaderSelectors[shaderNum].options[shaderSelectors[shaderNum].selectedIndex].value){
 
                 //supression et attribution a un nouvel element HTML option de l'attribut "select" de la liste de selection HTML
-                shaderSelectors[shaderNum].children[newShaderIF.shaderSelectNum-1].removeAttribute("selected");
-                newShaderIF.shaderSelectNum = shaderSelectors[shaderNum].options[shaderSelectors[shaderNum].selectedIndex].value;
-                shaderSelectors[shaderNum].children[newShaderIF.shaderSelectNum-1].setAttribute("selected", "");      
+                shaderSelectors[shaderNum].children[elemIFList[shaderNum].shader.shaderSelectNum-1].removeAttribute("selected");
+                elemIFList[shaderNum].shader.shaderSelectNum = shaderSelectors[shaderNum].options[shaderSelectors[shaderNum].selectedIndex].value;
+                shaderSelectors[shaderNum].children[elemIFList[shaderNum].shader.shaderSelectNum-1].setAttribute("selected", "");      
                 
                 //fonction de changement visuel du module shader (permet de correspondre au shader selectionné)
-                let val= newShaderIF.shaderSelectNum-1, opacity = opaNum;
+                let val= elemIFList[shaderNum].shader.shaderSelectNum-1, opacity = opaNum;
+                console.log(val);
+                /* console.log(opacity);
+                console.log(shaderRanges[shaderNum]);
+                console.log(elemIFList[shaderNum].shader); */
+                console.log(elemList[shaderNum].shader[val]);
                 visualChangeBeforeListSelection(val, opacity);
             }
             shader(shaderNum);
@@ -1198,17 +1394,14 @@ function createShader(i){
         //ajout d'un shader dans la liste des shader d'un module
         shaderMoreBtns[shaderNum].addEventListener("click", function(e){
             //ajout d'un shader dans le "compteur de shader" pour ensuite construire l'element html qui le representera
-            console.log(document.getElementById(elemList[shaderNum].id.name));
-            console.log(newShader);
-            console.log(elemList[shaderNum].shader);
-            newShaderIF.shaderNum ++;
-            shaderSelectors[shaderNum].innerHTML += '<option value="' + newShaderIF.shaderNum + '">' + newShaderIF.shaderNum + '</option>';
+            elemIFList[shaderNum].shader.shaderNum ++;
+            shaderSelectors[shaderNum].innerHTML += '<option value="' + elemIFList[shaderNum].shader.shaderNum + '">' + elemIFList[shaderNum].shader.shaderNum + '</option>';
             //suppression et ajout de l'attribut selected de l'option HTML de selection du shader
-            shaderSelectors[shaderNum].children[newShaderIF.shaderSelectNum-1].removeAttribute("selected");
-            shaderSelectors[shaderNum].children[newShaderIF.shaderNum-1].setAttribute("selected", "");
+            shaderSelectors[shaderNum].children[elemIFList[shaderNum].shader.shaderSelectNum-1].removeAttribute("selected");
+            shaderSelectors[shaderNum].children[elemIFList[shaderNum].shader.shaderNum-1].setAttribute("selected", "");
             //creation de l'objet représentant le nouveau shader
-            newShaderIF.shaderSelectNum = newShaderIF.shaderNum;
-            newShader[newShaderIF.shaderNum-1] = {
+            elemIFList[shaderNum].shader.shaderSelectNum = elemIFList[shaderNum].shader.shaderNum;
+            elemList[shaderNum].shader[elemIFList[shaderNum].shader.shaderNum-1] = {
                 placement : 100,
                 color : {
                             hue : "#FFA200",
@@ -1217,37 +1410,37 @@ function createShader(i){
             }
 
             //fonction de changement visuel du module shader (permet de correspondre au shader selectionné)
-            let val= newShaderIF.shaderNum-1, opacity = opaNum;
+            let val= elemIFList[shaderNum].shader.shaderNum-1, opacity = opaNum;
             visualChangeBeforeListSelection(val, opacity);
             shader(shaderNum);
         })
         
         //suppression d'un shader dans la liste des shader d'un module
         shaderTrashBtns[shaderNum].addEventListener("click", function(e){
-            if(newShaderIF.shaderNum > 1){
-                shaderSelectors[shaderNum].removeChild(shaderSelectors[shaderNum][newShaderIF.shaderSelectNum-1]);
-                newShader.splice(newShaderIF.shaderSelectNum-1, 1)
+            if(elemIFList[shaderNum].shader.shaderNum > 1){
+                shaderSelectors[shaderNum].removeChild(shaderSelectors[shaderNum][elemIFList[shaderNum].shader.shaderSelectNum-1]);
+                elemList[shaderNum].shader.splice(elemIFList[shaderNum].shader.shaderSelectNum-1, 1)
 
                 //boucle pour remplacer les elements HTML qui représente les shaders précédent celui supprimé, pour leurs assigné leur nouveau numéro
-                for(i=newShaderIF.shaderSelectNum-1; i<=shaderSelectors[shaderNum].length-1; i++){
+                for(i=elemIFList[shaderNum].shader.shaderSelectNum-1; i<=shaderSelectors[shaderNum].length-1; i++){
                     shaderSelectors[shaderNum][i].innerHTML = i+1;
                     shaderSelectors[shaderNum][i].setAttribute("value", i+1);
                 }
                 //selection du shader inférieur a celui supprimé apres sa suppression 
-                if(newShaderIF.shaderSelectNum-2 >= 0){
-                    newShaderIF.shaderNum --;
-                    shaderSelectors[shaderNum][newShaderIF.shaderSelectNum-2].setAttribute("selected", "");
-                    newShaderIF.shaderSelectNum = newShaderIF.shaderSelectNum-1; 
+                if(elemIFList[shaderNum].shader.shaderSelectNum-2 >= 0){
+                    elemIFList[shaderNum].shader.shaderNum --;
+                    shaderSelectors[shaderNum][elemIFList[shaderNum].shader.shaderSelectNum-2].setAttribute("selected", "");
+                    elemIFList[shaderNum].shader.shaderSelectNum = elemIFList[shaderNum].shader.shaderSelectNum-1; 
                 }
                 //quand le shader supprimé est le premier de la liste, quelques regle différente pour que cela fonctionne
-                else if(newShaderIF.shaderSelectNum-2 < 0){
-                    newShaderIF.shaderNum --;
-                    shaderSelectors[shaderNum][newShaderIF.shaderSelectNum-1].setAttribute("selected", "");
+                else if(elemIFList[shaderNum].shader.shaderSelectNum-2 < 0){
+                    elemIFList[shaderNum].shader.shaderNum --;
+                    shaderSelectors[shaderNum][elemIFList[shaderNum].shader.shaderSelectNum-1].setAttribute("selected", "");
                 }
                 //force la selection de l'option correspondant au shaderSelectNumber
-                shaderSelectors[shaderNum].selectedIndex = newShaderIF.shaderSelectNum-1;
+                shaderSelectors[shaderNum].selectedIndex = elemIFList[shaderNum].shader.shaderSelectNum-1;
                 //partie de la fonction qui change la partie visuel 
-                let val= newShaderIF.shaderSelectNum-1, opacity = opaNum;
+                let val= elemIFList[shaderNum].shader.shaderSelectNum-1, opacity = opaNum;
                 visualChangeBeforeListSelection(val, opacity);
                 shader(shaderNum);
             }
@@ -1257,37 +1450,37 @@ function createShader(i){
         })
         //event qui attribut la position des shaders grace au range du module shader
         shaderRanges[shaderNum].addEventListener("input", function(){
-            newShader[newShaderIF.shaderSelectNum-1].placement = shaderRanges[shaderNum].value;
+            elemList[shaderNum].shader[elemIFList[shaderNum].shader.shaderSelectNum-1].placement = shaderRanges[shaderNum].value;
             shader(shaderNum);
         })
         //event qui attribut la couleur des shaders grace a l'input couleur du module shader
         shaderColors[shaderNum].addEventListener("input", function(){
-            newShader[newShaderIF.shaderSelectNum-1].color.hue = shaderColors[shaderNum].value;
+            elemList[shaderNum].shader[elemIFList[shaderNum].shader.shaderSelectNum-1].color.hue = shaderColors[shaderNum].value;
             shader(shaderNum);
         })
         //event qui attribut l'opacité des shaders grace a l'outil d'opacité du module shader
         opaHTMLRanges[opaNum].addEventListener("input", function(){
-            newShader[newShaderIF.shaderSelectNum-1].color.opacity = opaHTMLRanges[opaNum].value;
+            elemList[shaderNum].shader[elemIFList[shaderNum].shader.shaderSelectNum-1].color.opacity = opaHTMLRanges[opaNum].value;
             shader(shaderNum);
         })
 
         //EVENT qui gere le changement détat du bouton, permettant selection soi d'un gradient lineaire ou radial
         selectGradients[shaderNum].addEventListener('click', function(){
             //etat bouton definissant selection du gradient lineaire en JS et qui active le css pour changer le visuel du bouton en fonction
-            if(newShaderIF.interuptor == false){
+            if(elemIFList[shaderNum].shader.interuptor == false){
                 btnSelectGradients[shaderNum].setAttribute("active","");
                 degreeButtons[shaderNum].removeAttribute("active");
-                newShader[0].gradient = "radial";
-                newShader[0].degree = undefined;
-                newShaderIF.interuptor = true;
+                elemList[shaderNum].shader[0].gradient = "radial";
+                elemList[shaderNum].shader[0].degree = undefined;
+                elemIFList[shaderNum].shader.interuptor = true;
             }
             //idem pour le gradient radial
             else{; 
                 btnSelectGradients[shaderNum].removeAttribute("active");
                 degreeButtons[shaderNum].setAttribute("active","");
-                newShader[0].gradient = "linear";
-                newShader[0].degree = newShaderIF.degreeBtn.degree;
-                newShaderIF.interuptor = false;
+                elemList[shaderNum].shader[0].gradient = "linear";
+                elemList[shaderNum].shader[0].degree = elemIFList[shaderNum].shader.degreeBtn.degree;
+                elemIFList[shaderNum].shader.interuptor = false;
             }
             shader(shaderNum);
         })
@@ -1300,36 +1493,36 @@ function createShader(i){
             let changementDegreeValue = (initialPlacement - actualplacement)*5;
         
             //changement de la valeur des degrés.
-            newShaderIF.degreeBtn.degree += changementDegreeValue;
+            elemIFList[shaderNum].shader.degreeBtn.degree += changementDegreeValue;
             //deux boucle permettant de rester dans l'interval de 360
-            if (newShaderIF.degreeBtn.degree > 360){newShaderIF.degreeBtn.degree = degreeChange-360;}
-            else if (newShaderIF.degreeBtn.degree < 0){newShaderIF.degreeBtn.degree = 360 - degreeChange;}
+            if (elemIFList[shaderNum].shader.degreeBtn.degree > 360){elemIFList[shaderNum].shader.degreeBtn.degree = degreeChange-360;}
+            else if (elemIFList[shaderNum].shader.degreeBtn.degree < 0){elemIFList[shaderNum].shader.degreeBtn.degree = 360 - degreeChange;}
         
             //premet le changement visuel du bouton
-            degreeButtons[newShaderIF.degreeBtn.btnNum].style.transform = "rotate(" + newShaderIF.degreeBtn.degree + "deg)";
+            degreeButtons[elemIFList[shaderNum].shader.degreeBtn.btnNum].style.transform = "rotate(" + elemIFList[shaderNum].shader.degreeBtn.degree + "deg)";
             //ajout de la nouvelle valeur des degrés au premier objet du tableau des shader
-            newShader[0].degree = newShaderIF.degreeBtn.degree;
+            elemList[shaderNum].shader[0].degree = elemIFList[shaderNum].shader.degreeBtn.degree;
             //mise a jour de la valeur initial du placement du curseur pour pouvoir répété la fonction. 
-            newShaderIF.degreeBtn.initVal = actualplacement;
+            elemIFList[shaderNum].shader.degreeBtn.initVal = actualplacement;
     
             /*placer sans doute ici le code permettant d'ajouter*/
             shader(shaderNum);
         }
 
         //evenement permettant d'initialisé une valeurs de placement de la souris lorsqu'on clique sur le bouton
-        degreeButtons[newShaderIF.degreeBtn.btnNum].addEventListener('mousedown', function(event){
-            if (degreeButtons[newShaderIF.degreeBtn.btnNum].hasAttribute("active")){
-                newShaderIF.degreeBtn.degreeInteruptor = true;
-                newShaderIF.degreeBtn.initVal = event.clientY;
+        degreeButtons[elemIFList[shaderNum].shader.degreeBtn.btnNum].addEventListener('mousedown', function(event){
+            if (degreeButtons[elemIFList[shaderNum].shader.degreeBtn.btnNum].hasAttribute("active")){
+                elemIFList[shaderNum].shader.degreeBtn.degreeInteruptor = true;
+                elemIFList[shaderNum].shader.degreeBtn.initVal = event.clientY;
             }
 
             body.addEventListener('mousemove', function(event){ 
             //this condition is here for if the module contain the btn in link with this Event is delete
             //avoid the rest of the event
-                if (degreeButtons[newShaderIF.degreeBtn.btnNum].hasAttribute("active")){
+                if (degreeButtons[elemIFList[shaderNum].shader.degreeBtn.btnNum].hasAttribute("active")){
                     let placement = event.clientY;
-                    if (newShaderIF.degreeBtn.degreeInteruptor == true){
-                        beginCalculDegree = setInterval(calculDegree(newShaderIF.degreeBtn.initVal, placement, newShaderIF.degreeBtn.degree), 200);
+                    if (elemIFList[shaderNum].shader.degreeBtn.degreeInteruptor == true){
+                        beginCalculDegree = setInterval(calculDegree(elemIFList[shaderNum].shader.degreeBtn.initVal, placement, elemIFList[shaderNum].shader.degreeBtn.degree), 200);
                     }
                 }   
             })
@@ -1339,9 +1532,9 @@ function createShader(i){
             body.addEventListener('mouseup', function(){
                 //this condition is here for if the module container the btn in link with this Event is delete
                 //avoid the rest of the event
-                    if (degreeButtons[newShaderIF.degreeBtn.btnNum].hasAttribute("active")){
-                        if(newShaderIF.degreeBtn.degreeInteruptor == true){
-                            newShaderIF.degreeBtn.degreeInteruptor = false;
+                    if (degreeButtons[elemIFList[shaderNum].shader.degreeBtn.btnNum].hasAttribute("active")){
+                        if(elemIFList[shaderNum].shader.degreeBtn.degreeInteruptor == true){
+                            elemIFList[shaderNum].shader.degreeBtn.degreeInteruptor = false;
                             clearInterval(beginCalculDegree);
                         }
                     }
@@ -1622,7 +1815,6 @@ function createTrashBtn(i){
 //fonction de reset des information de style de l'element séléctionné
 function createResetBtn(){
     for(i=0; i<= elements.length-1; i++){
-        console.log(elemList);
         let resetNum = i;
         resetBtns[resetNum].addEventListener("click", function(){
             //~~~~~~~~~~~~~~~~~~~~RESET ELEMENT~~~~~~~~~~~~~~~~~~~~~//
@@ -1641,7 +1833,6 @@ function createResetBtn(){
             elemIFList[resetNum].shader.degreeBtn.degreeInteruptor = false;
             elemIFList[resetNum].shader.degreeBtn.initVal = 0;
 
-            console.log(elemList[resetNum].shader.length);
             if(elemList[resetNum].shader.length >= 1){
                 for (j=1; j<= elemList[resetNum].shader.length-1; j++) {
                     elemList[resetNum].shader.splice(j,1);
