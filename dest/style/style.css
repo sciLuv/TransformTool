@@ -2750,9 +2750,11 @@ input[type=range]:hover::-webkit-slider-thumb {
   position: absolute;
   top: 50px;
   left: 650px;
+  width: 652px;
   color: white;
   background-color: #363636;
   border-radius: 5px;
+  transition: width 0.5s;
 }
 #code-gen #title-categories-and-angle {
   display: flex;
@@ -2774,8 +2776,10 @@ input[type=range]:hover::-webkit-slider-thumb {
   width: 230px;
 }
 #code-gen #title-categories-and-angle #title-and-categories .title h2 span {
+  margin-left: -10px;
   font-family: "pacifico";
   font-size: 30px;
+  font-weight: lighter;
 }
 #code-gen #title-categories-and-angle #title-and-categories .html-css-btn {
   display: flex;
@@ -2799,7 +2803,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   transition: all 0.5s;
 }
 #code-gen #content-code-gen {
-  background-color: #363636;
+  background-color: #515151;
   border: #757575 1px solid;
   white-space: nowrap;
   width: 650px;
@@ -2808,9 +2812,20 @@ input[type=range]:hover::-webkit-slider-thumb {
   overflow-x: hidden;
   transition: all 0.5s;
 }
+#code-gen #content-code-gen::-webkit-scrollbar {
+  width: 10px;
+  border-left: #757575 1px solid;
+}
+#code-gen #content-code-gen::-webkit-scrollbar-thumb {
+  background-color: rgba(153, 153, 153, 0.809);
+}
 
+#code-gen[close] #move-code-tool {
+  width: 300px;
+  transition: width 0.5s;
+}
 #code-gen[close] #content-code-gen[close] {
-  width: 380px;
+  width: 290px;
   height: 0px;
   transition: all 0.5s;
   /* overflow-y: hidden; */
@@ -2822,6 +2837,12 @@ input[type=range]:hover::-webkit-slider-thumb {
   transform: rotate(-180deg);
   transition: all 0.5s;
 }
+#code-gen[close] #html-button[close], #code-gen[close] #css-button[close] {
+  display: none;
+  transform: translateX(50px);
+  opacity: 0;
+  transition: transform 0.5s;
+}
 
 #html {
   white-space: pre;
@@ -2831,6 +2852,63 @@ input[type=range]:hover::-webkit-slider-thumb {
 #css {
   white-space: pre;
   user-select: text;
+}
+
+#html-button, #css-button {
+  display: block;
+  background-color: #363636;
+  border: #757575 1px solid;
+  color: white;
+  border-bottom: none;
+}
+
+#html-button[selected], #css-button[selected] {
+  background-color: #515151;
+}
+
+#html-button {
+  border-right: none;
+}
+
+#code-container {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.orange {
+  color: #ffa600;
+}
+
+.orange-fluo {
+  color: #ffc250;
+}
+
+.yellow {
+  color: #f6ff00;
+}
+
+.blue {
+  color: #4ea9c5;
+}
+
+.light-blue {
+  color: #9fe3f8;
+}
+
+.green {
+  color: #a4c871;
+}
+
+.white {
+  color: white;
+}
+
+.red {
+  color: #b33232;
+}
+
+.grey {
+  color: #8e8e8e;
 }
 
 /*# sourceMappingURL=style.css.map */
