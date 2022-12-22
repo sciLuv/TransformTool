@@ -739,8 +739,8 @@ input[type=range]:hover::-webkit-slider-thumb {
 #position {
   position: absolute;
   z-index: 20;
-  top: 50px;
-  left: 50px;
+  top: 327px;
+  left: 714px;
   width: min-content;
   display: flex;
 }
@@ -1800,8 +1800,8 @@ input[type=range]:hover::-webkit-slider-thumb {
 #move-element-tool {
   position: absolute;
   z-index: 30;
-  top: 50px;
-  left: 355px;
+  top: 52px;
+  left: 56px;
 }
 
 .element-tool {
@@ -2748,8 +2748,8 @@ input[type=range]:hover::-webkit-slider-thumb {
 }
 #code-gen #move-code-tool {
   position: absolute;
-  top: 50px;
-  left: 650px;
+  top: 326px;
+  left: 56px;
   width: 652px;
   color: white;
   background-color: #363636;
