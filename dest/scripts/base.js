@@ -250,8 +250,22 @@ let gridColumnCelSizeList;
 let rowNumb;
 let columnNumb;
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CODE-GEN-VAR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+let angleCodeOpener = true;
 
+let codeGen = document.getElementById("code-gen");
+let codeGenOpener = document.getElementById("code-angle");
+let codeGenOpenerImg = document.getElementById("code-angle-img");
+let contentCodeGen = document.getElementById("content-code-gen");
+let htmlCodePlace = document.getElementById('html');
+let cssCodePlace = document.getElementById('css');
+let copyBtn = document.getElementById("code-copy-container");
 
+let htmlBtn = document.getElementById('html-button');
+let cssBtn = document.getElementById('css-button');
+
+let codeHTML = "";
+let codeCSS = ""
 //VARIABLES AND FUNCTION USED TO MOVE WINDOWS TOOL BY DRAG AND MOVE
 
 //Variables needed to move windows of each tools
@@ -262,7 +276,7 @@ let columnNumb;
     //represent the drag & move HTML tag 
     let posPlace = document.getElementById("position-placement");
     let elemPlace = document.getElementById("element-placement");
-    let codePlace = document.getElementById("code-placement");
+    let codePlace = document.getElementById("title-and-categories");
     //represent the state of the moving, if the drag & move HTML tag is clicked == true / else == false
     let posPlaceActive = false;
     let elemPlaceActive = false;
