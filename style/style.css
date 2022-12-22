@@ -2754,6 +2754,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   color: white;
   background-color: #363636;
   border-radius: 5px;
+  box-shadow: 4px 7px 15px 2px rgba(0, 0, 0, 0.3);
   transition: width 0.5s;
 }
 #code-gen #title-categories-and-angle {
@@ -2795,10 +2796,12 @@ input[type=range]:hover::-webkit-slider-thumb {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 #code-gen #title-categories-and-angle #code-angle #code-angle-img {
   width: 35px;
   height: 25px;
+  transform: rotate(-180deg);
   filter: invert(96%) sepia(0%) saturate(3420%) hue-rotate(173deg) brightness(112%) contrast(98%);
   transition: all 0.5s;
 }
@@ -2810,6 +2813,7 @@ input[type=range]:hover::-webkit-slider-thumb {
   height: 150px;
   overflow-y: scroll;
   overflow-x: hidden;
+  border-radius: 0px 0px 5px 5px;
   transition: all 0.5s;
 }
 #code-gen #content-code-gen::-webkit-scrollbar {
@@ -2819,14 +2823,25 @@ input[type=range]:hover::-webkit-slider-thumb {
 #code-gen #content-code-gen::-webkit-scrollbar-thumb {
   background-color: rgba(153, 153, 153, 0.809);
 }
+#code-gen #content-code-gen #html {
+  white-space: pre;
+  user-select: text;
+  transform: translateY(-25px);
+}
+#code-gen #content-code-gen #css {
+  white-space: pre;
+  user-select: text;
+  transform: translateY(-25px);
+}
 
 #code-gen[close] #move-code-tool {
-  width: 300px;
+  width: 285px;
   transition: width 0.5s;
 }
 #code-gen[close] #content-code-gen[close] {
-  width: 290px;
+  width: 280px;
   height: 0px;
+  border: none;
   transition: all 0.5s;
   /* overflow-y: hidden; */
 }
@@ -2834,24 +2849,30 @@ input[type=range]:hover::-webkit-slider-thumb {
   margin-right: 5px;
 }
 #code-gen[close] #code-angle-img[close] {
-  transform: rotate(-180deg);
+  transform: rotate(0deg) !important;
   transition: all 0.5s;
 }
 #code-gen[close] #html-button[close], #code-gen[close] #css-button[close] {
-  display: none;
-  transform: translateX(50px);
+  transform: translateX(-50px);
   opacity: 0;
-  transition: transform 0.5s;
 }
-
-#html {
+#code-gen[close] #html-button[close][nonedisplaying], #code-gen[close] #css-button[close][nonedisplaying] {
+  display: none;
+}
+#code-gen[close] #code-copy-container {
+  position: relative;
+  left: 590px;
+  /* transition: all 0.7s; */
+}
+#code-gen[close] #html {
   white-space: pre;
   user-select: text;
+  transform: translateY(-25px);
 }
-
-#css {
+#code-gen[close] #css {
   white-space: pre;
   user-select: text;
+  transform: translateY(-25px);
 }
 
 #html-button, #css-button {
@@ -2859,20 +2880,70 @@ input[type=range]:hover::-webkit-slider-thumb {
   background-color: #363636;
   border: #757575 1px solid;
   color: white;
-  border-bottom: none;
-}
-
-#html-button[selected], #css-button[selected] {
-  background-color: #515151;
+  position: relative;
+  top: 2px;
+  cursor: pointer;
 }
 
 #html-button {
   border-right: none;
 }
 
+#html-button[selected], #css-button[selected] {
+  background-color: #515151;
+  border-bottom: none;
+}
+
 #code-container {
   margin-left: 10px;
   margin-top: 10px;
+}
+
+#code-copy-container {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  z-index: 10;
+  left: 590px;
+  cursor: pointer;
+}
+#code-copy-container::after {
+  content: "copy!";
+  display: block;
+  font-size: 15px;
+  color: #00da00;
+  transform: translate(-7px, 0px);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+#code-copy-container[clicked]::after {
+  opacity: 1;
+  transform: translate(-7px, -25px);
+  transition: all 0.2s ease-out;
+}
+#code-copy-container[clicked] #code-copy {
+  filter: invert(79%) sepia(6%) saturate(20%) hue-rotate(314deg) brightness(84%) contrast(86%);
+  transition: filter 0.2s;
+}
+
+#code-copy-container[afterclick]::after {
+  opacity: 0;
+  transform: translate(-7px, -25px);
+  transition: all 0.3s ease-out;
+}
+#code-copy-container[afterclick] #code-copy {
+  filter: invert(14%) sepia(5%) saturate(6%) hue-rotate(326deg) brightness(107%) contrast(82%);
+  transition: filter 0.3s;
+}
+
+#code-copy {
+  filter: invert(14%) sepia(5%) saturate(6%) hue-rotate(326deg) brightness(107%) contrast(82%);
+  transition: filter 0.3s;
+}
+
+#html-button[nonedisplaying], #css-button[nonedisplaying] {
+  display: none;
 }
 
 .orange {
