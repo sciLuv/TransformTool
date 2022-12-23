@@ -187,8 +187,8 @@ let posToolOpen = false;
 let posIFWidthMin = 244;
 let posIFHeightMin = 125;
 
-let topPosition = 50;
-let leftPosition = 50;
+let topPosition = 327;
+let leftPosition = 714;
 
 //POSITION-VISIBILITY
 let mouseIsOnPos = false;

@@ -174,6 +174,16 @@ function createListPlace(i){
             //first step of visual change
             for (o=0; o<=elemList.length-1; o++){
                 allVisualChange(o);
+                //corner
+                if(elemIFList[o].corner.btnPxPcSelect == false){
+                    btnPxPcs[o].setAttribute("pixel", "");
+                    btnPxPcs[o].removeAttribute("max");
+                    radiusRanges[o].setAttribute("max", "175");
+                } else {
+                    btnPxPcs[o].removeAttribute("pixel");
+                    btnPxPcs[o].removeAttribute("max");
+                    radiusRanges[o].setAttribute("max", "100");
+                }
                 //shader
                 shaderSelectors[o].innerHTML = "";
                 for(p=1; p <= elemIFList[o].shader.shaderNum; p++){
@@ -371,9 +381,13 @@ function rangeVisualChgt(rangeInput, rangeVal){
 }
 
 //fonction de mise a jour visuel du range du module corner en fonction des coins qui sont séléctionné
-function visualChgtCorner(interuptorTL, interuptorTR, InteruptorBR, interuptorBL, topLeft, topRight, bottomRight, bottomLeft, rangeInput){
+function visualChgtCorner(interuptorTL, interuptorTR, InteruptorBR, interuptorBL, topLeft, topRight, bottomRight, bottomLeft, rangeInput, 
+                        buttonPixelOrPercent, pixelOrPercentTL, pixelOrPercentTR, pixelOrPercentBR, pixelOrPercentBL){
+
     //tableau qui contiendra a chaque itération de la fonction les valeurs des coins séléctionné pour la mise à jour visuel
     let selectedCorner = [];
+
+    let selectCornerPixelOrPercent = [];
     //les 4 conditions suivante permettent d'ajouté ou non les valeurs des différentes coins. 
     //(topLeft/topRight/bottomRight/bottomLeft, dans l'ordre)
     if(selectedCorner.length == 0){
@@ -382,21 +396,25 @@ function visualChgtCorner(interuptorTL, interuptorTR, InteruptorBR, interuptorBL
     let cornerSelectedValueTest;
     if(interuptorTL == true){
         selectedCorner.push(topLeft);
+        selectCornerPixelOrPercent.push(pixelOrPercentTL);
     }
     if(interuptorTR == true){
         selectedCorner.push(topRight);
+        selectCornerPixelOrPercent.push(pixelOrPercentTR);
     }
     if(InteruptorBR == true){
         selectedCorner.push(bottomRight);
+        selectCornerPixelOrPercent.push(pixelOrPercentBR);
     }
     if(interuptorBL == true){
         selectedCorner.push(bottomLeft);
+        selectCornerPixelOrPercent.push(pixelOrPercentBL);
     }
     //boucle et condition permettant la mise a jour de l'input range d'attribution de valeur de courbure
     for(m=0; m<=selectedCorner.length-1; m++){
         //selection de la valeur de range commune aux coins séléctionné
         cornerSelectedValueTest = selectedCorner[0];
-        if(selectedCorner[m] == selectedCorner[0]){
+        if((selectedCorner[m] == selectedCorner[0])&&(selectCornerPixelOrPercent[m] == buttonPixelOrPercent)){
             rangeInput.value = selectedCorner[0];
         }
         //valeur de courbure représenté par défaut si pas de correspondance entre les elements sélectionné
@@ -406,7 +424,6 @@ function visualChgtCorner(interuptorTL, interuptorTR, InteruptorBR, interuptorBL
         }
     }
 }
-
 //visualChgtBorder :
 //fonction permettant la mise à jour visuel des différents élément d'intéraction/sélection de style des bordures, en fonctions des bordures séléctionné
 //4 parametre pour les boutons de coins
@@ -557,7 +574,10 @@ function allVisualChange(number){
         elemList[num].corner.topLeft, elemList[num].corner.topRight, 
         elemList[num].corner.bottomRight, elemList[num].corner.bottomLeft, 
 
-        radiusRanges[num])
+        radiusRanges[num],
+        elemIFList[num].corner.btnPxPcSelect,
+        elemList[num].corner.pixelOrPercent.topLeft, elemList[num].corner.pixelOrPercent.topRight,
+        elemList[num].corner.pixelOrPercent.bottomRight, elemList[num].corner.pixelOrPercent.bottomLeft)
     //border
     visualChgtBorder(
         elemIFList[num].border.interuptorTB, elemIFList[num].border.interuptorLB, 
@@ -594,15 +614,13 @@ function createColor(elementNumber){
                 opacity : 100
             }
         }
-
-        let newColor = elemList[ColorNum].color;
-
+        
         colors[ColorNum].addEventListener("input", function(){
-            newColor.hue = colors[ColorNum].value;
+            elemList[ColorNum].color.hue = colors[ColorNum].value;
             color(ColorNum);
         })
         opaHTMLRanges[opaNum].addEventListener("input", function(){
-            newColor.opacity = opaHTMLRanges[opaNum].value;
+            elemList[ColorNum].color.opacity = opaHTMLRanges[opaNum].value;
             color(ColorNum);
         })
 }
@@ -1003,6 +1021,8 @@ function createBorder(i){
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CORNER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+let btnPxPcs = document.getElementsByClassName("button-pixel-percent");
+
 function createCorner(i){
     //boucle qui contient l'ensemble des regles de représentations graphiques de l'outil de selection de coins
         //represente le nombre de modules de corner (1 pour chaque module d'element)
@@ -1016,7 +1036,9 @@ function createCorner(i){
                     CornerInteruptorTL : false,
                     CornerInteruptorTR : false,
                     CornerInteruptorBR : false,
-                    CornerInteruptorBL : false
+                    CornerInteruptorBL : false,
+                    //variable to manage pixel/% button || true = %, false = px
+                    btnPxPcSelect : true
                 }
 
                 //objet qui contient les valeurs de courbure pour les 4 coins de l'element ciblé
@@ -1024,9 +1046,77 @@ function createCorner(i){
                     topLeft : 0,
                     topRight : 0,
                     bottomRight : 0,
-                    bottomLeft : 0
+                    bottomLeft : 0,
+                    pixelOrPercent : {
+                        //true == percent |false == pixel
+                        topLeft : true,
+                        topRight : true,
+                        bottomRight : true,
+                        bottomLeft : true,
+                    }
                 }
         }
+
+        btnPxPcs[cornerNum].addEventListener("click", function(){
+            if(elemIFList[cornerNum].corner.btnPxPcSelect == true){
+                btnPxPcs[cornerNum].setAttribute("pixel","");
+                btnPxPcs[cornerNum].removeAttribute("max");
+                radiusRanges[cornerNum].setAttribute("max", "175");
+                elemIFList[cornerNum].corner.btnPxPcSelect = false;
+
+                RangeVisualChangeBeforeCornerSelection();
+                changePixelOrPercent(
+                    elemIFList[cornerNum].corner.CornerInteruptorTL, elemIFList[cornerNum].corner.CornerInteruptorTR, 
+                    elemIFList[cornerNum].corner.CornerInteruptorBR, elemIFList[cornerNum].corner.CornerInteruptorBL,
+                    elemIFList[cornerNum].corner.btnPxPcSelect,
+                    elemList[cornerNum].corner.pixelOrPercent.topLeft, elemList[cornerNum].corner.pixelOrPercent.topRight,
+                    elemList[cornerNum].corner.pixelOrPercent.bottomRight,elemList[cornerNum].corner.pixelOrPercent.bottomLeft
+                    )
+            } else {
+                btnPxPcs[cornerNum].removeAttribute("pixel");
+                btnPxPcs[cornerNum].removeAttribute("max");
+                radiusRanges[cornerNum].setAttribute("max", "100");
+                elemIFList[cornerNum].corner.btnPxPcSelect = true; 
+
+                RangeVisualChangeBeforeCornerSelection();
+                changePixelOrPercent(
+                    elemIFList[cornerNum].corner.CornerInteruptorTL, elemIFList[cornerNum].corner.CornerInteruptorTR, 
+                    elemIFList[cornerNum].corner.CornerInteruptorBR, elemIFList[cornerNum].corner.CornerInteruptorBL,
+                    elemIFList[cornerNum].corner.btnPxPcSelect,
+                    elemList[cornerNum].corner.pixelOrPercent.topLeft, elemList[cornerNum].corner.pixelOrPercent.topRight,
+                    elemList[cornerNum].corner.pixelOrPercent.bottomRight,elemList[cornerNum].corner.pixelOrPercent.bottomLeft
+                    )
+            }
+        })
+
+        function changePixelOrPercent(  topLeftInteruptor, topRightInteruptor, 
+                                        bottomRightInteruptor, bottomLeftInteruptor, 
+                                        pixelOrPercentInteruptor, 
+                                        pixelOrPercentTopLeft, pixelOrPercentTopRight, 
+                                        pixelOrPercentBottomRight, pixelOrPercentBottomLeft
+                                     ){
+                                        console.log("hey");
+                                            interuptorList = [topLeftInteruptor, topRightInteruptor, bottomRightInteruptor, bottomLeftInteruptor];
+                                            pixelOrPercentinteruptorList = [pixelOrPercentTopLeft, pixelOrPercentTopRight, pixelOrPercentBottomRight, pixelOrPercentBottomLeft];
+
+                                            for(i=0; i<=interuptorList.length-1; i++){
+                                                console.log("---------------");
+                                                if(interuptorList[i] == true){
+                                                    console.log("vrai");
+                                                    console.log(pixelOrPercentInteruptor);
+                                                    if(pixelOrPercentinteruptorList[i] != pixelOrPercentInteruptor) pixelOrPercentinteruptorList[i] = pixelOrPercentInteruptor;
+                                                    console.log(pixelOrPercentinteruptorList[i]);
+                                                }
+                                            }
+
+                                            elemList[cornerNum].corner.pixelOrPercent.topLeft = pixelOrPercentinteruptorList[0]; 
+                                            elemList[cornerNum].corner.pixelOrPercent.topRight = pixelOrPercentinteruptorList[1]; 
+                                            elemList[cornerNum].corner.pixelOrPercent.bottomRight = pixelOrPercentinteruptorList[2]; 
+                                            elemList[cornerNum].corner.pixelOrPercent.bottomLeft= pixelOrPercentinteruptorList[3];
+
+                                        }
+
+
         //RangeVisualChangeBeforeCornerSelection :
         //fonction permettant la mise à jour visuel du range de selection de la valeur de la courbure, en fonctions des coins séléctionné
         function RangeVisualChangeBeforeCornerSelection(){
@@ -1037,7 +1127,11 @@ function createCorner(i){
                 elemList[cornerNum].corner.topLeft, elemList[cornerNum].corner.topRight, 
                 elemList[cornerNum].corner.bottomRight, elemList[cornerNum].corner.bottomLeft, 
 
-                radiusRanges[cornerNum]
+                radiusRanges[cornerNum],
+
+                elemIFList[cornerNum].corner.btnPxPcSelect,
+                elemList[cornerNum].corner.pixelOrPercent.topLeft, elemList[cornerNum].corner.pixelOrPercent.topRight,
+                elemList[cornerNum].corner.pixelOrPercent.bottomRight, elemList[cornerNum].corner.pixelOrPercent.bottomLeft
             )
         }
 
@@ -1848,11 +1942,16 @@ function createResetBtn(){
             elemIFList[resetNum].corner.CornerInteruptorTR = false;
             elemIFList[resetNum].corner.CornerInteruptorBR = false;
             elemIFList[resetNum].corner.CornerInteruptorBL = false;
+            elemIFList[resetNum].corner.btnPxPcSelect = true;
 
             elemList[resetNum].corner.topLeft = 0;
             elemList[resetNum].corner.topRight = 0;
             elemList[resetNum].corner.bottomRight = 0;
             elemList[resetNum].corner.bottomLeft = 0;
+            elemList[resetNum].corner.pixelOrPercent.topLeft = true;
+            elemList[resetNum].corner.pixelOrPercent.topRight = true;
+            elemList[resetNum].corner.pixelOrPercent.bottomRight = true;
+            elemList[resetNum].corner.pixelOrPercent.bottomLeft = true;
             //border
             elemIFList[resetNum].border.borderSelectorCounter = 1;
             elemIFList[resetNum].border.interuptorTB = false;
@@ -1910,6 +2009,7 @@ function createResetBtn(){
             topRights[resetNum].removeAttribute("active"); 
             bottomRights[resetNum].removeAttribute("active"); 
             bottomLefts[resetNum].removeAttribute("active"); 
+            btnPxPcs[resetNum].removeAttribute("pixel");
             radiusRanges[resetNum].value = 0;
             //border
             topBorderSelectors[resetNum].removeAttribute("active"); 
