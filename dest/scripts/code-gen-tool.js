@@ -177,7 +177,14 @@ function cssGeneration(){
         let borderRight ="\t border-right: " + elemList[i].border.right.size + "px " + elemList[i].border.right.style + " " + hexToRGB(elemList[i].border.right.color.hue, elemList[i].border.right.color.opacity) + ";\n";
         let borderBottom = "\t border-bottom: " + elemList[i].border.bottom.size + "px " + elemList[i].border.bottom.style + " " + hexToRGB(elemList[i].border.bottom.color.hue, elemList[i].border.bottom.color.opacity) + ";\n";
         let borderLeft = "\t border-left: " + elemList[i].border.left.size + "px " + elemList[i].border.left.style + " " + hexToRGB(elemList[i].border.left.color.hue, elemList[i].border.left.color.opacity) + ";\n";
-        let corner = "\t border-radius: " + elemList[i].corner.topLeft + "% " + elemList[i].corner.topRight + "% " + elemList[i].corner.bottomRight + "% " + elemList[i].corner.bottomLeft + "%;\n";
+        
+        let pixelOrPercentTL = "% ", pixelOrPercentTR = "% ", pixelOrPercentBR = "% ", pixelOrPercentBL = "%;\n";
+        if(elemList[i].corner.pixelOrPercent.topLeft == false) pixelOrPercentTL = "px ";
+        if(elemList[i].corner.pixelOrPercent.topRight == false) pixelOrPercentTR = "px ";
+        if(elemList[i].corner.pixelOrPercent.bottomRight == false) pixelOrPercentBR = "px ";
+        if(elemList[i].corner.pixelOrPercent.bottomLeft == false) pixelOrPercentBL = "px;\n";
+        
+        let corner = "\t border-radius: " + elemList[i].corner.topLeft + pixelOrPercentTL + elemList[i].corner.topRight + pixelOrPercentTR + elemList[i].corner.bottomRight + pixelOrPercentBR + elemList[i].corner.bottomLeft + pixelOrPercentBL;
 
         codeCSS += width + height + borderTop + borderRight + borderBottom + borderLeft + corner;
 
@@ -252,6 +259,6 @@ let regexAccolade = /[{|}]/g;
 let regexRgbaPx = /rgba|px|%|fr/g;
 let regexparenthese = /[(|)]/g;
 let regexTwoDot = /:/g;
-let regexWord = /none|visible|block|\sflex|center|row|reverse|column|\swrap|nowrap|grid|auto|repeat/g;
+let regexWord = /none|visible|block|\sflex|center|row|reverse|column|\swrap|nowrap|grid|auto|repeat|relative|absolute/g;
 
 

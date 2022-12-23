@@ -422,7 +422,12 @@ function shader(i){
 
 function corner(i){
     let elem = document.getElementById(elemList[i].id.name);
-    elem.style.borderRadius = elemList[i].corner.topLeft + "% " + elemList[i].corner.topRight + "% " + elemList[i].corner.bottomRight + "% " + elemList[i].corner.bottomLeft + "%";
+    let pixelOrPercentTL = "% ", pixelOrPercentTR = "% ", pixelOrPercentBR = "% ", pixelOrPercentBL = "% ";
+    if(elemList[i].corner.pixelOrPercent.topLeft == false) pixelOrPercentTL = "px ";
+    if(elemList[i].corner.pixelOrPercent.topRight == false) pixelOrPercentTR = "px ";
+    if(elemList[i].corner.pixelOrPercent.bottomRight == false) pixelOrPercentBR = "px ";
+    if(elemList[i].corner.pixelOrPercent.bottomLeft == false) pixelOrPercentBL = "px ";
+    elem.style.borderRadius = elemList[i].corner.topLeft + pixelOrPercentTL + elemList[i].corner.topRight + pixelOrPercentTR + elemList[i].corner.bottomRight + pixelOrPercentBR + elemList[i].corner.bottomLeft + pixelOrPercentBL;
 
 }
 
