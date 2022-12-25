@@ -62,6 +62,8 @@ let borderColors = document.getElementsByClassName("border-color");
 let borderStyles = document.getElementsByClassName("border-style");
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CORNER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//taleau des balises HTML des boutons de selection PX/%
+let btnPxPcs = document.getElementsByClassName("button-pixel-percent");
 //Tableaux des balises HTML de selection des coins
 let cornerSelectors = document.getElementsByClassName("corner-select");
 //Représentation des différentes parties HTML de l'outil de selection des coins

@@ -6,7 +6,6 @@ document.addEventListener("mousedown", function(event){
     if (!codeGen.contains(event.target)){
         closeCodeGenTool();
         codeGen.style.zIndex = '20';
-        console.log("test");
     }
     else{
         codeGen.style.zIndex = '30';
@@ -115,7 +114,7 @@ function cssGeneration(){
     codeCSS += "\t display: " + posSetting.display.display + ";\n";
     if(posSetting.display.display == "flex"){
         codeCSS += "\t align-content: " + posSetting.display.alignContent + ";\n";
-        codeCSS += "\t align-items: " + posSetting.display.alignContent + ";\n";
+        codeCSS += "\t align-items: " + posSetting.display.alignItems + ";\n";
 
         let reverse = ""
         if(posSetting.display.directionReverse == true) reverse = "-reverse"
