@@ -300,25 +300,31 @@ function createListPlace(i){
  *  if the module is not already create, create an object in elemList[] with caracteristic of name, else create eventListener in link with the name of element. 
  *  @params {number} give by createModule(), the number of the actual generate element
 */
-function createName(elementNumber){
+function createName(elementNumber, newSameElem = null, newSameElemName = null){
         let nameNum = elementNumber;
         /**@constant use to generate later name of futur id @type {number} */
         let idNum = 1;
 
         //condition and loop manage assign predef name doesn't already exist
         //example : "element-3" already exist but is alone. In next creation the id was "element-1" 
-        if(elemList[nameNum].id == undefined){
-            for(j=0; j<= elements.length-2; j++){
-
-                if(elemList[j].id.name == ("element-" + (idNum))){
-                    idNum++;
-                    j= -1;
+        if(newSameElem == null){
+            if(elemList[nameNum].id == undefined){
+                for(j=0; j<= elements.length-2; j++){
+    
+                    if(elemList[j].id.name == ("element-" + (idNum))){
+                        idNum++;
+                        j= -1;
+                    }
                 }
-            }
+                elemList[nameNum].id = {
+                    name : "element-" + (idNum)
+                }
+            } 
+        } else {
             elemList[nameNum].id = {
-                name : "element-" + (idNum)
+                name : elemList[newSameElem].id.name + "_" + newSameElemName
             }
-        } 
+        }
         
         //reattribution of the name, usefull in case of deletion of element with a smaller number
         idNames[nameNum].value = elemList[nameNum].id.name;
@@ -599,7 +605,7 @@ function allVisualChange(number){
         elemList[num].box[elemIFList[num].box.boxSelectNum-1], 3+(num*4))
 }
 
-function createColor(elementNumber){
+function createColor(elementNumber, newSameElem = null){
 
         let ColorNum = elementNumber;
         let opaNum = (ColorNum*4);
@@ -608,10 +614,17 @@ function createColor(elementNumber){
         let beforColor = Math.floor(Math.random() * 16777215).toString(16);
         let colorElem = "#" + ("000000" + beforColor).slice(-6);
 
-        if(elemList[ColorNum].color == undefined){
+        if(newSameElem == null){
+            if(elemList[ColorNum].color == undefined){
+                elemList[ColorNum].color = {
+                    hue : colorElem,
+                    opacity : 100
+                }
+            }
+        } else {
             elemList[ColorNum].color = {
-                hue : colorElem,
-                opacity : 100
+                hue : elemList[newSameElem].color.hue,
+                opacity : elemList[newSameElem].color.opacity
             }
         }
         
@@ -626,59 +639,104 @@ function createColor(elementNumber){
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BORDER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-function createBorder(i){
+function createBorder(i, newSameElem = null){
 //boucle qui contient l'ensemble des regles de l'outil de selection de bordure
     //represente le nombre de modules de border (1 pour chaque module d'element)
     let borderNum = i;
     //permet pour chaque module de border de selectionné le range d'opacité correspondant
     let opaNum = 2+(borderNum*4);
     createOpacity(opaNum);
+    if(newSameElem == null){
+        if(elemIFList[borderNum].border == undefined){
+            elemIFList[borderNum].border = {
+                //compteur permettant de selectionné grace au bouton centrale de selection des bordure 
+                //une succession de selection des différentes bordures et de leurs représentation graphique. 
+                borderSelectorCounter : 1,
     
-    if(elemIFList[borderNum].border == undefined){
+                //4 variables représentant l'état d'activation des boutons de bordure du selecteur de bordure 
+                interuptorTB : false,
+                interuptorRB : false,
+                interuptorLB : false,
+                interuptorBB : false
+            }
+    
+            //objet qui contient l'ensemble des info de style de chacune des bordures.
+            elemList[borderNum].border = {
+                top :{
+                    size : 0,
+                    style : "none",
+                    color : {
+                        hue : "#000000",
+                        opacity : 100
+                    }
+                },
+                right :{
+                    size : 0,
+                    style : "none",
+                    color : {
+                        hue : "#000000",
+                        opacity : 100
+                    }
+                },
+                bottom :{
+                    size : 0,
+                    style : "none",
+                    color : {
+                        hue : "#000000",
+                        opacity : 100
+                    }
+                },
+                left :{
+                    size : 0,
+                    style : "none",
+                    color : {
+                        hue : "#000000",
+                        opacity : 100
+                    }
+                }
+            }
+        }
+    } else {
         elemIFList[borderNum].border = {
-            //compteur permettant de selectionné grace au bouton centrale de selection des bordure 
-            //une succession de selection des différentes bordures et de leurs représentation graphique. 
-            borderSelectorCounter : 1,
+            borderSelectorCounter : elemIFList[newSameElem].border.borderSelectorCounter,
 
-            //4 variables représentant l'état d'activation des boutons de bordure du selecteur de bordure 
-            interuptorTB : false,
-            interuptorRB : false,
-            interuptorLB : false,
-            interuptorBB : false
+            interuptorTB : elemIFList[newSameElem].border.interuptorTB,
+            interuptorRB : elemIFList[newSameElem].border.interuptorRB,
+            interuptorLB : elemIFList[newSameElem].border.interuptorLB,
+            interuptorBB : elemIFList[newSameElem].border.interuptorBB
         }
 
-        //objet qui contient l'ensemble des info de style de chacune des bordures.
         elemList[borderNum].border = {
             top :{
-                size : 0,
-                style : "none",
+                size : elemList[newSameElem].border.top.size,
+                style : elemList[newSameElem].border.top.style,
                 color : {
-                    hue : "#000000",
-                    opacity : 100
+                    hue : elemList[newSameElem].border.top.color.hue,
+                    opacity : elemList[newSameElem].border.top.color.opacity
                 }
             },
             right :{
-                size : 0,
-                style : "none",
+                size : elemList[newSameElem].border.right.size,
+                style : elemList[newSameElem].border.right.style,
                 color : {
-                    hue : "#000000",
-                    opacity : 100
+                    hue : elemList[newSameElem].border.right.color.hue,
+                    opacity : elemList[newSameElem].border.right.color.opacity
                 }
             },
             bottom :{
-                size : 0,
-                style : "none",
+                size : elemList[newSameElem].border.bottom.size,
+                style : elemList[newSameElem].border.bottom.style,
                 color : {
-                    hue : "#000000",
-                    opacity : 100
+                    hue : elemList[newSameElem].border.bottom.color.hue,
+                    opacity : elemList[newSameElem].border.bottom.color.opacity
                 }
             },
             left :{
-                size : 0,
-                style : "none",
+                size : elemList[newSameElem].border.left.size,
+                style : elemList[newSameElem].border.left.style,
                 color : {
-                    hue : "#000000",
-                    opacity : 100
+                    hue : elemList[newSameElem].border.left.color.hue,
+                    opacity : elemList[newSameElem].border.left.color.opacity
                 }
             }
         }
@@ -1021,14 +1079,14 @@ function createBorder(i){
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CORNER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-let btnPxPcs = document.getElementsByClassName("button-pixel-percent");
 
-function createCorner(i){
+function createCorner(i, newSameElem = null){
     //boucle qui contient l'ensemble des regles de représentations graphiques de l'outil de selection de coins
         //represente le nombre de modules de corner (1 pour chaque module d'element)
         let cornerNum = i;
         //objet contenant les informations sur les element de selection du module
-        if(elemIFList[cornerNum].corner == undefined){
+        if(newSameElem == null){
+            if(elemIFList[cornerNum].corner == undefined){
                 elemIFList[cornerNum].corner = {
                     //représente l'état futur de l'element de selection des coins
                     cornerSelectorSelectionCounter : 1,
@@ -1055,6 +1113,34 @@ function createCorner(i){
                         bottomLeft : true,
                     }
                 }
+        }
+        } else {
+            elemIFList[cornerNum].corner = {
+                //représente l'état futur de l'element de selection des coins
+                cornerSelectorSelectionCounter : elemIFList[newSameElem].corner.cornerSelectorSelectionCounter,
+                //4 variables représentant l'état d'activation (O/I) des boutons de coin du selecteur de coin
+                CornerInteruptorTL : elemIFList[newSameElem].corner.CornerInteruptorTL,
+                CornerInteruptorTR : elemIFList[newSameElem].corner.CornerInteruptorTR,
+                CornerInteruptorBR : elemIFList[newSameElem].corner.CornerInteruptorBR,
+                CornerInteruptorBL : elemIFList[newSameElem].corner.CornerInteruptorBL,
+                //variable to manage pixel/% button || true = %, false = px
+                btnPxPcSelect : elemIFList[newSameElem].corner.btnPxPcSelect
+            }
+
+            //objet qui contient les valeurs de courbure pour les 4 coins de l'element ciblé
+            elemList[cornerNum].corner = {
+                topLeft : elemList[newSameElem].corner.topLeft,
+                topRight : elemList[newSameElem].corner.topRight,
+                bottomRight : elemList[newSameElem].corner.bottomRight,
+                bottomLeft : elemList[newSameElem].corner.bottomLeft,
+                pixelOrPercent : {
+                    //true == percent |false == pixel
+                    topLeft : elemList[newSameElem].corner.pixelOrPercent.topLeft,
+                    topRight : elemList[newSameElem].corner.pixelOrPercent.topRight,
+                    bottomRight : elemList[newSameElem].corner.pixelOrPercent.bottomRight,
+                    bottomLeft : elemList[newSameElem].corner.pixelOrPercent.bottomLeft,
+                }
+            }
         }
 
         btnPxPcs[cornerNum].addEventListener("click", function(){
@@ -1095,25 +1181,31 @@ function createCorner(i){
                                         pixelOrPercentTopLeft, pixelOrPercentTopRight, 
                                         pixelOrPercentBottomRight, pixelOrPercentBottomLeft
                                      ){
-                                        console.log("hey");
-                                            interuptorList = [topLeftInteruptor, topRightInteruptor, bottomRightInteruptor, bottomLeftInteruptor];
-                                            pixelOrPercentinteruptorList = [pixelOrPercentTopLeft, pixelOrPercentTopRight, pixelOrPercentBottomRight, pixelOrPercentBottomLeft];
-
-                                            for(i=0; i<=interuptorList.length-1; i++){
-                                                console.log("---------------");
-                                                if(interuptorList[i] == true){
-                                                    console.log("vrai");
-                                                    console.log(pixelOrPercentInteruptor);
-                                                    if(pixelOrPercentinteruptorList[i] != pixelOrPercentInteruptor) pixelOrPercentinteruptorList[i] = pixelOrPercentInteruptor;
-                                                    console.log(pixelOrPercentinteruptorList[i]);
+                                        let interuptorList = [topLeftInteruptor, topRightInteruptor, bottomRightInteruptor, bottomLeftInteruptor];
+                                        let interuptorTrueList = [];
+                                        let pixelOrPercentinteruptorList = [pixelOrPercentTopLeft, pixelOrPercentTopRight, pixelOrPercentBottomRight, pixelOrPercentBottomLeft];
+                                        
+                                        for(i=0; i<=interuptorList.length-1; i++){
+                                            if(interuptorList[i] == true){
+                                                interuptorTrueList.push(interuptorList[i]);
+                                                if(pixelOrPercentinteruptorList[i] != pixelOrPercentInteruptor) pixelOrPercentinteruptorList[i] = pixelOrPercentInteruptor;
+                                            }
+                                            if(i == interuptorList.length-1){
+                                                if(interuptorTrueList.length == 0){
+                                                    console.log("test2");
+                                                    elemList[cornerNum].corner.pixelOrPercent.topLeft = pixelOrPercentInteruptor;
+                                                    elemList[cornerNum].corner.pixelOrPercent.topRight = pixelOrPercentInteruptor; 
+                                                    elemList[cornerNum].corner.pixelOrPercent.bottomRight = pixelOrPercentInteruptor; 
+                                                    elemList[cornerNum].corner.pixelOrPercent.bottomLeft = pixelOrPercentInteruptor;
+                                                } else {
+                                                    console.log("test1");
+                                                    elemList[cornerNum].corner.pixelOrPercent.topLeft = pixelOrPercentinteruptorList[0]; 
+                                                    elemList[cornerNum].corner.pixelOrPercent.topRight = pixelOrPercentinteruptorList[1]; 
+                                                    elemList[cornerNum].corner.pixelOrPercent.bottomRight = pixelOrPercentinteruptorList[2]; 
+                                                    elemList[cornerNum].corner.pixelOrPercent.bottomLeft= pixelOrPercentinteruptorList[3];
                                                 }
                                             }
-
-                                            elemList[cornerNum].corner.pixelOrPercent.topLeft = pixelOrPercentinteruptorList[0]; 
-                                            elemList[cornerNum].corner.pixelOrPercent.topRight = pixelOrPercentinteruptorList[1]; 
-                                            elemList[cornerNum].corner.pixelOrPercent.bottomRight = pixelOrPercentinteruptorList[2]; 
-                                            elemList[cornerNum].corner.pixelOrPercent.bottomLeft= pixelOrPercentinteruptorList[3];
-
+                                        }
                                         }
 
 
@@ -1141,15 +1233,19 @@ function createCorner(i){
         //neutral = visuel des bords non sélectionné, activate = visuel des bords sélectionné
         function topLeftCornerActivate(){
             topLefts[cornerNum].setAttribute("active","");
+            elemList[cornerNum].corner.pixelOrPercent.topLeft = elemIFList[cornerNum].corner.btnPxPcSelect;
         }
         function topRightCornerActivate(){
-            topRights[cornerNum].setAttribute("active","");  
+            topRights[cornerNum].setAttribute("active","");
+            elemList[cornerNum].corner.pixelOrPercent.topRight = elemIFList[cornerNum].corner.btnPxPcSelect;
         }
         function bottomRightCornerActivate(){
             bottomRights[cornerNum].setAttribute("active","");
+            elemList[cornerNum].corner.pixelOrPercent.bottomRight = elemIFList[cornerNum].corner.btnPxPcSelect;
         }
         function bottomLeftCornerActivate(){
             bottomLefts[cornerNum].setAttribute("active","");
+            elemList[cornerNum].corner.pixelOrPercent.bottomLeft = elemIFList[cornerNum].corner.btnPxPcSelect;
         }
         function topLeftCornerNeutral(){
             topLefts[cornerNum].removeAttribute("active");
@@ -1392,6 +1488,7 @@ function createCorner(i){
                 elemIFList[cornerNum].corner.CornerInteruptorTR = true;
                 elemIFList[cornerNum].corner.CornerInteruptorBR = true;
                 elemIFList[cornerNum].corner.CornerInteruptorBL = true;
+
                 topLeftCornerActivate();
                 topRightCornerActivate();
                 bottomRightCornerActivate();
@@ -1407,7 +1504,7 @@ function createCorner(i){
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SHADER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-function createShader(i){
+function createShader(i, newSameElem = null){
     //boucle qui permet de remplir le shaderModList d'objet representant chacun des module de shaders et leurs différentes valeurs
     //déclaration d'evenement avec les outils HTML d'interactions et de selection
         //représente le nombre de module de shader
@@ -1417,37 +1514,71 @@ function createShader(i){
         createOpacity(opaNum);            
 
         //objet qui contient les informations concernant le nombre de shader différent, celui qui est sélectionné et les info sur les btns
-        if(elemIFList[shaderNum].shader == undefined){
+        if(newSameElem == null){
+            if(elemIFList[shaderNum].shader == undefined){
+                elemIFList[shaderNum].shader = {
+                        //représente le nombre de shaders différent dans un même module
+                        shaderNum : 1,
+                        //représente le shader selectionné (le shaderNumber selectionné)
+                        shaderSelectNum : 1,
+                        //défini l'état du bouton de selection de gradient (lineaire ou gradient)
+                        interuptor : false,
+                        //défini les différentes variable lié au bouton de selection de degré
+                        degreeBtn : {
+                            //représente le numéro du bouton qui permet l'attribution d'un degré pour les gradient lineaire
+                            btnNum : shaderNum,
+                            //représente les degrés a 360°, ici a leurs valeurs initial
+                            degree : 0,
+                            //défini l'état du bouton d'attribution de degré (si gradient lineaire ON, si radial OFF)
+                            degreeInteruptor : false,
+                            //permet de pouvoir comparé l'ancienne place de la souris avec la nouvelle et de crée le nouveau degrés
+                            initVal : 0
+                        }    
+                }   
+                //crée un tableau qui va contenir les objets représentant les différents shaders d'un même module
+                elemList[shaderNum].shader = [];
+                //création de l'objet shader de base
+                elemList[shaderNum].shader[elemIFList[shaderNum].shader.shaderNum-1] = {
+                    placement : 0,
+                    gradient : "linear",
+                    degree : 0,
+                    color : {
+                                hue : "#FFA200",
+                                opacity : 100
+                            }
+                }
+            }
+        } else {
             elemIFList[shaderNum].shader = {
-                    //représente le nombre de shaders différent dans un même module
-                    shaderNum : 1,
-                    //représente le shader selectionné (le shaderNumber selectionné)
-                    shaderSelectNum : 1,
-                    //défini l'état du bouton de selection de gradient (lineaire ou gradient)
-                    interuptor : false,
-                    //défini les différentes variable lié au bouton de selection de degré
-                    degreeBtn : {
-                        //représente le numéro du bouton qui permet l'attribution d'un degré pour les gradient lineaire
-                        btnNum : shaderNum,
-                        //représente les degrés a 360°, ici a leurs valeurs initial
-                        degree : 0,
-                        //défini l'état du bouton d'attribution de degré (si gradient lineaire ON, si radial OFF)
-                        degreeInteruptor : false,
-                        //permet de pouvoir comparé l'ancienne place de la souris avec la nouvelle et de crée le nouveau degrés
-                        initVal : 0
-                    }    
+                shaderNum : elemIFList[newSameElem].shader.shaderNum,
+                shaderSelectNum : elemIFList[newSameElem].shader.shaderSelectNum,
+                interuptor : elemIFList[newSameElem].shader.interuptor,
+                degreeBtn : {
+                    btnNum : shaderNum,
+                    degree : elemIFList[newSameElem].shader.degreeBtn.degree,
+                    degreeInteruptor : elemIFList[newSameElem].shader.degreeBtn.degreeInteruptor,
+                    initVal : elemIFList[newSameElem].shader.degreeBtn.initVal
+                }    
             }   
-            //crée un tableau qui va contenir les objets représentant les différents shaders d'un même module
             elemList[shaderNum].shader = [];
-            //création de l'objet shader de base
-            elemList[shaderNum].shader[elemIFList[shaderNum].shader.shaderNum-1] = {
-                placement : 0,
-                gradient : "linear",
-                degree : 0,
+            elemList[shaderNum].shader[0] = {
+                placement : elemList[newSameElem].shader[0].placement,
+                gradient : elemList[newSameElem].shader[0].gradient,
+                degree : elemList[newSameElem].shader[0].degree,
                 color : {
-                            hue : "#FFA200",
-                            opacity : 100
+                            hue : elemList[newSameElem].shader[0].color.hue,
+                            opacity : elemList[newSameElem].shader[0].color.opacity
                         }
+            }
+            for(j=1; j<=elemList[newSameElem].shader.length-1; j++){
+                elemList[shaderNum].shader[j] = {
+                    placement : elemList[newSameElem].shader[j].placement,
+                    color : {
+                                hue : elemList[newSameElem].shader[j].color.hue,
+                                opacity : elemList[newSameElem].shader[j].color.opacity
+                            }
+                }
+                console.log(elemList[shaderNum].shader[j].color.hue);
             }
         }
 
@@ -1636,40 +1767,67 @@ function createShader(i){
         })
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BOX~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-function createBox(i){
+function createBox(i, newSameElem = null){
         //représente le nombre de module de box
         let boxNum = i;
         //permet de selectionner le range d'opacité lié au module de box
         let opaNum = 3+(boxNum*4);
         createOpacity(opaNum);
 
-        if(elemIFList[boxNum].box == undefined){
-            elemIFList[boxNum].box = {
-                //représente le nombre de boxs différent dans un même module
-                boxNum : 1,
-                //représente la box selectionné (le boxNum selectionné)
-                boxSelectNum : 1,
-                //défini l'état du bouton XY
-                interuptorXY : false,    
-                //défini l'état du bouton BS
-                interuptorBS : false
+        if(newSameElem == null){
+            if(elemIFList[boxNum].box == undefined){
+                elemIFList[boxNum].box = {
+                    //représente le nombre de boxs différent dans un même module
+                    boxNum : 1,
+                    //représente la box selectionné (le boxNum selectionné)
+                    boxSelectNum : 1,
+                    //défini l'état du bouton XY
+                    interuptorXY : false,    
+                    //défini l'état du bouton BS
+                    interuptorBS : false
+                    }
+                //crée un tableau qui va contenir les objets représentant les différents boxs d'un même module
+                elemList[boxNum].box = [];
+                //création de l'objet box de base
+                elemList[boxNum].box[elemIFList[boxNum].box.boxNum-1] = {
+                    inset : false,
+                    radius : {
+                        spread : 0,
+                        blur : 0 
+                    },
+                    offset : {
+                        x : 0,
+                        y : 0
+                    },
+                    color : {
+                        hue : "#969696",
+                        opacity : 100
+                    }
                 }
-            //crée un tableau qui va contenir les objets représentant les différents boxs d'un même module
+            }
+        } else {
+            elemIFList[boxNum].box = {
+                boxNum : elemIFList[newSameElem].box.boxNum,
+                boxSelectNum : elemIFList[newSameElem].box.boxSelectNum,
+                interuptorXY : elemIFList[newSameElem].box.interuptorXY,    
+                interuptorBS : elemIFList[newSameElem].box.interuptorBS
+                }
             elemList[boxNum].box = [];
-            //création de l'objet box de base
-            elemList[boxNum].box[elemIFList[boxNum].box.boxNum-1] = {
-                inset : false,
-                radius : {
-                    spread : 0,
-                    blur : 0 
-                },
-                offset : {
-                    x : 0,
-                    y : 0
-                },
-                color : {
-                    hue : "#969696",
-                    opacity : 100
+            for(j=0; j<=elemList[newSameElem].box.length-1; j++){
+                elemList[boxNum].box[j] = {
+                    inset : elemList[newSameElem].box[j].inset,
+                    radius : {
+                        spread : elemList[newSameElem].box[j].radius.spread,
+                        blur : elemList[newSameElem].box[j].radius.blur 
+                    },
+                    offset : {
+                        x : elemList[newSameElem].box[j].offset.x,
+                        y : elemList[newSameElem].box[j].offset.y
+                    },
+                    color : {
+                        hue : elemList[newSameElem].box[j].color.hue,
+                        opacity : elemList[newSameElem].box[j].color.opacity
+                    }
                 }
             }
         }
@@ -1867,6 +2025,16 @@ function createBox(i){
 }
 
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TEXT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+let textButtons = document.getElementsByClassName("text-btn");
+
+function createText(i){
+    textButtons[i].addEventListener("mousedown", openTextTool);
+    function openTextTool(){
+        console.log("testing");
+    }
+}
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TRASH-RESET-MORE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 //fonction de suppression d'une element bar
@@ -2055,7 +2223,150 @@ function createResetBtn(){
         })
     }
 }
-function createElem(i){
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ELEM-COPY~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+let copyButtons = document.getElementsByClassName("element-btn-more-under-module");
+
+function createCopyButton(i){
+    let copyNum = i;
+    let copyNameNum = 2;
+    copyButtons[copyNum].addEventListener("click", createNewSameElement)
+    function createNewSameElement(){
+
+        fetch('data/element-module.html')
+        .then(response => response.text())
+        .then(data => {
+            let newElem = document.createElement("div");
+            newElem.classList.add("html-element");
+            elementModulesContainer.appendChild(newElem);
+            newElem.innerHTML += data;
+    
+            let y = elements.length-1; 
+            
+            createModule(y, copyNum, copyNameNum);
+            elemList[elemList.length-1].size.width = elemList[copyNum].size.width; 
+            elemList[elemList.length-1].size.height = elemList[copyNum].size.height;            
+            
+            updatePos();
+            createSize();
+            createPlacement();
+            for (o=0; o<=elemList.length-1; o++){
+               allVisualChange(o); 
+                //corner
+                if(elemIFList[o].corner.btnPxPcSelect == false){
+                    btnPxPcs[o].setAttribute("pixel", "");
+                    btnPxPcs[o].removeAttribute("max");
+                    radiusRanges[o].setAttribute("max", "175");
+                } else {
+                    btnPxPcs[o].removeAttribute("pixel");
+                    btnPxPcs[o].removeAttribute("max");
+                    radiusRanges[o].setAttribute("max", "100");
+                }
+                //shader
+                shaderSelectors[o].innerHTML = "";
+                for(p=1; p <= elemIFList[o].shader.shaderNum; p++){
+                    let option = document.createElement("option");
+                    option.innerHTML = p;
+                    if(p == elemIFList[o].shader.shaderSelectNum) option.setAttribute("selected", "");
+                    shaderSelectors[o].appendChild(option);
+                }
+                //to change the background diffusion (linear/radial) btn
+                if((elemIFList[o].shader.interuptor == false)&&(btnSelectGradients[o].hasAttribute("active"))){
+                    //linear
+                    btnSelectGradients[o].removeAttribute("active");
+                    degreeButtons[o].setAttribute("active", "");
+                } 
+                else if((elemIFList[o].shader.interuptor == true)&&(btnSelectGradients[o].hasAttribute("active")) == false){
+                    //radial
+                    btnSelectGradients[o].setAttribute("active", "");
+                    degreeButtons[o].removeAttribute("active");
+                }
+                //visual change of linear background btn degree selection
+                //premet le changement visuel du bouton
+                degreeButtons[o].style.transform = "rotate(" + elemIFList[o].shader.degreeBtn.degree + "deg)";
+
+
+                //corner
+                let cornerIFArray = [
+                    elemIFList[o].corner.CornerInteruptorBL,
+                    elemIFList[o].corner.CornerInteruptorBR,
+                    elemIFList[o].corner.CornerInteruptorTL,
+                    elemIFList[o].corner.CornerInteruptorTR
+                ];
+                let cornerArray = [ bottomLefts[o], bottomRights[o], topLefts[o], topRights[o] ];
+                let cornerCounter = 0;
+                cornerIFArray.forEach(element => {
+                    if(element == true){
+                        cornerArray[cornerCounter].setAttribute("active", "");
+                    } else {
+                        cornerArray[cornerCounter].removeAttribute("active");
+                    }
+                    cornerCounter++;
+                });
+
+                //border
+                let borderIFarray = [
+                    elemIFList[o].border.interuptorRB,
+                    elemIFList[o].border.interuptorTB,
+                    elemIFList[o].border.interuptorBB,
+                    elemIFList[o].border.interuptorLB
+                ]
+                let borderHTMLArray = [
+                    rightBorderSelectors[o],
+                    topBorderSelectors[o],
+                    bottomBorderSelectors[o],
+                    leftBorderSelectors[o]
+                ]
+                let counterBorder = 0;
+                borderIFarray.forEach(element => {
+                    if(element == true){
+                        borderHTMLArray[counterBorder].setAttribute("active", "");
+                    } else {
+                        borderHTMLArray[counterBorder].removeAttribute("active");
+                    }
+                    counterBorder++;
+                });
+                //box
+                boxSelectors[o].innerHTML = "";
+                for(p=1; p <= elemIFList[o].box.boxNum; p++){
+                    let option = document.createElement("option");
+                    option.innerHTML = p;
+                    if(p == elemIFList[o].box.boxSelectNum) option.setAttribute("selected", "");
+                    boxSelectors[o].appendChild(option);
+                }
+
+
+                if((elemIFList[o].box.interuptorXY == false)&&(interuptorSelectsXYs[o].hasAttribute("active"))){
+                    //y
+                    interuptorSelectsXYs[o].removeAttribute("active");
+                } 
+                else if((elemIFList[o].box.interuptorXY == true)&&(interuptorSelectsXYs[o].hasAttribute("active")) == false){
+                    //x
+                    interuptorSelectsXYs[o].setAttribute("active", "");
+                }
+
+                if((elemIFList[o].box.interuptorBS == false)&&(interuptorSpreadBlurs[o].hasAttribute("active"))){
+                    //y
+                    interuptorSpreadBlurs[o].removeAttribute("active");
+                } 
+                else if((elemIFList[o].box.interuptorBS == true)&&(interuptorSpreadBlurs[o].hasAttribute("active")) == false){
+                    //x
+                    interuptorSpreadBlurs[o].setAttribute("active", "");
+                }
+            }
+            updateGraphicPos();
+            calcElemCelPlace();
+    
+            removeAllEllAttr();
+            angleInteruptor = false;
+            moduleCounter++;
+            selectAllEllAttr();
+
+            copyNameNum++; 
+        })
+    }
+}
+
+function createElem(i, newSameElem = null){
     let elemNum = i;
     if(elemList[elemNum] == undefined){
         elemList[elemNum] = 
@@ -2079,14 +2390,16 @@ function createElem(i){
     }
 }
 
-function createModule(i){    
-    createElem(i);
-    createName(i);
-    createColor(i);
-    createBorder(i);
-    createCorner(i);
-    createShader(i);
-    createBox(i);
+function createModule(i, newSameElem = null, newSameElemName = null){    
+    createElem(i, newSameElem);
+    createName(i, newSameElem, newSameElemName);
+    createColor(i, newSameElem);
+    createBorder(i, newSameElem);
+    createCorner(i, newSameElem);
+    createShader(i, newSameElem);
+    createBox(i, newSameElem);
+    createText(i, newSameElem);
+    createCopyButton(i);
     createListPlace(i);
 
     createResetBtn(i);
@@ -2094,7 +2407,8 @@ function createModule(i){
 }
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ELEMENT-MODULE-ADDING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 //Event of the more-btn of the element-window
-moreElementBtn.addEventListener("click", function(){
+moreElementBtn.addEventListener("click", addingANewElement)
+function addingANewElement(){
     fetch('data/element-module.html')
     .then(response => response.text())
     .then(data => {
@@ -2116,5 +2430,5 @@ moreElementBtn.addEventListener("click", function(){
         calcElemCelPlace();
 
     })
-})
+}
 
