@@ -6,9 +6,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./style/style.css">
-    <title>HTML GEN 2</title>
+    <title>NoCode HTML+CSS</title>
 </head>
 <body>
+    <article id="text-tool-container">
+        <div id="text-tool-closer-btn">
+            <img src="img/plus.svg" alt="">
+        </div>
+        <div class="text-tool" id="text-tool">
+            <h2 id="text-placement">TEXT <span>Tool</span></h2>
+            <hr>
+            <div class="container-text-style-align">
+                <div class="text-tool-font-style-selection">
+                    <button id="bold-text">
+                        <img src="img/bold.svg" alt="">
+                    </button>
+                    <button id="italic-text">
+                        <img src="img/italic.svg" alt="">
+                    </button>
+                </div>
+                <div class="text-tool-font-decoration-selection">
+                    <button id="underline-text">
+                        <img src="img/underline.svg" alt="">
+                    </button>
+                    <button id="line-through-text">
+                        <img src="img/line-through.svg" alt="">
+                    </button>
+                    <button class="overline" id="overline-text">
+                        <img src="img/overline.svg" alt="">
+                    </button>
+                    <div class="text-decoration-style-color">
+                        <select name="" id="select-text-decoration-style">
+                            <option value="solid" selected>solid</option>
+                            <option value="double" selected>double</option>
+                            <option value="dotted" selected>dotted</option>
+                            <option value="dashed" selected>dashed</option>
+                            <option value="wavy" selected>wavy</option>
+                        </select>
+                        <input type="color" class="color" value="#000000" id="text-decoration-color-input">
+                    </div>
+                </div>
+                <div class="text-tool-align-text-selection">
+                    <button id="text-align-left">
+                        <img src="img/align-left.svg" alt="">
+                    </button>
+                    <button id="text-align-center">
+                        <img src="img/align-center.svg" alt="">
+                    </button>
+                    <button id="text-align-right">
+                        <img src="img/align-right.svg" alt="">
+                    </button>
+                    <button id="text-align-justify">
+                        <img src="img/align-justify.svg" alt="">
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="container-font-size">
+                <h3>Font</h3>
+                <select name="" id="select-font-family">
+                    <option value="Arial, Helvetica, sans-serif" style="font-family: Arial, Helvetica, sans-serif;">Arial</option>
+                    <option value="'Courier New', Courier, monospace" style="font-family: 'Courier New', Courier, monospace;">Courier New</option>
+                    <option value="'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Franklin Gothic</option>
+                    <option value="'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Gill Sans</option>
+                    <option value="'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Lucida Sans</option>
+                    <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Segoe UI</option>
+                    <option value="'Times New Roman', Times, serif" style="font-family: 'Times New Roman', Times, serif;">Times New Roman</option>
+                    <option value="'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif" style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Trebuchet MS</option>
+                    <option value="Cambria, Cochin, Georgia, Times, 'Times New Roman', serif" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Cambria</option>
+                    <option value="Cambria, 'Times New Roman', Times, serif" style="font-family: Cambria, 'Times New Roman', Times, serif;">Cambria</option>
+                    <option value="Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Impact</option>
+                    <option value="Verdana, Geneva, Tahoma, sans-serif" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Verdana</option>
+                    <option value="cursive" style="font-family: cursive;">cursive</option>
+                    <option value="fantasy" style="font-family: fantasy;">fantasy</option>
+                    <option value="monospace" style="font-family: monospace;">monospace</option>
+                    <option value="sans-serif" style="font-family: sans-serif;">sans-serif</option>
+                    <option value="serif" style="font-family: serif;">serif</option>
+                    <option value="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">system-ui</option>
+                </select>
+                <h3>Size</h3>
+                <input type="range" value="16" max="100" min="1" id="font-size-range">
+                <h3>Color</h3>
+                <input class="color" type="color" value="#000000" id="text-color">
+            </div>
+            <hr>
+            <div class="text-tool-spacing">
+                <h3>Spacing : </h3>
+                <form class="container-radio-spacing selection">
+                    <label for="letter">Letters</label><input type="radio" id="letter" name="spacing" value="letter-spacing" checked>
+                    <label for="word">Words</label><input type="radio" id="word" name="spacing" value="word-spacing">
+                    <label for="line">Lines</label><input type="radio" id="line" name="spacing" value="line-height">
+                </form>
+                <div class="word-spacing">
+                    <div class="container-button-spacing-word-letter">
+                        <button id="enlarge-space">
+                            <img src="img/arrow-left.svg" alt="">
+                            <img src="img/arrow-left.svg" class="reverse-arrowleft" alt="">
+                        </button>
+                        <button id="decrease-space">
+                            <img src="img/arrow-left.svg" class="reverse-arrowleft" alt="">
+                            <img src="img/arrow-left.svg" alt="">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-shadow-white-space-container">
+                <div class="text-shadow-container">
+                    <h3>Shadow : </h3>
+                    <div class="text-shadow-more-trash-img-container">
+                        <select name="" id="shadow-text-list">
+                            <option value="1" selected>1</option>
+                        </select>
+                        <div class="text-shadow-icone-image" id="shadow-text-more-btn">
+                            <img src="img/plus-m.svg" alt="">
+                        </div>
+                        <div class="text-shadow-icone-image" id="shadow-text-trash-btn">
+                            <img src="img/trash.svg" alt="">
+                        </div> 
+                    </div>
+                    <div class="text-shadow-placement">
+                        <div class="text-shadow-x-y-range-container">
+                            <span>axe</span>
+                            <button class="button-selector" id="x-y-button-shadow-text">
+                                <div class="text-shadow-x-y">
+                                    <div class="button-shadow-text-x-y"></div>
+                                </div>
+                            </button>  
+                            <input type="range" id="shadow-text-x-y-input-range" value="0" min="-100" max="100">
+                        </div>
+                        <div>
+                            <span class="shadow-text-blur">blur</span>
+                            <input type="range" id="text-shadow-blur-input-range" value="0" min="0" max="90">
+                            <input class="color" type="color" id="shadow-text-color-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="white-space-container">
+                    <h3>white-space</h3>
+                    <select name="" id="white-space-select">
+                        <option value="pre">pre</option>
+                        <option value="pre-wrap">pre-wrap</option>
+                        <option value="pre-line">pre-line</option>
+                        <option value="normal">normal</option>
+                        <option value="nowrap">nowrap</option>
+                        <option value="break-spaces">break-spaces</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <div class="container-text-write" >
+                <form>
+                    <label for="span">span</label><input type="radio" id="span" name="tag" value="span" checked>
+                    <label for="p">p</label><input type="radio" id="p" name="tag" value="p">
+                    <label for="h1">h1</label><input type="radio" id="h1" name="tag" value="h1" >
+                    <label for="h2">h2</label><input type="radio" id="h2" name="tag" value="h2">
+                    <label for="h3">h3</label><input type="radio" id="h3" name="tag" value="h3">
+                </form>
+                <textarea name="" id="text-content" cols="30" rows="10"></textarea>
+            </div>
+        </div>
+        <div class="text-result-text-in-element-container" id="text-result-text-in-element">
+            <div class="text-result">
+                <div id="result-title-container">
+                    <h3>Result</h3>
+                </div>
+                <h1 id="result-text"></h1>
+                <button>add</button>
+            </div>
+            <hr>
+            <div class="text-in-element-container">
+                <div class="text-element-icon-image" id="element-text-trash-btn">
+                    <img src="img/trash.svg" alt="">
+                </div>     
+                <div class="text-in-element">
+                    <div class="displaying-element"></div>
+                </div>
+            </div>
+        </div>
+    </article>
     <article class="element">
         <div id="move-element-tool">
             <div class="element-tool" begin>

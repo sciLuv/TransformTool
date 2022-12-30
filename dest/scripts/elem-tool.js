@@ -2027,14 +2027,383 @@ function createBox(i, newSameElem = null){
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TEXT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 let textButtons = document.getElementsByClassName("text-btn");
+let textTool = document.getElementById("text-tool-container");
+let closeTextToolBtn = document.getElementById("text-tool-closer-btn");
+
+closeTextToolBtn.addEventListener("click", function(){
+    textTool.style.display = "none";
+})
 
 function createText(i){
     textButtons[i].addEventListener("mousedown", openTextTool);
     function openTextTool(){
-        console.log("testing");
+        textTool.style.display = "flex";
     }
 }
 
+let boldBtn = document.getElementById("bold-text");
+let isBold = false;
+let italicBtn = document.getElementById("italic-text");
+let isItalic = false;
+
+let underlineBtn = document.getElementById("underline-text");
+let lineThroughBtn = document.getElementById("line-through-text");
+let overlineBtn = document.getElementById("overline-text");
+let textDecorationUnderlineSetting = "", textDecorationLineThroughSetting = "", textDecorationOverlineSetting = "";
+
+let textDecorationStyleSelect = document.getElementById("select-text-decoration-style");
+let textDecorationColorInput = document.getElementById("text-decoration-color-input");
+let textDecorationColorSetting = "#000000", textDecorationStyleSetting = "solid";
+
+let alignJustifyBtn = document.getElementById("text-align-justify");
+let alignRightBtn = document.getElementById("text-align-right");
+let alignCenterBtn = document.getElementById("text-align-center");
+let alignLeftBtn = document.getElementById("text-align-left");
+let textAlignSetting = "start";
+
+let selectFontFamily = document.getElementById("select-font-family");
+let fontFamilySetting = "Arial, Helvetica, sans-serif";
+
+let fontSizeRange = document.getElementById("font-size-range");
+let fontSizeSetting = "16px";
+
+let textColorInput = document.getElementById("text-color");
+let textColorSetting;
+
+let letterSpacingRadio = document.getElementById("letter");
+let wordSpacingRadio = document.getElementById("word");
+let lineSpacingRadio = document.getElementById("line");
+let letterSpacingSetting = 0; 
+let wordSpacingSetting = 0; 
+let lineSpacingSetting = 18; 
+
+let enlargeSpaceBtn = document.getElementById("enlarge-space");
+let decreaseSpaceBtn = document.getElementById("decrease-space");
+let selectedSpacing = "letter-spacing";
+
+let shadowTextSelect = document.getElementById("shadow-text-list");
+let shadowTextMoreBtn = document.getElementById("shadow-text-more-btn");
+let shadowTextTrashBtn = document.getElementById("shadow-text-trash-btn");
+let btnTextShadow = document.getElementById("x-y-button-shadow-text");
+let shadowTextXYRange = document.getElementById("shadow-text-x-y-input-range");
+let shadowTextBlurRange = document.getElementById("text-shadow-blur-input-range");
+let shadowTextColorInput = document.getElementById("shadow-text-color-input");
+
+let whiteSpaceSelect = document.getElementById("white-space-select");
+let whiteSpaceSetting = "pre"
+
+let textTagSpan = document.getElementById("span");
+let textTagP = document.getElementById("p");
+let textTagH1 = document.getElementById("h1");
+let textTagH2 = document.getElementById("h2");
+let textTagH3 = document.getElementById("h3");
+let selectedTag = "span";
+
+let textWrite = document.getElementById("text-content");
+let textResult = document.getElementById("result-text");
+
+
+boldBtn.addEventListener("click", function(){
+    let isSet = addAndRemoveAttribute(boldBtn, "selected");
+    isBold = isSet;
+})
+italicBtn.addEventListener("click", function(){
+    let isSet = addAndRemoveAttribute(italicBtn, "selected");
+    isItalic = isSet;
+})
+
+
+underlineBtn.addEventListener("click", function(){
+    let isSet = addAndRemoveAttribute(underlineBtn, "selected");
+    if(isSet) textDecorationUnderlineSetting = "underline"; else{ textDecorationUnderlineSetting = "" }; 
+});
+lineThroughBtn.addEventListener("click", function(){
+    let isSet = addAndRemoveAttribute(lineThroughBtn, "selected");
+    if(isSet) textDecorationLineThroughSetting = "line-through"; else{ textDecorationLineThroughSetting = "" };
+});
+overlineBtn.addEventListener("click", function(){
+    let isSet = addAndRemoveAttribute(overlineBtn, "selected");
+    if(isSet) textDecorationOverlineSetting = "overline"; else{ textDecorationOverlineSetting = "" };
+});
+
+textDecorationStyleSelect.addEventListener("change", function(){
+    textDecorationStyleSetting = textDecorationStyleSelect.value;
+})
+textDecorationColorInput.addEventListener("input", function(){
+    textDecorationColorSetting = textDecorationColorInput.value;
+})
+
+
+alignLeftBtn.addEventListener("click", function(){
+    let isSet = addAndRemoveAttributeTextAlign(alignLeftBtn, alignRightBtn, alignCenterBtn, alignJustifyBtn, "selected");
+    textAlignSetting = "start";
+});
+alignCenterBtn.addEventListener("click", function(){
+    let isSet = addAndRemoveAttributeTextAlign(alignCenterBtn, alignRightBtn, alignJustifyBtn, alignLeftBtn, "selected");
+    if(isSet) textAlignSetting = "center"; else{ textDecorationsetting = "start" };
+});
+alignRightBtn.addEventListener("click", function(){
+    let isSet = addAndRemoveAttributeTextAlign(alignRightBtn, alignJustifyBtn, alignCenterBtn, alignLeftBtn, "selected");
+    if(isSet) textAlignSetting = "end"; else{ textDecorationsetting = "start" };
+});
+alignJustifyBtn.addEventListener("click", function(){
+    let isSet = addAndRemoveAttributeTextAlign(alignJustifyBtn, alignRightBtn, alignCenterBtn, alignLeftBtn, "selected");
+    if(isSet) textAlignSetting = "justify"; else{ textDecorationsetting = "start" };
+});
+
+
+selectFontFamily.addEventListener('change', function(){
+    fontFamilySetting = selectFontFamily.value;
+    console.log(fontFamilySetting);
+})
+fontSizeRange.addEventListener('input', function(){
+    fontSizeSetting = fontSizeRange.value + "px";
+})
+textColorInput.addEventListener('input', function(){
+    textColorSetting = textColorInput.value;
+})
+
+letterSpacingRadio.addEventListener("click", textSpacingInpuRadioSelection);
+wordSpacingRadio.addEventListener("click", textSpacingInpuRadioSelection);
+lineSpacingRadio.addEventListener("click", textSpacingInpuRadioSelection);
+
+let enlargingInterval, decreasingInterval;
+enlargeSpaceBtn.addEventListener("mousedown", function(){
+    enlargingInterval = setInterval(enlarging, 100);
+});
+enlargeSpaceBtn.addEventListener("mouseup", function(){
+    clearInterval(enlargingInterval);
+});
+decreaseSpaceBtn.addEventListener("mousedown", function(){
+    decreasingInterval = setInterval(decreasing, 100);
+});
+decreaseSpaceBtn.addEventListener("mouseup", function(){
+    clearInterval(decreasingInterval);
+});
+
+function enlarging(){
+        switch (selectedSpacing){
+            case "letter-spacing" : 
+                letterSpacingSetting += 1;
+                break; 
+            case "word-spacing" :
+                wordSpacingSetting += 1;
+                break;
+            case "line-height" :
+                lineSpacingSetting += 1
+                break
+        }
+};
+function decreasing(){
+        switch (selectedSpacing){
+            case "letter-spacing" : 
+                letterSpacingSetting -= 1;
+                break; 
+            case "word-spacing" :
+                wordSpacingSetting -= 1;
+                break;
+            case "line-height" :
+                lineSpacingSetting -= 1
+                break
+        }
+};
+
+textTagSpan.addEventListener('click', textTagInpuRadioSelection);
+textTagP.addEventListener('click', textTagInpuRadioSelection);
+textTagH1.addEventListener('click', textTagInpuRadioSelection);
+textTagH2.addEventListener('click', textTagInpuRadioSelection);
+textTagH3.addEventListener('click', textTagInpuRadioSelection);
+
+let optionNumber = 2;
+let shadowTextOptionSelected = 0;
+let AxeX = false;
+let shadowTextvalue = [
+    {
+        axe : {
+            x : 0,
+            y : 0
+        },
+        blur : 0,
+        color : "#000000"
+    }
+]
+shadowTextSelect.addEventListener("change", function(){
+    let SelectChildren = shadowTextSelect.children;
+    SelectChildren[shadowTextOptionSelected].removeAttribute("selected");
+    shadowTextOptionSelected = shadowTextSelect.value-1; 
+    SelectChildren[shadowTextOptionSelected].setAttribute("selected","");
+
+    reinitializeShadowTextInput()
+})
+shadowTextMoreBtn.addEventListener("click", function(){
+    let SelectChildren = shadowTextSelect.children;
+    SelectChildren[shadowTextOptionSelected].removeAttribute("selected");
+    shadowTextSelect.innerHTML += "<option value='" + optionNumber + "' selected>" + optionNumber + "</option>";
+    shadowTextOptionSelected++;
+    shadowTextvalue.push({ axe : {x : 0, y : 0}, blur : 0, color : "#000000"})
+    optionNumber++;
+
+    reinitializeShadowTextInput()
+})
+shadowTextTrashBtn.addEventListener("click", function(){
+    if((shadowTextOptionSelected == shadowTextSelect.children.length-1)&&(shadowTextOptionSelected != 0)){
+        let SelectChildren = shadowTextSelect.children;
+        SelectChildren[shadowTextOptionSelected].removeAttribute("selected");
+        shadowTextOptionSelected--
+        SelectChildren[shadowTextOptionSelected].setAttribute("selected","");
+    }
+
+    if(shadowTextSelect.children.length-1 == 0){
+        shadowTextvalue = [
+            {
+                axe : {
+                    x : 0,
+                    y : 0
+                },
+                blur : 0,
+                color : "#000000"
+            }
+        ]
+    } else {
+        shadowTextSelect.removeChild(shadowTextSelect.lastChild);
+        shadowTextvalue.splice(shadowTextOptionSelected, 1);
+        optionNumber--;
+    }
+
+    reinitializeShadowTextInput()
+}) 
+
+btnTextShadow.addEventListener("click", function(){
+    let isSet = addAndRemoveAttribute(btnTextShadow, "axeX");
+    AxeX = isSet;
+    if(AxeX == false) shadowTextXYRange.value = shadowTextvalue[shadowTextOptionSelected].axe.y;
+    else {shadowTextXYRange.value = shadowTextvalue[shadowTextOptionSelected].axe.x};
+})
+
+shadowTextXYRange.addEventListener("input", function(){
+    if(AxeX == false) shadowTextvalue[shadowTextOptionSelected].axe.y = shadowTextXYRange.value;
+    else {shadowTextvalue[shadowTextOptionSelected].axe.x = shadowTextXYRange.value};
+    
+})
+shadowTextBlurRange.addEventListener("input", function(){
+    shadowTextvalue[shadowTextOptionSelected].blur = shadowTextBlurRange.value;
+    console.log(shadowTextBlurRange.value);
+})
+
+shadowTextColorInput.addEventListener("input", function(){
+    shadowTextvalue[shadowTextOptionSelected].color = shadowTextColorInput.value;
+})
+
+whiteSpaceSelect.addEventListener("change", function(){
+    whiteSpaceSetting = whiteSpaceSelect.value;
+})
+function reinitializeShadowTextInput(){
+    btnTextShadow.removeAttribute("axeX"); AxeX = false;
+    shadowTextXYRange.value = shadowTextvalue[shadowTextOptionSelected].axe.y;
+    shadowTextBlurRange.value = shadowTextvalue[shadowTextOptionSelected].blur;
+    shadowTextColorInput.value = shadowTextvalue[shadowTextOptionSelected].color;
+}
+
+function addAndRemoveAttribute(element, attribute){
+    if(element.hasAttribute(attribute)){
+        element.removeAttribute(attribute);
+        return false; 
+    } else {
+        element.setAttribute(attribute, "");
+        return true;
+    }
+}
+
+function addAndRemoveAttributeTextDecoration(element, anotherElement, anotherElement2, attribute){
+    if(element.hasAttribute(attribute)){
+        element.removeAttribute(attribute);
+        return false;
+    } else {
+        element.setAttribute(attribute, "");
+        anotherElement.removeAttribute(attribute);
+        anotherElement2.removeAttribute(attribute);
+        return true; 
+    }
+}
+
+function addAndRemoveAttributeTextAlign(element, anotherElement, anotherElement2, anotherElement3, attribute){
+    if(element.hasAttribute(attribute)){
+        element.removeAttribute(attribute);
+        return false;
+    } else {
+        element.setAttribute(attribute, "");
+        anotherElement.removeAttribute(attribute);
+        anotherElement2.removeAttribute(attribute);
+        anotherElement3.removeAttribute(attribute);
+        return true; 
+    }
+}
+
+function textTagInpuRadioSelection(e){
+    selectedTag = e.target.value;
+}
+function textSpacingInpuRadioSelection(e){
+    selectedSpacing = e.target.value;
+}
+
+function textGen(){
+    if(textTool.style.display == "flex"){
+        textResult.innerHTML = "";
+        textResult.innerHTML += "<" + selectedTag + ">";
+        textResult.innerHTML += textWrite.value;
+        textResult.innerHTML += "</" + selectedTag + ">";
+
+
+        if(boldBtn.hasAttribute("selected")) textResult.style.fontWeight = "900";
+        else {textResult.style.fontWeight = 'normal';}
+
+        if(italicBtn.hasAttribute("selected")) textResult.style.fontStyle = "italic";
+        else {textResult.style.fontStyle = 'normal';}
+
+        textResult.style.textDecorationColor = textDecorationColorSetting;
+        textResult.style.textDecorationStyle = textDecorationStyleSetting;
+
+        let textDecorationLineSetting = "";
+        if((textDecorationUnderlineSetting + textDecorationLineThroughSetting + textDecorationOverlineSetting) == ""){
+            textDecorationLineSetting = "none"
+        } else {
+            if(textDecorationUnderlineSetting != "") textDecorationLineSetting += textDecorationUnderlineSetting;
+            if(textDecorationLineThroughSetting != ""){
+                if(textDecorationLineSetting != "") textDecorationLineSetting += " " + textDecorationLineThroughSetting;
+                else {textDecorationLineSetting += textDecorationLineThroughSetting}
+            }
+            if(textDecorationOverlineSetting != ""){
+                if(textDecorationLineSetting != "") textDecorationLineSetting += " " + textDecorationOverlineSetting;
+                else {textDecorationLineSetting += textDecorationOverlineSetting}
+            }
+        }
+        textResult.style.textDecorationLine = textDecorationLineSetting;
+        textResult.style.textAlign = textAlignSetting;
+        textResult.style.fontFamily = fontFamilySetting;
+        textResult.style.fontSize = fontSizeSetting;
+        textResult.style.color = textColorSetting;
+        textResult.style.letterSpacing = letterSpacingSetting + "px";
+        textResult.style.wordSpacing = wordSpacingSetting + "px";
+        textResult.style.lineHeight = lineSpacingSetting + "px";
+
+        let textShadowFinalStyle = ""
+        for(t=0; t<=shadowTextvalue.length-1; t++){
+            textShadowFinalStyle += shadowTextvalue[t].axe.x + "px " + shadowTextvalue[t].axe.y + "px " + shadowTextvalue[t].blur + "px " + shadowTextvalue[t].color;
+            if(t < shadowTextvalue.length-1) textShadowFinalStyle += ', '; 
+        }
+        textResult.style.textShadow = textShadowFinalStyle; 
+
+        textResult.style.whiteSpace = whiteSpaceSetting;
+    } 
+}
+
+setInterval(textGen, 200);
+
+/* 
+text-decoration-color : red ect
+text-decoration-line : over, under, through
+text-decoration-style : solid double dotted dashed wavy
+*/
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TRASH-RESET-MORE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 //fonction de suppression d'une element bar
