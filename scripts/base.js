@@ -275,19 +275,30 @@ let codeCSS = ""
     let posContent = document.getElementById("position");
     let elemContent = document.getElementById("move-element-tool");
     let codeContent = document.getElementById("move-code-tool");
+
+    let textContent = document.getElementById("text-tool");
+    let textResultContent = document.getElementById("text-result-text-in-element");
     //represent the drag & move HTML tag 
     let posPlace = document.getElementById("position-placement");
     let elemPlace = document.getElementById("element-placement");
     let codePlace = document.getElementById("title-and-categories");
+
+    let textPlace = document.getElementById("text-placement");
+    let textResultPlace = document.getElementById("result-title-container")
     //represent the state of the moving, if the drag & move HTML tag is clicked == true / else == false
     let posPlaceActive = false;
     let elemPlaceActive = false;
     let codePlaceActive = false;
+
+    let textPlaceActive = false;
+    let textResultPlaceActive = false;
     //initial position of the moved HTML tag in X/Y axis
     let posInitPlaceX, posInitPlaceY;
     let elemInitPlaceX, elemInitPlaceY;
     let codeInitPlaceX, codeInitPlaceY;
 
+    let textInitPlaceX, textInitPlaceY;
+    let textResultInitPlaceX, textResultInitPlaceY;
 /* calculate the moving of the windows :
     dropToMoveElem :  moved HTML tag / initPlaceX, initPlaceY : initial position X/Y
     placeActive: the state of moving / tool : moved HTML tag  */
@@ -334,3 +345,5 @@ body.addEventListener('mousemove', function(event){
 movingTool(posPlace, posInitPlaceX, posInitPlaceY, posPlaceActive, posContent);
 movingTool(elemPlace, elemInitPlaceX, elemInitPlaceY, elemPlaceActive, elemContent);
 movingTool(codePlace, codeInitPlaceX, codeInitPlaceY, codePlaceActive, codeContent);
+movingTool(textPlace,textInitPlaceX, textInitPlaceY, textPlaceActive, textContent);
+movingTool(textResultPlace,textResultInitPlaceX, textResultInitPlaceY, textResultPlaceActive, textResultContent);
