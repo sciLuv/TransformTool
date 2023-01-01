@@ -184,8 +184,6 @@ let inPositionPaddingLeft = document.getElementsByClassName("vertical-padding");
 //if menu is open this variable is true
 let posToolOpen = false;
 
-
-
 let posIFWidthMin = 244;
 let posIFHeightMin = 125;
 
@@ -268,6 +266,70 @@ let cssBtn = document.getElementById('css-button');
 
 let codeHTML = "";
 let codeCSS = ""
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TEXT-TOOL-VAR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+let textButtons = document.getElementsByClassName("text-btn");
+
+let textTool = document.getElementById("text-tool-container");
+let closeTextToolBtn = document.getElementById("text-tool-closer-btn");
+
+let resetBtn = document.getElementById("reset-text-img-container");
+
+let boldBtn = document.getElementById("bold-text");
+let italicBtn = document.getElementById("italic-text");
+
+let underlineBtn = document.getElementById("underline-text");
+let lineThroughBtn = document.getElementById("line-through-text");
+let overlineBtn = document.getElementById("overline-text");
+
+let textDecorationStyleSelect = document.getElementById("select-text-decoration-style");
+let textDecorationColorInput = document.getElementById("text-decoration-color-input");
+
+let alignJustifyBtn = document.getElementById("text-align-justify");
+let alignRightBtn = document.getElementById("text-align-right");
+let alignCenterBtn = document.getElementById("text-align-center");
+let alignLeftBtn = document.getElementById("text-align-left");
+
+let selectFontFamily = document.getElementById("select-font-family");
+
+let fontSizeRange = document.getElementById("font-size-range");
+
+let textColorInput = document.getElementById("text-color");
+
+let letterSpacingRadio = document.getElementById("letter");
+let wordSpacingRadio = document.getElementById("word");
+let lineSpacingRadio = document.getElementById("line");
+
+let enlargeSpaceBtn = document.getElementById("enlarge-space");
+let decreaseSpaceBtn = document.getElementById("decrease-space");
+
+let shadowTextSelect = document.getElementById("shadow-text-list");
+let shadowTextMoreBtn = document.getElementById("shadow-text-more-btn");
+let shadowTextTrashBtn = document.getElementById("shadow-text-trash-btn");
+let btnTextShadow = document.getElementById("x-y-button-shadow-text");
+let shadowTextXYRange = document.getElementById("shadow-text-x-y-input-range");
+let shadowTextBlurRange = document.getElementById("text-shadow-blur-input-range");
+let shadowTextColorInput = document.getElementById("shadow-text-color-input");
+
+let whiteSpaceSelect = document.getElementById("white-space-select");
+
+let textTagSpan = document.getElementById("span");
+let textTagP = document.getElementById("p");
+let textTagH1 = document.getElementById("h1");
+let textTagH2 = document.getElementById("h2");
+let textTagH3 = document.getElementById("h3");
+
+let textWrite = document.getElementById("text-content");
+let textResult = document.getElementById("result-text");
+
+let textAddBtn = document.getElementById("text-add-btn");
+let trashAllTextBtn = document.getElementById("element-text-trash-btn");
+let displayElementInTextTool = document.getElementById("displaying-element");
+
+let textAssociateElemNum = 0;
+let elementTextaddedNumber = 0;
+let enlargingInterval, decreasingInterval;
+let copy;
 //VARIABLES AND FUNCTION USED TO MOVE WINDOWS TOOL BY DRAG AND MOVE
 
 //Variables needed to move windows of each tools
