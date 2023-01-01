@@ -364,6 +364,8 @@ function updatePos(){
             size(i);
             //place
             place(i);
+            //text
+            text(i);
         }
     }
 }
@@ -385,6 +387,8 @@ function updateGraphicPos(){
             size(i);
             //place
             place(i);
+            //text
+            text(i);
         }
     }
 }
@@ -502,6 +506,63 @@ function place(i){
 
         elem.style.position = posSetting.free.position;
         ifElem.style.position = posSetting.free.position;
+}
+
+function text(i){
+    let elem = document.getElementById(elemList[i].id.name);
+    if(elemList[i].text.length > 0){
+        elem.innerHTML = "";
+        for(z=0; z<=elemList[i].text.length-1; z++){
+            elem.innerHTML += "<" + elemList[i].text[z].tag +">" + elemList[i].text[z].content +"</" + elemList[i].text[z].tag +">"
+
+            elem.style.display = "flex";
+            elem.style.flexDirection = "column";
+            elem.style.alignItems = "center"
+            elem.style.justifyContent = "center";
+            
+            if(elemList[i].text[z].bold) elem.children[z].style.fontWeight = "900";
+            else {elem.children[z].style.fontWeight = 'normal';}
+        
+            if(elemList[i].text[z].italic) elem.children[z].style.fontStyle = "italic";
+            else {elem.children[z].style.fontStyle = 'normal';}
+        
+            elem.children[z].style.textDecorationColor = elemList[i].text[z].decoration.color;
+            elem.children[z].style.textDecorationStyle = elemList[i].text[z].decoration.style;
+        
+            let textDecorationLineSetting = "";
+            if((elemList[i].text[z].decoration.line.underline == false)&&(elemList[i].text[z].decoration.line.lineThrough == false)&&(elemList[i].text[z].decoration.line.overline == false)){
+                textDecorationLineSetting = "none"
+            } else {
+                if(elemList[i].text[z].decoration.line.underline != false) textDecorationLineSetting += "underline";
+                if(elemList[i].text[z].decoration.line.lineThrough != false){
+                    if(textDecorationLineSetting != "") textDecorationLineSetting += " " + "line-through";
+                    else {textDecorationLineSetting += "line-through"}
+                }
+                if(elemList[i].text[z].decoration.line.overline != false){
+                    if(textDecorationLineSetting != "") textDecorationLineSetting += " " + "overline";
+                    else {textDecorationLineSetting += "overline"}
+                }
+            }
+            elem.children[z].style.textDecorationLine = textDecorationLineSetting;
+            elem.style.textAlign = elemList[i].text[z].align;
+            elem.children[z].style.fontFamily = elemList[i].text[z].family;
+            elem.children[z].style.fontSize = elemList[i].text[z].size + "px";
+            elem.children[z].style.color = elemList[i].text[z].color;
+            elem.children[z].style.letterSpacing = elemList[i].text[z].spacing.letter + "px";
+            elem.children[z].style.wordSpacing = elemList[i].text[z].spacing.word + "px";
+            elem.children[z].style.lineHeight = elemList[i].text[z].spacing.line + "px";
+        
+            let textShadowFinalStyle = ""
+            for(t=0; t<=elemList[i].text[z].shadow.length-1; t++){
+                textShadowFinalStyle += elemList[i].text[z].shadow[t].axe.x + "px " + elemList[i].text[z].shadow[t].axe.y + "px " + elemList[i].text[z].shadow[t].blur + "px " + elemList[i].text[z].shadow[t].color;
+                if(t < elemList[i].text[z].shadow.length-1) textShadowFinalStyle += ', '; 
+            }
+            elem.children[z].style.textShadow = textShadowFinalStyle; 
+        
+            elem.style.whiteSpace = elemList[i].text[z].whiteSpace;
+        }
+    }
+    
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~POSITION-VISIBILITY~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 

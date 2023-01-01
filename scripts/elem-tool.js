@@ -2026,235 +2026,339 @@ function createBox(i, newSameElem = null){
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TEXT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-let textButtons = document.getElementsByClassName("text-btn");
-let textTool = document.getElementById("text-tool-container");
-let closeTextToolBtn = document.getElementById("text-tool-closer-btn");
+function createText(elementNumber, newSameElem = null){
 
-closeTextToolBtn.addEventListener("click", function(){
-    textTool.style.display = "none";
-})
+    let textNum = elementNumber;
+    if(elemList[textNum].text == null){
+        elemList[textNum].text = [];
+        if(newSameElem != null){
+            for(t=0; t<=elemList[newSameElem].text.length-1; t++){
+                elemList[textNum].text.push(elemList[newSameElem].text[t]);
+            }
+        }
+    }
 
-function createText(i){
-    textButtons[i].addEventListener("mousedown", openTextTool);
+    elemIFList[textNum].text = {
+        bold : false,
+        italic : false,
+        decoration : {
+            style : 0,
+            color : "#000000",
+            line : {
+                underline : false,
+                lineThrough : false,
+                overline : false
+            }
+        },
+        align : {
+            start : false,
+            center : false,
+            end : false,
+            justify : false,
+            value : "start"
+        },
+        family : "Arial, Helvetica, sans-serif",
+        size : 16,
+        color : "#000000",
+        spacing : {
+            selected : "letter-spacing",
+            letter : 0,
+            word : 0,
+            line : 18
+        },
+        shadow : {
+            nextOptionNum : 2,
+            optionSelected : 0,
+            axeX : false,
+            shadowTextValue : [
+                {
+                    axe : {
+                        x : 0,
+                        y : 0
+                    },
+                    blur : 0,
+                    color : "#000000"
+                }
+            ]
+        },
+        whiteSpace : "pre",
+        tag : "span",
+        content : ""
+};
+    //event for openning the textTool and associate to it the actual and selected element
+    textButtons[textNum].addEventListener("mousedown", openTextTool);
     function openTextTool(){
+        //changement value for openning animation
         textTool.style.display = "flex";
+        body.parentNode.style.overflow = "hidden";
+        setTimeout(function(){
+            textTool.removeAttribute("close");
+        },90)
+
+        //set some variable for textTool working with the selected element
+        textAssociateElemNum = textNum;
+        elementTextaddedNumber = 0;
+
+        //because the text tool is the same for all generate elements, we need to adapt it to the element each time we open it
+        //first, update btn, select and input of the menu of the tool to the state of the related elemIFList[].text
+        openingTextTool();
+        //in second time we put a representation(or copy) of the element selected for a text adding, in the text tool 
+        copy = document.getElementById(elemList[textAssociateElemNum].id.name).cloneNode(true);
+        copy.removeAttribute("id");
+        displayElementInTextTool.appendChild(copy);
+        copy.innerHTML = "";
+        for(g=0; g<=elemList[textAssociateElemNum].text.length-1; g++){
+            addingTextToElementRepresentation(copy);
+            elementTextaddedNumber++;
+        }
     }
 }
 
-let boldBtn = document.getElementById("bold-text");
-let isBold = false;
-let italicBtn = document.getElementById("italic-text");
-let isItalic = false;
+closeTextToolBtn.addEventListener("click", function(){
+    textTool.setAttribute("close", "");
+    body.parentNode.style.overflow = "scroll";
+    setTimeout(function(){
+        textTool.style.display = "none";
+    },500)
+    displayElementInTextTool.innerHTML = "";
+})
 
-let underlineBtn = document.getElementById("underline-text");
-let lineThroughBtn = document.getElementById("line-through-text");
-let overlineBtn = document.getElementById("overline-text");
-let textDecorationUnderlineSetting = "", textDecorationLineThroughSetting = "", textDecorationOverlineSetting = "";
-
-let textDecorationStyleSelect = document.getElementById("select-text-decoration-style");
-let textDecorationColorInput = document.getElementById("text-decoration-color-input");
-let textDecorationColorSetting = "#000000", textDecorationStyleSetting = "solid";
-
-let alignJustifyBtn = document.getElementById("text-align-justify");
-let alignRightBtn = document.getElementById("text-align-right");
-let alignCenterBtn = document.getElementById("text-align-center");
-let alignLeftBtn = document.getElementById("text-align-left");
-let textAlignSetting = "start";
-
-let selectFontFamily = document.getElementById("select-font-family");
-let fontFamilySetting = "Arial, Helvetica, sans-serif";
-
-let fontSizeRange = document.getElementById("font-size-range");
-let fontSizeSetting = "16px";
-
-let textColorInput = document.getElementById("text-color");
-let textColorSetting;
-
-let letterSpacingRadio = document.getElementById("letter");
-let wordSpacingRadio = document.getElementById("word");
-let lineSpacingRadio = document.getElementById("line");
-let letterSpacingSetting = 0; 
-let wordSpacingSetting = 0; 
-let lineSpacingSetting = 18; 
-
-let enlargeSpaceBtn = document.getElementById("enlarge-space");
-let decreaseSpaceBtn = document.getElementById("decrease-space");
-let selectedSpacing = "letter-spacing";
-
-let shadowTextSelect = document.getElementById("shadow-text-list");
-let shadowTextMoreBtn = document.getElementById("shadow-text-more-btn");
-let shadowTextTrashBtn = document.getElementById("shadow-text-trash-btn");
-let btnTextShadow = document.getElementById("x-y-button-shadow-text");
-let shadowTextXYRange = document.getElementById("shadow-text-x-y-input-range");
-let shadowTextBlurRange = document.getElementById("text-shadow-blur-input-range");
-let shadowTextColorInput = document.getElementById("shadow-text-color-input");
-
-let whiteSpaceSelect = document.getElementById("white-space-select");
-let whiteSpaceSetting = "pre"
-
-let textTagSpan = document.getElementById("span");
-let textTagP = document.getElementById("p");
-let textTagH1 = document.getElementById("h1");
-let textTagH2 = document.getElementById("h2");
-let textTagH3 = document.getElementById("h3");
-let selectedTag = "span";
-
-let textWrite = document.getElementById("text-content");
-let textResult = document.getElementById("result-text");
-
+resetBtn.addEventListener("click", function(){
+    resetTextToolvalues();
+    openingTextTool();
+})
 
 boldBtn.addEventListener("click", function(){
     let isSet = addAndRemoveAttribute(boldBtn, "selected");
-    isBold = isSet;
+    elemIFList[textAssociateElemNum].text.bold = isSet;
+    textGen();
 })
 italicBtn.addEventListener("click", function(){
     let isSet = addAndRemoveAttribute(italicBtn, "selected");
-    isItalic = isSet;
+    elemIFList[textAssociateElemNum].text.italic = isSet;
+    textGen();
 })
 
-
+//---DECORATION-EVENT---//
 underlineBtn.addEventListener("click", function(){
     let isSet = addAndRemoveAttribute(underlineBtn, "selected");
-    if(isSet) textDecorationUnderlineSetting = "underline"; else{ textDecorationUnderlineSetting = "" }; 
+    if(isSet) {
+        elemIFList[textAssociateElemNum].text.decoration.line.underline = true;
+    } else{ 
+        elemIFList[textAssociateElemNum].text.decoration.line.underline = false; 
+    }; 
+    textGen();
 });
 lineThroughBtn.addEventListener("click", function(){
     let isSet = addAndRemoveAttribute(lineThroughBtn, "selected");
-    if(isSet) textDecorationLineThroughSetting = "line-through"; else{ textDecorationLineThroughSetting = "" };
+    if(isSet) {
+        elemIFList[textAssociateElemNum].text.decoration.line.lineThrough = true;
+    } else{ 
+        elemIFList[textAssociateElemNum].text.decoration.line.lineThrough = false;
+    };
+    textGen();
 });
 overlineBtn.addEventListener("click", function(){
     let isSet = addAndRemoveAttribute(overlineBtn, "selected");
-    if(isSet) textDecorationOverlineSetting = "overline"; else{ textDecorationOverlineSetting = "" };
+    if(isSet) {
+        elemIFList[textAssociateElemNum].text.decoration.line.overline = true;
+    } else{ 
+        elemIFList[textAssociateElemNum].text.decoration.line.overline = false; 
+    };
+    textGen();
 });
 
 textDecorationStyleSelect.addEventListener("change", function(){
-    textDecorationStyleSetting = textDecorationStyleSelect.value;
+    elemIFList[textAssociateElemNum].text.decoration.style = textDecorationStyleSelect.value;
+    textGen();
 })
 textDecorationColorInput.addEventListener("input", function(){
-    textDecorationColorSetting = textDecorationColorInput.value;
+    elemIFList[textAssociateElemNum].text.decoration.color = textDecorationColorInput.value;
+    textGen();
 })
-
-
+//---ALIGN-EVENT---//
 alignLeftBtn.addEventListener("click", function(){
     let isSet = addAndRemoveAttributeTextAlign(alignLeftBtn, alignRightBtn, alignCenterBtn, alignJustifyBtn, "selected");
-    textAlignSetting = "start";
+    elemIFList[textAssociateElemNum].text.align.value = "start";
+    if(isSet){
+        elemIFList[textAssociateElemNum].text.align.start = true;
+        elemIFList[textAssociateElemNum].text.align.center = false;
+        elemIFList[textAssociateElemNum].text.align.justify = false;
+        elemIFList[textAssociateElemNum].text.align.end = false;
+    } else {
+        removeAlign()
+    }
+    textGen();
 });
 alignCenterBtn.addEventListener("click", function(){
     let isSet = addAndRemoveAttributeTextAlign(alignCenterBtn, alignRightBtn, alignJustifyBtn, alignLeftBtn, "selected");
-    if(isSet) textAlignSetting = "center"; else{ textDecorationsetting = "start" };
+    if(isSet){ 
+        elemIFList[textAssociateElemNum].text.align.value = "center";
+        elemIFList[textAssociateElemNum].text.align.center = true;
+        elemIFList[textAssociateElemNum].text.align.start = false;
+        elemIFList[textAssociateElemNum].text.align.justify = false;
+        elemIFList[textAssociateElemNum].text.align.end = false;
+    } else{ 
+        elemIFList[textAssociateElemNum].text.align.value = "start";
+        removeAlign()
+    };
+    textGen();
 });
 alignRightBtn.addEventListener("click", function(){
     let isSet = addAndRemoveAttributeTextAlign(alignRightBtn, alignJustifyBtn, alignCenterBtn, alignLeftBtn, "selected");
-    if(isSet) textAlignSetting = "end"; else{ textDecorationsetting = "start" };
+    if(isSet){ 
+        elemIFList[textAssociateElemNum].text.align.value = "end";
+        elemIFList[textAssociateElemNum].text.align.end = true;
+        elemIFList[textAssociateElemNum].text.align.start = false;
+        elemIFList[textAssociateElemNum].text.align.center = false;
+        elemIFList[textAssociateElemNum].text.align.justify = false;
+    } else{ 
+        elemIFList[textAssociateElemNum].text.align.value = "start";
+        removeAlign()
+    };
+    textGen();
 });
+
 alignJustifyBtn.addEventListener("click", function(){
     let isSet = addAndRemoveAttributeTextAlign(alignJustifyBtn, alignRightBtn, alignCenterBtn, alignLeftBtn, "selected");
-    if(isSet) textAlignSetting = "justify"; else{ textDecorationsetting = "start" };
+    if(isSet){ 
+        elemIFList[textAssociateElemNum].text.align.value = "justify";
+        elemIFList[textAssociateElemNum].text.align.justify = true; 
+        elemIFList[textAssociateElemNum].text.align.start = false;
+        elemIFList[textAssociateElemNum].text.align.center = false;
+        elemIFList[textAssociateElemNum].text.align.end = false;
+    } else{ 
+        elemIFList[textAssociateElemNum].text.align.value = "start";
+        removeAlign()
+    };
+    textGen();
 });
+//function associate to align event to remove all alignment selection on btn  
+function removeAlign(){
+    elemIFList[textAssociateElemNum].text.align.start = false;
+    elemIFList[textAssociateElemNum].text.align.center = false;
+    elemIFList[textAssociateElemNum].text.align.justify = false;
+    elemIFList[textAssociateElemNum].text.align.end = false;
+}
 
 
 selectFontFamily.addEventListener('change', function(){
-    fontFamilySetting = selectFontFamily.value;
-    console.log(fontFamilySetting);
+    elemIFList[textAssociateElemNum].text.family = selectFontFamily.value;
+    textGen();
 })
 fontSizeRange.addEventListener('input', function(){
-    fontSizeSetting = fontSizeRange.value + "px";
+    elemIFList[textAssociateElemNum].text.size = fontSizeRange.value; 
+    textGen();
 })
 textColorInput.addEventListener('input', function(){
-    textColorSetting = textColorInput.value;
+    elemIFList[textAssociateElemNum].text.color = textColorInput.value;
+    textGen();
 })
 
+//---TEXT-SPACING-EVENT---//
 letterSpacingRadio.addEventListener("click", textSpacingInpuRadioSelection);
 wordSpacingRadio.addEventListener("click", textSpacingInpuRadioSelection);
 lineSpacingRadio.addEventListener("click", textSpacingInpuRadioSelection);
+//associate to the above event, manage selection of the radio input
+function textSpacingInpuRadioSelection(e){
+    elemIFList[textAssociateElemNum].text.spacing.selected = e.target.value; 
+    textGen();
+}
 
-let enlargingInterval, decreasingInterval;
+//4 events to interact with the 2 btns of spacing.
+//2 events associate to the enlarging fonction (one to setInterval and one to clearInterval)
+//2 event associate to the decrease. (one to setInterval and one to clearInterval) 
 enlargeSpaceBtn.addEventListener("mousedown", function(){
-    enlargingInterval = setInterval(enlarging, 100);
+    enlargingInterval = setInterval(function(){
+        enlarging(); textGen();
+    }, 100);
 });
 enlargeSpaceBtn.addEventListener("mouseup", function(){
     clearInterval(enlargingInterval);
 });
 decreaseSpaceBtn.addEventListener("mousedown", function(){
-    decreasingInterval = setInterval(decreasing, 100);
+    decreasingInterval = setInterval(function(){
+        decreasing(); textGen();
+    }, 100);
+    
 });
 decreaseSpaceBtn.addEventListener("mouseup", function(){
     clearInterval(decreasingInterval);
 });
 
+//in function of the value of elemIFList[].text.spacing.selected change the value of the spacing of letter, word or line
 function enlarging(){
-        switch (selectedSpacing){
-            case "letter-spacing" : 
-                letterSpacingSetting += 1;
-                break; 
-            case "word-spacing" :
-                wordSpacingSetting += 1;
-                break;
-            case "line-height" :
-                lineSpacingSetting += 1
-                break
-        }
+    switch (elemIFList[textAssociateElemNum].text.spacing.selected){
+        case "letter-spacing" : 
+            elemIFList[textAssociateElemNum].text.spacing.letter += 1;
+            break; 
+        case "word-spacing" :
+            elemIFList[textAssociateElemNum].text.spacing.word += 1;
+            break;
+        case "line-height" :
+            elemIFList[textAssociateElemNum].text.spacing.line += 1;
+            break
+    }
+    textGen();
 };
 function decreasing(){
-        switch (selectedSpacing){
-            case "letter-spacing" : 
-                letterSpacingSetting -= 1;
-                break; 
-            case "word-spacing" :
-                wordSpacingSetting -= 1;
-                break;
-            case "line-height" :
-                lineSpacingSetting -= 1
-                break
-        }
+    switch (elemIFList[textAssociateElemNum].text.spacing.selected){
+        case "letter-spacing" : 
+            elemIFList[textAssociateElemNum].text.spacing.letter -= 1;
+            break; 
+        case "word-spacing" :
+            elemIFList[textAssociateElemNum].text.spacing.word -= 1;
+            break;
+        case "line-height" :
+            elemIFList[textAssociateElemNum].text.spacing.line -= 1;
+            break
+    }
+    textGen();
 };
 
+//---TEXT-TAG-EVENT---//
 textTagSpan.addEventListener('click', textTagInpuRadioSelection);
 textTagP.addEventListener('click', textTagInpuRadioSelection);
 textTagH1.addEventListener('click', textTagInpuRadioSelection);
 textTagH2.addEventListener('click', textTagInpuRadioSelection);
 textTagH3.addEventListener('click', textTagInpuRadioSelection);
 
-let optionNumber = 2;
-let shadowTextOptionSelected = 0;
-let AxeX = false;
-let shadowTextvalue = [
-    {
-        axe : {
-            x : 0,
-            y : 0
-        },
-        blur : 0,
-        color : "#000000"
-    }
-]
+function textTagInpuRadioSelection(e){
+    elemIFList[textAssociateElemNum].text.tag = e.target.value;
+    textGen();
+}
+
+//---SHADOW-TEXT-EVENT---//
+//shadow select and add and delete btn//
 shadowTextSelect.addEventListener("change", function(){
     let SelectChildren = shadowTextSelect.children;
-    SelectChildren[shadowTextOptionSelected].removeAttribute("selected");
-    shadowTextOptionSelected = shadowTextSelect.value-1; 
-    SelectChildren[shadowTextOptionSelected].setAttribute("selected","");
-
-    reinitializeShadowTextInput()
+    SelectChildren[elemIFList[textAssociateElemNum].text.shadow.optionSelected].removeAttribute("selected");
+    elemIFList[textAssociateElemNum].text.shadow.optionSelected = shadowTextSelect.value-1; 
+    SelectChildren[elemIFList[textAssociateElemNum].text.shadow.optionSelected].setAttribute("selected","");
+    reinitializeShadowTextInput();
+    textGen();
 })
 shadowTextMoreBtn.addEventListener("click", function(){
     let SelectChildren = shadowTextSelect.children;
-    SelectChildren[shadowTextOptionSelected].removeAttribute("selected");
-    shadowTextSelect.innerHTML += "<option value='" + optionNumber + "' selected>" + optionNumber + "</option>";
-    shadowTextOptionSelected++;
-    shadowTextvalue.push({ axe : {x : 0, y : 0}, blur : 0, color : "#000000"})
-    optionNumber++;
+    SelectChildren[elemIFList[textAssociateElemNum].text.shadow.optionSelected].removeAttribute("selected");
+    shadowTextSelect.innerHTML += "<option value='" + elemIFList[textAssociateElemNum].text.shadow.nextOptionNum + "' selected>" + elemIFList[textAssociateElemNum].text.shadow.nextOptionNum + "</option>";
+    elemIFList[textAssociateElemNum].text.shadow.optionSelected++;
+    elemIFList[textAssociateElemNum].text.shadow.shadowTextValue.push({ axe : {x : 0, y : 0}, blur : 0, color : "#000000"})
+    elemIFList[textAssociateElemNum].text.shadow.nextOptionNum++;
 
-    reinitializeShadowTextInput()
+    reinitializeShadowTextInput();
+    textGen();
 })
 shadowTextTrashBtn.addEventListener("click", function(){
-    if((shadowTextOptionSelected == shadowTextSelect.children.length-1)&&(shadowTextOptionSelected != 0)){
+    if((elemIFList[textAssociateElemNum].text.shadow.optionSelected == shadowTextSelect.children.length-1)&&(elemIFList[textAssociateElemNum].text.shadow.optionSelected != 0)){
         let SelectChildren = shadowTextSelect.children;
-        SelectChildren[shadowTextOptionSelected].removeAttribute("selected");
-        shadowTextOptionSelected--
-        SelectChildren[shadowTextOptionSelected].setAttribute("selected","");
+        SelectChildren[elemIFList[textAssociateElemNum].text.shadow.optionSelected].removeAttribute("selected");
+        elemIFList[textAssociateElemNum].text.shadow.optionSelected--
+        SelectChildren[elemIFList[textAssociateElemNum].text.shadow.optionSelected].setAttribute("selected","");
     }
 
     if(shadowTextSelect.children.length-1 == 0){
-        shadowTextvalue = [
+        elemIFList[textAssociateElemNum].text.shadow.shadowTextValue = [
             {
                 axe : {
                     x : 0,
@@ -2266,43 +2370,371 @@ shadowTextTrashBtn.addEventListener("click", function(){
         ]
     } else {
         shadowTextSelect.removeChild(shadowTextSelect.lastChild);
-        shadowTextvalue.splice(shadowTextOptionSelected, 1);
-        optionNumber--;
+        elemIFList[textAssociateElemNum].text.shadow.shadowTextValue.splice(elemIFList[textAssociateElemNum].text.shadow.optionSelected, 1);
+        elemIFList[textAssociateElemNum].text.shadow.nextOptionNum--;
     }
-
-    reinitializeShadowTextInput()
+    reinitializeShadowTextInput();
+    textGen();
 }) 
+//in relation with three event above, change value of input (ect) in function of the new selected shadow
+function reinitializeShadowTextInput(){
+    btnTextShadow.removeAttribute("axeX"); elemIFList[textAssociateElemNum].text.shadow.axeX = false;
+    shadowTextXYRange.value = elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].axe.y;
+    shadowTextBlurRange.value = elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].blur;
+    shadowTextColorInput.value = elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].color;
+}
 
+//to change the axe of the spacing of the shadow
 btnTextShadow.addEventListener("click", function(){
     let isSet = addAndRemoveAttribute(btnTextShadow, "axeX");
-    AxeX = isSet;
-    if(AxeX == false) shadowTextXYRange.value = shadowTextvalue[shadowTextOptionSelected].axe.y;
-    else {shadowTextXYRange.value = shadowTextvalue[shadowTextOptionSelected].axe.x};
+    elemIFList[textAssociateElemNum].text.shadow.axeX = isSet;
+    if(elemIFList[textAssociateElemNum].text.shadow.axeX == false) shadowTextXYRange.value = elemIFList[textAssociateElemNum].text.shadow.shadowTextvalue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].axe.y;
+    else {shadowTextXYRange.value = elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].axe.x};
+    textGen();
 })
-
+//to place the shadow in the space next to the text
 shadowTextXYRange.addEventListener("input", function(){
-    if(AxeX == false) shadowTextvalue[shadowTextOptionSelected].axe.y = shadowTextXYRange.value;
-    else {shadowTextvalue[shadowTextOptionSelected].axe.x = shadowTextXYRange.value};
-    
+    if(elemIFList[textAssociateElemNum].text.shadow.axeX == false) elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].axe.y = shadowTextXYRange.value;
+    else {elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].axe.x = shadowTextXYRange.value};
+    textGen();
 })
+//to add or remove blur to the shadow-text
 shadowTextBlurRange.addEventListener("input", function(){
-    shadowTextvalue[shadowTextOptionSelected].blur = shadowTextBlurRange.value;
-    console.log(shadowTextBlurRange.value);
+    elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].blur = shadowTextBlurRange.value;
+    textGen();
 })
-
+//to set the color of the shadow
 shadowTextColorInput.addEventListener("input", function(){
-    shadowTextvalue[shadowTextOptionSelected].color = shadowTextColorInput.value;
+    elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].color = shadowTextColorInput.value;
+    textGen();
 })
 
+//---WHITE-SPACE-EVENT---//
 whiteSpaceSelect.addEventListener("change", function(){
-    whiteSpaceSetting = whiteSpaceSelect.value;
+    elemIFList[textAssociateElemNum].text.whiteSpace = whiteSpaceSelect.value;
+    textGen();
 })
-function reinitializeShadowTextInput(){
-    btnTextShadow.removeAttribute("axeX"); AxeX = false;
-    shadowTextXYRange.value = shadowTextvalue[shadowTextOptionSelected].axe.y;
-    shadowTextBlurRange.value = shadowTextvalue[shadowTextOptionSelected].blur;
-    shadowTextColorInput.value = shadowTextvalue[shadowTextOptionSelected].color;
+
+//---TEXTAREA-EVENT---//
+textWrite.addEventListener('input', function(){
+    elemIFList[textAssociateElemNum].text.content = textWrite.value;
+    textGen();
+})
+
+//to adding text write and styled to the elemList[].text to save it inside
+//after that, with the function addingTextToElementRepresentation, we put the text in the html element and his representation
+//finally we reset the textTool btn/select/input/ ect to their default value, to adding an other text and increment variable who represent the futur next text
+textAddBtn.addEventListener("click", function(){
+    //adding all new text values to the elemList[]text array
+    let newText = {
+        bold : elemIFList[textAssociateElemNum].text.bold,
+        italic : elemIFList[textAssociateElemNum].text.italic,
+        decoration : {
+            style : elemIFList[textAssociateElemNum].text.decoration.style,
+            color : elemIFList[textAssociateElemNum].text.decoration.color,
+            line : {
+                underline : elemIFList[textAssociateElemNum].text.decoration.line.underline,
+                lineThrough : elemIFList[textAssociateElemNum].text.decoration.line.lineThrough,
+                overline : elemIFList[textAssociateElemNum].text.decoration.line.overline
+            }
+        },
+        align : elemIFList[textAssociateElemNum].text.align.value,
+        family : elemIFList[textAssociateElemNum].text.family,
+        size : elemIFList[textAssociateElemNum].text.size,
+        color : elemIFList[textAssociateElemNum].text.color,
+        spacing : {
+            letter : elemIFList[textAssociateElemNum].text.spacing.letter,
+            word : elemIFList[textAssociateElemNum].text.spacing.word,
+            line : elemIFList[textAssociateElemNum].text.spacing.line
+        },
+        shadow :[],
+        whiteSpace : elemIFList[textAssociateElemNum].text.whiteSpace,
+        tag : elemIFList[textAssociateElemNum].text.tag,
+        content : elemIFList[textAssociateElemNum].text.content
+    }
+
+    elemList[textAssociateElemNum].text.push(newText);
+    for(t=0; t<=elemIFList[textAssociateElemNum].text.shadow.shadowTextValue.length-1; t++){
+        elemList[textAssociateElemNum].text[elementTextaddedNumber].shadow.push(elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[t])
+    }
+
+    //adding the new Text to the HTML element and his text tool representation
+    addingTextToElementRepresentation(copy);
+    addingTextToElementRepresentation(document.getElementById(elemList[textAssociateElemNum].id.name));
+
+    //increment the below variable, represent the futur next text to adding to elemList[].text[HERE]
+    elementTextaddedNumber++;
+
+    //reset the textTool btn/select/input/ect to their initial values
+    resetTextToolvalues();
+    openingTextTool();
+})
+
+//to remove all text save in the elemList[].text, remove text from html element and set the variable associate to the number of text in the element to 0
+trashAllTextBtn.addEventListener("click", function(){
+    copy.innerHTML = "";
+    document.getElementById(elemList[textAssociateElemNum].id.name).innerHTML = "";
+    elementTextaddedNumber = 0;
+    elemList[textAssociateElemNum].text = [];
+
+})
+
+function addingTextToElementRepresentation(elem){
+    elem.innerHTML += "<" + elemList[textAssociateElemNum].text[elementTextaddedNumber].tag +">" + elemList[textAssociateElemNum].text[elementTextaddedNumber].content +"</" + elemList[textAssociateElemNum].text[elementTextaddedNumber].tag +">"
+
+    elem.style.display = "flex";
+    elem.style.flexDirection = "column";
+    elem.style.alignItems = "center"
+    elem.style.justifyContent = "center";
+    
+    if(elemList[textAssociateElemNum].text[elementTextaddedNumber].bold) elem.children[elementTextaddedNumber].style.fontWeight = "900";
+    else {elem.children[elementTextaddedNumber].style.fontWeight = 'normal';}
+
+    if(elemList[textAssociateElemNum].text[elementTextaddedNumber].italic) elem.children[elementTextaddedNumber].style.fontStyle = "italic";
+    else {elem.children[elementTextaddedNumber].style.fontStyle = 'normal';}
+
+    elem.children[elementTextaddedNumber].style.textDecorationColor = elemList[textAssociateElemNum].text[elementTextaddedNumber].decoration.color;
+    elem.children[elementTextaddedNumber].style.textDecorationStyle = elemList[textAssociateElemNum].text[elementTextaddedNumber].decoration.style;
+
+    let textDecorationLineSetting = "";
+    if((elemList[textAssociateElemNum].text[elementTextaddedNumber].decoration.line.underline == false)&&(elemList[textAssociateElemNum].text[elementTextaddedNumber].decoration.line.lineThrough == false)&&(elemList[textAssociateElemNum].text[elementTextaddedNumber].decoration.line.overline == false)){
+        textDecorationLineSetting = "none"
+    } else {
+        if(elemList[textAssociateElemNum].text[elementTextaddedNumber].decoration.line.underline != false) textDecorationLineSetting += "underline";
+        if(elemList[textAssociateElemNum].text[elementTextaddedNumber].decoration.line.lineThrough != false){
+            if(textDecorationLineSetting != "") textDecorationLineSetting += " " + "line-through";
+            else {textDecorationLineSetting += "line-through"}
+        }
+        if(elemList[textAssociateElemNum].text[elementTextaddedNumber].decoration.line.overline != false){
+            if(textDecorationLineSetting != "") textDecorationLineSetting += " " + "overline";
+            else {textDecorationLineSetting += "overline"}
+        }
+    }
+    elem.children[elementTextaddedNumber].style.textDecorationLine = textDecorationLineSetting;
+    elem.style.textAlign = elemList[textAssociateElemNum].text[elementTextaddedNumber].align;
+    elem.children[elementTextaddedNumber].style.fontFamily = elemList[textAssociateElemNum].text[elementTextaddedNumber].family;
+    elem.children[elementTextaddedNumber].style.fontSize = elemList[textAssociateElemNum].text[elementTextaddedNumber].size + "px";
+    elem.children[elementTextaddedNumber].style.color = elemList[textAssociateElemNum].text[elementTextaddedNumber].color;
+    elem.children[elementTextaddedNumber].style.letterSpacing = elemList[textAssociateElemNum].text[elementTextaddedNumber].spacing.letter + "px";
+    elem.children[elementTextaddedNumber].style.wordSpacing = elemList[textAssociateElemNum].text[elementTextaddedNumber].spacing.word + "px";
+    elem.children[elementTextaddedNumber].style.lineHeight = elemList[textAssociateElemNum].text[elementTextaddedNumber].spacing.line + "px";
+
+    let textShadowFinalStyle = ""
+    for(t=0; t<=elemList[textAssociateElemNum].text[elementTextaddedNumber].shadow.length-1; t++){
+        textShadowFinalStyle += elemList[textAssociateElemNum].text[elementTextaddedNumber].shadow[t].axe.x + "px " + elemList[textAssociateElemNum].text[elementTextaddedNumber].shadow[t].axe.y + "px " + elemList[textAssociateElemNum].text[elementTextaddedNumber].shadow[t].blur + "px " + elemList[textAssociateElemNum].text[elementTextaddedNumber].shadow[t].color;
+        if(t < elemList[textAssociateElemNum].text[elementTextaddedNumber].shadow.length-1) textShadowFinalStyle += ', '; 
+    }
+    elem.children[elementTextaddedNumber].style.textShadow = textShadowFinalStyle; 
+
+    elem.style.whiteSpace = elemList[textAssociateElemNum].text[elementTextaddedNumber].whiteSpace;
 }
+
+//set the elemIFList[]text to is default value again.
+function resetTextToolvalues(){
+    elemIFList[textAssociateElemNum].text = {
+        bold : false,
+        italic : false,
+        decoration : {
+            style : 0,
+            color : "#000000",
+            line : {
+                underline : false,
+                lineThrough : false,
+                overline : false
+            }
+        },
+        align : {
+            start : false,
+            center : false,
+            end : false,
+            justify : false,
+            value : "start"
+        },
+        family : "Arial, Helvetica, sans-serif",
+        size : 16,
+        color : "#000000",
+        spacing : {
+            selected : "letter-spacing",
+            letter : 0,
+            word : 0,
+            line : 18
+        },
+        shadow : {
+            nextOptionNum : 2,
+            optionSelected : 0,
+            axeX : false,
+            shadowTextValue : [
+                {
+                    axe : {
+                        x : 0,
+                        y : 0
+                    },
+                    blur : 0,
+                    color : "#000000"
+                }
+            ]
+        },
+        whiteSpace : "pre",
+        tag : "span",
+        content : ""
+    }
+}
+
+//generate representation of the futur text to put in the element.
+//it is placed in the texttool in the #result-text tag 
+function textGen(){
+    if(textTool.style.display == "flex"){
+        textResult.innerHTML = "";
+        textResult.innerHTML += "<" + elemIFList[textAssociateElemNum].text.tag + ">";
+        textResult.innerHTML += textWrite.value;
+        textResult.innerHTML += "</" + elemIFList[textAssociateElemNum].text.tag + ">";
+
+
+        if(boldBtn.hasAttribute("selected")) textResult.style.fontWeight = "900";
+        else {textResult.style.fontWeight = 'normal';}
+
+        if(italicBtn.hasAttribute("selected")) textResult.style.fontStyle = "italic";
+        else {textResult.style.fontStyle = 'normal';}
+
+        textResult.style.textDecorationColor = elemIFList[textAssociateElemNum].text.decoration.color;
+        textResult.style.textDecorationStyle = elemIFList[textAssociateElemNum].text.decoration.style;
+
+        let textDecorationLineSetting = "";
+        if((elemIFList[textAssociateElemNum].text.decoration.line.underline == false)&&(elemIFList[textAssociateElemNum].text.decoration.line.lineThrough == false)&&(elemIFList[textAssociateElemNum].text.decoration.line.overline == false)){
+            textDecorationLineSetting = "none"
+        } else {
+            if(elemIFList[textAssociateElemNum].text.decoration.line.underline != false) textDecorationLineSetting += "underline";
+            if(elemIFList[textAssociateElemNum].text.decoration.line.lineThrough != false){
+                if(textDecorationLineSetting != "") textDecorationLineSetting += " " + "line-through";
+                else {textDecorationLineSetting += "line-through"}
+            }
+            if(elemIFList[textAssociateElemNum].text.decoration.line.overline != false){
+                if(textDecorationLineSetting != "") textDecorationLineSetting += " " + "overline";
+                else {textDecorationLineSetting += "overline"}
+            }
+        }
+        textResult.style.textDecorationLine = textDecorationLineSetting;
+        textResult.style.textAlign = elemIFList[textAssociateElemNum].text.align.value;
+        textResult.style.fontFamily = elemIFList[textAssociateElemNum].text.family;
+        textResult.style.fontSize = elemIFList[textAssociateElemNum].text.size + "px";
+        textResult.style.color = elemIFList[textAssociateElemNum].text.color;
+        textResult.style.letterSpacing = elemIFList[textAssociateElemNum].text.spacing.letter + "px";
+        textResult.style.wordSpacing = elemIFList[textAssociateElemNum].text.spacing.word + "px";
+        textResult.style.lineHeight = elemIFList[textAssociateElemNum].text.spacing.line + "px";
+
+        let textShadowFinalStyle = ""
+        for(t=0; t<=elemIFList[textAssociateElemNum].text.shadow.shadowTextValue.length-1; t++){
+            textShadowFinalStyle += elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[t].axe.x + "px " + elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[t].axe.y + "px " + elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[t].blur + "px " + elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[t].color;
+            if(t < elemIFList[textAssociateElemNum].text.shadow.shadowTextValue.length-1) textShadowFinalStyle += ', '; 
+        }
+        textResult.style.textShadow = textShadowFinalStyle; 
+
+        textResult.style.whiteSpace = elemIFList[textAssociateElemNum].text.whiteSpace;
+    } 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//setup all btns and selector of the text tool to related information in the elemIFList
+//use the three function below
+function openingTextTool(){
+    //----bold----//
+    setupTextToolBtn(boldBtn, elemIFList[textAssociateElemNum].text.bold);
+    //----italic----//
+    setupTextToolBtn(italicBtn, elemIFList[textAssociateElemNum].text.italic);
+
+    //----decoration----//
+    //decoration-line
+    setupTextToolBtn(underlineBtn, elemIFList[textAssociateElemNum].text.decoration.line.underline);
+    setupTextToolBtn(lineThroughBtn, elemIFList[textAssociateElemNum].text.decoration.line.lineThrough);
+    setupTextToolBtn(overlineBtn, elemIFList[textAssociateElemNum].text.decoration.line.overline);
+    //decoration-style
+    optionSelection(textDecorationStyleSelect, elemIFList[textAssociateElemNum].text.decoration.style)
+    //decoration-color
+    textDecorationColorInput.value = elemIFList[textAssociateElemNum].text.decoration.color;
+
+    //----align----//
+    setupTextToolBtn(alignJustifyBtn, elemIFList[textAssociateElemNum].text.align.justify);
+    setupTextToolBtn(alignRightBtn, elemIFList[textAssociateElemNum].text.align.start);
+    setupTextToolBtn(alignCenterBtn, elemIFList[textAssociateElemNum].text.align.center);
+    setupTextToolBtn(alignLeftBtn, elemIFList[textAssociateElemNum].text.align.end);
+
+    //----font-family----//
+    optionSelection(selectFontFamily, elemIFList[textAssociateElemNum].text.family);
+    //----size----//
+    fontSizeRange.value = elemIFList[textAssociateElemNum].text.size;
+    //----color----//
+    textColorInput.value = elemIFList[textAssociateElemNum].text.color;
+
+    //----shadow----//
+    //shadow-select-setting : 
+    //remove all option from the select tag 
+    shadowTextSelect.innerHTML = ""
+    //add one option for each element in the array shadowTextValue (who represent each shadow text associate to the actual text)
+    for(b=1; b<=elemIFList[textAssociateElemNum].text.shadow.shadowTextValue.length; b++){
+        shadowTextSelect.innerHTML += "<option value='" + b + "'>" + b + "</option>";
+    }
+    //select the option associate to the actual selected shadow
+    shadowTextSelect.children[elemIFList[textAssociateElemNum].text.shadow.optionSelected].selected = true;
+
+    //shadow-axeX-btn and the input range associate
+    if(!elemIFList[textAssociateElemNum].text.shadow.axeX){
+        if(btnTextShadow.hasAttribute("axex")) btnTextShadow.removeAttribute("axex");
+        shadowTextXYRange.value = elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].axe.y
+    } else {
+        btnTextShadow.removeAttribute("axex"); btnTextShadow.setAttribute("axex", "");
+        shadowTextXYRange.value = elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].axe.x
+    }
+
+    //shadow-blur-input-range
+    shadowTextBlurRange.value = elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].blur
+    //shadow-color-input-range
+    shadowTextColorInput.value = elemIFList[textAssociateElemNum].text.shadow.shadowTextValue[elemIFList[textAssociateElemNum].text.shadow.optionSelected].color
+
+    //----white-space----//
+    optionSelection(whiteSpaceSelect, elemIFList[textAssociateElemNum].text.whiteSpace);
+
+    //----tag----//
+    setupTextToolInputRadio(textTagSpan, elemIFList[textAssociateElemNum].text.tag, textTagSpan.value);
+    setupTextToolInputRadio(textTagP, elemIFList[textAssociateElemNum].text.tag, textTagP.value);
+    setupTextToolInputRadio(textTagH1, elemIFList[textAssociateElemNum].text.tag, textTagH1.value);
+    setupTextToolInputRadio(textTagH2, elemIFList[textAssociateElemNum].text.tag, textTagH2.value);
+    setupTextToolInputRadio(textTagH3, elemIFList[textAssociateElemNum].text.tag, textTagH3.value);
+
+    //----textarea----//
+    textWrite.value = elemIFList[textAssociateElemNum].text.content;
+    
+    //after all this setting, we generate the text in the #result-text tag
+    textGen();    
+}
+
+//three function in link with the one above : 
+//to setup the btn in function of elemIFlist info
+function setupTextToolBtn(btn, info){
+    if(!info){
+        if(btn.hasAttribute("selected")) btn.removeAttribute("selected");
+    } else {
+        btn.removeAttribute("selected"); btn.setAttribute("selected", "");
+    }
+}
+//to setup the selected option in function of elemIFlist info
+function optionSelection(select, optionName){
+    for(t=0; t<=select.children.length-1; t++){
+        select.children[t].selected = false;
+        if(select.children[t].value == optionName){
+            select.children[t].selected = true;
+        } 
+    }
+}
+//to setup input radio in function of elemIFlist info
+function setupTextToolInputRadio(radio, waitingInfo, info){
+    if( waitingInfo != info){
+        radio.checked = false;
+    } else {
+        radio.checked = true;
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 
 function addAndRemoveAttribute(element, attribute){
     if(element.hasAttribute(attribute)){
@@ -2311,18 +2743,6 @@ function addAndRemoveAttribute(element, attribute){
     } else {
         element.setAttribute(attribute, "");
         return true;
-    }
-}
-
-function addAndRemoveAttributeTextDecoration(element, anotherElement, anotherElement2, attribute){
-    if(element.hasAttribute(attribute)){
-        element.removeAttribute(attribute);
-        return false;
-    } else {
-        element.setAttribute(attribute, "");
-        anotherElement.removeAttribute(attribute);
-        anotherElement2.removeAttribute(attribute);
-        return true; 
     }
 }
 
@@ -2338,72 +2758,6 @@ function addAndRemoveAttributeTextAlign(element, anotherElement, anotherElement2
         return true; 
     }
 }
-
-function textTagInpuRadioSelection(e){
-    selectedTag = e.target.value;
-}
-function textSpacingInpuRadioSelection(e){
-    selectedSpacing = e.target.value;
-}
-
-function textGen(){
-    if(textTool.style.display == "flex"){
-        textResult.innerHTML = "";
-        textResult.innerHTML += "<" + selectedTag + ">";
-        textResult.innerHTML += textWrite.value;
-        textResult.innerHTML += "</" + selectedTag + ">";
-
-
-        if(boldBtn.hasAttribute("selected")) textResult.style.fontWeight = "900";
-        else {textResult.style.fontWeight = 'normal';}
-
-        if(italicBtn.hasAttribute("selected")) textResult.style.fontStyle = "italic";
-        else {textResult.style.fontStyle = 'normal';}
-
-        textResult.style.textDecorationColor = textDecorationColorSetting;
-        textResult.style.textDecorationStyle = textDecorationStyleSetting;
-
-        let textDecorationLineSetting = "";
-        if((textDecorationUnderlineSetting + textDecorationLineThroughSetting + textDecorationOverlineSetting) == ""){
-            textDecorationLineSetting = "none"
-        } else {
-            if(textDecorationUnderlineSetting != "") textDecorationLineSetting += textDecorationUnderlineSetting;
-            if(textDecorationLineThroughSetting != ""){
-                if(textDecorationLineSetting != "") textDecorationLineSetting += " " + textDecorationLineThroughSetting;
-                else {textDecorationLineSetting += textDecorationLineThroughSetting}
-            }
-            if(textDecorationOverlineSetting != ""){
-                if(textDecorationLineSetting != "") textDecorationLineSetting += " " + textDecorationOverlineSetting;
-                else {textDecorationLineSetting += textDecorationOverlineSetting}
-            }
-        }
-        textResult.style.textDecorationLine = textDecorationLineSetting;
-        textResult.style.textAlign = textAlignSetting;
-        textResult.style.fontFamily = fontFamilySetting;
-        textResult.style.fontSize = fontSizeSetting;
-        textResult.style.color = textColorSetting;
-        textResult.style.letterSpacing = letterSpacingSetting + "px";
-        textResult.style.wordSpacing = wordSpacingSetting + "px";
-        textResult.style.lineHeight = lineSpacingSetting + "px";
-
-        let textShadowFinalStyle = ""
-        for(t=0; t<=shadowTextvalue.length-1; t++){
-            textShadowFinalStyle += shadowTextvalue[t].axe.x + "px " + shadowTextvalue[t].axe.y + "px " + shadowTextvalue[t].blur + "px " + shadowTextvalue[t].color;
-            if(t < shadowTextvalue.length-1) textShadowFinalStyle += ', '; 
-        }
-        textResult.style.textShadow = textShadowFinalStyle; 
-
-        textResult.style.whiteSpace = whiteSpaceSetting;
-    } 
-}
-
-setInterval(textGen, 200);
-
-/* 
-text-decoration-color : red ect
-text-decoration-line : over, under, through
-text-decoration-style : solid double dotted dashed wavy
-*/
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TRASH-RESET-MORE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 //fonction de suppression d'une element bar
@@ -2528,6 +2882,8 @@ function createResetBtn(){
             //size
             elemList[resetNum].size.width = 60;
             elemList[resetNum].size.height = 60;
+            //text
+            elemList[resetNum].text = [];
             //~~~~~~~~~~~~~~~~~~~~RESET VISUEL~~~~~~~~~~~~~~~~~~~~~//
             //name
             idNames[resetNum].value = elemList[resetNum].id.name;
@@ -2588,7 +2944,9 @@ function createResetBtn(){
             //box
             box(resetNum);
             //size
-            size(resetNum);            
+            size(resetNum);
+            //text  
+            document.getElementById(elemList[resetNum].id.name).innerHTML = "";       
         })
     }
 }

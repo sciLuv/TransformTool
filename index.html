@@ -6,15 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./style/style.css">
-    <title>NoCode HTML+CSS</title>
+    <title>CSS Generator</title>
 </head>
 <body>
-    <article id="text-tool-container">
+    <article id="text-tool-container" close>
         <div id="text-tool-closer-btn">
             <img src="img/plus.svg" alt="">
         </div>
         <div class="text-tool" id="text-tool">
-            <h2 id="text-placement">TEXT <span>Tool</span></h2>
+            <div class="h2-reset-container">
+                <h2 id="text-placement">TEXT <span>Tool</span></h2>
+                <div id="reset-text-img-container">
+                    <img src="img/reset.svg" alt="">
+                </div>
+            </div>
             <hr>
             <div class="container-text-style-align">
                 <div class="text-tool-font-style-selection">
@@ -38,10 +43,10 @@
                     <div class="text-decoration-style-color">
                         <select name="" id="select-text-decoration-style">
                             <option value="solid" selected>solid</option>
-                            <option value="double" selected>double</option>
-                            <option value="dotted" selected>dotted</option>
-                            <option value="dashed" selected>dashed</option>
-                            <option value="wavy" selected>wavy</option>
+                            <option value="double">double</option>
+                            <option value="dotted">dotted</option>
+                            <option value="dashed">dashed</option>
+                            <option value="wavy">wavy</option>
                         </select>
                         <input type="color" class="color" value="#000000" id="text-decoration-color-input">
                     </div>
@@ -159,7 +164,7 @@
                 <form>
                     <label for="span">span</label><input type="radio" id="span" name="tag" value="span" checked>
                     <label for="p">p</label><input type="radio" id="p" name="tag" value="p">
-                    <label for="h1">h1</label><input type="radio" id="h1" name="tag" value="h1" >
+                    <label for="h1">h1</label><input type="radio" id="h1" name="tag" value="h1">
                     <label for="h2">h2</label><input type="radio" id="h2" name="tag" value="h2">
                     <label for="h3">h3</label><input type="radio" id="h3" name="tag" value="h3">
                 </form>
@@ -172,7 +177,7 @@
                     <h3>Result</h3>
                 </div>
                 <h1 id="result-text"></h1>
-                <button>add</button>
+                <button id="text-add-btn">add</button>
             </div>
             <hr>
             <div class="text-in-element-container">
@@ -180,7 +185,7 @@
                     <img src="img/trash.svg" alt="">
                 </div>     
                 <div class="text-in-element">
-                    <div class="displaying-element"></div>
+                    <div class="displaying-element" id="displaying-element"></div>
                 </div>
             </div>
         </div>
